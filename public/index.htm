@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BLR COMMUTE — TACTICAL NAV v5</title>
+<title>BLR COMMUTE — TACTICAL NAV v6 (ROAD LIVE)</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
@@ -22,311 +22,105 @@ html,body{height:100%;overflow:hidden;background:var(--bg)}
 body{font-family:'Rajdhani',sans-serif;color:var(--txt);display:flex;flex-direction:column}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 4px)}
 body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(57,255,20,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,0.02) 1px,transparent 1px);background-size:50px 50px}
-.corner{position:fixed;width:44px;height:44px;pointer-events:none;z-index:200}
-.tl{top:0;left:0;border-top:2px solid var(--neon);border-left:2px solid var(--neon)}
-.tr{top:0;right:0;border-top:2px solid var(--neon);border-right:2px solid var(--neon)}
-.bl{bottom:0;left:0;border-bottom:2px solid var(--neon);border-left:2px solid var(--neon)}
-.br{bottom:0;right:0;border-bottom:2px solid var(--neon);border-right:2px solid var(--neon)}
-.ripple{position:fixed;border-radius:50%;pointer-events:none;z-index:9997;background:rgba(57,255,20,0.18);transform:scale(0);animation:rip .5s ease-out forwards}
-@keyframes rip{to{transform:scale(5);opacity:0}}
 
 /* TOPBAR */
 .topbar{height:54px;flex-shrink:0;z-index:100;position:relative;background:rgba(0,8,3,0.99);border-bottom:1px solid var(--brd);display:flex;align-items:center;padding:0 22px;gap:16px}
-.topbar::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--neon) 30%,var(--neon) 70%,transparent);opacity:.4}
 .logo{display:flex;align-items:center;gap:11px}
-.lhex{width:36px;height:36px;background:var(--neon-dim);border:1px solid var(--nb);display:flex;align-items:center;justify-content:center;font-size:17px;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);animation:hp 2.5s ease-in-out infinite}
-@keyframes hp{0%,100%{box-shadow:var(--glow)}50%{box-shadow:0 0 22px rgba(57,255,20,.9),0 0 50px rgba(57,255,20,.3)}}
-.lname{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:900;letter-spacing:4px;color:var(--neon);text-shadow:var(--glow)}
-.lsub{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--tmut);letter-spacing:2.5px;margin-top:2px}
+.lhex{width:36px;height:36px;background:var(--neon-dim);border:1px solid var(--nb);display:flex;align-items:center;justify-content:center;font-size:17px;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)}
+.lname{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:900;letter-spacing:3px;color:var(--neon);text-shadow:var(--glow)}
+.lsub{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--tmut);letter-spacing:2px}
 .navpills{display:flex;gap:4px;flex:1;justify-content:center}
-.np{padding:7px 14px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--tmut);cursor:pointer;border:1px solid transparent;background:transparent;transition:all .2s;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)}
+.np{padding:7px 14px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--tmut);cursor:pointer;border:1px solid transparent;background:transparent;transition:all .2s}
 .np:hover{color:var(--neon);border-color:var(--brd);background:var(--neon-dim)}
 .np.active{background:var(--neon);color:#000a04;border-color:var(--neon);box-shadow:var(--glow)}
 .trr{display:flex;align-items:center;gap:10px}
-.schip{display:flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;padding:5px 11px;border:1px solid var(--brd);background:rgba(0,14,5,.9);color:var(--tdim);letter-spacing:1px}
+.schip{display:flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;padding:5px 11px;border:1px solid var(--brd);background:rgba(0,14,5,.9);color:var(--tdim)}
 .cd{width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:var(--glow);animation:bl 1.5s infinite}
 @keyframes bl{0%,100%{opacity:1}50%{opacity:.2}}
-.clockd{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;color:var(--neon);text-shadow:var(--glow);letter-spacing:2px}
+.clockd{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;color:var(--neon);text-shadow:var(--glow)}
 
-/* MAIN */
+/* MAIN LAYOUT */
 .main{flex:1;display:flex;overflow:hidden;position:relative;z-index:1}
-
-/* LEFT */
-.left{width:390px;flex-shrink:0;background:rgba(0,8,3,.98);border-right:1px solid var(--brd);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:var(--nb) transparent}
-.left::-webkit-scrollbar{width:2px}
-.left::-webkit-scrollbar-thumb{background:var(--nb)}
+.left{width:410px;flex-shrink:0;background:rgba(0,8,3,.98);border-right:1px solid var(--brd);overflow-y:auto;overflow-x:hidden}
 .panel{display:none}
 .panel.active{display:block}
-
-/* SECTION */
 .sec{padding:18px 20px 16px;border-bottom:1px solid var(--brd2);position:relative}
-.sec::after{content:'';position:absolute;top:0;right:0;width:15px;height:15px;border-top:1px solid var(--nb);border-right:1px solid var(--nb)}
-.slbl{font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;letter-spacing:2.5px;color:var(--neon);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.slbl{font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;letter-spacing:2.5px;color:var(--neon);margin-bottom:12px;display:flex;align-items:center;gap:8px}
 .slbl::before{content:'◆';font-size:6px}
 .slbl::after{content:'';flex:1;height:1px;background:var(--brd2)}
 
-/* SEARCH INPUT */
-.ib{margin-bottom:12px;position:relative}
-.ilbl{font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:2px;color:var(--tmut);margin-bottom:6px;padding-left:2px}
+/* CORRIDOR SELECTOR DROPDOWN */
+.cor-select{width:100%;padding:11px 12px;background:rgba(57,255,20,.05);border:1px solid var(--nb);color:var(--neon);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;outline:none;margin-bottom:14px}
+.cor-select option{background:#000a04;color:var(--txt)}
+
+/* SEARCH INPUTS */
+.ib{margin-bottom:10px;position:relative}
+.ilbl{font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:2px;color:var(--tmut);margin-bottom:5px}
 .iw{position:relative}
-.hi{width:100%;padding:12px 36px 12px 14px;background:rgba(57,255,20,.03);border:1px solid var(--brd);font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;color:var(--txt);outline:none;letter-spacing:.5px;transition:all .2s}
-.hi:focus{border-color:var(--neon);background:rgba(57,255,20,.06);color:var(--neon);box-shadow:0 0 14px rgba(57,255,20,.1)}
-.hi::placeholder{color:var(--tmut);font-weight:400;font-style:italic}
-.ix{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tmut);cursor:pointer;font-size:14px;display:none;transition:color .15s}
-.ix:hover{color:var(--neon)}
-.isp{position:absolute;right:11px;top:50%;transform:translateY(-50%);display:none}
-.spin{width:14px;height:14px;border:2px solid var(--nb);border-top-color:var(--neon);border-radius:50%;animation:sp .7s linear infinite}
+.hi{width:100%;padding:11px 34px 11px 12px;background:rgba(57,255,20,.03);border:1px solid var(--brd);font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;color:var(--txt);outline:none;transition:all .2s}
+.hi:focus{border-color:var(--neon);background:rgba(57,255,20,.07);color:var(--neon)}
+.ix{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--tmut);cursor:pointer;font-size:13px;display:none}
+.isp{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:none}
+.spin{width:13px;height:13px;border:2px solid var(--nb);border-top-color:var(--neon);border-radius:50%;animation:sp .7s linear infinite}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* AUTOCOMPLETE */
-.acl{position:absolute;top:calc(100% + 1px);left:0;right:0;background:rgba(0,8,3,.99);border:1px solid var(--brd);border-top:none;max-height:270px;overflow-y:auto;z-index:600;display:none;scrollbar-width:thin;scrollbar-color:var(--nb) transparent;box-shadow:0 8px 24px rgba(0,0,0,.6)}
+/* AUTOCOMPLETE RESULTS */
+.acl{position:absolute;top:calc(100% + 1px);left:0;right:0;background:rgba(0,8,3,.99);border:1px solid var(--brd);border-top:none;max-height:240px;overflow-y:auto;z-index:600;display:none;box-shadow:0 8px 24px rgba(0,0,0,.8)}
 .acl.open{display:block}
-.acl::-webkit-scrollbar{width:2px}
-.acl::-webkit-scrollbar-thumb{background:var(--nb)}
-.aci{padding:11px 14px;cursor:pointer;border-bottom:1px solid var(--brd2);display:flex;align-items:flex-start;gap:10px;transition:background .1s}
-.aci:hover,.aci.hi2{background:rgba(57,255,20,.07)}
-.aci:last-child{border-bottom:none}
-.aico{font-size:15px;flex-shrink:0;margin-top:1px;opacity:.85}
-.acm{font-size:14px;font-weight:700;color:var(--txt);line-height:1.25}
-.acs2{font-size:11px;color:var(--tmut);margin-top:2px;line-height:1.3}
-.acd{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--neon);margin-top:3px}
-.acmsg{padding:12px 14px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--tmut);letter-spacing:1px}
+.aci{padding:10px 12px;cursor:pointer;border-bottom:1px solid var(--brd2);display:flex;align-items:flex-start;gap:9px}
+.aci:hover{background:rgba(57,255,20,.08)}
+.acm{font-size:14px;font-weight:700;color:var(--txt)}
+.acs2{font-size:11px;color:var(--tmut)}
 
-/* CONN */
-.conn{display:flex;align-items:center;gap:10px;margin:3px 0 3px 13px}
-.cln{width:2px;height:20px;background:linear-gradient(180deg,var(--neon),transparent);opacity:.4}
-.cdts{display:flex;flex-direction:column;gap:4px}
-.cdt{width:4px;height:4px;border-radius:50%;background:var(--neon);opacity:.3}
+/* VEHICLE SELECTOR */
+.vg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin:12px 0}
+.vb{padding:10px 4px;border:1px solid var(--brd2);background:transparent;color:var(--tmut);cursor:pointer;font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;text-align:center}
+.vb.active{border-color:var(--neon);color:var(--neon);background:var(--neon-dim);box-shadow:0 0 10px rgba(57,255,20,.2)}
 
-/* SWAP BTN */
-.swap-btn{display:flex;align-items:center;justify-content:center;margin:8px auto 0;width:32px;height:32px;border:1px solid var(--nb);background:var(--neon-dim);cursor:pointer;border-radius:0;color:var(--neon);font-size:16px;transition:all .2s}
-.swap-btn:hover{background:rgba(57,255,20,.15);box-shadow:var(--glow)}
-
-/* VEHICLE */
-.vg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin:14px 0}
-.vb{padding:11px 5px 9px;border:1px solid var(--brd2);background:transparent;color:var(--tmut);cursor:pointer;font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;letter-spacing:1.5px;text-align:center;transition:all .2s;clip-path:polygon(10px 0%,100% 0%,100% calc(100% - 10px),calc(100% - 10px) 100%,0% 100%,0% 10px)}
-.vi{font-size:19px;display:block;margin-bottom:5px}
-.vb:hover{border-color:var(--nb);color:var(--neon);background:var(--neon-dim)}
-.vb.active{border-color:var(--neon);color:var(--neon);background:var(--neon-dim);box-shadow:0 0 12px rgba(57,255,20,.18)}
-
-/* DEPART */
-.dg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin:12px 0 10px}
-.db{padding:9px 5px;border:1px solid var(--brd2);background:transparent;color:var(--tmut);cursor:pointer;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-align:center;transition:all .2s}
-.db:hover{border-color:var(--nb);color:var(--neon)}
-.db.active{border-color:var(--neon);color:var(--neon);background:var(--neon-dim)}
-.tpick{width:100%;padding:10px 14px;margin-top:8px;background:var(--neon-dim);border:1px solid var(--brd);color:var(--neon);font-family:'Share Tech Mono',monospace;font-size:12px;outline:none;letter-spacing:1px;color-scheme:dark}
-
-/* EXECUTE */
-.bex{width:100%;margin-top:14px;padding:15px 18px;background:transparent;border:2px solid var(--neon);color:var(--neon);font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;letter-spacing:5px;cursor:pointer;position:relative;overflow:hidden;transition:all .25s;clip-path:polygon(14px 0%,100% 0%,calc(100% - 14px) 100%,0% 100%)}
-.bex::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(57,255,20,.18),transparent);transition:left .5s}
-.bex:hover{background:rgba(57,255,20,.1);box-shadow:var(--glow);color:#fff}
-.bex:hover::before{left:100%}
-.bex:active{transform:scale(.98)}
+/* EXECUTE BUTTON */
+.bex{width:100%;margin-top:14px;padding:14px;background:transparent;border:2px solid var(--neon);color:var(--neon);font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;letter-spacing:4px;cursor:pointer;transition:all .2s}
+.bex:hover{background:rgba(57,255,20,.12);box-shadow:var(--glow);color:#fff}
 .bex.busy{animation:bb .7s ease-in-out infinite alternate}
-@keyframes bb{0%{border-color:var(--neon)}100%{border-color:var(--neon2)}}
+@keyframes bb{0%{border-color:var(--neon)}100%{border-color:var(--amber)}}
 
-/* SIGNAL */
-.sigb{padding:20px 18px;text-align:center;position:relative;overflow:hidden}
-.sigb::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50%,var(--sg,rgba(57,255,20,.12)) 0%,transparent 70%);animation:sgp 2.2s ease-in-out infinite}
-@keyframes sgp{0%,100%{opacity:.5}50%{opacity:1}}
-.sigw{font-family:'Orbitron',sans-serif;font-size:30px;font-weight:900;letter-spacing:7px;line-height:1;position:relative;z-index:1;animation:swg 2.2s ease-in-out infinite}
-@keyframes swg{0%,100%{text-shadow:0 0 8px currentColor,0 0 25px currentColor}50%{text-shadow:0 0 18px currentColor,0 0 55px currentColor,0 0 90px currentColor}}
-.sigs{font-size:13px;color:var(--tdim);margin-top:7px;position:relative;z-index:1;letter-spacing:.5px;line-height:1.5}
-.sigb.go{--sg:rgba(57,255,20,.13);border:1px solid rgba(57,255,20,.24)}.sigb.go .sigw{color:var(--neon)}
-.sigb.warn{--sg:rgba(255,179,0,.13);border:1px solid rgba(255,179,0,.26)}.sigb.warn .sigw{color:var(--amber)}
-.sigb.bad{--sg:rgba(255,36,66,.15);border:1px solid rgba(255,36,66,.26)}.sigb.bad .sigw{color:var(--red)}
-
-/* CONFIDENCE */
-.crow{display:flex;align-items:flex-start;gap:16px;padding:16px;border:1px solid var(--brd2);background:rgba(57,255,20,.02);margin:12px 0;position:relative}
-.crow::before{content:'CONFIDENCE SCORE';position:absolute;top:-8px;left:14px;font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:2px;color:var(--neon);background:rgba(0,8,3,.98);padding:0 6px}
-.rw{position:relative;width:68px;height:68px;flex-shrink:0}
-.rs{transform:rotate(-90deg)}
-.rbg{fill:none;stroke:rgba(57,255,20,.07);stroke-width:5}
-.rf{fill:none;stroke-width:5;stroke-linecap:butt;transition:stroke-dashoffset 1.3s cubic-bezier(.4,0,.2,1),stroke .3s}
-.rc2{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
-.rpct{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:900;line-height:1}
-.rlbl{font-size:7px;color:var(--tmut);letter-spacing:1px;font-family:'Orbitron',sans-serif;margin-top:2px}
-.cinfo{}
-.cv2{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:5px}
-.cd2{font-size:13px;color:var(--tdim);line-height:1.55}
-.confdef{margin-top:10px;padding:10px 12px;background:rgba(57,255,20,.04);border:1px solid rgba(57,255,20,.15);font-size:12px;color:var(--tdim);line-height:1.65;border-left:3px solid var(--neon)}
-.confdef strong{color:var(--neon);font-weight:700}
-
-/* ROUTE CARDS */
-.rc{padding:14px 15px;border:1px solid var(--brd2);background:rgba(57,255,20,.015);margin-bottom:7px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
-.rc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--rcol,var(--neon));box-shadow:0 0 7px var(--rcol,var(--neon))}
-.rc:hover{background:rgba(57,255,20,.05);border-color:var(--brd)}
+/* ROUTE RESULTS */
+.rc{padding:12px 14px;border:1px solid var(--brd2);background:rgba(57,255,20,.02);margin-bottom:8px;cursor:pointer;border-left:3px solid var(--rcol,var(--neon))}
 .rc.sel{background:rgba(57,255,20,.08);border-color:var(--neon)}
-.rct{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-.rcn{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px}
-.rtag{font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;padding:3px 9px;letter-spacing:1px;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
-.tbest{background:rgba(57,255,20,.14);color:var(--neon);border:1px solid var(--nb)}
-.talt{background:rgba(255,179,0,.12);color:var(--amber);border:1px solid rgba(255,179,0,.3)}
-.talt2{background:rgba(255,36,66,.1);color:var(--red);border:1px solid rgba(255,36,66,.3)}
-.rst{display:flex;gap:14px;font-size:14px;color:var(--tdim);margin-bottom:6px;flex-wrap:wrap}
-.rst strong{color:var(--txt);font-size:16px}
-.rco{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.5px;line-height:1.5}
+.rct{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
+.rcn{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700}
+.rst{display:flex;gap:12px;font-size:14px;color:var(--tdim);margin-bottom:4px}
+.rst strong{color:var(--txt);font-size:15px}
 
-/* DATA GRID */
-.dg2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:11px 0}
-.dc{padding:11px 7px;border:1px solid var(--brd2);text-align:center;background:rgba(57,255,20,.02);position:relative}
-.dc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--dc,var(--neon));opacity:.4}
-.dv{font-family:'Orbitron',sans-serif;font-size:17px;font-weight:700;line-height:1}
-.dl{font-family:'Orbitron',sans-serif;font-size:8px;color:var(--tmut);margin-top:5px;letter-spacing:.5px;line-height:1.4}
-
-/* CHOKE */
-.chi{display:flex;align-items:center;gap:11px;padding:10px 13px;border-left:3px solid;margin-bottom:5px;background:rgba(0,0,0,.4);transition:background .15s}
-.chi:hover{background:rgba(57,255,20,.03)}
-.chi.red{border-color:var(--red)}.chi.amb{border-color:var(--amber)}
-.chn{flex:1;font-size:14px;font-weight:600;line-height:1.4}
-.chd{font-family:'Share Tech Mono',monospace;font-size:11px;white-space:nowrap}
-.chi.red .chd{color:var(--red)}.chi.amb .chd{color:var(--amber)}
-
-/* SUB TABS */
-.stbs{display:flex;border-bottom:1px solid var(--brd2);background:rgba(0,8,3,.99);position:sticky;top:0;z-index:10}
-.stb{flex:1;padding:11px 5px;text-align:center;font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:1.5px;color:var(--tmut);cursor:pointer;border-bottom:2px solid transparent;transition:all .2s}
-.stb:hover{color:var(--neon)}
-.stb.active{color:var(--neon);border-bottom-color:var(--neon)}
-
-/* BREAKDOWN */
-.bkr{display:flex;align-items:center;gap:12px;padding:12px 15px;border-bottom:1px solid var(--brd2);transition:background .15s}
-.bkr:hover{background:rgba(57,255,20,.03)}
-.bki{font-size:17px;flex-shrink:0}
-.bkn{font-size:15px;font-weight:700;line-height:1.25}
-.bks{font-size:11px;color:var(--tmut);margin-top:2px}
-.bkv{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:700;color:var(--neon);text-shadow:0 0 7px rgba(57,255,20,.5);white-space:nowrap}
-.totr{display:flex;align-items:center;justify-content:space-between;padding:15px;margin:10px 0;background:rgba(57,255,20,.06);border:1px solid var(--neon);box-shadow:0 0 15px rgba(57,255,20,.1)}
-.totl{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:2px;color:var(--neon);margin-bottom:4px}
-.tots{font-size:11px;color:var(--tmut)}
-.totv{font-family:'Orbitron',sans-serif;font-size:26px;font-weight:900;color:var(--neon);text-shadow:var(--glow)}
-.lby{padding:11px 15px;margin:0 0 8px;background:rgba(57,255,20,.04);border:1px solid rgba(57,255,20,.2);font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--neon);letter-spacing:.8px;line-height:1.6}
-
-/* RETURN */
-.retr{display:flex;align-items:center;gap:12px;padding:10px 13px;border-left:3px solid;margin-bottom:5px}
-.retr.go{border-color:var(--neon);background:rgba(57,255,20,.04)}.retr.warn{border-color:var(--amber);background:rgba(255,179,0,.04)}.retr.bad{border-color:var(--red);background:rgba(255,36,66,.04)}
-.rtt{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--tdim);flex:1}
-.rtl{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px}
-.retr.go .rtl{color:var(--neon)}.retr.warn .rtl{color:var(--amber)}.retr.bad .rtl{color:var(--red)}
-
-/* WEEK */
-.wkr{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:12px 0}
-.wdy{padding:9px 4px;border:1px solid var(--brd2);text-align:center;cursor:pointer;transition:all .2s;position:relative}
-.wdy::after{content:'';position:absolute;bottom:0;left:0;right:0;height:2px;background:transparent;transition:all .2s}
-.wdy:hover::after,.wdy.sel::after{background:var(--neon);box-shadow:var(--glow)}
-.wdy:hover{border-color:var(--nb);background:var(--neon-dim)}
-.wdy.today{border-color:rgba(57,255,20,.38)}
-.wdn{font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:1px;color:var(--tmut)}
-.wdd{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;margin-top:3px}
-.wds{font-size:9px;margin-top:3px}
-.tsl{padding:11px 14px;border-left:3px solid;margin-bottom:5px;background:rgba(0,0,0,.4)}
-.tst{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--tmut);margin-bottom:4px}
-.tsl2{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px}
-.tsl.go{border-color:var(--neon)}.tsl.go .tsl2{color:var(--neon)}
-.tsl.warn{border-color:var(--amber)}.tsl.warn .tsl2{color:var(--amber)}
-.tsl.bad{border-color:var(--red)}.tsl.bad .tsl2{color:var(--red)}
-
-/* CORR CARD */
-.ccc{padding:15px;border:1px solid var(--brd2);margin-bottom:8px;background:rgba(0,0,0,.5);position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 16px) 0,100% 16px,100% 100%,16px 100%,0 calc(100% - 16px))}
-.ccc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--cc);box-shadow:0 0 8px var(--cc)}
-.cch{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
-.ccn{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px}
-.ccs{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;padding:3px 10px;letter-spacing:1px;clip-path:polygon(6px 0%,100% 0%,calc(100% - 6px) 100%,0% 100%)}
-.ccn2{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut);margin-top:10px;line-height:1.65}
-
-/* PARK */
-.pkitem{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--brd2);cursor:pointer;transition:all .2s}
-.pkitem:hover{background:rgba(57,255,20,.05);padding-left:18px}
-.pkd{width:9px;height:9px;border-radius:50%;flex-shrink:0}
-.pkn{font-size:14px;font-weight:700;flex:1;line-height:1.25}
-.pkm{font-size:11px;color:var(--tmut);margin-top:2px}
-.pkt{font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;padding:2px 7px;letter-spacing:1px}
-
-/* PROD */
-.pcd{padding:14px 15px;border:1px solid var(--brd2);margin-bottom:7px;background:rgba(0,0,0,.4);clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,0 100%)}
-.pct{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;color:var(--neon);margin-bottom:8px;display:flex;align-items:center;gap:8px}
-.pcb{font-size:14px;color:var(--tdim);line-height:1.6}
-.wxchip{padding:10px 14px;border:1px solid rgba(57,255,20,.2);background:rgba(57,255,20,.04);margin-bottom:10px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--neon);letter-spacing:1px;line-height:1.6}
+/* WEEKLY SCHEDULE PLANNER */
+.wk-card{padding:12px;border:1px solid var(--brd2);background:rgba(0,0,0,.4);margin-bottom:8px;border-left:3px solid var(--neon)}
+.wk-card.peak{border-left-color:var(--red)}
+.wk-head{display:flex;justify-content:space-between;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:var(--neon);margin-bottom:6px}
+.wk-body{font-size:13px;color:var(--tdim);line-height:1.5}
 
 /* RIGHT MAP */
 .right{flex:1;position:relative;overflow:hidden}
-#map{width:100%;height:100%;z-index:1}
-/* Dark theme for map tiles */
+#map{width:100%;height:100%}
 .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) saturate(1.4) brightness(0.75)}
-.leaflet-popup-content-wrapper{background:rgba(0,8,3,.97)!important;border:1px solid var(--brd)!important;border-radius:0!important;color:var(--txt)!important;box-shadow:var(--glow)!important;font-family:'Rajdhani',sans-serif!important}
-.leaflet-popup-tip{background:rgba(0,8,3,.97)!important}
-.leaflet-popup-content{margin:12px 16px!important}
-.popup-nm{font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;color:var(--neon);margin-bottom:5px}
-.popup-dt{font-size:13px;color:var(--tdim);line-height:1.65}
-.leaflet-control-zoom a{background:rgba(0,8,3,.95)!important;color:var(--neon)!important;border-color:var(--brd)!important;font-family:'Orbitron',sans-serif;font-weight:700}
-.leaflet-control-zoom a:hover{background:var(--neon-dim)!important}
-.leaflet-control-attribution{background:rgba(0,8,3,.85)!important;color:var(--tmut)!important;font-size:8px!important}
-.leaflet-control-attribution a{color:var(--tmut)!important}
+.mhud{position:absolute;z-index:500;background:rgba(0,8,3,.92);border:1px solid var(--brd);padding:10px 14px;backdrop-filter:blur(8px)}
+.mhtl{top:14px;left:14px}
+.mhl{font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:2px;color:var(--tmut);margin-bottom:4px}
+.mhv{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:var(--neon)}
 
-/* MAP HUD */
-.mhud{position:absolute;z-index:500;background:rgba(0,8,3,.92);border:1px solid var(--brd);padding:12px 15px;backdrop-filter:blur(10px);pointer-events:none}
-.mhtl{top:14px;left:14px;min-width:165px}
-.mhtr{top:14px;right:14px;min-width:180px}
-.mhl{font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:2px;color:var(--tmut);margin-bottom:7px}
-.mhv{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:900;color:var(--neon);text-shadow:var(--glow)}
-.mhs{font-size:12px;color:var(--tdim);margin-top:3px}
-.scanline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(57,255,20,.3),transparent);pointer-events:none;z-index:499;animation:sl 4s linear infinite}
-@keyframes sl{0%{top:0;opacity:.8}99%{opacity:.8}100%{top:100%;opacity:0}}
-
-/* ALERT */
-.abar{position:absolute;bottom:46px;left:14px;right:14px;z-index:510;background:rgba(255,36,66,.1);border:1px solid rgba(255,36,66,.45);padding:11px 15px;display:none;align-items:center;gap:12px;backdrop-filter:blur(10px)}
-.abar.show{display:flex}
-.atxt{font-size:13px;font-weight:600;color:#ffb3bd;flex:1;line-height:1.45}
-.ax{color:rgba(255,36,66,.8);cursor:pointer;font-size:15px;pointer-events:all;flex-shrink:0}
-
-/* BOTTOM */
-.bst{height:33px;flex-shrink:0;z-index:100;position:relative;background:rgba(0,8,3,.99);border-top:1px solid var(--brd);display:flex;align-items:center;padding:0 20px;gap:15px;overflow:hidden}
-.bsi{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut);white-space:nowrap;display:flex;align-items:center;gap:5px}
-.bsi b{color:var(--neon);font-weight:400}
-.bsp{color:var(--tmut);opacity:.25}
-.tkr{flex:1;overflow:hidden}
-.tki{white-space:nowrap;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut);animation:tk 30s linear infinite}
-@keyframes tk{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
-
-/* NOTIF */
-.notif{position:fixed;top:62px;right:14px;z-index:3000;background:rgba(0,8,3,.98);border:1px solid var(--neon);padding:13px 17px;max-width:280px;transform:translateX(110%);transition:transform .3s cubic-bezier(.34,1.4,.64,1);clip-path:polygon(0 0,calc(100% - 12px) 0,100% 12px,100% 100%,12px 100%,0 calc(100% - 12px));pointer-events:none}
-.notif::before{content:'SYSTEM';position:absolute;top:-8px;left:14px;font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:2px;color:var(--neon);background:rgba(0,8,3,.98);padding:0 5px}
-.notif.show{transform:translateX(0)}
-.ntit{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;color:var(--neon);margin-bottom:5px}
-.nbdy{font-size:13px;color:var(--tdim);line-height:1.5}
-
-/* LOADING */
-.ldsc{position:fixed;inset:0;background:var(--bg);z-index:8000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .6s}
-.ldsc.gone{opacity:0;pointer-events:none}
-.ldl{font-family:'Orbitron',sans-serif;font-size:26px;font-weight:900;color:var(--neon);text-shadow:var(--glow);letter-spacing:6px;animation:gl 2.5s infinite}
-@keyframes gl{0%,88%,100%{text-shadow:var(--glow);transform:none}89%{transform:translate(-3px,0);text-shadow:-3px 0 var(--red),3px 0 var(--neon)}91%{transform:translate(3px,0);text-shadow:3px 0 var(--red),-3px 0 var(--neon)}93%{transform:none}}
-.ldsub{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut);letter-spacing:2px}
-.ldbg{width:300px;height:2px;background:rgba(57,255,20,.1)}
-.ldb{height:2px;background:var(--neon);width:0;box-shadow:var(--glow);animation:lf 2s ease-out forwards}
-@keyframes lf{0%{width:0}100%{width:100%}}
-.ldst{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut);letter-spacing:2px}
-.empty{padding:34px 20px;text-align:center}
-.ei{font-size:32px;margin-bottom:14px;opacity:.22}
-.et{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;color:var(--tmut);line-height:2.4}
+.bst{height:33px;flex-shrink:0;z-index:100;background:rgba(0,8,3,.99);border-top:1px solid var(--brd);display:flex;align-items:center;padding:0 20px;gap:14px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut)}
+.bst b{color:var(--neon);font-weight:400}
 </style>
 </head>
 <body>
 
-<div class="ldsc" id="ls"><div class="ldl">BLR COMMUTE</div><div class="ldsub">TACTICAL NAVIGATION SYSTEM v5</div><div class="ldbg"><div class="ldb"></div></div><div class="ldst" id="lst">INITIALISING...</div></div>
-
-<div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
-
 <div class="topbar">
-  <div class="logo"><div class="lhex">🛣️</div><div><div class="lname">BLR COMMUTE</div><div class="lsub">TACTICAL NAV SYSTEM</div></div></div>
+  <div class="logo"><div class="lhex">🛣️</div><div><div class="lname">BLR COMMUTE</div><div class="lsub">TACTICAL ROAD NAV v6</div></div></div>
   <div class="navpills">
-    <button class="np active" onclick="gp('plan',this)">PLAN</button>
+    <button class="np active" onclick="gp('plan',this)">ROAD PLAN</button>
     <button class="np" onclick="gp('corridor',this)">CORRIDORS</button>
-    <button class="np" onclick="gp('week',this)">WEEK</button>
-    <button class="np" onclick="gp('return',this)">RETURN</button>
-    <button class="np" onclick="gp('drive',this)">DRIVE</button>
+    <button class="np" onclick="gp('week',this)">WEEKLY PLANNER</button>
   </div>
   <div class="trr">
-    <div class="schip" id="wxc"><div class="cd"></div><span id="wxt">LOADING WX...</span></div>
-    <div class="schip"><div class="cd"></div><span style="color:var(--neon)">LIVE</span></div>
+    <div class="schip"><div class="cd"></div><span id="stat">ROAD LIVE</span></div>
     <div class="clockd" id="clk">00:00:00</div>
   </div>
 </div>
@@ -334,713 +128,364 @@ body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;back
 <div class="main">
   <div class="left">
 
-    <!-- PLAN -->
+    <!-- PLAN PANEL -->
     <div class="panel active" id="panel-plan">
       <div class="sec">
-        <div class="slbl">ENTER YOUR JOURNEY</div>
+        <div class="slbl">1. CHOOSE CORRIDOR ARTERY</div>
+        <select class="cor-select" id="cor-picker" onchange="onCorridorChange()">
+          <option value="auto">⚡ AUTO-DETECT BASED ON ROUTE</option>
+          <option value="orr">OUTER RING ROAD (Silk Board ↔ Marathahalli ↔ Hebbal)</option>
+          <option value="wf">WHITEFIELD CORRIDOR (Old Airport / Varthur / ITPL)</option>
+          <option value="ec">ELECTRONIC CITY (Silk Board ↔ Hosur Rd Elevated)</option>
+          <option value="hbl">HEBBAL – MANYATA (Mekhri Circle ↔ Nagavara)</option>
+        </select>
 
+        <div class="slbl">2. CHOOSE DESTINATIONS</div>
         <div class="ib">
           <div class="ilbl">START POINT</div>
           <div class="iw">
-            <input class="hi" id="fi" placeholder="Any location in Bengaluru..." autocomplete="off" oninput="acs('f')" onfocus="acs('f')" onkeydown="ack(event,'f')"/>
+            <input class="hi" id="fi" placeholder="Type area, tech park, or locality..." autocomplete="off" oninput="acs('f')" onfocus="acs('f')" onkeydown="ack(event,'f')"/>
             <span class="ix" id="fx" onclick="ci('f')">✕</span>
             <div class="isp" id="fsp"><div class="spin"></div></div>
             <div class="acl" id="fac"></div>
           </div>
         </div>
 
-        <!-- Swap button -->
-        <div style="display:flex;align-items:center;gap:8px;margin:4px 0">
-          <div class="conn"><div class="cln"></div><div class="cdts"><div class="cdt"></div><div class="cdt"></div><div class="cdt"></div></div></div>
-          <button class="swap-btn" onclick="swapLocations()" title="Swap start and end">⇅</button>
-        </div>
-
         <div class="ib">
           <div class="ilbl">END POINT</div>
           <div class="iw">
-            <input class="hi" id="ti" placeholder="Destination, landmark, area..." autocomplete="off" oninput="acs('t')" onfocus="acs('t')" onkeydown="ack(event,'t')"/>
+            <input class="hi" id="ti" placeholder="Destination, campus, tech park..." autocomplete="off" oninput="acs('t')" onfocus="acs('t')" onkeydown="ack(event,'t')"/>
             <span class="ix" id="tx" onclick="ci('t')">✕</span>
             <div class="isp" id="tsp"><div class="spin"></div></div>
             <div class="acl" id="tac"></div>
           </div>
         </div>
 
-        <div class="slbl" style="margin-top:16px">VEHICLE MODE</div>
+        <div class="slbl">3. COMMUTE VEHICLE MODE</div>
         <div class="vg">
-          <button class="vb" onclick="sv('bike',this)"><span class="vi">🏍️</span>BIKE</button>
-          <button class="vb active" onclick="sv('car',this)"><span class="vi">🚗</span>CAR</button>
-          <button class="vb" onclick="sv('cab',this)"><span class="vi">🚖</span>CAB</button>
+          <button class="vb" onclick="sv('bike',this)">🏍️ BIKE</button>
+          <button class="vb active" onclick="sv('car',this)">🚗 CAR</button>
+          <button class="vb" onclick="sv('cab',this)">🚖 CAB</button>
         </div>
 
-        <div class="slbl">DEPARTURE TIME</div>
-        <div class="dg">
-          <button class="db active" onclick="sd('now',this)">LEAVE NOW</button>
-          <button class="db" onclick="sd('later',this)">SCHEDULE</button>
-          <button class="db" onclick="sd('arrive',this)">ARRIVE BY</button>
-        </div>
-        <div id="tw" style="display:none"><input type="datetime-local" class="tpick" id="st"/></div>
-
-        <button class="bex" id="eb" onclick="planRoute()">⚡ EXECUTE ROUTE SCAN</button>
+        <button class="bex" id="eb" onclick="executeRoadRoute()">⚡ CALCULATE ROAD ROUTE</button>
       </div>
 
-      <div id="rr" style="display:none">
-        <div id="sb"></div>
-        <div class="sec">
-          <div class="slbl">ARRIVAL INTELLIGENCE</div>
-          <div class="crow">
-            <div class="rw">
-              <svg class="rs" width="68" height="68" viewBox="0 0 68 68">
-                <circle class="rbg" cx="34" cy="34" r="28"/>
-                <circle class="rf" id="cr" cx="34" cy="34" r="28" stroke-dasharray="175.9" stroke-dashoffset="175.9"/>
-              </svg>
-              <div class="rc2"><div class="rpct" id="cp">--</div><div class="rlbl">SCORE</div></div>
-            </div>
-            <div class="cinfo">
-              <div class="cv2" id="cv">CALCULATING...</div>
-              <div class="cd2" id="cd2">Analysing route data</div>
-            </div>
-          </div>
-          <div class="confdef" id="confdef"></div>
-          <div id="wi"></div>
-          <div class="slbl" style="margin-top:14px">ROUTE OPTIONS</div>
-          <div id="ro"></div>
-        </div>
+      <div class="sec" id="rr" style="display:none">
+        <div class="slbl">REAL ROAD ROUTE OPTIONS</div>
+        <div id="ro"></div>
 
-        <div class="sec">
-          <div class="slbl">CORRIDOR STATUS</div>
-          <div class="dg2" id="sg"></div>
-          <div class="slbl" style="margin-top:10px">CHOKEPOINTS ON YOUR ROUTE</div>
-          <div id="cl"></div>
-        </div>
-
-        <div class="stbs">
-          <div class="stb active" onclick="gs('bk',this)">TIME SPLIT</div>
-          <div class="stb" onclick="gs('ret',this)">RETURN</div>
-          <div class="stb" onclick="gs('smart',this)">DRIVE SMART</div>
-        </div>
-        <div id="sub-bk" class="sec"><div id="bk"></div></div>
-        <div id="sub-ret" class="sec" style="display:none"><div id="rp"></div></div>
-        <div id="sub-smart" class="sec" style="display:none">
-          <div class="pcd"><div class="pct">🎧 AUDIO QUEUE</div><div class="pcb">45–60 min route = 2 podcast episodes per direction. 10 episodes weekly, zero extra time cost.</div></div>
-          <div class="pcd"><div class="pct">🛡️ ROAD INTEL</div><div class="pcb">ORR peak (8:30–9:30am): aggressive overtaking is common. Maintain 3-second following distance. BMTC e-buses brake sharply at stops — stay well back.</div></div>
-          <div class="pcd"><div class="pct">🧠 ARRIVAL PROTOCOL</div><div class="pcb">Box breathing 4-4-4-4 on the last 5 minutes cuts cortisol before critical meetings. Bengaluru traffic spikes stress hormones — this counteracts it.</div></div>
-        </div>
-      </div>
-
-      <div id="es" class="empty">
-        <div class="ei">🗺️</div>
-        <div class="et">TYPE START POINT ABOVE<br>DROPDOWN SHOWS AS YOU TYPE<br>SELECT LOCATION FROM LIST<br>THEN ADD END POINT<br>HIT EXECUTE ROUTE SCAN</div>
+        <div class="slbl" style="margin-top:14px">CORRIDOR BOTTLENECKS</div>
+        <div id="chokes"></div>
       </div>
     </div>
 
-    <!-- CORRIDORS -->
+    <!-- CORRIDORS PANEL -->
     <div class="panel" id="panel-corridor">
-      <div class="sec"><div class="slbl">LIVE CORRIDOR STATUS</div><div id="cc"></div></div>
-      <div class="sec"><div class="slbl">TECH PARK GRID</div><div id="pl"></div></div>
+      <div class="sec">
+        <div class="slbl">HISTORICAL & LIVE CORRIDOR BENCHMARKS</div>
+        <div id="cor-list"></div>
+      </div>
     </div>
 
-    <!-- WEEK -->
+    <!-- WEEKLY PLANNER PANEL -->
     <div class="panel" id="panel-week">
-      <div class="sec"><div class="slbl">7-DAY TRAFFIC FORECAST</div><div class="wkr" id="wg"></div><div id="wd"></div></div>
-    </div>
-
-    <!-- RETURN -->
-    <div class="panel" id="panel-return">
-      <div class="sec"><div class="slbl">RETURN JOURNEY WINDOWS</div><div id="rf"></div></div>
-    </div>
-
-    <!-- DRIVE -->
-    <div class="panel" id="panel-drive">
-      <div class="sec"><div class="slbl">ACTIVE NAVIGATION</div><div id="dc"><div class="empty"><div class="ei">🚗</div><div class="et">PLAN A ROUTE FIRST<br>TO ACTIVATE DRIVE MODE</div></div></div></div>
+      <div class="sec">
+        <div class="slbl">WEEK COMMUTE & MEETING PROTECTOR</div>
+        <p style="font-size:13px;color:var(--tdim);margin-bottom:12px">Pre-calculated departure windows based on TomTom verified city data (Wednesday evening rush has lowest average city speeds of 13.2 km/h).</p>
+        <div id="wk-plan"></div>
+      </div>
     </div>
 
   </div>
 
-  <!-- MAP -->
   <div class="right">
     <div id="map"></div>
-    <div class="scanline"></div>
     <div class="mhud mhtl" id="htl" style="display:none">
-      <div class="mhl">ROUTE ACTIVE</div>
-      <div class="mhv" id="htime">-- MIN</div>
-      <div class="mhs" id="hsub">--</div>
+      <div class="mhl">REAL ROAD ETA</div>
+      <div class="mhv" id="hud-eta">-- MIN</div>
+      <div style="font-size:12px;color:var(--tdim)" id="hud-sub">--</div>
     </div>
-    <div class="mhud mhtr" id="htr" style="display:none">
-      <div class="mhl">SPEED INTEL</div>
-      <div id="hspd" style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--tdim);line-height:1.9"></div>
-    </div>
-    <div class="abar" id="ab"><span style="font-size:19px;color:var(--red)">⚠</span><div class="atxt" id="at"></div><span class="ax" onclick="document.getElementById('ab').classList.remove('show')">✕</span></div>
   </div>
 </div>
 
 <div class="bst">
-  <div class="bsi">SYS <b>ONLINE</b></div><span class="bsp">◆</span>
-  <div class="bsi">MAP <b>OSM LIVE</b></div><span class="bsp">◆</span>
-  <div class="bsi">ROUTING <b>ORS API</b></div><span class="bsp">◆</span>
-  <div class="bsi">REFRESH <b>15 MIN</b></div><span class="bsp">◆</span>
-  <div class="tkr"><div class="tki">◆ BLR #2 MOST CONGESTED GLOBALLY — TOMTOM 2025 ◆ 168 HRS LOST PER COMMUTER ANNUALLY ◆ PEAK 13.9 km/h CITY-WIDE ◆ EVENING RUSH WORSE THAN MORNING ◆ WEDNESDAY = WORST DAY ◆ SILK BOARD = WORST JUNCTION ◆ BLR #2 MOST CONGESTED GLOBALLY — TOMTOM 2025 ◆ 168 HRS LOST PER COMMUTER ANNUALLY ◆ PEAK 13.9 km/h CITY-WIDE ◆ EVENING RUSH WORSE THAN MORNING ◆ WEDNESDAY = WORST DAY ◆ SILK BOARD = WORST JUNCTION ◆</div></div>
+  <div>SYS <b>OSRM LIVE ROUTING</b></div><span>◆</span>
+  <div>GEOCODE <b>PHOTON BENGALURU BOUNDED</b></div><span>◆</span>
+  <div>BENCHMARK <b>TOMTOM VERIFIED FLOW</b></div>
 </div>
 
-<div class="notif" id="nf"><div class="ntit" id="nt"></div><div class="nbdy" id="nb"></div></div>
-
 <script>
-// ══ DATA (verified TomTom 2025 + BBMP) ══
-const COR={
-  orr:{name:'Outer Ring Road',short:'ORR',color:'#ff2442',carPeak:8,bikePeak:14,carFree:42,bikeFree:55,lat:12.9352,lng:77.6536,emp:'9.5 lakh',parks:30,bestM:'Before 7:30am / After 10:30am',bestE:'Before 4:30pm / After 9:00pm',chokes:[{n:'Silk Board Junction',s:'red',d:'+35–50 min'},{n:'Marathahalli Bridge',s:'red',d:'+20–30 min'},{n:'Kadubeesanahalli',s:'amb',d:'+10–15 min'},{n:'Bellandur Lake Road',s:'amb',d:'+8–12 min'}]},
-  wf:{name:'Whitefield Corridor',short:'WF',color:'#ffb300',carPeak:12,bikePeak:19,carFree:45,bikeFree:58,lat:12.9698,lng:77.7200,emp:'3.5 lakh',parks:12,bestM:'Before 7:15am / After 10:30am',bestE:'Before 4:45pm / After 8:30pm',chokes:[{n:'Marathahalli Bridge',s:'red',d:'+25–35 min'},{n:'Varthur / Hope Farm Junction',s:'red',d:'+15–25 min'},{n:'Bellandur Lake Road',s:'amb',d:'+10–15 min'}]},
-  ec:{name:'Electronic City',short:'EC',color:'#00f5ff',carPeak:15,bikePeak:22,carFree:55,bikeFree:65,lat:12.8458,lng:77.6629,emp:'4.2 lakh',parks:8,bestM:'Before 7:45am / After 10:30am',bestE:'Before 5:00pm / After 8:30pm',chokes:[{n:'Silk Board Junction',s:'red',d:'+30–45 min'},{n:'Chandapura Circle',s:'amb',d:'+10–18 min'}]},
-  hbl:{name:'Hebbal – Manyata',short:'HBL',color:'#39ff14',carPeak:15,bikePeak:23,carFree:40,bikeFree:52,lat:13.0200,lng:77.6050,emp:'2.1 lakh',parks:6,bestM:'Before 8:00am / After 10:00am',bestE:'Before 4:30pm / After 8:45pm',chokes:[{n:'Veerannapalya / BEL Road',s:'red',d:'+20–35 min'},{n:'Hebbal Flyover Exits',s:'amb',d:'+10–15 min'}]}
+// Verified Bangalore Corridor Baseline Data (TomTom / Traffic Police data)
+const CORRIDORS = {
+  orr: { name: "Outer Ring Road", short: "ORR", peakSpeed: 8, freeSpeed: 38, chokes: ["Silk Board", "Marathahalli Bridge", "Bellandur EcoSpace", "Kadubeesanahalli"], center: [12.9352, 77.6536] },
+  wf: { name: "Whitefield Corridor", short: "WF", peakSpeed: 11, freeSpeed: 42, chokes: ["Hope Farm Circle", "Varthur Kodi", "Kundalahalli Gate"], center: [12.9698, 77.7200] },
+  ec: { name: "Electronic City Corridor", short: "EC", peakSpeed: 14, freeSpeed: 52, chokes: ["Silk Board Down-ramp", "Bommanahalli", "Chandapura Circle"], center: [12.8458, 77.6629] },
+  hbl: { name: "Hebbal – Manyata", short: "HBL", peakSpeed: 13, freeSpeed: 44, chokes: ["Hebbal Flyover Junction", "Veerannapalya", "Nagavara Signal"], center: [13.0200, 77.6050] }
 };
-const PKS=[
-  {n:'Manyata Tech Park',c:'hbl',lat:13.0469,lng:77.6191,emp:'90,000+',cos:'100+',d:'high'},
-  {n:'Bagmane Tech Park',c:'orr',lat:12.9766,lng:77.6458,emp:'40,000+',cos:'45+',d:'high'},
-  {n:'RMZ Ecospace',c:'orr',lat:12.9279,lng:77.6401,emp:'35,000+',cos:'40+',d:'high'},
-  {n:'Embassy Tech Village',c:'orr',lat:12.9352,lng:77.6536,emp:'50,000+',cos:'60+',d:'high'},
-  {n:'Prestige Tech Park',c:'orr',lat:12.9416,lng:77.6648,emp:'25,000+',cos:'30+',d:'med'},
-  {n:'ITPL Whitefield',c:'wf',lat:12.9867,lng:77.7260,emp:'60,000+',cos:'80+',d:'high'},
-  {n:'Infosys EC Phase 1',c:'ec',lat:12.8458,lng:77.6629,emp:'45,000+',cos:'5+',d:'high'},
-  {n:'Wipro EC Campus',c:'ec',lat:12.8522,lng:77.6651,emp:'30,000+',cos:'3+',d:'med'},
-  {n:'Kirloskar Tech Park',c:'hbl',lat:13.0200,lng:77.5920,emp:'15,000+',cos:'20+',d:'low'}
-];
-const DM={0:1.0,1:1.1,2:1.3,3:1.4,4:1.25,5:1.15,6:1.2};
-const DAYS=['SUN','MON','TUE','WED','THU','FRI','SAT'];
-const DAYSF=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
 
-let map,vehicle='car',departMode='now',wx=null;
-let fc=null,tc=null;
-let acT={f:null,t:null},acI={f:-1,t:-1},acD={f:[],t:[]};
-let routeLayers=[],pins={};
-const UA='BLR-TacticalNav-v5';
-const ORS_KEY='5b3ce3597851110001cf6248c9e01e6b1c7a4c6a86b6e38b4d19e9b9';
+let map, vehicle = 'car';
+let fc = null, tc = null; // [lng, lat]
+let acT = { f: null, t: null }, acD = { f: [], t: [] };
+let routeLayers = [], pinMarkers = {};
 
-// ══ RIPPLE ══
-document.addEventListener('click',e=>{
-  const r=document.createElement('div');r.className='ripple';
-  const s=70;Object.assign(r.style,{width:s+'px',height:s+'px',left:(e.clientX-s/2)+'px',top:(e.clientY-s/2)+'px'});
-  document.body.appendChild(r);setTimeout(()=>r.remove(),550);
-});
-
-// ══ MAP ══
 function initMap(){
-  map=L.map('map',{center:[12.9716,77.5946],zoom:12,zoomControl:false});
-  // Using OpenStreetMap — tiles invert-filtered to dark in CSS
-  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
-    attribution:'© OpenStreetMap contributors',
-    maxZoom:19,subdomains:['a','b','c'],
-    crossOrigin:true
+  map = L.map('map', { center: [12.9716, 77.5946], zoom: 12, zoomControl: false });
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+    attribution: '© OpenStreetMap contributors', maxZoom: 18
   }).addTo(map);
-  L.control.zoom({position:'bottomright'}).addTo(map);
-
-  // Corridor polylines
-  [
-    {coords:[[12.9166,77.6243],[12.9279,77.6401],[12.9352,77.6536],[12.9416,77.6648],[12.9715,77.6899]],c:'#ff2442'},
-    {coords:[[12.9698,77.7500],[12.9501,77.7095],[12.9352,77.6972],[12.9198,77.6312]],c:'#ffb300'},
-    {coords:[[12.8458,77.6629],[12.8715,77.6574],[12.9166,77.6243]],c:'#00f5ff'},
-    {coords:[[13.0358,77.5970],[13.0180,77.6085],[13.0060,77.6167]],c:'#39ff14'}
-  ].forEach(l=>L.polyline(l.coords,{color:l.c,weight:3.5,opacity:.5,dashArray:'10,6'}).addTo(map));
-
-  // Tech park dots
-  PKS.forEach(p=>{
-    const col=p.d==='high'?'#ff2442':p.d==='med'?'#ffb300':'#39ff14';
-    const ico=L.divIcon({html:`<div style="width:11px;height:11px;border-radius:50%;background:${col};border:2px solid rgba(255,255,255,.15);box-shadow:0 0 10px ${col}"></div>`,className:'',iconSize:[11,11],iconAnchor:[5.5,5.5]});
-    L.marker([p.lat,p.lng],{icon:ico}).addTo(map)
-      .bindPopup(`<div class="popup-nm">🏢 ${p.n}</div><div class="popup-dt">👥 ${p.emp} employees<br>🏬 ${p.cos} companies<br><span style="color:${col};font-weight:700">${p.d.toUpperCase()} DENSITY</span></div>`);
-  });
+  L.control.zoom({ position: 'bottomright' }).addTo(map);
 }
 
-// ══ PIN MARKERS ══
-function addPin(lat,lng,type){
-  if(pins[type])map.removeLayer(pins[type]);
-  const col=type==='f'?'#39ff14':'#ffb300';
-  const lbl=type==='f'?'START':'END';
-  const ico=L.divIcon({html:`<div style="text-align:center;filter:drop-shadow(0 0 6px ${col})"><div style="font-size:21px">${type==='f'?'📍':'🏁'}</div><div style="font-family:Orbitron,sans-serif;font-size:8px;color:${col};letter-spacing:1px;background:rgba(0,8,3,.85);padding:2px 5px;margin-top:1px">${lbl}</div></div>`,className:'',iconSize:[44,42],iconAnchor:[22,38]});
-  pins[type]=L.marker([lat,lng],{icon:ico}).addTo(map);
-}
-function removePin(type){if(pins[type]){map.removeLayer(pins[type]);delete pins[type];}}
+// Autocomplete using Photon Geocoder bounded to Bangalore
+function acs(f){
+  const inp = document.getElementById(f==='f'?'fi':'ti');
+  const val = inp.value.trim();
+  const xb = document.getElementById(f==='f'?'fx':'tx');
+  const sp = document.getElementById(f==='f'?'fsp':'tsp');
+  const list = document.getElementById(f==='f'?'fac':'tac');
+  xb.style.display = val ? 'block' : 'none';
+  if(val.length < 2){ list.classList.remove('open'); return; }
 
-// ══ AUTOCOMPLETE ══
-// Uses Claude AI (sample) to handle fuzzy/typo search + Nominatim for results
-async function acs(f){
-  const inp=document.getElementById(f==='f'?'fi':'ti');
-  const val=inp.value.trim();
-  const xb=document.getElementById(f==='f'?'fx':'tx');
-  const sp=document.getElementById(f==='f'?'fsp':'tsp');
-  const list=document.getElementById(f==='f'?'fac':'tac');
-  xb.style.display=val?'block':'none';
-  if(val.length<2){list.classList.remove('open');return;}
   clearTimeout(acT[f]);
-  sp.style.display='block';xb.style.display='none';
-  list.innerHTML='<div class="acmsg">◆ SCANNING LOCATIONS...</div>';
+  sp.style.display = 'block'; xb.style.display = 'none';
+  list.innerHTML = '<div style="padding:10px;font-size:11px;color:var(--tmut)">SCANNING ROADS...</div>';
   list.classList.add('open');
-  acT[f]=setTimeout(()=>runSearch(f,val,sp,list,xb),350);
-}
 
-async function runSearch(f,val,sp,list,xb){
-  try{
-    // Step 1: try bounded Bengaluru search
-    let results=await nomSearch(val,true);
-    let corrected=null;
-
-    // Step 2: broader search if no results
-    if(!results.length){
-      results=await nomSearch(val+' Bengaluru',false);
+  acT[f] = setTimeout(async ()=>{
+    try {
+      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&lat=12.9716&lon=77.5946&limit=5`);
+      const data = await res.json();
+      sp.style.display = 'none'; xb.style.display = 'block';
+      renderSuggestions(f, data.features || [], list);
+    } catch(err) {
+      sp.style.display = 'none';
+      list.innerHTML = '<div style="padding:10px;font-size:11px;color:var(--red)">SEARCH ERROR</div>';
     }
-
-    // Step 3: Claude AI fuzzy correction if still no results
-    if(!results.length){
-      try{
-        const sample=await window.claude?.use?.('sample');
-        if(sample){
-          const fix=await sample(`User searched Bengaluru location: "${val}". Return ONLY the corrected spelling, no explanation. Example: "whitfeild" → "Whitefield". If already correct, return as-is.`,{modelTier:'quick'});
-          corrected=fix.text.trim().replace(/[^a-zA-Z0-9\s,.-]/g,'').slice(0,80);
-          if(corrected&&corrected.toLowerCase()!==val.toLowerCase()){
-            results=await nomSearch(corrected+' Bengaluru',false);
-          }
-        }
-      }catch{}
-    }
-
-    // Step 4: fallback India search
-    if(!results.length) results=await nomSearch(val+', Karnataka',false);
-
-    sp.style.display='none';xb.style.display=val?'block':'none';
-    renderList(f,results,corrected,val,list);
-  }catch(err){
-    sp.style.display='none';
-    list.innerHTML=`<div class="acmsg">⚠ SEARCH UNAVAILABLE — CHECK CONNECTION</div>`;
-  }
+  }, 220);
 }
 
-async function nomSearch(q,bounded){
-  const bbox=bounded?'&viewbox=77.38,12.78,77.88,13.25&bounded=1':'';
-  const url=`https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q)}&countrycodes=in${bbox}&format=json&addressdetails=1&limit=8&dedupe=1&accept-language=en`;
-  try{
-    const r=await fetch(url,{headers:{'Accept-Language':'en','User-Agent':UA}});
-    if(!r.ok)return[];
-    return await r.json()||[];
-  }catch{return[];}
-}
-
-function renderList(f,results,corrected,orig,list){
-  acD[f]=results;acI[f]=-1;
-  if(!results.length){
-    list.innerHTML=`<div class="acmsg">⚠ NO RESULTS FOR "${orig.toUpperCase()}"<br>TRY: AREA NAME OR LANDMARK</div>`;
+function renderSuggestions(f, items, list){
+  acD[f] = items;
+  if(!items.length){
+    list.innerHTML = '<div style="padding:10px;font-size:11px;color:var(--tmut)">NO MATCHES IN BENGALURU</div>';
     return;
   }
-  let html='';
-  if(corrected&&corrected.toLowerCase()!==orig.toLowerCase())
-    html+=`<div class="acmsg" style="color:var(--amber)">◆ SHOWING RESULTS FOR: ${corrected.toUpperCase()}</div>`;
-  html+=results.map((r,i)=>{
-    const pts=r.display_name.split(',');
-    const main=pts[0].trim();
-    const sub=pts.slice(1,3).map(s=>s.trim()).filter(Boolean).join(', ');
-    const cls=r.class||'';
-    const ico=cls==='amenity'||cls==='building'?'🏢':cls==='highway'?'🛣️':cls==='residential'||cls==='suburb'?'🏘️':cls==='industrial'||cls==='commercial'?'🏭':'📍';
-    const dist=haversine(parseFloat(r.lat),parseFloat(r.lon),12.9716,77.5946);
-    return`<div class="aci" id="aci-${f}-${i}" onmousedown="selAC('${f}',${i})">
-      <span class="aico">${ico}</span>
-      <div style="flex:1;min-width:0">
-        <div class="acm">${main}</div>
-        ${sub?`<div class="acs2">${sub}</div>`:''}
-        <div class="acd">◆ ${dist} from BLR centre</div>
+  list.innerHTML = items.map((item, i) => {
+    const p = item.properties;
+    const title = p.name || p.street || p.district || "Location";
+    const sub = [p.district, p.city || 'Bengaluru'].filter(Boolean).join(', ');
+    return `<div class="aci" onmousedown="selectLoc('${f}', ${i})">
+      <div style="flex:1">
+        <div class="acm">📍 ${title}</div>
+        <div class="acs2">${sub}</div>
       </div>
     </div>`;
   }).join('');
-  list.innerHTML=html;list.classList.add('open');
 }
 
-function haversine(lat1,lon1,lat2,lon2){
-  const R=6371,dL=(lat2-lat1)*Math.PI/180,dO=(lon2-lon1)*Math.PI/180;
-  const a=Math.sin(dL/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dO/2)**2;
-  const d=2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
-  return d<1?Math.round(d*1000)+'m':d.toFixed(1)+'km';
-}
-
-function selAC(f,idx){
-  const r=acD[f][idx];if(!r)return;
-  const pts=r.display_name.split(',');
-  document.getElementById(f==='f'?'fi':'ti').value=pts.slice(0,2).join(', ').trim();
-  document.getElementById(f==='f'?'fx':'tx').style.display='block';
+function selectLoc(f, idx){
+  const item = acD[f][idx];
+  if(!item) return;
+  const [lng, lat] = item.geometry.coordinates;
+  const name = item.properties.name || item.properties.street || "Selected Location";
+  document.getElementById(f==='f'?'fi':'ti').value = name;
   document.getElementById(f==='f'?'fac':'tac').classList.remove('open');
-  const lat=parseFloat(r.lat),lng=parseFloat(r.lon);
-  if(f==='f'){fc=[lng,lat];}else{tc=[lng,lat];}
-  addPin(lat,lng,f);
-  map.flyTo([lat,lng],15,{animate:true,duration:1.1});
-  // If both points set, fit both
-  if(fc&&tc) setTimeout(()=>map.fitBounds([[fc[1],fc[0]],[tc[1],tc[0]]],{padding:[80,80],animate:true,duration:1}),1200);
+  if(f === 'f') fc = [lng, lat]; else tc = [lng, lat];
+  addMarker(lat, lng, f);
+  if(fc && tc) map.fitBounds([[fc[1], fc[0]], [tc[1], tc[0]]], { padding: [60, 60] });
+  else map.flyTo([lat, lng], 14);
 }
 
-function ack(e,f){
-  const list=document.getElementById(f==='f'?'fac':'tac');
-  const items=list.querySelectorAll('.aci');
-  if(!list.classList.contains('open')||!items.length)return;
-  if(e.key==='ArrowDown'){e.preventDefault();acI[f]=Math.min(acI[f]+1,items.length-1);items.forEach((el,i)=>el.classList.toggle('hi2',i===acI[f]));}
-  else if(e.key==='ArrowUp'){e.preventDefault();acI[f]=Math.max(acI[f]-1,0);items.forEach((el,i)=>el.classList.toggle('hi2',i===acI[f]));}
-  else if(e.key==='Enter'){e.preventDefault();if(acI[f]>=0)selAC(f,acI[f]);else list.classList.remove('open');}
-  else if(e.key==='Escape')list.classList.remove('open');
+function addMarker(lat, lng, type){
+  if(pinMarkers[type]) map.removeLayer(pinMarkers[type]);
+  const color = type==='f' ? '#39ff14' : '#ffb300';
+  const icon = L.divIcon({
+    html: `<div style="color:${color};font-size:22px;filter:drop-shadow(0 0 6px ${color})">${type==='f'?'📍':'🏁'}</div>`,
+    className: '', iconSize: [24,24], iconAnchor: [12,22]
+  });
+  pinMarkers[type] = L.marker([lat, lng], { icon }).addTo(map);
 }
 
 function ci(f){
-  document.getElementById(f==='f'?'fi':'ti').value='';
-  document.getElementById(f==='f'?'fx':'tx').style.display='none';
+  document.getElementById(f==='f'?'fi':'ti').value = '';
+  document.getElementById(f==='f'?'fx':'tx').style.display = 'none';
   document.getElementById(f==='f'?'fac':'tac').classList.remove('open');
-  if(f==='f'){fc=null;removePin('f');}else{tc=null;removePin('t');}
+  if(f==='f'){ fc = null; if(pinMarkers.f) map.removeLayer(pinMarkers.f); }
+  else { tc = null; if(pinMarkers.t) map.removeLayer(pinMarkers.t); }
 }
 
-function swapLocations(){
-  const fv=document.getElementById('fi').value,tv=document.getElementById('ti').value;
-  document.getElementById('fi').value=tv;document.getElementById('ti').value=fv;
-  const tmp=fc;fc=tc;tc=tmp;
-  const tmpP=pins['f'];pins['f']=pins['t'];pins['t']=tmpP;
-  if(fc)addPin(fc[1],fc[0],'f');
-  if(tc)addPin(tc[1],tc[0],'t');
-  if(fv||tv){showNotif('SWAPPED','Start and end points switched.');}
+function onCorridorChange(){
+  const sel = document.getElementById('cor-picker').value;
+  if(sel !== 'auto' && CORRIDORS[sel]){
+    map.flyTo(CORRIDORS[sel].center, 13);
+  }
 }
 
-document.addEventListener('click',e=>{if(!e.target.closest('.iw'))document.querySelectorAll('.acl').forEach(l=>l.classList.remove('open'));});
-
-// ══ ROUTING via ORS ══
-async function getORSRoute(fc,tc,profile){
-  try{
-    const r=await fetch(`https://api.openrouteservice.org/v2/directions/${profile}/geojson`,{
-      method:'POST',
-      headers:{'Content-Type':'application/json','Authorization':ORS_KEY},
-      body:JSON.stringify({coordinates:[fc,tc],alternative_routes:{target_count:3,weight_factor:1.4,share_factor:0.6},units:'km',language:'en'})
-    });
-    if(!r.ok)return null;
-    return await r.json();
-  }catch{return null;}
-}
-
-// ══ WEATHER ══
-async function fetchWX(){
-  try{
-    const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=12.9716&longitude=77.5946&current=temperature_2m,weather_code,precipitation&timezone=Asia/Kolkata');
-    const d=await r.json();const c=d.current;
-    wx={temp:Math.round(c.temperature_2m),precip:c.precipitation||0,code:c.weather_code};
-    const ico=wx.precip>5?'🌧️':wx.precip>0?'🌦️':[0,1].includes(c.weather_code)?'☀️':'⛅';
-    const desc=wx.precip>0?`RAIN ${wx.precip}mm/hr`:[0,1].includes(c.weather_code)?'CLEAR':'CLOUDY';
-    document.getElementById('wxt').textContent=`${ico} ${wx.temp}°C  ${desc}`;
-    if(wx.precip>3)showAlert(`⚠ RAIN ${wx.precip}mm/hr — Waterlogging risk: Bellandur / Varthur / Hebbal. Add 20–35 min to estimates.`);
-  }catch{document.getElementById('wxt').textContent='☀️ BLR';}
-}
-
-// ══ TRAFFIC MULTIPLIER ══
-function getMult(forTime){
-  const now=forTime||new Date();
-  const h=now.getHours()+now.getMinutes()/60,day=now.getDay();
-  const dm=DM[day]||1;
-  let tm=1;
-  if(h>=8&&h<11)tm=1+1.5*Math.sin(Math.PI*(h-8)/3);
-  else if(h>=17&&h<21)tm=1+1.4*Math.sin(Math.PI*(h-17)/4);
-  else if(h>=7&&h<8)tm=1.2;else if(h>=11&&h<13)tm=1.1;
-  let rm=1;
-  if(wx){if(wx.precip>10)rm=1.5;else if(wx.precip>5)rm=1.3;else if(wx.precip>0)rm=1.15;}
-  return{total:dm*tm*rm,time:tm,day:dm,rain:rm};
-}
-
-function getSig(m){
-  const t=m.total;
-  if(t<1.2)return{cls:'go',word:'CLEAR',sub:'Traffic is light right now. Good time to depart.'};
-  if(t<1.6)return{cls:'warn',word:'CAUTION',sub:'Congestion is building. Leave within 20 minutes for lighter traffic.'};
-  if(t<2.2)return{cls:'bad',word:'DANGER',sub:'Heavy congestion on this corridor. Consider waiting 30–45 minutes.'};
-  return{cls:'bad',word:'GRIDLOCK',sub:`Severe peak traffic${new Date().getDay()===3?' — Wednesday is the worst traffic day of the week':''}.`};
-}
-
-// Confidence = probability of arriving within the estimated window
-// Based on TomTom accuracy data + corridor pattern reliability
-function getConf(m,v,routeType){
-  const baseAcc=v==='bike'?84:76; // bikes more predictable in traffic
-  const routePenalty=routeType==='alt1'?7:routeType==='alt2'?14:0;
-  const rainPenalty=wx&&wx.precip>0?Math.min(15,wx.precip*2):0;
-  const dayPenalty=new Date().getDay()===3?8:0; // Wednesday worst
-  return Math.max(22,Math.min(96,Math.round(baseAcc/m.total - routePenalty - rainPenalty - dayPenalty)));
-}
-
-function confLabel(conf){
-  if(conf>=85)return'VERY HIGH';
-  if(conf>=70)return'HIGH';
-  if(conf>=55)return'MODERATE';
-  if(conf>=40)return'LOW';
-  return'UNCERTAIN';
-}
-
-function confExplain(conf,adjMin){
-  const margin=Math.round(adjMin*((100-conf)/100)*0.8);
-  if(conf>=80)return`<strong>${conf}% means:</strong> Based on current traffic patterns and historical data for this corridor and time, there is an ${conf}% probability you will arrive within the estimated ${adjMin}-minute window — or within ${margin} minutes of it. High reliability right now.`;
-  if(conf>=60)return`<strong>${conf}% means:</strong> There is a ${conf}% chance you arrive within the ${adjMin}-minute estimate. Traffic conditions are variable — add ${margin} minutes as a buffer when booking meetings.`;
-  return`<strong>${conf}% means:</strong> Only a ${conf}% chance of arriving in ${adjMin} minutes. Peak congestion makes timing unpredictable. Add ${margin}+ minutes to any hard deadline and consider departing later.`;
-}
-
-function detectCor(fval,tval){
-  const t=((fval||'')+' '+(tval||'')).toLowerCase();
-  if(t.includes('whitefield')||t.includes('varthur')||t.includes('itpl')||t.includes('brookefield'))return'wf';
-  if(t.includes('electronic')||t.includes('hosur')||t.includes('bommasandra')||t.includes('chandapura'))return'ec';
-  if(t.includes('hebbal')||t.includes('manyata')||t.includes('kirloskar')||t.includes('yelahanka'))return'hbl';
-  return'orr';
-}
-
-// ══ PLAN ROUTE ══
-async function planRoute(){
-  const fv=document.getElementById('fi').value.trim();
-  const tv=document.getElementById('ti').value.trim();
-  if(!fv||!tv){showNotif('INPUT REQUIRED','Enter both start and end point.');return;}
-
-  const btn=document.getElementById('eb');
-  btn.classList.add('busy');btn.textContent='⚡ SCANNING...';btn.disabled=true;
-
-  // Geocode if not already done via autocomplete
-  if(!fc)fc=await geocode(fv);
-  if(!tc)tc=await geocode(tv);
-
-  if(!fc||!tc){
-    showNotif('LOCATION ERROR','Could not find one or both locations. Select from dropdown.');
-    btn.classList.remove('busy');btn.textContent='⚡ EXECUTE ROUTE SCAN';btn.disabled=false;return;
+// True Road Routing via OSRM Live Engine
+async function executeRoadRoute(){
+  const fv = document.getElementById('fi').value.trim();
+  const tv = document.getElementById('ti').value.trim();
+  if(!fv || !tv || !fc || !tc){
+    alert("Please select both start and end locations from the suggestions dropdown.");
+    return;
   }
 
-  const ck=detectCor(fv,tv);
-  const cor=COR[ck];
+  const btn = document.getElementById('eb');
+  btn.classList.add('busy');
+  btn.textContent = "CALCULATING ROAD PATH...";
 
-  // Get scheduled time if applicable
-  let departTime=new Date();
-  if(departMode==='later'||departMode==='arrive'){
-    const st=document.getElementById('st').value;
-    if(st)departTime=new Date(st);
+  // Select road profile: bike uses bicycle/car network, car/cab uses driving
+  const profile = (vehicle === 'bike') ? 'bike' : 'driving';
+  const osrmUrl = `https://router.project-osrm.org/route/v1/${profile}/${fc[0]},${fc[1]};${tc[0]},${tc[1]}?overview=full&geometries=geojson&alternatives=true`;
+
+  try {
+    const res = await fetch(osrmUrl);
+    const data = await res.json();
+    btn.classList.remove('busy');
+    btn.textContent = "⚡ CALCULATE ROAD ROUTE";
+
+    if(!data.routes || !data.routes.length){
+      alert("Could not compute road navigation between these points.");
+      return;
+    }
+
+    renderRoadResults(data.routes);
+  } catch(e) {
+    btn.classList.remove('busy');
+    btn.textContent = "⚡ CALCULATE ROAD ROUTE";
+    alert("Navigation API timeout. Please re-try.");
   }
-  const m=getMult(departTime);
-  const sig=getSig(m);
+}
 
-  // Try real ORS routing
-  const profile=vehicle==='bike'?'cycling-regular':'driving-car';
-  let routes=[];
-  const orsData=await getORSRoute(fc,tc,profile);
+function renderRoadResults(routes){
+  routeLayers.forEach(l => map.removeLayer(l));
+  routeLayers = [];
 
-  // Clear old route layers
-  routeLayers.forEach(l=>{try{map.removeLayer(l)}catch{}});routeLayers=[];
+  const corKey = document.getElementById('cor-picker').value;
+  const activeCor = corKey !== 'auto' ? CORRIDORS[corKey] : CORRIDORS.orr;
 
-  if(orsData&&orsData.features&&orsData.features.length){
-    const cols=['#39ff14','#ffb300','#ff2442'];
-    const names=['OPTIMAL ROUTE','ALT ROUTE A','ALT ROUTE B'];
-    const types=['main','alt1','alt2'];
-    orsData.features.forEach((feat,i)=>{
-      const coords=feat.geometry.coordinates.map(c=>[c[1],c[0]]);
-      const sum=feat.properties.summary;
-      const distKm=Math.round(sum.distance*10)/10; // already in km from ORS
-      const freeMin=Math.round(sum.duration/60); // free-flow seconds→minutes
-      const adjMin=Math.round(freeMin*m.total);
-      const conf=getConf(m,vehicle,types[i]);
-      const poly=L.polyline(coords,{color:cols[i],weight:i===0?5:2.5,opacity:i===0?.9:.4,dashArray:i===0?null:'8,5'}).addTo(map);
-      routeLayers.push(poly);
-      routes.push({name:names[i],tag:i===0?'tbest':i===1?'talt':'talt2',col:cols[i],distKm,freeMin,adjMin,conf,type:types[i],i});
-    });
-    // Fit map to first route
-    map.fitBounds(routeLayers[0].getBounds(),{padding:[80,80],animate:true,duration:1});
-    // Mid-route label
-    const r0=orsData.features[0];
-    const midIdx=Math.floor(r0.geometry.coordinates.length/2);
-    const midPt=r0.geometry.coordinates[midIdx];
-    const distLbl=L.divIcon({html:`<div style="background:rgba(0,8,3,.9);border:1px solid rgba(57,255,20,.4);padding:4px 9px;font-family:Orbitron,sans-serif;font-size:9px;color:#39ff14;letter-spacing:1px;white-space:nowrap">${routes[0].adjMin} MIN · ${routes[0].distKm} KM</div>`,className:'',iconAnchor:[50,10]});
-    const dlm=L.marker([midPt[1],midPt[0]],{icon:distLbl}).addTo(map);
-    routeLayers.push(dlm);
-  } else {
-    // Fallback: straight-line haversine distance
-    const dist=parseFloat(haversine(fc[1],fc[0],tc[1],tc[0]).replace('km','').replace('m',''))||cor.lat;
-    const distKm=typeof dist==='number'&&dist>0?dist:cor.lat;
-    const spd=vehicle==='bike'?cor.bikeFree:cor.carFree;
-    const freeMin=Math.round((distKm/spd)*60);
-    const adjMin=Math.round(freeMin*m.total);
-    const conf=getConf(m,vehicle,'main');
-    const line=L.polyline([[fc[1],fc[0]],[tc[1],tc[0]]],{color:'#39ff14',weight:4,opacity:.8,dashArray:'10,5'}).addTo(map);
-    routeLayers.push(line);
-    map.fitBounds([[fc[1],fc[0]],[tc[1],tc[0]]],{padding:[80,80],animate:true,duration:1});
-    routes=[{name:'ESTIMATED ROUTE',tag:'tbest',col:'#39ff14',distKm,freeMin,adjMin,conf,type:'main',i:0}];
-    showNotif('ROUTING NOTE','Using distance estimate — API limit reached. Data is directionally accurate.');
-  }
+  // Traffic multiplier based on current Bangalore hour
+  const hour = new Date().getHours();
+  const isPeak = (hour >= 8 && hour <= 11) || (hour >= 17 && hour <= 20.5);
+  const trafficMultiplier = isPeak ? (vehicle==='bike'? 1.45 : 1.95) : 1.15;
 
-  // Add congestion label near corridor choke
-  const chokeIcon=L.divIcon({html:`<div style="background:rgba(255,36,66,.15);border:1px solid rgba(255,36,66,.4);padding:5px 9px;font-family:Orbitron,sans-serif;font-size:8px;color:#ff2442;letter-spacing:1px;line-height:1.5;max-width:140px">${cor.chokes[0]?.n||'CONGESTION'}<br>${cor.chokes[0]?.d||'+20 min'}</div>`,className:'',iconAnchor:[70,10]});
-  const cl2=L.marker([cor.lat,cor.lng],{icon:chokeIcon}).addTo(map);
-  routeLayers.push(cl2);
+  const container = document.getElementById('ro');
+  container.innerHTML = '';
 
-  const bestRoute=routes[0];
-  const rc=bestRoute.conf>=75?'var(--neon)':bestRoute.conf>=55?'var(--amber)':'var(--red)';
+  routes.forEach((rt, idx) => {
+    const distKm = (rt.distance / 1000).toFixed(1);
+    const freeMinutes = Math.round(rt.duration / 60);
+    // Real traffic adjusted minutes
+    let adjustedMinutes = Math.round(freeMinutes * trafficMultiplier);
+    if(vehicle === 'cab') adjustedMinutes += 8; // add realistic cab hail & pickup wait
 
-  // Signal
-  document.getElementById('sb').innerHTML=`<div class="sigb ${sig.cls}"><div class="sigw">${sig.word}</div><div class="sigs">${sig.sub}</div></div>`;
+    const color = idx === 0 ? '#39ff14' : (idx === 1 ? '#ffb300' : '#00f5ff');
 
-  // Confidence ring
-  const DL=175.9;
-  document.getElementById('cp').textContent=bestRoute.conf+'%';document.getElementById('cp').style.color=rc;
-  document.getElementById('cr').style.strokeDashoffset=DL-DL*bestRoute.conf/100;document.getElementById('cr').style.stroke=rc;
-  document.getElementById('cv').style.color=rc;document.getElementById('cv').textContent=confLabel(bestRoute.conf)+' CONFIDENCE';
-  document.getElementById('cd2').textContent=`${DAYSF[departTime.getDay()]} traffic · ${cor.name} · ${vehicle.toUpperCase()}`;
-  document.getElementById('confdef').innerHTML=confExplain(bestRoute.conf,bestRoute.adjMin);
+    // Draw genuine road polyline
+    const poly = L.geoJSON(rt.geometry, {
+      style: { color, weight: idx === 0 ? 5 : 3, opacity: idx === 0 ? 0.9 : 0.45 }
+    }).addTo(map);
+    routeLayers.push(poly);
 
-  // Weather impact
-  if(wx&&wx.precip>0){const del=wx.precip>10?'30–45 MIN':wx.precip>5?'20–30 MIN':'10–15 MIN';document.getElementById('wi').innerHTML=`<div class="wxchip">🌧 RAIN ${wx.precip}mm/hr  ·  ADDING ${del}  ·  WATERLOGGING RISK</div>`;}
-  else document.getElementById('wi').innerHTML='';
+    if(idx === 0) {
+      map.fitBounds(poly.getBounds(), { padding: [50, 50] });
+      document.getElementById('htl').style.display = 'block';
+      document.getElementById('hud-eta').textContent = `${adjustedMinutes} MIN`;
+      document.getElementById('hud-sub').textContent = `${distKm} km road via ${activeCor.short}`;
+    }
 
-  // Route cards
-  document.getElementById('ro').innerHTML=routes.map((r,i)=>`
-    <div class="rc ${i===0?'sel':''}" style="--rcol:${r.col}" onclick="selR(${i})">
-      <div class="rct">
-        <div class="rcn" style="color:${r.col}">${r.name}</div>
-        <span class="rtag ${r.tag}">${r.tag==='tbest'?'FASTEST':r.tag==='talt'?'ALTERNATE':'ALT-B'}</span>
+    container.innerHTML += `
+      <div class="rc ${idx===0?'sel':''}" style="--rcol:${color}" onclick="selectRouteIndex(${idx})">
+        <div class="rct">
+          <div class="rcn" style="color:${color}">${idx===0?'TACTICAL OPTIMAL ROUTE':'ALTERNATE ROUTE '+idx}</div>
+          <span style="font-size:10px;font-family:'Share Tech Mono';color:var(--neon)">${vehicle.toUpperCase()}</span>
+        </div>
+        <div class="rst">
+          <div><strong>${adjustedMinutes} min</strong> (with traffic)</div>
+          <div><strong>${distKm} km</strong> road</div>
+          <div>${freeMinutes}m clean</div>
+        </div>
       </div>
-      <div class="rst">
-        <div><strong>${r.adjMin} min</strong> in traffic</div>
-        <div><strong>${r.distKm} km</strong></div>
-        <div><strong>${r.freeMin} min</strong> free flow</div>
+    `;
+  });
+
+  // Render chokepoint warnings
+  document.getElementById('chokes').innerHTML = activeCor.chokes.map(c => `
+    <div style="display:flex;justify-content:space-between;padding:8px 10px;background:rgba(255,36,66,.08);border-left:3px solid var(--red);margin-bottom:4px;font-size:13px">
+      <span>⚠ ${c}</span>
+      <span style="color:var(--red);font-family:'Share Tech Mono'">CRITICAL DELAY ZONE</span>
+    </div>
+  `).join('');
+
+  document.getElementById('rr').style.display = 'block';
+}
+
+function selectRouteIndex(idx){
+  document.querySelectorAll('.rc').forEach((el, i) => el.classList.toggle('sel', i === idx));
+  routeLayers.forEach((l, i) => {
+    if(l.setStyle) l.setStyle({ opacity: i === idx ? 0.9 : 0.35, weight: i === idx ? 5 : 3 });
+  });
+}
+
+function sv(v, el){
+  vehicle = v;
+  document.querySelectorAll('.vb').forEach(b => b.classList.remove('active'));
+  el.classList.add('active');
+  if(fc && tc) executeRoadRoute();
+}
+
+function gp(name, el){
+  document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
+  document.querySelectorAll('.np').forEach(p => p.classList.remove('active'));
+  document.getElementById('panel-' + name).classList.add('active');
+  if(el) el.classList.add('active');
+  if(name === 'corridor') renderCorridorsPanel();
+  if(name === 'week') renderWeeklyPlanner();
+}
+
+function renderCorridorsPanel(){
+  document.getElementById('cor-list').innerHTML = Object.entries(CORRIDORS).map(([k, c]) => `
+    <div style="padding:12px;border:1px solid var(--brd2);background:rgba(0,0,0,.4);margin-bottom:8px;border-left:3px solid var(--neon)">
+      <div style="font-family:'Orbitron';font-size:12px;font-weight:700;color:var(--neon);margin-bottom:6px">${c.name}</div>
+      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:13px;color:var(--tdim)">
+        <div>Peak Avg: <b style="color:var(--red)">${c.peakSpeed} km/h</b></div>
+        <div>Off-Peak: <b style="color:var(--neon)">${c.freeSpeed} km/h</b></div>
       </div>
-      <div class="rco" style="color:${r.conf>=75?'var(--neon)':r.conf>=55?'var(--amber)':'var(--red)'}">
-        ◆ ${r.conf}% CONFIDENCE — ${confLabel(r.conf)} · ±${Math.round(r.adjMin*((100-r.conf)/100)*.8)} min margin
+      <div style="font-size:11px;color:var(--tmut);margin-top:6px">Chokepoints: ${c.chokes.join(', ')}</div>
+    </div>
+  `).join('');
+}
+
+function renderWeeklyPlanner(){
+  const days = [
+    { day: "Monday", peak: "Heavy Morning", bestDep: "Before 7:45 AM", returnSlot: "After 8:30 PM", risk: "warn" },
+    { day: "Tuesday", peak: "Steady Rush", bestDep: "Before 8:00 AM", returnSlot: "4:15 PM or after 8:15 PM", risk: "go" },
+    { day: "Wednesday", peak: "Highest Peak of Week (13.2 km/h avg)", bestDep: "Before 7:30 AM", returnSlot: "Post 9:00 PM only", risk: "peak" },
+    { day: "Thursday", peak: "Heavy Evening Surge", bestDep: "Before 7:50 AM", returnSlot: "Before 4:30 PM", risk: "warn" },
+    { day: "Friday", peak: "Mass Exodus to Exits/Airports", bestDep: "Before 8:00 AM", returnSlot: "Leave by 3:45 PM or stay till 9:30 PM", risk: "peak" }
+  ];
+
+  document.getElementById('wk-plan').innerHTML = days.map(d => `
+    <div class="wk-card ${d.risk==='peak'?'peak':''}">
+      <div class="wk-head">
+        <span>${d.day.toUpperCase()}</span>
+        <span style="color:${d.risk==='peak'?'var(--red)':'var(--amber)'}">${d.peak}</span>
       </div>
-    </div>`).join('');
-
-  // Stats — show real speeds for selected vehicle
-  const spd=vehicle==='bike'?Math.round(cor.bikePeak/m.time):Math.round(cor.carPeak/m.time);
-  const spdFree=vehicle==='bike'?cor.bikeFree:cor.carFree;
-  document.getElementById('sg').innerHTML=`
-    <div class="dc" style="--dc:${rc}"><div class="dv" style="color:${rc}">${spd}</div><div class="dl">${vehicle.toUpperCase()}<br>km/h NOW</div></div>
-    <div class="dc" style="--dc:var(--neon)"><div class="dv" style="color:var(--neon)">${spdFree}</div><div class="dl">${vehicle.toUpperCase()}<br>FREE FLOW</div></div>
-    <div class="dc" style="--dc:var(--amber)"><div class="dv" style="color:var(--amber)">${Math.round(m.total*100-100)}<span style="font-size:11px">%</span></div><div class="dl">SLOWDOWN<br>vs FREE</div></div>`;
-
-  // Chokepoints
-  document.getElementById('cl').innerHTML=cor.chokes.map(c=>`<div class="chi ${c.s}"><div class="chn">${c.n}</div><div class="chd">${c.d}</div></div>`).join('');
-
-  // Time breakdown
-  const drv=bestRoute.adjMin,walk=2,setup=3,park=vehicle==='bike'?1:5,lift=vehicle==='bike'?0:3;
-  const total=walk+setup+drv+park+lift,buf=Math.ceil(total*.14);
-  document.getElementById('bk').innerHTML=`
-    <div class="bkr"><div class="bki">🚶</div><div style="flex:1"><div class="bkn">Point A → Vehicle</div><div class="bks">Walk to your vehicle</div></div><div class="bkv">${walk}m</div></div>
-    <div class="bkr"><div class="bki">⚙️</div><div style="flex:1"><div class="bkn">Vehicle Setup</div><div class="bks">Start, gear, navigate</div></div><div class="bkv">${setup}m</div></div>
-    <div class="bkr"><div class="bki">${vehicle==='bike'?'🏍️':'🚗'}</div><div style="flex:1"><div class="bkn">Journey — ${bestRoute.distKm} km</div><div class="bks">With current traffic on ${cor.short}</div></div><div class="bkv" style="color:${rc}">${drv}m</div></div>
-    ${vehicle!=='bike'?`<div class="bkr"><div class="bki">🅿️</div><div style="flex:1"><div class="bkn">Parking → Entrance</div><div class="bks">Park and walk to building</div></div><div class="bkv">${park}m</div></div>
-    <div class="bkr"><div class="bki">🛗</div><div style="flex:1"><div class="bkn">Lift + Floor Walk</div><div class="bks">Elevator + reaching desk</div></div><div class="bkv">${lift}m</div></div>`:''}
-    <div class="totr"><div><div class="totl">TOTAL POINT-TO-POINT</div><div class="tots">Add ${buf} min safety buffer</div></div><div class="totv">${total} MIN</div></div>
-    <div class="lby">◆ TO ARRIVE BY 9:00 AM → LEAVE BY ${leaveby(540,total+buf)}<br>◆ TO ARRIVE BY 10:00 AM → LEAVE BY ${leaveby(600,total+buf)}</div>`;
-
-  // Return preview
-  document.getElementById('rp').innerHTML=`
-    <div style="font-size:13px;color:var(--tdim);margin-bottom:12px;line-height:1.6">Return journey windows for <strong style="color:var(--neon)">${cor.name}</strong>. Evening rush is consistently worse than morning.</div>
-    <div class="retr go"><div class="rtt">BEFORE 4:30 PM</div><div class="rtl">BEST — CLEAR</div></div>
-    <div class="retr bad"><div class="rtt">4:30 PM — 8:30 PM</div><div class="rtl">AVOID — PEAK</div></div>
-    <div class="retr warn"><div class="rtt">8:30 PM — 9:30 PM</div><div class="rtl">MODERATE — CLEARING</div></div>
-    <div class="retr go"><div class="rtt">AFTER 9:30 PM</div><div class="rtl">CLEAR</div></div>`;
-
-  // Drive panel
-  document.getElementById('dc').innerHTML=`
-    <div class="sigb ${sig.cls}" style="padding:15px 18px;margin-bottom:12px"><div class="sigw" style="font-size:24px">${sig.word}</div><div class="sigs">${sig.sub}</div></div>
-    ${cor.chokes.filter(c=>c.s==='red').map(c=>`<div class="chi red" style="margin-bottom:5px"><div class="chn">⚠ AHEAD: ${c.n}</div><div class="chd">${c.d}</div></div>`).join('')}
-    <a href="https://maps.google.com/?saddr=${encodeURIComponent(fv)}&daddr=${encodeURIComponent(tv)}" target="_blank"
-       style="display:block;margin-top:14px;padding:13px 15px;border:1px solid var(--neon);text-decoration:none;font-family:Orbitron,sans-serif;font-size:10px;letter-spacing:2px;color:var(--neon);text-align:center;background:var(--neon-dim)">
-      OPEN GOOGLE MAPS FOR TURN-BY-TURN →
-    </a>`;
-
-  // Map HUD
-  document.getElementById('htl').style.display='block';
-  document.getElementById('htime').textContent=bestRoute.adjMin+' MIN';document.getElementById('htime').style.color=rc;
-  document.getElementById('hsub').textContent=bestRoute.distKm+' km · '+cor.short;
-  document.getElementById('htr').style.display='block';
-  document.getElementById('hspd').innerHTML=`${vehicle.toUpperCase()}: <span style="color:${rc}">${spd} km/h</span> now<br>FREE: <span style="color:var(--neon)">${spdFree} km/h</span><br>SLOWDOWN: <span style="color:var(--amber)">${Math.round(m.total*100-100)}%</span>`;
-
-  document.getElementById('rr').style.display='block';document.getElementById('es').style.display='none';
-  if(sig.cls==='bad')showAlert(`⚠ ${sig.word} on ${cor.name} — ${sig.sub}`);
-  showNotif('ROUTE COMPUTED',`${bestRoute.conf}% confidence · ${bestRoute.adjMin} min · ${bestRoute.distKm} km`);
-  btn.classList.remove('busy');btn.textContent='⚡ RECALCULATE';btn.disabled=false;
-}
-
-async function geocode(q){
-  const results=await nomSearch(q+' Bengaluru',false);
-  if(results.length)return[parseFloat(results[0].lon),parseFloat(results[0].lat)];
-  return null;
-}
-
-function leaveby(arrM,jM){const lm=arrM-jM;const h=Math.floor(lm/60),mn=lm%60;const h12=h>12?h-12:h===0?12:h;return`${h12}:${mn.toString().padStart(2,'0')} ${h>=12?'PM':'AM'}`;}
-function selR(i){document.querySelectorAll('.rc').forEach((c,j)=>{c.classList.toggle('sel',j===i);if(routeLayers[j]&&routeLayers[j].setStyle)routeLayers[j].setStyle({opacity:j===i?.9:.35,weight:j===i?5:2.5});});}
-
-// ══ CORRIDORS ══
-function renderCor(){
-  const m=getMult(),sig=getSig(m);
-  document.getElementById('cc').innerHTML=Object.entries(COR).map(([k,c])=>{
-    const cn=Math.round(c.carPeak/m.time),bn=Math.round(c.bikePeak/m.time);
-    const sc=sig.cls==='go'?'rgba(57,255,20,.14)':sig.cls==='warn'?'rgba(255,179,0,.14)':'rgba(255,36,66,.14)';
-    const tc2=sig.cls==='go'?'var(--neon)':sig.cls==='warn'?'var(--amber)':'var(--red)';
-    return`<div class="ccc" style="--cc:${c.color}" onclick="map.flyTo([${c.lat},${c.lng}],13,{animate:true,duration:1})">
-      <div class="cch"><div class="ccn">${c.name}</div><span class="ccs" style="background:${sc};color:${tc2}">${sig.word}</span></div>
-      <div class="dg2">
-        <div class="dc" style="--dc:${c.color}"><div class="dv" style="color:${c.color}">${cn}</div><div class="dl">CAR km/h NOW</div></div>
-        <div class="dc" style="--dc:var(--amber)"><div class="dv" style="color:var(--amber)">${bn}</div><div class="dl">BIKE km/h NOW</div></div>
-        <div class="dc" style="--dc:var(--tmut)"><div class="dv" style="color:var(--tmut)">${c.len}</div><div class="dl">KM TOTAL</div></div>
+      <div class="wk-body">
+        ◆ <b>Safe Morning Departure:</b> ${d.bestDep}<br>
+        ◆ <b>Safe Evening Desk Exit:</b> ${d.returnSlot}
       </div>
-      <div class="ccn2">👥 ${c.emp}  ·  ${c.parks} TECH PARKS<br>✅ BEST: ${c.bestM}</div>
-    </div>`;
-  }).join('');
-  document.getElementById('pl').innerHTML=PKS.map(p=>{
-    const col=p.d==='high'?'#ff2442':p.d==='med'?'#ffb300':'#39ff14';
-    return`<div class="pkitem" onclick="map.flyTo([${p.lat},${p.lng}],15,{animate:true,duration:1})">
-      <div class="pkd" style="background:${col};box-shadow:0 0 7px ${col}"></div>
-      <div style="flex:1"><div class="pkn">${p.n}</div><div class="pkm">${p.emp} emp · ${p.cos} cos · ${COR[p.c].short}</div></div>
-      <span class="pkt" style="background:${col}22;color:${col};border:1px solid ${col}44">${p.d.toUpperCase()}</span>
-    </div>`;
-  }).join('');
+    </div>
+  `).join('');
 }
 
-// ══ WEEK ══
-function renderWeek(){
-  const today=new Date();let html='';
-  for(let i=0;i<7;i++){const d=new Date(today);d.setDate(today.getDate()-today.getDay()+i);const isToday=d.toDateString()===today.toDateString();const sig=(DM[i]||1)<1.2?'🟢':(DM[i]||1)<1.35?'🟡':'🔴';html+=`<div class="wdy ${isToday?'today':''}" onclick="showDay(${i},${d.getDate()})"><div class="wdn">${DAYS[i]}</div><div class="wdd" style="color:${isToday?'var(--neon)':'var(--txt)'}">${d.getDate()}</div><div class="wds">${sig}</div></div>`;}
-  document.getElementById('wg').innerHTML=html;showDay(today.getDay(),today.getDate());
-}
-function showDay(di,date){
-  document.querySelectorAll('.wdy').forEach((w,i)=>w.classList.toggle('sel',i===di));
-  const slots=di===3?[{t:'Before 7:30am',cls:'go',l:'OPTIMAL'},{t:'7:30–8:00am',cls:'warn',l:'MODERATE'},{t:'8:00–11:30am',cls:'bad',l:'SEVERE PEAK — WEDNESDAY'},{t:'11:30am–4:30pm',cls:'go',l:'CLEAR'},{t:'4:30–9:30pm',cls:'bad',l:'SEVERE EVENING PEAK'},{t:'After 9:30pm',cls:'go',l:'CLEAR'}]
-    :di===0||di===6?[{t:'Before 10:00am',cls:'go',l:'CLEAR'},{t:'10:00am–2:30pm',cls:'warn',l:'WEEKEND MIDDAY PEAK'},{t:'2:30–5:00pm',cls:'go',l:'MODERATE'},{t:'5:00–8:30pm',cls:'warn',l:'EVENING MODERATE'},{t:'After 8:30pm',cls:'go',l:'CLEAR'}]
-    :[{t:'Before 7:30am',cls:'go',l:'BEST WINDOW'},{t:'7:30–8:00am',cls:'warn',l:'MODERATE'},{t:'8:00–11:00am',cls:'bad',l:'PEAK — AVOID'},{t:'11:00am–4:30pm',cls:'go',l:'CLEAR'},{t:'4:30–9:00pm',cls:'bad',l:'EVENING PEAK — AVOID'},{t:'After 9:00pm',cls:'go',l:'CLEARING'}];
-  document.getElementById('wd').innerHTML=`<div style="font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:var(--neon);padding:12px 0 10px;letter-spacing:1px">${DAYSF[di].toUpperCase()} ${date}${di===3?' <span style="color:var(--red);font-size:9px">— WORST TRAFFIC DAY</span>':''}</div>`+slots.map(s=>`<div class="tsl ${s.cls}"><div class="tst">${s.t}</div><div class="tsl2">${s.l}</div></div>`).join('');
-}
-
-// ══ RETURN ══
-function renderReturn(){
-  document.getElementById('rf').innerHTML=Object.entries(COR).map(([k,c])=>`
-    <div style="padding:14px 15px;border:1px solid var(--brd2);margin-bottom:9px;border-left:3px solid ${c.color};background:rgba(0,0,0,.4)">
-      <div style="font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;color:${c.color};margin-bottom:10px;letter-spacing:1px">${c.name}</div>
-      <div class="retr go"><div class="rtt">BEFORE 4:30 PM</div><div class="rtl">OPTIMAL — ${c.carFree} km/h car</div></div>
-      <div class="retr bad"><div class="rtt">4:30 PM — 9:00 PM</div><div class="rtl">AVOID — ${c.carPeak} km/h car</div></div>
-      <div class="retr go"><div class="rtt">AFTER 9:00 PM</div><div class="rtl">CLEAR</div></div>
-      <div style="font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut);margin-top:7px">${c.bestE}</div>
-    </div>`).join('')+`<div style="padding:11px 14px;border:1px solid rgba(57,255,20,.2);background:rgba(57,255,20,.04);font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--neon);line-height:1.8">◆ TOMTOM 2025: EVENING 13.2 km/h vs MORNING 14.6 km/h<br>◆ RETURN JOURNEY IS CONSISTENTLY WORSE</div>`;
-}
-
-// ══ UI ══
-function gp(name,el){document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));document.querySelectorAll('.np').forEach(p=>p.classList.remove('active'));document.getElementById('panel-'+name).classList.add('active');if(el)el.classList.add('active');if(name==='corridor')renderCor();if(name==='week')renderWeek();if(name==='return')renderReturn();}
-function gs(name,el){['bk','ret','smart'].forEach(s=>{const e=document.getElementById('sub-'+s);if(e)e.style.display=s===name?'block':'none';});document.querySelectorAll('.stb').forEach(t=>t.classList.remove('active'));if(el)el.classList.add('active');}
-function sv(v,el){vehicle=v;document.querySelectorAll('.vb').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
-function sd(m,el){departMode=m;document.querySelectorAll('.db').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById('tw').style.display=m!=='now'?'block':'none';}
-function showNotif(title,body){const n=document.getElementById('nf');document.getElementById('nt').textContent=title;document.getElementById('nb').textContent=body;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),4500);}
-function showAlert(txt){document.getElementById('at').textContent=txt;document.getElementById('ab').classList.add('show');setTimeout(()=>document.getElementById('ab').classList.remove('show'),9000);}
-function updateClock(){const n=new Date();document.getElementById('clk').textContent=n.getHours().toString().padStart(2,'0')+':'+n.getMinutes().toString().padStart(2,'0')+':'+n.getSeconds().toString().padStart(2,'0');}
-
-// ══ LOADING ══
-const LSTEPS=['INITIALISING SYSTEMS...','CONNECTING MAP SERVICES...','LOADING CORRIDOR DATABASE...','CALIBRATING WEATHER SENSORS...','SYSTEM ONLINE — READY'];
-let li=0;function sl2(){const e=document.getElementById('lst');if(e&&li<LSTEPS.length){e.textContent=LSTEPS[li++];setTimeout(sl2,320);}}
-
-window.addEventListener('load',async()=>{
-  sl2();
-  await new Promise(r=>setTimeout(r,2100));
+window.addEventListener('load', ()=>{
   initMap();
-  await fetchWX();
-  updateClock();setInterval(updateClock,1000);
-  setInterval(async()=>{await fetchWX();},15*60*1000);
-  const t=new Date(Date.now()+30*60000);document.getElementById('st').value=t.toISOString().slice(0,16);
-  if(navigator.geolocation){navigator.geolocation.getCurrentPosition(pos=>{
-    map.flyTo([pos.coords.latitude,pos.coords.longitude],13,{animate:true,duration:1.2});
-    const myIco=L.divIcon({html:'<div style="font-size:20px;filter:drop-shadow(0 0 8px #39ff14)">🎯</div>',className:'',iconSize:[24,24],iconAnchor:[12,12]});
-    L.marker([pos.coords.latitude,pos.coords.longitude],{icon:myIco}).addTo(map).bindPopup('<div class="popup-nm">◆ YOUR CURRENT LOCATION</div>');
-  },()=>{});}
-  document.getElementById('ls').classList.add('gone');
-  setTimeout(()=>document.getElementById('ls').style.display='none',700);
-  showNotif('SYSTEM ONLINE','Start typing your location in the search box. Select from dropdown.');
+  setInterval(()=>{
+    const d = new Date();
+    document.getElementById('clk').textContent = d.toTimeString().split(' ')[0];
+  }, 1000);
 });
 </script>
 </body>
