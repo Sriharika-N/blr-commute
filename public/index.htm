@@ -1,59 +1,270 @@
-async function saveWeekRadar() {
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLR Commute Radar — WhatsApp Traffic Engine</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#070b09;--card:#0f1713;--card-inner:#141f1a;--border:rgba(255,255,255,0.08);
+  --border-focus:rgba(16,185,129,0.5);--accent:#10b981;--accent-glow:rgba(16,185,129,0.25);
+  --txt:#f9fafb;--txt-muted:#9ca3af;--font:'Plus Jakarta Sans',sans-serif;
+}
+body{background:var(--bg);color:var(--txt);font-family:var(--font);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px 16px}
+.container{width:100%;max-width:480px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:26px;box-shadow:0 16px 40px rgba(0,0,0,0.6)}
+.badge{display:inline-block;padding:4px 10px;background:rgba(16,185,129,0.12);color:var(--accent);border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.5px;margin-bottom:8px}
+h1{font-size:22px;font-weight:800;letter-spacing:-0.4px;margin-bottom:4px}
+p{font-size:13px;color:var(--txt-muted);line-height:1.5;margin-bottom:18px}
+
+.field{margin-bottom:14px;position:relative}
+label{display:block;font-size:11px;font-weight:700;color:var(--txt-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.input-box{position:relative}
+input, select{width:100%;padding:12px 14px;background:#090f0c;border:1px solid var(--border);border-radius:10px;color:#fff;font-family:inherit;font-size:14px;outline:none;transition:all 0.15s}
+input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* DAY TABS */
+.day-tabs{display:flex;gap:4px;margin:12px 0;background:#090f0c;padding:4px;border-radius:10px;border:1px solid var(--border)}
+.d-tab{flex:1;padding:8px 0;font-size:11px;font-weight:700;text-align:center;border-radius:6px;cursor:pointer;color:var(--txt-muted);background:transparent;border:none}
+.d-tab.active{background:var(--accent);color:#042f1f}
+.day-card{background:var(--card-inner);border:1px solid var(--border);border-radius:12px;padding:14px;margin-bottom:14px}
+
+.acl{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#0d1612;border:1px solid var(--border-focus);border-radius:10px;max-height:220px;overflow-y:auto;z-index:999;display:none;box-shadow:0 12px 30px rgba(0,0,0,0.85)}
+.acl.open{display:block}
+.aci{padding:12px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.05)}
+.aci:hover{background:rgba(16,185,129,0.12)}
+.aci-name{font-size:13px;font-weight:700;color:#fff}
+.aci-sub{font-size:11px;color:var(--txt-muted);margin-top:2px}
+
+.btn{width:100%;padding:14px;background:var(--accent);color:#022c1d;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;margin-top:6px;transition:all 0.15s}
+.btn:active{transform:scale(0.98)}
+.btn-wa{display:flex;align-items:center;justify-content:center;gap:8px;background:#25D366;color:#042f1f;text-decoration:none;padding:14px;border-radius:10px;font-size:14px;font-weight:800;margin-top:14px}
+.btn-wa:hover{filter:brightness(1.05)}
+
+.card-summary{display:none;text-align:center;padding:10px 0}
+.icon-check{width:48px;height:48px;background:rgba(16,185,129,0.12);color:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px}
+</style>
+</head>
+<body>
+
+<div class="container">
+  <div class="card" id="form-box">
+    <span class="badge">BENGALURU COMMUTE RADAR</span>
+    <h1>Smart Week Commute Planner</h1>
+    <p>Predicts bottleneck surges along your corridor and WhatsApps you the optimal departure window.</p>
+
+    <div class="field">
+      <label>Home Location</label>
+      <div class="input-box">
+        <input id="fi" placeholder="Area, landmark, or apartment..." autocomplete="off" oninput="searchLoc('f')"/>
+        <div class="acl" id="fac"></div>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>Office Destination</label>
+      <div class="input-box">
+        <input id="ti" placeholder="Tech park, office, or building..." autocomplete="off" oninput="searchLoc('t')"/>
+        <div class="acl" id="tac"></div>
+      </div>
+    </div>
+
+    <label>Schedule Per Day</label>
+    <div class="day-tabs">
+      <button class="d-tab active" onclick="setDay('Monday',this)">Mon</button>
+      <button class="d-tab" onclick="setDay('Tuesday',this)">Tue</button>
+      <button class="d-tab" onclick="setDay('Wednesday',this)">Wed</button>
+      <button class="d-tab" onclick="setDay('Thursday',this)">Thu</button>
+      <button class="d-tab" onclick="setDay('Friday',this)">Fri</button>
+    </div>
+
+    <div class="day-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span id="active-day-label" style="font-size:13px;font-weight:800;color:var(--accent)">Monday Schedule</span>
+        <label style="font-size:12px;color:var(--txt-muted);cursor:pointer">
+          <input type="checkbox" id="is-wfh" onchange="toggleWFH()"/> WFH
+        </label>
+      </div>
+      <div class="grid" id="day-time-inputs">
+        <div>
+          <label>Target Arrival</label>
+          <input type="time" id="arrive_time" value="09:30" onchange="updateDay()"/>
+        </div>
+        <div>
+          <label>Evening Return</label>
+          <input type="time" id="return_time" value="18:30" onchange="updateDay()"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="grid">
+      <div class="field">
+        <label>Travel Mode</label>
+        <select id="mode">
+          <option value="car">Car / Cab</option>
+          <option value="bike">Two-Wheeler</option>
+        </select>
+      </div>
+      <div class="field">
+        <label>Your Email</label>
+        <input id="email" placeholder="name@company.com"/>
+      </div>
+    </div>
+
+    <div class="field">
+      <label>WhatsApp Phone (With 91, e.g. 919876543210)</label>
+      <input id="phone" placeholder="91XXXXXXXXXX"/>
+    </div>
+
+    <button class="btn" id="save-btn" onclick="saveCommutePlan()">Save &amp; Connect WhatsApp</button>
+  </div>
+
+  <!-- FINAL STEP: CONNECT VIA WHATSAPP (OPTION 1 INBOUND) -->
+  <div class="card card-summary" id="connect-box">
+    <div class="icon-check">✓</div>
+    <h2>Itinerary Saved!</h2>
+    <p style="margin-top:6px">Tap below to open WhatsApp and send your one-tap registration message. This opens your free 24h alert window.</p>
+    
+    <a href="#" id="wa-link" class="btn-wa" target="_blank">
+      <span>📲 Tap to Connect on WhatsApp</span>
+    </a>
+
+    <p style="font-size:11px;color:var(--txt-muted);font-family:'JetBrains Mono',monospace;margin-top:16px">
+      Or text <b>START BLR RADAR</b> to our official number.
+    </p>
+  </div>
+</div>
+
+<script>
+let coords = { f: null, t: null };
+let searchTimers = { f: null, t: null };
+let currentDay = 'Monday';
+
+let weekSchedule = {
+  Monday: { arrive: '09:30', return: '18:30', isWFH: false },
+  Tuesday: { arrive: '09:30', return: '18:30', isWFH: false },
+  Wednesday: { arrive: '09:30', return: '18:30', isWFH: false },
+  Thursday: { arrive: '09:30', return: '18:30', isWFH: false },
+  Friday: { arrive: '09:30', return: '18:00', isWFH: false }
+};
+
+function setDay(day, btn) {
+  currentDay = day;
+  document.querySelectorAll('.d-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('active-day-label').textContent = `${day} Schedule`;
+
+  const conf = weekSchedule[day];
+  document.getElementById('arrive_time').value = conf.arrive;
+  document.getElementById('return_time').value = conf.return;
+  document.getElementById('is-wfh').checked = conf.isWFH;
+  document.getElementById('day-time-inputs').style.opacity = conf.isWFH ? '0.3' : '1';
+}
+
+function toggleWFH() {
+  const isChecked = document.getElementById('is-wfh').checked;
+  weekSchedule[currentDay].isWFH = isChecked;
+  document.getElementById('day-time-inputs').style.opacity = isChecked ? '0.3' : '1';
+}
+
+function updateDay() {
+  weekSchedule[currentDay].arrive = document.getElementById('arrive_time').value;
+  weekSchedule[currentDay].return = document.getElementById('return_time').value;
+}
+
+function searchLoc(type) {
+  const query = document.getElementById(type === 'f' ? 'fi' : 'ti').value.trim();
+  const listEl = document.getElementById(type === 'f' ? 'fac' : 'tac');
+  coords[type] = null;
+  if (query.length < 2) { listEl.classList.remove('open'); return; }
+
+  clearTimeout(searchTimers[type]);
+  searchTimers[type] = setTimeout(async () => {
+    listEl.innerHTML = '<div style="padding:10px;font-size:12px;color:var(--txt-muted)">Searching Bengaluru...</div>';
+    listEl.classList.add('open');
+
+    try {
+      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&lat=12.9716&lon=77.5946&limit=5`);
+      const data = await res.json();
+      const items = data.features || [];
+      if (!items.length) {
+        listEl.innerHTML = '<div style="padding:10px;font-size:12px;color:var(--txt-muted)">No matching location</div>';
+        return;
+      }
+      listEl.innerHTML = items.map(feat => {
+        const p = feat.properties;
+        const main = p.name || p.street || p.district || 'Location';
+        const sub = [p.district, p.city || 'Bengaluru'].filter(Boolean).join(', ');
+        const [lng, lat] = feat.geometry.coordinates;
+        return `<div class="aci" onmousedown="chooseLoc('${type}', ${lng}, ${lat}, '${main.replace(/'/g, "\\'")}')">
+          <div class="aci-name">📍 ${main}</div><div class="aci-sub">${sub}</div>
+        </div>`;
+      }).join('');
+    } catch {
+      listEl.innerHTML = '<div style="padding:10px;font-size:12px;color:#ef4444">Timeout error</div>';
+    }
+  }, 200);
+}
+
+function chooseLoc(type, lng, lat, name) {
+  document.getElementById(type === 'f' ? 'fi' : 'ti').value = name;
+  document.getElementById(type === 'f' ? 'fac' : 'tac').classList.remove('open');
+  coords[type] = [lng, lat];
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.input-box')) {
+    document.querySelectorAll('.acl').forEach(el => el.classList.remove('open'));
+  }
+});
+
+async function saveCommutePlan() {
   const saveBtn = document.getElementById('save-btn');
   const email = document.getElementById('email').value.trim();
   const phone = document.getElementById('phone').value.trim();
-  const waKey = document.getElementById('whatsapp_key').value.trim();
   const mode = document.getElementById('mode').value;
   const fromName = document.getElementById('fi').value.trim();
   const toName = document.getElementById('ti').value.trim();
 
-  if (!coords.f || !coords.t) return alert("Select both Home and Office locations from the suggestions dropdown.");
-  if (!email || !phone || !waKey) return alert("Enter your Email, WhatsApp Phone (with 91), and CallMeBot API Key.");
+  if (!coords.f || !coords.t) return alert("Please select both Home and Office locations from the suggestions list.");
+  if (!email || !phone) return alert("Enter your email and 10-digit WhatsApp number (with 91).");
 
   saveBtn.disabled = true;
-  saveBtn.textContent = "Verifying Route & Activating...";
+  saveBtn.textContent = "Saving Routine...";
 
   try {
     const res = await fetch('/api/handshake', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify({
-        email, phone, waKey,
-        fromName, toName,
-        fc: coords.f, tc: coords.t,
-        mode, weekSchedule
-      })
+      body: JSON.stringify({ email, phone, fromName, toName, fc: coords.f, tc: coords.t, mode, weekSchedule })
     });
 
-    const text = await res.text();
-    let data;
-    try {
-      data = JSON.parse(text);
-    } catch {
-      throw new Error(`Server returned status ${res.status}: ${text.slice(0, 120)}`);
-    }
-
+    const data = await res.json();
     saveBtn.disabled = false;
-    saveBtn.textContent = "Activate Commute Radar";
+    saveBtn.textContent = "Save & Connect WhatsApp";
 
-    if (!res.ok || data.error) {
-      alert("Verification Error: " + (data.error || text));
-      return;
-    }
+    if (!res.ok || data.error) return alert("Error: " + (data.error || 'Server error'));
 
-    // Populate Dashboard
-    document.getElementById('d-dist').textContent = `${data.distKm} km`;
-    document.getElementById('d-clean').textContent = `${data.cleanMinutes} mins`;
-    document.getElementById('d-start').textContent = data.todayDeparture;
-    document.getElementById('d-range').textContent = data.arrivalRange;
-    document.getElementById('d-weather').textContent = data.weather;
+    // Configure the WhatsApp Inbound Click-to-Chat Link
+    const waBusinessNumber = data.businessPhone || '15551390497'; // Replace with your Meta test phone number
+    const prefilledText = encodeURIComponent("START BLR RADAR");
+    document.getElementById('wa-link').href = `https://api.whatsapp.com/send?phone=${waBusinessNumber}&text=${prefilledText}`;
 
-    document.getElementById('main-card').style.display = 'none';
-    document.getElementById('dash-card').style.display = 'block';
+    document.getElementById('form-box').style.display = 'none';
+    document.getElementById('connect-box').style.display = 'block';
 
   } catch (err) {
     saveBtn.disabled = false;
-    saveBtn.textContent = "Activate Commute Radar";
+    saveBtn.textContent = "Save & Connect WhatsApp";
     alert("Connection Error: " + err.message);
   }
 }
+</script>
+</body>
+</html>
