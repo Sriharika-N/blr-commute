@@ -5,12 +5,13 @@ export default async function handler(req, res) {
     return res.status(401).json({ error: 'Unauthorized' });
   }
 
+  // Supabase & Twilio credentials with fallbacks
   const supabaseUrl = process.env.BLR_SB_URL || 'https://rhljbzhpjhjsbknpiajn.supabase.co';
   const supabaseKey = process.env.BLR_SB_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
 
   const twilioSid = process.env.TWILIO_ACCOUNT_SID || 'ACe1b417671f16134c0da4162dac193d39';
   const twilioToken = process.env.TWILIO_AUTH_TOKEN || '643362f522ed57db57edd48251cbdce1';
-  const twilioFrom = process.env.TWILIO_WHATSAPP_NUMBER || '+14155238886';
+  const twilioFrom = process.env.TWILIO_WHATSAPP_NUMBER || '+17372508034';
 
   const weather = await getBengaluruWeather();
 
@@ -29,7 +30,7 @@ export default async function handler(req, res) {
   const host = req.headers.host || 'blr-commute.vercel.app';
   const dispatched = [];
 
-  // Friday 5:00 PM Scorecard (17:00 - 17:35 IST)
+  // Friday 5:00 PM Scorecard (between 17:00 and 17:35 IST)
   if (currentDay === 'Friday' && currentMinutes >= 1020 && currentMinutes <= 1055) {
     await processFridayScorecards(plans, supabaseUrl, supabaseKey, twilioSid, twilioToken, twilioFrom, host);
     return res.status(200).json({ mode: 'friday_digest', processed: true });
@@ -42,7 +43,7 @@ export default async function handler(req, res) {
     const depMinutes = th * 60 + tm;
     const diff = depMinutes - currentMinutes;
 
-    // 1. MORNING ARBITRAGE BRIEF (20-40 mins before scheduled departure)
+    // 1. MORNING PRE-TRIP ARBITRAGE ALERT (20-40 mins before scheduled departure)
     if (diff >= 20 && diff <= 40) {
       const depDisplay = formatMinutesTo12(depMinutes);
       const mapsLink = `https://maps.google.com/?saddr=${plan.origin_lat},${plan.origin_lng}&daddr=${plan.dest_lat},${plan.dest_lng}`;
@@ -132,7 +133,7 @@ async function sendTwilio(sid, token, fromNumber, toPhone, message) {
       body: body.toString()
     });
   } catch (e) {
-    console.error('Twilio dispatch error:', e);
+    console.error('Twilio cron dispatch error:', e);
   }
 }
 
