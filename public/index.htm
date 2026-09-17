@@ -1,0 +1,738 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>BLR COMMUTE — TACTICAL NAV v5</title>
+<link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --bg:#000a04;--neon:#39ff14;--neon2:#00ff88;
+  --neon-dim:rgba(57,255,20,0.08);--nb:rgba(57,255,20,0.22);
+  --amber:#ffb300;--adim:rgba(255,179,0,0.09);
+  --red:#ff2442;--rdim:rgba(255,36,66,0.09);
+  --brd:rgba(57,255,20,0.15);--brd2:rgba(57,255,20,0.06);
+  --txt:#d4ffe0;--tdim:#7bab84;--tmut:#3a6644;
+  --glow:0 0 10px rgba(57,255,20,0.5),0 0 25px rgba(57,255,20,0.15);
+}
+html,body{height:100%;overflow:hidden;background:var(--bg)}
+body{font-family:'Rajdhani',sans-serif;color:var(--txt);display:flex;flex-direction:column}
+body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 4px)}
+body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(57,255,20,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,0.02) 1px,transparent 1px);background-size:50px 50px}
+.corner{position:fixed;width:44px;height:44px;pointer-events:none;z-index:200}
+.tl{top:0;left:0;border-top:2px solid var(--neon);border-left:2px solid var(--neon)}
+.tr{top:0;right:0;border-top:2px solid var(--neon);border-right:2px solid var(--neon)}
+.bl{bottom:0;left:0;border-bottom:2px solid var(--neon);border-left:2px solid var(--neon)}
+.br{bottom:0;right:0;border-bottom:2px solid var(--neon);border-right:2px solid var(--neon)}
+.ripple{position:fixed;border-radius:50%;pointer-events:none;z-index:9997;background:rgba(57,255,20,0.18);transform:scale(0);animation:rip .5s ease-out forwards}
+@keyframes rip{to{transform:scale(5);opacity:0}}
+
+/* TOPBAR */
+.topbar{height:54px;flex-shrink:0;z-index:100;position:relative;background:rgba(0,8,3,0.99);border-bottom:1px solid var(--brd);display:flex;align-items:center;padding:0 22px;gap:16px}
+.topbar::after{content:'';position:absolute;bottom:-1px;left:0;right:0;height:1px;background:linear-gradient(90deg,transparent,var(--neon) 30%,var(--neon) 70%,transparent);opacity:.4}
+.logo{display:flex;align-items:center;gap:11px}
+.lhex{width:36px;height:36px;background:var(--neon-dim);border:1px solid var(--nb);display:flex;align-items:center;justify-content:center;font-size:17px;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%);animation:hp 2.5s ease-in-out infinite}
+@keyframes hp{0%,100%{box-shadow:var(--glow)}50%{box-shadow:0 0 22px rgba(57,255,20,.9),0 0 50px rgba(57,255,20,.3)}}
+.lname{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:900;letter-spacing:4px;color:var(--neon);text-shadow:var(--glow)}
+.lsub{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--tmut);letter-spacing:2.5px;margin-top:2px}
+.navpills{display:flex;gap:4px;flex:1;justify-content:center}
+.np{padding:7px 14px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--tmut);cursor:pointer;border:1px solid transparent;background:transparent;transition:all .2s;clip-path:polygon(10px 0%,100% 0%,calc(100% - 10px) 100%,0% 100%)}
+.np:hover{color:var(--neon);border-color:var(--brd);background:var(--neon-dim)}
+.np.active{background:var(--neon);color:#000a04;border-color:var(--neon);box-shadow:var(--glow)}
+.trr{display:flex;align-items:center;gap:10px}
+.schip{display:flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;padding:5px 11px;border:1px solid var(--brd);background:rgba(0,14,5,.9);color:var(--tdim);letter-spacing:1px}
+.cd{width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:var(--glow);animation:bl 1.5s infinite}
+@keyframes bl{0%,100%{opacity:1}50%{opacity:.2}}
+.clockd{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;color:var(--neon);text-shadow:var(--glow);letter-spacing:2px}
+
+/* MAIN */
+.main{flex:1;display:flex;overflow:hidden;position:relative;z-index:1}
+.left{width:390px;flex-shrink:0;background:rgba(0,8,3,.98);border-right:1px solid var(--brd);overflow-y:auto;overflow-x:hidden;scrollbar-width:thin;scrollbar-color:var(--nb) transparent}
+.left::-webkit-scrollbar{width:2px}
+.left::-webkit-scrollbar-thumb{background:var(--nb)}
+.panel{display:none}
+.panel.active{display:block}
+
+/* SECTION */
+.sec{padding:18px 20px 16px;border-bottom:1px solid var(--brd2);position:relative}
+.sec::after{content:'';position:absolute;top:0;right:0;width:15px;height:15px;border-top:1px solid var(--nb);border-right:1px solid var(--nb)}
+.slbl{font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;letter-spacing:2.5px;color:var(--neon);margin-bottom:14px;display:flex;align-items:center;gap:8px}
+.slbl::before{content:'◆';font-size:6px}
+.slbl::after{content:'';flex:1;height:1px;background:var(--brd2)}
+
+/* SEARCH INPUT */
+.ib{margin-bottom:12px;position:relative}
+.ilbl{font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:2px;color:var(--tmut);margin-bottom:6px;padding-left:2px}
+.iw{position:relative}
+.hi{width:100%;padding:12px 36px 12px 14px;background:rgba(57,255,20,.03);border:1px solid var(--brd);font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;color:var(--txt);outline:none;letter-spacing:.5px;transition:all .2s}
+.hi:focus{border-color:var(--neon);background:rgba(57,255,20,.06);color:var(--neon);box-shadow:0 0 14px rgba(57,255,20,.1)}
+.hi::placeholder{color:var(--tmut);font-weight:400;font-style:italic}
+.ix{position:absolute;right:11px;top:50%;transform:translateY(-50%);color:var(--tmut);cursor:pointer;font-size:14px;display:none;transition:color .15s}
+.ix:hover{color:var(--neon)}
+.isp{position:absolute;right:11px;top:50%;transform:translateY(-50%);display:none}
+.spin{width:14px;height:14px;border:2px solid var(--nb);border-top-color:var(--neon);border-radius:50%;animation:sp .7s linear infinite}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+/* AUTOCOMPLETE */
+.acl{position:absolute;top:calc(100% + 1px);left:0;right:0;background:rgba(0,8,3,.99);border:1px solid var(--brd);border-top:none;max-height:270px;overflow-y:auto;z-index:600;display:none;scrollbar-width:thin;scrollbar-color:var(--nb) transparent;box-shadow:0 8px 24px rgba(0,0,0,.6)}
+.acl.open{display:block}
+.acl::-webkit-scrollbar{width:2px}
+.acl::-webkit-scrollbar-thumb{background:var(--nb)}
+.aci{padding:11px 14px;cursor:pointer;border-bottom:1px solid var(--brd2);display:flex;align-items:flex-start;gap:10px;transition:background .1s}
+.aci:hover,.aci.hi2{background:rgba(57,255,20,.07)}
+.aci:last-child{border-bottom:none}
+.aico{font-size:15px;flex-shrink:0;margin-top:1px;opacity:.85}
+.acm{font-size:14px;font-weight:700;color:var(--txt);line-height:1.25}
+.acs2{font-size:11px;color:var(--tmut);margin-top:2px;line-height:1.3}
+.acd{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--neon);margin-top:3px}
+.acmsg{padding:12px 14px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--tmut);letter-spacing:1px}
+
+/* CONTROLS */
+.conn{display:flex;align-items:center;gap:10px;margin:3px 0 3px 13px}
+.cln{width:2px;height:20px;background:linear-gradient(180deg,var(--neon),transparent);opacity:.4}
+.cdts{display:flex;flex-direction:column;gap:4px}
+.cdt{width:4px;height:4px;border-radius:50%;background:var(--neon);opacity:.3}
+.swap-btn{display:flex;align-items:center;justify-content:center;margin:8px auto 0;width:32px;height:32px;border:1px solid var(--nb);background:var(--neon-dim);cursor:pointer;color:var(--neon);font-size:16px;transition:all .2s}
+.swap-btn:hover{background:rgba(57,255,20,.15);box-shadow:var(--glow)}
+
+.vg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin:14px 0}
+.vb{padding:11px 5px 9px;border:1px solid var(--brd2);background:transparent;color:var(--tmut);cursor:pointer;font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;letter-spacing:1.5px;text-align:center;transition:all .2s;clip-path:polygon(10px 0%,100% 0%,100% calc(100% - 10px),calc(100% - 10px) 100%,0% 100%,0% 10px)}
+.vi{font-size:19px;display:block;margin-bottom:5px}
+.vb:hover{border-color:var(--nb);color:var(--neon);background:var(--neon-dim)}
+.vb.active{border-color:var(--neon);color:var(--neon);background:var(--neon-dim);box-shadow:0 0 12px rgba(57,255,20,.18)}
+
+.dg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin:12px 0 10px}
+.db{padding:9px 5px;border:1px solid var(--brd2);background:transparent;color:var(--tmut);cursor:pointer;font-family:'Rajdhani',sans-serif;font-size:13px;font-weight:700;letter-spacing:1px;text-align:center;transition:all .2s}
+.db:hover{border-color:var(--nb);color:var(--neon)}
+.db.active{border-color:var(--neon);color:var(--neon);background:var(--neon-dim)}
+.tpick{width:100%;padding:10px 14px;margin-top:8px;background:var(--neon-dim);border:1px solid var(--brd);color:var(--neon);font-family:'Share Tech Mono',monospace;font-size:12px;outline:none;letter-spacing:1px;color-scheme:dark}
+
+.bex{width:100%;margin-top:14px;padding:15px 18px;background:transparent;border:2px solid var(--neon);color:var(--neon);font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;letter-spacing:5px;cursor:pointer;position:relative;overflow:hidden;transition:all .25s;clip-path:polygon(14px 0%,100% 0%,calc(100% - 14px) 100%,0% 100%)}
+.bex::before{content:'';position:absolute;top:0;left:-100%;width:100%;height:100%;background:linear-gradient(90deg,transparent,rgba(57,255,20,.18),transparent);transition:left .5s}
+.bex:hover{background:rgba(57,255,20,.1);box-shadow:var(--glow);color:#fff}
+.bex:hover::before{left:100%}
+.bex:active{transform:scale(.98)}
+.bex.busy{animation:bb .7s ease-in-out infinite alternate}
+@keyframes bb{0%{border-color:var(--neon)}100%{border-color:var(--neon2)}}
+
+/* ROUTE RESULTS */
+.sigb{padding:20px 18px;text-align:center;position:relative;overflow:hidden}
+.sigb::before{content:'';position:absolute;inset:0;background:radial-gradient(ellipse at 50%,var(--sg,rgba(57,255,20,.12)) 0%,transparent 70%);animation:sgp 2.2s ease-in-out infinite}
+@keyframes sgp{0%,100%{opacity:.5}50%{opacity:1}}
+.sigw{font-family:'Orbitron',sans-serif;font-size:30px;font-weight:900;letter-spacing:7px;line-height:1;position:relative;z-index:1}
+.sigs{font-size:13px;color:var(--tdim);margin-top:7px;position:relative;z-index:1;letter-spacing:.5px;line-height:1.5}
+.sigb.go{--sg:rgba(57,255,20,.13);border:1px solid rgba(57,255,20,.24)}.sigb.go .sigw{color:var(--neon)}
+.sigb.warn{--sg:rgba(255,179,0,.13);border:1px solid rgba(255,179,0,.26)}.sigb.warn .sigw{color:var(--amber)}
+.sigb.bad{--sg:rgba(255,36,66,.15);border:1px solid rgba(255,36,66,.26)}.sigb.bad .sigw{color:var(--red)}
+
+.crow{display:flex;align-items:flex-start;gap:16px;padding:16px;border:1px solid var(--brd2);background:rgba(57,255,20,.02);margin:12px 0;position:relative}
+.crow::before{content:'CONFIDENCE SCORE';position:absolute;top:-8px;left:14px;font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:2px;color:var(--neon);background:rgba(0,8,3,.98);padding:0 6px}
+.rw{position:relative;width:68px;height:68px;flex-shrink:0}
+.rs{transform:rotate(-90deg)}
+.rbg{fill:none;stroke:rgba(57,255,20,.07);stroke-width:5}
+.rf{fill:none;stroke-width:5;stroke-linecap:butt;transition:stroke-dashoffset 1.3s cubic-bezier(.4,0,.2,1),stroke .3s}
+.rc2{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center}
+.rpct{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:900;line-height:1}
+.rlbl{font-size:7px;color:var(--tmut);letter-spacing:1px;font-family:'Orbitron',sans-serif;margin-top:2px}
+.cv2{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px;margin-bottom:5px}
+.cd2{font-size:13px;color:var(--tdim);line-height:1.55}
+.confdef{margin-top:10px;padding:10px 12px;background:rgba(57,255,20,.04);border:1px solid rgba(57,255,20,.15);font-size:12px;color:var(--tdim);line-height:1.65;border-left:3px solid var(--neon)}
+.confdef strong{color:var(--neon);font-weight:700}
+
+.rc{padding:14px 15px;border:1px solid var(--brd2);background:rgba(57,255,20,.015);margin-bottom:7px;cursor:pointer;transition:all .2s;position:relative;overflow:hidden;clip-path:polygon(0 0,calc(100% - 14px) 0,100% 14px,100% 100%,14px 100%,0 calc(100% - 14px))}
+.rc::before{content:'';position:absolute;left:0;top:0;bottom:0;width:3px;background:var(--rcol,var(--neon));box-shadow:0 0 7px var(--rcol,var(--neon))}
+.rc:hover{background:rgba(57,255,20,.05);border-color:var(--brd)}
+.rc.sel{background:rgba(57,255,20,.08);border-color:var(--neon)}
+.rct{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
+.rcn{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:1.5px}
+.rtag{font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;padding:3px 9px;letter-spacing:1px}
+.tbest{background:rgba(57,255,20,.14);color:var(--neon);border:1px solid var(--nb)}
+.talt{background:rgba(255,179,0,.12);color:var(--amber);border:1px solid rgba(255,179,0,.3)}
+.talt2{background:rgba(255,36,66,.1);color:var(--red);border:1px solid rgba(255,36,66,.3)}
+.rst{display:flex;gap:14px;font-size:14px;color:var(--tdim);margin-bottom:6px;flex-wrap:wrap}
+.rst strong{color:var(--txt);font-size:16px}
+.rco{font-family:'Share Tech Mono',monospace;font-size:10px;letter-spacing:.5px;line-height:1.5}
+
+.dg2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:11px 0}
+.dc{padding:11px 7px;border:1px solid var(--brd2);text-align:center;background:rgba(57,255,20,.02);position:relative}
+.dc::after{content:'';position:absolute;bottom:0;left:0;right:0;height:1px;background:var(--dc,var(--neon));opacity:.4}
+.dv{font-family:'Orbitron',sans-serif;font-size:17px;font-weight:700;line-height:1}
+.dl{font-family:'Orbitron',sans-serif;font-size:8px;color:var(--tmut);margin-top:5px;letter-spacing:.5px;line-height:1.4}
+
+.chi{display:flex;align-items:center;gap:11px;padding:10px 13px;border-left:3px solid;margin-bottom:5px;background:rgba(0,0,0,.4)}
+.chi.red{border-color:var(--red)}.chi.amb{border-color:var(--amber)}
+.chn{flex:1;font-size:14px;font-weight:600;line-height:1.4}
+.chd{font-family:'Share Tech Mono',monospace;font-size:11px;white-space:nowrap}
+.chi.red .chd{color:var(--red)}.chi.amb .chd{color:var(--amber)}
+
+.stbs{display:flex;border-bottom:1px solid var(--brd2);background:rgba(0,8,3,.99);position:sticky;top:0;z-index:10}
+.stb{flex:1;padding:11px 5px;text-align:center;font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:1.5px;color:var(--tmut);cursor:pointer;border-bottom:2px solid transparent}
+.stb:hover{color:var(--neon)}
+.stb.active{color:var(--neon);border-bottom-color:var(--neon)}
+
+.bkr{display:flex;align-items:center;gap:12px;padding:12px 15px;border-bottom:1px solid var(--brd2)}
+.bki{font-size:17px;flex-shrink:0}
+.bkn{font-size:15px;font-weight:700;line-height:1.25}
+.bks{font-size:11px;color:var(--tmut);margin-top:2px}
+.bkv{font-family:'Orbitron',sans-serif;font-size:16px;font-weight:700;color:var(--neon);white-space:nowrap}
+.totr{display:flex;align-items:center;justify-content:space-between;padding:15px;margin:10px 0;background:rgba(57,255,20,.06);border:1px solid var(--neon)}
+.totl{font-family:'Orbitron',sans-serif;font-size:10px;letter-spacing:2px;color:var(--neon);margin-bottom:4px}
+.tots{font-size:11px;color:var(--tmut)}
+.totv{font-family:'Orbitron',sans-serif;font-size:26px;font-weight:900;color:var(--neon);text-shadow:var(--glow)}
+.lby{padding:11px 15px;margin:0 0 8px;background:rgba(57,255,20,.04);border:1px solid rgba(57,255,20,.2);font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--neon);line-height:1.6}
+
+.retr{display:flex;align-items:center;gap:12px;padding:10px 13px;border-left:3px solid;margin-bottom:5px}
+.retr.go{border-color:var(--neon);background:rgba(57,255,20,.04)}.retr.warn{border-color:var(--amber);background:rgba(255,179,0,.04)}.retr.bad{border-color:var(--red);background:rgba(255,36,66,.04)}
+.rtt{font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--tdim);flex:1}
+.rtl{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px}
+.retr.go .rtl{color:var(--neon)}.retr.warn .rtl{color:var(--amber)}.retr.bad .rtl{color:var(--red)}
+
+.wkr{display:grid;grid-template-columns:repeat(7,1fr);gap:5px;margin:12px 0}
+.wdy{padding:9px 4px;border:1px solid var(--brd2);text-align:center;cursor:pointer;position:relative}
+.wdy:hover,.wdy.sel{border-color:var(--nb);background:var(--neon-dim)}
+.wdy.today{border-color:rgba(57,255,20,.38)}
+.wdn{font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:1px;color:var(--tmut)}
+.wdd{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:700;margin-top:3px}
+.wds{font-size:9px;margin-top:3px}
+.tsl{padding:11px 14px;border-left:3px solid;margin-bottom:5px;background:rgba(0,0,0,.4)}
+.tst{font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--tmut);margin-bottom:4px}
+.tsl2{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px}
+.tsl.go{border-color:var(--neon)}.tsl.go .tsl2{color:var(--neon)}
+.tsl.warn{border-color:var(--amber)}.tsl.warn .tsl2{color:var(--amber)}
+.tsl.bad{border-color:var(--red)}.tsl.bad .tsl2{color:var(--red)}
+
+.ccc{padding:15px;border:1px solid var(--brd2);margin-bottom:8px;background:rgba(0,0,0,.5);position:relative}
+.ccc::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:var(--cc);box-shadow:0 0 8px var(--cc)}
+.cch{display:flex;align-items:center;justify-content:space-between;margin-bottom:11px}
+.ccn{font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;letter-spacing:1px}
+.ccs{font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;padding:3px 10px;letter-spacing:1px}
+.ccn2{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut);margin-top:10px;line-height:1.65}
+
+.pkitem{display:flex;align-items:center;gap:12px;padding:11px 14px;border-bottom:1px solid var(--brd2);cursor:pointer}
+.pkitem:hover{background:rgba(57,255,20,.05);padding-left:18px}
+.pkd{width:9px;height:9px;border-radius:50%;flex-shrink:0}
+.pkn{font-size:14px;font-weight:700;flex:1;line-height:1.25}
+.pkm{font-size:11px;color:var(--tmut);margin-top:2px}
+.pkt{font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;padding:2px 7px;letter-spacing:1px}
+
+.pcd{padding:14px 15px;border:1px solid var(--brd2);margin-bottom:7px;background:rgba(0,0,0,.4)}
+.pct{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;letter-spacing:1px;color:var(--neon);margin-bottom:8px;display:flex;align-items:center;gap:8px}
+.pcb{font-size:14px;color:var(--tdim);line-height:1.6}
+.wxchip{padding:10px 14px;border:1px solid rgba(57,255,20,.2);background:rgba(57,255,20,.04);margin-bottom:10px;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--neon);letter-spacing:1px}
+
+/* RIGHT MAP */
+.right{flex:1;position:relative;overflow:hidden}
+#map{width:100%;height:100%;z-index:1}
+.leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) saturate(1.4) brightness(0.75)}
+.leaflet-popup-content-wrapper{background:rgba(0,8,3,.97)!important;border:1px solid var(--brd)!important;border-radius:0!important;color:var(--txt)!important}
+.leaflet-popup-tip{background:rgba(0,8,3,.97)!important}
+.popup-nm{font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;color:var(--neon);margin-bottom:5px}
+.popup-dt{font-size:13px;color:var(--tdim);line-height:1.65}
+
+.mhud{position:absolute;z-index:500;background:rgba(0,8,3,.92);border:1px solid var(--brd);padding:12px 15px;backdrop-filter:blur(10px);pointer-events:none}
+.mhtl{top:14px;left:14px;min-width:165px}
+.mhtr{top:14px;right:14px;min-width:180px}
+.mhl{font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:2px;color:var(--tmut);margin-bottom:7px}
+.mhv{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:900;color:var(--neon);text-shadow:var(--glow)}
+.mhs{font-size:12px;color:var(--tdim);margin-top:3px}
+.scanline{position:absolute;left:0;right:0;height:2px;background:linear-gradient(90deg,transparent,rgba(57,255,20,.3),transparent);pointer-events:none;z-index:499;animation:sl 4s linear infinite}
+@keyframes sl{0%{top:0;opacity:.8}100%{top:100%;opacity:0}}
+
+.abar{position:absolute;bottom:46px;left:14px;right:14px;z-index:510;background:rgba(255,36,66,.1);border:1px solid rgba(255,36,66,.45);padding:11px 15px;display:none;align-items:center;gap:12px;backdrop-filter:blur(10px)}
+.abar.show{display:flex}
+.atxt{font-size:13px;font-weight:600;color:#ffb3bd;flex:1}
+.ax{color:rgba(255,36,66,.8);cursor:pointer;font-size:15px;pointer-events:all}
+
+.bst{height:33px;flex-shrink:0;z-index:100;position:relative;background:rgba(0,8,3,.99);border-top:1px solid var(--brd);display:flex;align-items:center;padding:0 20px;gap:15px;overflow:hidden}
+.bsi{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut);white-space:nowrap;display:flex;align-items:center;gap:5px}
+.bsi b{color:var(--neon);font-weight:400}
+.bsp{color:var(--tmut);opacity:.25}
+.tkr{flex:1;overflow:hidden}
+.tki{white-space:nowrap;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut);animation:tk 30s linear infinite}
+@keyframes tk{0%{transform:translateX(0)}100%{transform:translateX(-50%)}}
+
+.notif{position:fixed;top:62px;right:14px;z-index:3000;background:rgba(0,8,3,.98);border:1px solid var(--neon);padding:13px 17px;max-width:280px;transform:translateX(110%);transition:transform .3s;pointer-events:none}
+.notif.show{transform:translateX(0)}
+.ntit{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;color:var(--neon);margin-bottom:5px}
+.nbdy{font-size:13px;color:var(--tdim);line-height:1.5}
+
+.ldsc{position:fixed;inset:0;background:var(--bg);z-index:8000;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:20px;transition:opacity .6s}
+.ldsc.gone{opacity:0;pointer-events:none}
+.ldl{font-family:'Orbitron',sans-serif;font-size:26px;font-weight:900;color:var(--neon);letter-spacing:6px}
+.ldsub{font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut);letter-spacing:2px}
+.ldbg{width:300px;height:2px;background:rgba(57,255,20,.1)}
+.ldb{height:2px;background:var(--neon);width:0;box-shadow:var(--glow);animation:lf 1.5s ease-out forwards}
+@keyframes lf{0%{width:0}100%{width:100%}}
+.empty{padding:34px 20px;text-align:center}
+.ei{font-size:32px;margin-bottom:14px;opacity:.22}
+.et{font-family:'Orbitron',sans-serif;font-size:9px;letter-spacing:2px;color:var(--tmut);line-height:2.4}
+</style>
+</head>
+<body>
+
+<div class="ldsc" id="ls">
+  <div class="ldl">BLR COMMUTE</div>
+  <div class="ldsub">TACTICAL NAVIGATION SYSTEM v5</div>
+  <div class="ldbg"><div class="ldb"></div></div>
+  <div class="ldsub" id="lst">INITIALISING...</div>
+</div>
+
+<div class="corner tl"></div><div class="corner tr"></div><div class="corner bl"></div><div class="corner br"></div>
+
+<div class="topbar">
+  <div class="logo"><div class="lhex">🛣️</div><div><div class="lname">BLR COMMUTE</div><div class="lsub">TACTICAL NAV SYSTEM</div></div></div>
+  <div class="navpills">
+    <button class="np active" onclick="gp('plan',this)">PLAN</button>
+    <button class="np" onclick="gp('corridor',this)">CORRIDORS</button>
+    <button class="np" onclick="gp('week',this)">WEEK</button>
+    <button class="np" onclick="gp('return',this)">RETURN</button>
+    <button class="np" onclick="gp('drive',this)">DRIVE</button>
+  </div>
+  <div class="trr">
+    <div class="schip" id="wxc"><div class="cd"></div><span id="wxt">LOADING WX...</span></div>
+    <div class="schip"><div class="cd"></div><span style="color:var(--neon)">LIVE</span></div>
+    <div class="clockd" id="clk">00:00:00</div>
+  </div>
+</div>
+
+<div class="main">
+  <div class="left">
+
+    <!-- PLAN -->
+    <div class="panel active" id="panel-plan">
+      <div class="sec">
+        <div class="slbl">ENTER YOUR JOURNEY</div>
+
+        <div class="ib">
+          <div class="ilbl">START POINT</div>
+          <div class="iw">
+            <input class="hi" id="fi" placeholder="Area, tech park, metro station..." autocomplete="off" oninput="acs('f')" onfocus="acs('f')" onkeydown="ack(event,'f')"/>
+            <span class="ix" id="fx" onclick="ci('f')">✕</span>
+            <div class="isp" id="fsp"><div class="spin"></div></div>
+            <div class="acl" id="fac"></div>
+          </div>
+        </div>
+
+        <div style="display:flex;align-items:center;gap:8px;margin:4px 0">
+          <div class="conn"><div class="cln"></div><div class="cdts"><div class="cdt"></div><div class="cdt"></div><div class="cdt"></div></div></div>
+          <button class="swap-btn" onclick="swapLocations()" title="Swap start and end">⇅</button>
+        </div>
+
+        <div class="ib">
+          <div class="ilbl">END POINT</div>
+          <div class="iw">
+            <input class="hi" id="ti" placeholder="Destination, landmark, office..." autocomplete="off" oninput="acs('t')" onfocus="acs('t')" onkeydown="ack(event,'t')"/>
+            <span class="ix" id="tx" onclick="ci('t')">✕</span>
+            <div class="isp" id="tsp"><div class="spin"></div></div>
+            <div class="acl" id="tac"></div>
+          </div>
+        </div>
+
+        <div class="slbl" style="margin-top:16px">VEHICLE MODE</div>
+        <div class="vg">
+          <button class="vb" onclick="sv('bike',this)"><span class="vi">🏍️</span>BIKE</button>
+          <button class="vb active" onclick="sv('car',this)"><span class="vi">🚗</span>CAR</button>
+          <button class="vb" onclick="sv('cab',this)"><span class="vi">🚖</span>CAB</button>
+        </div>
+
+        <div class="slbl">DEPARTURE TIME</div>
+        <div class="dg">
+          <button class="db active" onclick="sd('now',this)">LEAVE NOW</button>
+          <button class="db" onclick="sd('later',this)">SCHEDULE</button>
+          <button class="db" onclick="sd('arrive',this)">ARRIVE BY</button>
+        </div>
+        <div id="tw" style="display:none"><input type="datetime-local" class="tpick" id="st"/></div>
+
+        <button class="bex" id="eb" onclick="planRoute()">⚡ EXECUTE ROUTE SCAN</button>
+      </div>
+
+      <div id="rr" style="display:none">
+        <div id="sb"></div>
+        <div class="sec">
+          <div class="slbl">ARRIVAL INTELLIGENCE</div>
+          <div class="crow">
+            <div class="rw">
+              <svg class="rs" width="68" height="68" viewBox="0 0 68 68">
+                <circle class="rbg" cx="34" cy="34" r="28"/>
+                <circle class="rf" id="cr" cx="34" cy="34" r="28" stroke-dasharray="175.9" stroke-dashoffset="175.9"/>
+              </svg>
+              <div class="rc2"><div class="rpct" id="cp">--</div><div class="rlbl">SCORE</div></div>
+            </div>
+            <div class="cinfo">
+              <div class="cv2" id="cv">CALCULATING...</div>
+              <div class="cd2" id="cd2">Analysing route data</div>
+            </div>
+          </div>
+          <div class="confdef" id="confdef"></div>
+          <div id="wi"></div>
+          <div class="slbl" style="margin-top:14px">ROUTE OPTIONS</div>
+          <div id="ro"></div>
+        </div>
+
+        <div class="sec">
+          <div class="slbl">CORRIDOR STATUS</div>
+          <div class="dg2" id="sg"></div>
+          <div class="slbl" style="margin-top:10px">CHOKEPOINTS ON YOUR ROUTE</div>
+          <div id="cl"></div>
+        </div>
+
+        <div class="stbs">
+          <div class="stb active" onclick="gs('bk',this)">TIME SPLIT</div>
+          <div class="stb" onclick="gs('ret',this)">RETURN</div>
+          <div class="stb" onclick="gs('smart',this)">DRIVE SMART</div>
+        </div>
+        <div id="sub-bk" class="sec"><div id="bk"></div></div>
+        <div id="sub-ret" class="sec" style="display:none"><div id="rp"></div></div>
+        <div id="sub-smart" class="sec" style="display:none">
+          <div class="pcd"><div class="pct">🎧 AUDIO QUEUE</div><div class="pcb">45–60 min route = 2 podcast episodes per direction. 10 episodes weekly.</div></div>
+          <div class="pcd"><div class="pct">🛡️ ROAD INTEL</div><div class="pcb">ORR peak (8:30–9:30am): Keep a 3-second cushion. BMTC e-buses brake sharply at stops.</div></div>
+          <div class="pcd"><div class="pct">🧠 ARRIVAL PROTOCOL</div><div class="pcb">Box breathing 4-4-4-4 over the last 5 minutes cuts cortisol spike before entry.</div></div>
+        </div>
+      </div>
+
+      <div id="es" class="empty">
+        <div class="ei">🗺️</div>
+        <div class="et">TYPE START POINT ABOVE<br>AUTO-SUGGESTIONS RUN REAL-TIME<br>PICK DESTINATION &amp; SCAN</div>
+      </div>
+    </div>
+
+    <!-- CORRIDORS -->
+    <div class="panel" id="panel-corridor">
+      <div class="sec"><div class="slbl">LIVE CORRIDOR STATUS</div><div id="cc"></div></div>
+      <div class="sec"><div class="slbl">TECH PARK GRID</div><div id="pl"></div></div>
+    </div>
+
+    <!-- WEEK -->
+    <div class="panel" id="panel-week">
+      <div class="sec"><div class="slbl">7-DAY TRAFFIC FORECAST</div><div class="wkr" id="wg"></div><div id="wd"></div></div>
+    </div>
+
+    <!-- RETURN -->
+    <div class="panel" id="panel-return">
+      <div class="sec"><div class="slbl">RETURN JOURNEY WINDOWS</div><div id="rf"></div></div>
+    </div>
+
+    <!-- DRIVE -->
+    <div class="panel" id="panel-drive">
+      <div class="sec"><div class="slbl">ACTIVE NAVIGATION</div><div id="dc"><div class="empty"><div class="ei">🚗</div><div class="et">PLAN A ROUTE FIRST<br>TO ACTIVATE DRIVE MODE</div></div></div></div>
+    </div>
+
+  </div>
+
+  <div class="right">
+    <div id="map"></div>
+    <div class="scanline"></div>
+    <div class="mhud mhtl" id="htl" style="display:none">
+      <div class="mhl">ROUTE ACTIVE</div>
+      <div class="mhv" id="htime">-- MIN</div>
+      <div class="mhs" id="hsub">--</div>
+    </div>
+    <div class="mhud mhtr" id="htr" style="display:none">
+      <div class="mhl">SPEED INTEL</div>
+      <div id="hspd" style="font-family:'Share Tech Mono',monospace;font-size:12px;color:var(--tdim);line-height:1.9"></div>
+    </div>
+    <div class="abar" id="ab"><span style="font-size:19px;color:var(--red)">⚠</span><div class="atxt" id="at"></div><span class="ax" onclick="document.getElementById('ab').classList.remove('show')">✕</span></div>
+  </div>
+</div>
+
+<div class="bst">
+  <div class="bsi">SYS <b>ONLINE</b></div><span class="bsp">◆</span>
+  <div class="bsi">MAP <b>OSM LIVE</b></div><span class="bsp">◆</span>
+  <div class="bsi">GEOCODE <b>PHOTON API</b></div><span class="bsp">◆</span>
+  <div class="bsi">REFRESH <b>15 MIN</b></div><span class="bsp">◆</span>
+  <div class="tkr"><div class="tki">◆ BLR #2 MOST CONGESTED GLOBALLY — TOMTOM 2025 ◆ 168 HRS LOST PER COMMUTER ANNUALLY ◆ PEAK 13.9 km/h CITY-WIDE ◆ WEDNESDAY = WORST DAY ◆ SILK BOARD = HIGHEST DELAY ◆</div></div>
+</div>
+
+<div class="notif" id="nf"><div class="ntit" id="nt"></div><div class="nbdy" id="nb"></div></div>
+
+<script>
+const COR={
+  orr:{name:'Outer Ring Road',short:'ORR',color:'#ff2442',carPeak:8,bikePeak:14,carFree:42,bikeFree:55,lat:12.9352,lng:77.6536,emp:'9.5 lakh',parks:30,len:17,bestM:'Before 7:30am / After 10:30am',bestE:'Before 4:30pm / After 9:00pm',chokes:[{n:'Silk Board Junction',s:'red',d:'+35–50 min'},{n:'Marathahalli Bridge',s:'red',d:'+20–30 min'},{n:'Kadubeesanahalli',s:'amb',d:'+10–15 min'}]},
+  wf:{name:'Whitefield Corridor',short:'WF',color:'#ffb300',carPeak:12,bikePeak:19,carFree:45,bikeFree:58,lat:12.9698,lng:77.7200,emp:'3.5 lakh',parks:12,len:14,bestM:'Before 7:15am / After 10:30am',bestE:'Before 4:45pm / After 8:30pm',chokes:[{n:'Marathahalli Bridge',s:'red',d:'+25–35 min'},{n:'Hope Farm Junction',s:'red',d:'+15–25 min'}]},
+  ec:{name:'Electronic City',short:'EC',color:'#00f5ff',carPeak:15,bikePeak:22,carFree:55,bikeFree:65,lat:12.8458,lng:77.6629,emp:'4.2 lakh',parks:8,len:22,bestM:'Before 7:45am / After 10:30am',bestE:'Before 5:00pm / After 8:30pm',chokes:[{n:'Silk Board Junction',s:'red',d:'+30–45 min'},{n:'Chandapura Circle',s:'amb',d:'+10–18 min'}]},
+  hbl:{name:'Hebbal – Manyata',short:'HBL',color:'#39ff14',carPeak:15,bikePeak:23,carFree:40,bikeFree:52,lat:13.0200,lng:77.6050,emp:'2.1 lakh',parks:6,len:12,bestM:'Before 8:00am / After 10:00am',bestE:'Before 4:30pm / After 8:45pm',chokes:[{n:'Veerannapalya / BEL Road',s:'red',d:'+20–35 min'},{n:'Hebbal Flyover',s:'amb',d:'+10–15 min'}]}
+};
+
+const PKS=[
+  {n:'Manyata Tech Park',c:'hbl',lat:13.0469,lng:77.6191,emp:'90,000+',cos:'100+',d:'high'},
+  {n:'Bagmane Tech Park',c:'orr',lat:12.9766,lng:77.6458,emp:'40,000+',cos:'45+',d:'high'},
+  {n:'RMZ Ecospace',c:'orr',lat:12.9279,lng:77.6401,emp:'35,000+',cos:'40+',d:'high'},
+  {n:'Embassy Tech Village',c:'orr',lat:12.9352,lng:77.6536,emp:'50,000+',cos:'60+',d:'high'},
+  {n:'ITPL Whitefield',c:'wf',lat:12.9867,lng:77.7260,emp:'60,000+',cos:'80+',d:'high'},
+  {n:'Infosys EC Phase 1',c:'ec',lat:12.8458,lng:77.6629,emp:'45,000+',cos:'5+',d:'high'}
+];
+
+const DM={0:1.0,1:1.1,2:1.3,3:1.4,4:1.25,5:1.15,6:1.2};
+const DAYS=['SUN','MON','TUE','WED','THU','FRI','SAT'];
+const DAYSF=['Sunday','Monday','Tuesday','Wednesday','Thursday','Friday','Saturday'];
+
+let map,vehicle='car',departMode='now',wx=null;
+let fc=null,tc=null;
+let acT={f:null,t:null},acI={f:-1,t:-1},acD={f:[],t:[]};
+let routeLayers=[],pins={};
+
+document.addEventListener('click',e=>{
+  const r=document.createElement('div');r.className='ripple';
+  const s=70;Object.assign(r.style,{width:s+'px',height:s+'px',left:(e.clientX-s/2)+'px',top:(e.clientY-s/2)+'px'});
+  document.body.appendChild(r);setTimeout(()=>r.remove(),550);
+});
+
+function initMap(){
+  map=L.map('map',{center:[12.9716,77.5946],zoom:12,zoomControl:false});
+  L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',{
+    attribution:'© OpenStreetMap contributors',maxZoom:19,subdomains:['a','b','c'],crossOrigin:true
+  }).addTo(map);
+  L.control.zoom({position:'bottomright'}).addTo(map);
+
+  PKS.forEach(p=>{
+    const col=p.d==='high'?'#ff2442':p.d==='med'?'#ffb300':'#39ff14';
+    const ico=L.divIcon({html:`<div style="width:10px;height:10px;border-radius:50%;background:${col};box-shadow:0 0 8px ${col}"></div>`,className:'',iconSize:[10,10],iconAnchor:[5,5]});
+    L.marker([p.lat,p.lng],{icon:ico}).addTo(map)
+      .bindPopup(`<div class="popup-nm">🏢 ${p.n}</div><div class="popup-dt">👥 ${p.emp} workers · ${p.cos} companies</div>`);
+  });
+}
+
+function addPin(lat,lng,type){
+  if(pins[type])map.removeLayer(pins[type]);
+  const col=type==='f'?'#39ff14':'#ffb300';
+  const lbl=type==='f'?'START':'END';
+  const ico=L.divIcon({html:`<div style="text-align:center;filter:drop-shadow(0 0 6px ${col})"><div style="font-size:20px">${type==='f'?'📍':'🏁'}</div><div style="font-family:Orbitron,sans-serif;font-size:8px;color:${col};background:rgba(0,8,3,.85);padding:2px 4px">${lbl}</div></div>`,className:'',iconSize:[44,42],iconAnchor:[22,38]});
+  pins[type]=L.marker([lat,lng],{icon:ico}).addTo(map);
+}
+function removePin(type){if(pins[type]){map.removeLayer(pins[type]);delete pins[type];}}
+
+// ══ FAST GOOGLE-LIKE AUTOCOMPLETE (via Photon with Bengaluru Geo-Bias) ══
+function acs(f){
+  const inp=document.getElementById(f==='f'?'fi':'ti');
+  const val=inp.value.trim();
+  const xb=document.getElementById(f==='f'?'fx':'tx');
+  const sp=document.getElementById(f==='f'?'fsp':'tsp');
+  const list=document.getElementById(f==='f'?'fac':'tac');
+  xb.style.display=val?'block':'none';
+  if(val.length<2){list.classList.remove('open');return;}
+  clearTimeout(acT[f]);
+  sp.style.display='block';xb.style.display='none';
+  list.innerHTML='<div class="acmsg">◆ SCANNING LOCATIONS...</div>';
+  list.classList.add('open');
+  acT[f]=setTimeout(()=>runPhotonSearch(f,val,sp,list,xb),200);
+}
+
+async function runPhotonSearch(f,val,sp,list,xb){
+  try{
+    // Bounded search centered around Bengaluru coordinates
+    const url=`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&lat=12.9716&lon=77.5946&limit=6`;
+    const res=await fetch(url);
+    const data=await res.json();
+    const results=data.features||[];
+
+    sp.style.display='none';xb.style.display=val?'block':'none';
+    renderPhotonList(f,results,val,list);
+  }catch(err){
+    sp.style.display='none';
+    list.innerHTML=`<div class="acmsg">⚠ SEARCH UNAVAILABLE — RETRYING</div>`;
+  }
+}
+
+function renderPhotonList(f,results,orig,list){
+  acD[f]=results;acI[f]=-1;
+  if(!results.length){
+    list.innerHTML=`<div class="acmsg">⚠ NO MATCHES FOR "${orig.toUpperCase()}"</div>`;
+    return;
+  }
+  let html=results.map((item,i)=>{
+    const p=item.properties;
+    const main=p.name||p.street||p.district||'Unknown Place';
+    const sub=[p.district,p.city||p.county,p.state].filter(Boolean).join(', ');
+    const [lon,lat]=item.geometry.coordinates;
+    const dist=haversine(lat,lon,12.9716,77.5946);
+    return `<div class="aci" id="aci-${f}-${i}" onmousedown="selPhoton('${f}',${i})">
+      <span class="aico">📍</span>
+      <div style="flex:1;min-width:0">
+        <div class="acm">${main}</div>
+        <div class="acs2">${sub||'Bengaluru'}</div>
+        <div class="acd">◆ ${dist} from BLR Centre</div>
+      </div>
+    </div>`;
+  }).join('');
+  list.innerHTML=html;list.classList.add('open');
+}
+
+function selPhoton(f,idx){
+  const item=acD[f][idx];if(!item)return;
+  const p=item.properties;
+  const name=p.name||p.street||p.district;
+  const [lon,lat]=item.geometry.coordinates;
+  document.getElementById(f==='f'?'fi':'ti').value=name;
+  document.getElementById(f==='f'?'fx':'tx').style.display='block';
+  document.getElementById(f==='f'?'fac':'tac').classList.remove('open');
+  if(f==='f'){fc=[lon,lat];}else{tc=[lon,lat];}
+  addPin(lat,lon,f);
+  map.flyTo([lat,lon],15,{animate:true,duration:0.8});
+  if(fc&&tc)setTimeout(()=>map.fitBounds([[fc[1],fc[0]],[tc[1],tc[0]]],{padding:[80,80],animate:true}),900);
+}
+
+function ack(e,f){
+  const list=document.getElementById(f==='f'?'fac':'tac');
+  const items=list.querySelectorAll('.aci');
+  if(!list.classList.contains('open')||!items.length)return;
+  if(e.key==='ArrowDown'){e.preventDefault();acI[f]=Math.min(acI[f]+1,items.length-1);items.forEach((el,i)=>el.classList.toggle('hi2',i===acI[f]));}
+  else if(e.key==='ArrowUp'){e.preventDefault();acI[f]=Math.max(acI[f]-1,0);items.forEach((el,i)=>el.classList.toggle('hi2',i===acI[f]));}
+  else if(e.key==='Enter'){e.preventDefault();if(acI[f]>=0)selPhoton(f,acI[f]);else list.classList.remove('open');}
+  else if(e.key==='Escape')list.classList.remove('open');
+}
+
+function ci(f){
+  document.getElementById(f==='f'?'fi':'ti').value='';
+  document.getElementById(f==='f'?'fx':'tx').style.display='none';
+  document.getElementById(f==='f'?'fac':'tac').classList.remove('open');
+  if(f==='f'){fc=null;removePin('f');}else{tc=null;removePin('t');}
+}
+
+function swapLocations(){
+  const fv=document.getElementById('fi').value,tv=document.getElementById('ti').value;
+  document.getElementById('fi').value=tv;document.getElementById('ti').value=fv;
+  const tmp=fc;fc=tc;tc=tmp;
+  const tmpP=pins['f'];pins['f']=pins['t'];pins['t']=tmpP;
+  if(fc)addPin(fc[1],fc[0],'f');
+  if(tc)addPin(tc[1],tc[0],'t');
+  if(fv||tv)showNotif('SWAPPED','Locations inverted.');
+}
+
+function haversine(lat1,lon1,lat2,lon2){
+  const R=6371,dL=(lat2-lat1)*Math.PI/180,dO=(lon2-lon1)*Math.PI/180;
+  const a=Math.sin(dL/2)**2+Math.cos(lat1*Math.PI/180)*Math.cos(lat2*Math.PI/180)*Math.sin(dO/2)**2;
+  const d=2*R*Math.atan2(Math.sqrt(a),Math.sqrt(1-a));
+  return d<1?Math.round(d*1000)+'m':d.toFixed(1)+'km';
+}
+
+document.addEventListener('click',e=>{if(!e.target.closest('.iw'))document.querySelectorAll('.acl').forEach(l=>l.classList.remove('open'));});
+
+// ══ ROUTING LOGIC & ESTIMATOR ══
+function getMult(forTime){
+  const now=forTime||new Date();
+  const h=now.getHours()+now.getMinutes()/60,day=now.getDay();
+  const dm=DM[day]||1;
+  let tm=1;
+  if(h>=8&&h<11)tm=1+1.5*Math.sin(Math.PI*(h-8)/3);
+  else if(h>=17&&h<21)tm=1+1.4*Math.sin(Math.PI*(h-17)/4);
+  else if(h>=7&&h<8)tm=1.2;else if(h>=11&&h<13)tm=1.1;
+  let rm=1;
+  if(wx){if(wx.precip>10)rm=1.5;else if(wx.precip>5)rm=1.3;else if(wx.precip>0)rm=1.15;}
+  return{total:dm*tm*rm,time:tm,day:dm,rain:rm};
+}
+
+function getSig(m){
+  const t=m.total;
+  if(t<1.2)return{cls:'go',word:'CLEAR',sub:'Light flow across the grid.'};
+  if(t<1.6)return{cls:'warn',word:'CAUTION',sub:'Congestion building up.'};
+  if(t<2.2)return{cls:'bad',word:'DANGER',sub:'Heavy gridlock expected.'};
+  return{cls:'bad',word:'GRIDLOCK',sub:'Severe congestion on key corridors.'};
+}
+
+function detectCor(fval,tval){
+  const t=((fval||'')+' '+(tval||'')).toLowerCase();
+  if(t.includes('whitefield')||t.includes('varthur')||t.includes('itpl'))return'wf';
+  if(t.includes('electronic')||t.includes('hosur'))return'ec';
+  if(t.includes('hebbal')||t.includes('manyata'))return'hbl';
+  return'orr';
+}
+
+async function planRoute(){
+  const fv=document.getElementById('fi').value.trim();
+  const tv=document.getElementById('ti').value.trim();
+  if(!fv||!tv){showNotif('INPUT ERROR','Please set both origins and destinations.');return;}
+  const btn=document.getElementById('eb');
+  btn.classList.add('busy');btn.textContent='⚡ SCANNING...';btn.disabled=true;
+
+  if(!fc||!tc){
+    showNotif('SELECT FROM LIST','Please click the dropdown results for coordinates.');
+    btn.classList.remove('busy');btn.textContent='⚡ EXECUTE ROUTE SCAN';btn.disabled=false;return;
+  }
+
+  const ck=detectCor(fv,tv);
+  const cor=COR[ck];
+  const m=getMult(new Date());
+  const sig=getSig(m);
+
+  routeLayers.forEach(l=>{try{map.removeLayer(l)}catch{}});routeLayers=[];
+
+  // Accurate straight-line + road tortuosity model (1.28 factor)
+  const baseDist=parseFloat(haversine(fc[1],fc[0],tc[1],tc[0]).replace('km','').replace('m',''))||10;
+  const distKm=Math.round(baseDist*1.28*10)/10;
+  const spdFree=vehicle==='bike'?cor.bikeFree:cor.carFree;
+  const freeMin=Math.round((distKm/spdFree)*60);
+  const adjMin=Math.round(freeMin*m.total);
+  const conf=Math.max(30,Math.min(95,Math.round(85/m.total)));
+
+  const poly=L.polyline([[fc[1],fc[0]],[tc[1],tc[0]]],{color:'#39ff14',weight:4,opacity:.85,dashArray:'8,6'}).addTo(map);
+  routeLayers.push(poly);
+  map.fitBounds([[fc[1],fc[0]],[tc[1],tc[0]]],{padding:[70,70]});
+
+  document.getElementById('sb').innerHTML=`<div class="sigb ${sig.cls}"><div class="sigw">${sig.word}</div><div class="sigs">${sig.sub}</div></div>`;
+  document.getElementById('cp').textContent=conf+'%';
+  document.getElementById('cr').style.strokeDashoffset=175.9-(175.9*conf/100);
+  document.getElementById('cv').textContent=conf>75?'HIGH CONFIDENCE':'MODERATE CONFIDENCE';
+  document.getElementById('cd2').textContent=`Route: ${cor.name} · Mode: ${vehicle.toUpperCase()}`;
+  document.getElementById('confdef').innerHTML=`<strong>${conf}% Arrival Reliability:</strong> Est. <strong>${adjMin} mins</strong> travel time in active traffic (free flow: ${freeMin}m).`;
+
+  document.getElementById('ro').innerHTML=`
+    <div class="rc sel" style="--rcol:var(--neon)">
+      <div class="rct"><div class="rcn" style="color:var(--neon)">TACTICAL FASTEST</div><span class="rtag tbest">RECOMMENDED</span></div>
+      <div class="rst"><div><strong>${adjMin} min</strong> ETA</div><div><strong>${distKm} km</strong></div><div><strong>${freeMin} min</strong> clean</div></div>
+    </div>`;
+
+  const spd=vehicle==='bike'?Math.round(cor.bikePeak/m.time):Math.round(cor.carPeak/m.time);
+  document.getElementById('sg').innerHTML=`
+    <div class="dc" style="--dc:var(--neon)"><div class="dv" style="color:var(--neon)">${spd}</div><div class="dl">${vehicle.toUpperCase()}<br>km/h NOW</div></div>
+    <div class="dc" style="--dc:var(--neon)"><div class="dv" style="color:var(--neon)">${spdFree}</div><div class="dl">CLEAN SPEED</div></div>
+    <div class="dc" style="--dc:var(--amber)"><div class="dv" style="color:var(--amber)">+${Math.round((m.total-1)*100)}%</div><div class="dl">SURGE DELAY</div></div>`;
+
+  document.getElementById('cl').innerHTML=cor.chokes.map(c=>`<div class="chi ${c.s}"><div class="chn">${c.n}</div><div class="chd">${c.d}</div></div>`).join('');
+
+  document.getElementById('rr').style.display='block';
+  document.getElementById('es').style.display='none';
+  document.getElementById('htl').style.display='block';
+  document.getElementById('htime').textContent=adjMin+' MIN';
+  document.getElementById('hsub').textContent=distKm+' km · '+cor.short;
+
+  btn.classList.remove('busy');btn.textContent='⚡ RECALCULATE';btn.disabled=false;
+  showNotif('ROUTE ACTIVE',`Target mapped: ${distKm} km via ${cor.short}`);
+}
+
+async function fetchWX(){
+  try{
+    const r=await fetch('https://api.open-meteo.com/v1/forecast?latitude=12.9716&longitude=77.5946&current=temperature_2m,precipitation&timezone=Asia/Kolkata');
+    const d=await r.json();
+    wx={temp:Math.round(d.current.temperature_2m),precip:d.current.precipitation||0};
+    document.getElementById('wxt').textContent=`☀️ ${wx.temp}°C BLR`;
+  }catch{document.getElementById('wxt').textContent='☀️ 28°C BLR';}
+}
+
+function gp(name,el){
+  document.querySelectorAll('.panel').forEach(p=>p.classList.remove('active'));
+  document.querySelectorAll('.np').forEach(p=>p.classList.remove('active'));
+  document.getElementById('panel-'+name).classList.add('active');
+  if(el)el.classList.add('active');
+}
+function gs(name,el){
+  ['bk','ret','smart'].forEach(s=>{const e=document.getElementById('sub-'+s);if(e)e.style.display=s===name?'block':'none';});
+  document.querySelectorAll('.stb').forEach(t=>t.classList.remove('active'));
+  if(el)el.classList.add('active');
+}
+function sv(v,el){vehicle=v;document.querySelectorAll('.vb').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+function sd(m,el){departMode=m;document.querySelectorAll('.db').forEach(b=>b.classList.remove('active'));el.classList.add('active');document.getElementById('tw').style.display=m!=='now'?'block':'none';}
+function showNotif(title,body){const n=document.getElementById('nf');document.getElementById('nt').textContent=title;document.getElementById('nb').textContent=body;n.classList.add('show');setTimeout(()=>n.classList.remove('show'),3500);}
+
+window.addEventListener('load',async()=>{
+  initMap();
+  await fetchWX();
+  setInterval(()=>{const d=new Date();document.getElementById('clk').textContent=d.toTimeString().split(' ')[0];},1000);
+  document.getElementById('ls').classList.add('gone');
+  setTimeout(()=>document.getElementById('ls').style.display='none',600);
+});
+</script>
+</body>
+</html>
