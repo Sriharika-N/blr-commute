@@ -3,11 +3,10 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BLR Commute Radar — WhatsApp Traffic Engine</title>
+<title>BLR Commute Radar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
-<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
@@ -29,7 +28,6 @@ input, select{width:100%;padding:12px 14px;background:#090f0c;border:1px solid v
 input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 
-/* DAY TABS */
 .day-tabs{display:flex;gap:4px;margin:12px 0;background:#090f0c;padding:4px;border-radius:10px;border:1px solid var(--border)}
 .d-tab{flex:1;padding:8px 0;font-size:11px;font-weight:700;text-align:center;border-radius:6px;cursor:pointer;color:var(--txt-muted);background:transparent;border:none}
 .d-tab.active{background:var(--accent);color:#042f1f}
@@ -46,7 +44,6 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
 .btn:active{transform:scale(0.98)}
 .btn-wa{display:flex;align-items:center;justify-content:center;gap:8px;background:#25D366;color:#042f1f;text-decoration:none;padding:14px;border-radius:10px;font-size:14px;font-weight:800;margin-top:14px}
 .btn-wa:hover{filter:brightness(1.05)}
-
 .card-summary{display:none;text-align:center;padding:10px 0}
 .icon-check{width:48px;height:48px;background:rgba(16,185,129,0.12);color:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px}
 </style>
@@ -125,18 +122,17 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
     <button class="btn" id="save-btn" onclick="saveCommutePlan()">Save &amp; Connect WhatsApp</button>
   </div>
 
-  <!-- FINAL STEP: CONNECT VIA WHATSAPP (OPTION 1 INBOUND) -->
   <div class="card card-summary" id="connect-box">
     <div class="icon-check">✓</div>
-    <h2>Itinerary Saved!</h2>
-    <p style="margin-top:6px">Tap below to open WhatsApp and send your one-tap registration message. This opens your free 24h alert window.</p>
+    <h2>Itinerary Registered!</h2>
+    <p style="margin-top:6px">Tap below to join our WhatsApp sandbox channel and activate your alerts instantly:</p>
     
     <a href="#" id="wa-link" class="btn-wa" target="_blank">
-      <span>📲 Tap to Connect on WhatsApp</span>
+      <span>📲 Tap to Activate on WhatsApp</span>
     </a>
 
-    <p style="font-size:11px;color:var(--txt-muted);font-family:'JetBrains Mono',monospace;margin-top:16px">
-      Or text <b>START BLR RADAR</b> to our official number.
+    <p style="font-size:11px;color:var(--txt-muted);font-family:'JetBrains Mono',monospace;margin-top:16px" id="manual-helper">
+      Or text the sandbox code to Twilio WhatsApp.
     </p>
   </div>
 </div>
@@ -251,10 +247,10 @@ async function saveCommutePlan() {
 
     if (!res.ok || data.error) return alert("Error: " + (data.error || 'Server error'));
 
-    // Configure the WhatsApp Inbound Click-to-Chat Link
-    const waBusinessNumber = data.businessPhone || '15551390497'; // Replace with your Meta test phone number
-    const prefilledText = encodeURIComponent("START BLR RADAR");
-    document.getElementById('wa-link').href = `https://api.whatsapp.com/send?phone=${waBusinessNumber}&text=${prefilledText}`;
+    // Direct link to Twilio Sandbox number (+1 415 523 8886)
+    const twilioNum = '14155238886';
+    document.getElementById('wa-link').href = `https://api.whatsapp.com/send?phone=${twilioNum}&text=join%20sandbox`;
+    document.getElementById('manual-helper').innerHTML = `Or text "<b>join sandbox</b>" (or your Twilio sandbox phrase) to <b>+${twilioNum}</b>`;
 
     document.getElementById('form-box').style.display = 'none';
     document.getElementById('connect-box').style.display = 'block';
