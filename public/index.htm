@@ -111,7 +111,7 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
 </div>
 
 <script>
-// 1. SUPABASE CLIENT (Safe initialization without identifier re-declaration)
+// 1. SUPABASE CLIENT WITH YOUR EMBEDDED CREDENTIALS
 const SB_PROJECT_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
 
@@ -121,10 +121,10 @@ try {
     dbClient = window.supabase.createClient(SB_PROJECT_URL, SB_ANON_KEY);
   }
 } catch (err) {
-  console.error('Supabase initialization failed:', err);
+  console.error('Supabase initialization error:', err);
 }
 
-// 2. COORDINATES & DEBOUNCE STATE
+// 2. COORDINATES & TIMERS
 let coords = { f: null, t: null };
 let searchTimers = { f: null, t: null };
 
@@ -134,7 +134,6 @@ function searchLoc(type) {
   const query = inputEl.value.trim();
   const listEl = document.getElementById(type === 'f' ? 'fac' : 'tac');
 
-  // Invalidate previous coordinate when user modifies text
   coords[type] = null;
 
   if (query.length < 2) {
@@ -149,7 +148,6 @@ function searchLoc(type) {
     listEl.classList.add('open');
 
     try {
-      // Bounded specifically to Bengaluru lat: 12.9716, lon: 77.5946
       const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&lat=12.9716&lon=77.5946&limit=6`;
       const res = await fetch(url);
       const data = await res.json();
@@ -197,7 +195,6 @@ function chooseLocation(type, lng, lat, name) {
   coords[type] = [lng, lat];
 }
 
-// Close dropdown if clicked outside
 document.addEventListener('click', (e) => {
   if (!e.target.closest('.input-box')) {
     document.querySelectorAll('.acl').forEach(el => el.classList.remove('open'));
@@ -223,14 +220,13 @@ async function saveCommuterProfile() {
     return;
   }
   if (!dbClient) {
-    alert("Database connection is not configured. Please check your Supabase Project URL and Anon Key in index.html.");
+    alert("Database connection is not configured.");
     return;
   }
 
   submitBtn.disabled = true;
   submitBtn.textContent = "Activating...";
 
-  // Calculate default departure 45 minutes prior to target arrival
   const [h, m] = arriveTime.split(':').map(Number);
   const totalMins = h * 60 + m - 45;
   const leaveHomeTime = `${String(Math.floor(totalMins / 60)).padStart(2, '0')}:${String(totalMins % 60).padStart(2, '0')}`;
