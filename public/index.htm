@@ -3,58 +3,74 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BLR Commute Radar — Pushover Setup</title>
+<title>BLR Commute Radar</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#090d0b;--card:#111915;--border:rgba(255,255,255,0.08);
-  --accent:#10b981;--accent-glow:rgba(16,185,129,0.2);
-  --txt:#f9fafb;--txt-muted:#9ca3af;
+  --bg:#070b09;--card:#0f1713;--border:rgba(255,255,255,0.08);
+  --border-focus:rgba(16,185,129,0.5);--accent:#10b981;
+  --accent-glow:rgba(16,185,129,0.25);--txt:#f9fafb;--txt-muted:#9ca3af;
+  --font:'Plus Jakarta Sans',sans-serif;
 }
-body{background:var(--bg);color:var(--txt);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
-.container{width:100%;max-width:440px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 12px 36px rgba(0,0,0,0.5)}
-.tag{display:inline-block;padding:4px 8px;background:rgba(16,185,129,0.1);color:var(--accent);border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px;margin-bottom:8px}
-h1{font-size:20px;font-weight:800;margin-bottom:6px;letter-spacing:-0.4px}
+body{background:var(--bg);color:var(--txt);font-family:var(--font);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.container{width:100%;max-width:460px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:26px;box-shadow:0 16px 40px rgba(0,0,0,0.6)}
+.badge{display:inline-block;padding:5px 10px;background:rgba(16,185,129,0.12);color:var(--accent);border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.5px;margin-bottom:10px}
+h1{font-size:22px;font-weight:800;letter-spacing:-0.4px;margin-bottom:6px}
 p{font-size:13px;color:var(--txt-muted);line-height:1.5;margin-bottom:20px}
-.field{margin-bottom:14px;position:relative}
-label{display:block;font-size:11px;font-weight:600;color:var(--txt-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
-input, select{width:100%;padding:12px 14px;background:#0d1310;border:1px solid var(--border);border-radius:8px;color:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color 0.2s}
+.field{margin-bottom:16px;position:relative}
+label{display:block;font-size:11px;font-weight:700;color:var(--txt-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
+.input-box{position:relative}
+input, select{width:100%;padding:13px 14px;background:#090f0c;border:1px solid var(--border);border-radius:10px;color:#fff;font-family:inherit;font-size:14px;outline:none;transition:all 0.15s}
 input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.btn{width:100%;padding:14px;background:var(--accent);color:#022c1d;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;transition:transform 0.1s}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+
+/* AUTOCOMPLETE DROPDOWN */
+.acl{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#0d1612;border:1px solid var(--border-focus);border-radius:10px;max-height:240px;overflow-y:auto;z-index:999;display:none;box-shadow:0 12px 30px rgba(0,0,0,0.85)}
+.acl.open{display:block}
+.aci{padding:12px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,0.05);display:flex;align-items:flex-start;gap:10px}
+.aci:hover{background:rgba(16,185,129,0.12)}
+.aci:last-child{border-bottom:none}
+.aci-ico{font-size:15px;margin-top:1px;opacity:0.8}
+.aci-name{font-size:13px;font-weight:700;color:#fff;line-height:1.3}
+.aci-sub{font-size:11px;color:var(--txt-muted);margin-top:2px;line-height:1.3}
+
+.btn{width:100%;padding:15px;background:var(--accent);color:#022c1d;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;margin-top:10px;transition:transform 0.1s, box-shadow 0.15s}
+.btn:hover{box-shadow:0 0 20px var(--accent-glow)}
 .btn:active{transform:scale(0.98)}
-.acl{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#0d1310;border:1px solid var(--accent);border-radius:8px;max-height:180px;overflow-y:auto;z-index:100;display:none;box-shadow:0 8px 24px rgba(0,0,0,0.8)}
-.aci{padding:10px 12px;font-size:13px;cursor:pointer;border-bottom:1px solid var(--border)}
-.aci:hover{background:rgba(16,185,129,0.1)}
-.success-card{display:none;text-align:center;padding:20px 0}
-.icon-done{width:48px;height:48px;background:rgba(16,185,129,0.1);border-radius:50%;display:flex;align-items:center;justify-content:center;margin:0 auto 12px;color:var(--accent);font-size:20px}
+
+.success-box{display:none;text-align:center;padding:15px 0}
+.icon-done{width:52px;height:52px;background:rgba(16,185,129,0.15);color:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:24px;margin:0 auto 14px}
 </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="card" id="form-card">
-    <span class="tag">PUSHOVER RADAR</span>
+  <div class="card" id="form-box">
+    <span class="badge">BLR COMMUTE RADAR</span>
     <h1>Outsmart Bangalore Traffic</h1>
-    <p>We monitor your route and push alerts directly to your phone via Pushover with the exact minute to depart.</p>
+    <p>Predicts corridor bottlenecks and alerts your device with the exact minute to leave to dodge peak rush hour.</p>
 
-    <!-- Origin -->
+    <!-- Start Location -->
     <div class="field">
       <label>Home Location</label>
-      <input id="fi" placeholder="Area, landmark, or street..." autocomplete="off" oninput="searchLoc('f')"/>
-      <div class="acl" id="fac"></div>
+      <div class="input-box">
+        <input id="fi" placeholder="Type locality, apartment, or landmark..." autocomplete="off" oninput="searchLoc('f')"/>
+        <div class="acl" id="fac"></div>
+      </div>
     </div>
 
     <!-- Destination -->
     <div class="field">
-      <label>Office Location</label>
-      <input id="ti" placeholder="Tech park, office, or building..." autocomplete="off" oninput="searchLoc('t')"/>
-      <div class="acl" id="tac"></div>
+      <label>Office / Destination</label>
+      <div class="input-box">
+        <input id="ti" placeholder="Type tech park, office, or building..." autocomplete="off" oninput="searchLoc('t')"/>
+        <div class="acl" id="tac"></div>
+      </div>
     </div>
 
     <!-- Times & Mode -->
@@ -64,7 +80,7 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
         <input type="time" id="arrive_time" value="09:30"/>
       </div>
       <div class="field">
-        <label>Travel Mode</label>
+        <label>Mode</label>
         <select id="mode">
           <option value="car">Car / Cab</option>
           <option value="bike">Two-Wheeler</option>
@@ -72,9 +88,9 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
       </div>
     </div>
 
-    <!-- Identifier & Pushover Key -->
+    <!-- Pushover Credentials -->
     <div class="field">
-      <label>Your Email (Identifier)</label>
+      <label>Identifier (Your Email)</label>
       <input id="email" placeholder="name@company.com"/>
     </div>
 
@@ -83,59 +99,114 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
       <input id="pushover_key" placeholder="30-character User Key"/>
     </div>
 
-    <button class="btn" onclick="saveCommuterProfile()">Activate Commute Radar</button>
+    <button class="btn" id="sub-btn" onclick="saveCommuterProfile()">Activate Commute Radar</button>
   </div>
 
-  <div class="card success-card" id="success-card">
+  <div class="card success-box" id="success-box">
     <div class="icon-done">✓</div>
-    <h2>Radar Active</h2>
-    <p style="margin-top:8px">Your routine is registered. Every weekday morning, you will receive a push notification on your phone before peak congestion hits.</p>
+    <h2>Radar Activated</h2>
+    <p style="margin-top:8px">Your routine has been registered in Supabase. Every weekday morning, a push notification will land on your device before peak traffic forms.</p>
+    <p style="font-size:11px;color:var(--txt-muted);font-family:'JetBrains Mono',monospace">You can close this tab.</p>
   </div>
 </div>
 
 <script>
-const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
-const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
-const supabase = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+// 1. SUPABASE CLIENT (Safe initialization without identifier re-declaration)
+const SB_PROJECT_URL = 'https://YOUR_PROJECT_REF.supabase.co';
+const SB_ANON_KEY = 'YOUR_SUPABASE_ANON_KEY';
 
-let fc = null, tc = null;
-let timer = { f: null, t: null };
+let dbClient = null;
+try {
+  if (window.supabase && typeof window.supabase.createClient === 'function') {
+    dbClient = window.supabase.createClient(SB_PROJECT_URL, SB_ANON_KEY);
+  }
+} catch (err) {
+  console.error('Supabase initialization failed:', err);
+}
 
+// 2. COORDINATES & DEBOUNCE STATE
+let coords = { f: null, t: null };
+let searchTimers = { f: null, t: null };
+
+// 3. REAL-TIME GOOGLE-MAPS-STYLE AUTOCOMPLETE
 function searchLoc(type) {
-  const val = document.getElementById(type === 'f' ? 'fi' : 'ti').value.trim();
-  const list = document.getElementById(type === 'f' ? 'fac' : 'tac');
-  if (val.length < 2) { list.style.display = 'none'; return; }
+  const inputEl = document.getElementById(type === 'f' ? 'fi' : 'ti');
+  const query = inputEl.value.trim();
+  const listEl = document.getElementById(type === 'f' ? 'fac' : 'tac');
 
-  clearTimeout(timer[type]);
-  timer[type] = setTimeout(async () => {
+  // Invalidate previous coordinate when user modifies text
+  coords[type] = null;
+
+  if (query.length < 2) {
+    listEl.classList.remove('open');
+    listEl.innerHTML = '';
+    return;
+  }
+
+  clearTimeout(searchTimers[type]);
+  searchTimers[type] = setTimeout(async () => {
+    listEl.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--txt-muted)">Searching Bengaluru locations...</div>';
+    listEl.classList.add('open');
+
     try {
-      const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&lat=12.9716&lon=77.5946&limit=4`);
+      // Bounded specifically to Bengaluru lat: 12.9716, lon: 77.5946
+      const url = `https://photon.komoot.io/api/?q=${encodeURIComponent(query)}&lat=12.9716&lon=77.5946&limit=6`;
+      const res = await fetch(url);
       const data = await res.json();
-      const items = data.features || [];
-      if (!items.length) { list.style.display = 'none'; return; }
+      const features = data.features || [];
 
-      list.innerHTML = items.map(item => {
-        const name = item.properties.name || item.properties.street || "Location";
-        const sub = [item.properties.district, item.properties.city || 'Bengaluru'].filter(Boolean).join(', ');
-        return `<div class="aci" onmousedown="pickLoc('${type}', ${item.geometry.coordinates[0]}, ${item.geometry.coordinates[1]}, '${name.replace(/'/g, "\\'")}')">
-          <b>${name}</b><br><span style="font-size:10px;color:#9ca3af">${sub}</span>
-        </div>`;
+      if (!features.length) {
+        listEl.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--txt-muted)">No matching location found</div>';
+        return;
+      }
+
+      listEl.innerHTML = features.map((feat) => {
+        const p = feat.properties;
+        const main = p.name || p.street || p.district || 'Location';
+        const sub = [p.district, p.city || p.county, p.state || 'Karnataka'].filter(Boolean).join(', ');
+        const [lng, lat] = feat.geometry.coordinates;
+
+        return `
+          <div class="aci" onmousedown="chooseLocation('${type}', ${lng}, ${lat}, '${escapeStr(main)}')">
+            <span class="aci-ico">📍</span>
+            <div>
+              <div class="aci-name">${main}</div>
+              <div class="aci-sub">${sub}</div>
+            </div>
+          </div>
+        `;
       }).join('');
-      list.style.display = 'block';
-    } catch {
-      list.style.display = 'none';
+    } catch (err) {
+      console.error('Geocoder error:', err);
+      listEl.innerHTML = '<div style="padding:12px;font-size:12px;color:#ef4444">Search service timeout. Try typing area name.</div>';
     }
   }, 200);
 }
 
-function pickLoc(type, lng, lat, name) {
-  document.getElementById(type === 'f' ? 'fi' : 'ti').value = name;
-  document.getElementById(type === 'f' ? 'fac' : 'tac').style.display = 'none';
-  if (type === 'f') fc = [lng, lat];
-  else tc = [lng, lat];
+function escapeStr(str) {
+  return str.replace(/'/g, "\\'").replace(/"/g, '&quot;');
 }
 
+function chooseLocation(type, lng, lat, name) {
+  const inputEl = document.getElementById(type === 'f' ? 'fi' : 'ti');
+  const listEl = document.getElementById(type === 'f' ? 'fac' : 'tac');
+
+  inputEl.value = name;
+  listEl.classList.remove('open');
+  listEl.innerHTML = '';
+  coords[type] = [lng, lat];
+}
+
+// Close dropdown if clicked outside
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.input-box')) {
+    document.querySelectorAll('.acl').forEach(el => el.classList.remove('open'));
+  }
+});
+
+// 4. SAVE COMMUTER PROFILE TO SUPABASE
 async function saveCommuterProfile() {
+  const submitBtn = document.getElementById('sub-btn');
   const userKey = document.getElementById('pushover_key').value.trim();
   const email = document.getElementById('email').value.trim();
   const arriveTime = document.getElementById('arrive_time').value;
@@ -143,23 +214,37 @@ async function saveCommuterProfile() {
   const fromName = document.getElementById('fi').value.trim();
   const toName = document.getElementById('ti').value.trim();
 
-  if (!fc || !tc || !userKey || !email) {
-    alert("Please select both locations from the list and provide your Email + Pushover User Key.");
+  if (!coords.f || !coords.t) {
+    alert("Please select both your Home and Office locations from the dropdown list.");
+    return;
+  }
+  if (!userKey || !email) {
+    alert("Please enter both your Email and your Pushover User Key.");
+    return;
+  }
+  if (!dbClient) {
+    alert("Database connection is not configured. Please check your Supabase Project URL and Anon Key in index.html.");
     return;
   }
 
+  submitBtn.disabled = true;
+  submitBtn.textContent = "Activating...";
+
+  // Calculate default departure 45 minutes prior to target arrival
   const [h, m] = arriveTime.split(':').map(Number);
   const totalMins = h * 60 + m - 45;
   const leaveHomeTime = `${String(Math.floor(totalMins / 60)).padStart(2, '0')}:${String(totalMins % 60).padStart(2, '0')}`;
 
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
-  const payloads = days.map(day => ({
+  const records = days.map(day => ({
     user_email: email,
     day_of_week: day,
     origin_name: fromName,
-    origin_lat: fc[1], origin_lng: fc[0],
+    origin_lat: coords.f[1],
+    origin_lng: coords.f[0],
     dest_name: toName,
-    dest_lat: tc[1], dest_lng: tc[0],
+    dest_lat: coords.t[1],
+    dest_lng: coords.t[0],
     leave_home_time: leaveHomeTime,
     leave_office_time: '18:30',
     pushover_user_key: userKey,
@@ -167,12 +252,16 @@ async function saveCommuterProfile() {
     alerts_enabled: true
   }));
 
-  const { error } = await supabase.from('commute_plans').insert(payloads);
+  const { error } = await dbClient.from('commute_plans').insert(records);
+
+  submitBtn.disabled = false;
+  submitBtn.textContent = "Activate Commute Radar";
+
   if (error) {
     alert("Database Error: " + error.message);
   } else {
-    document.getElementById('form-card').style.display = 'none';
-    document.getElementById('success-card').style.display = 'block';
+    document.getElementById('form-box').style.display = 'none';
+    document.getElementById('success-box').style.display = 'block';
   }
 }
 </script>
