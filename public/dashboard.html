@@ -43,17 +43,17 @@ async function loadScorecard() {
   const data = await res.json();
   if (!Array.isArray(data) || !data.length) {
     document.getElementById('total-saved').textContent = '0 MINS';
-    document.getElementById('log-list').innerHTML = '<div style="font-size:12px;color:#6b7280">No verified commutes yet. Start by replying 1 to your alerts!</div>';
+    document.getElementById('log-list').innerHTML = '<div style="font-size:12px;color:#6b7280">No verified commutes yet. Reply 1 or YES to your morning alerts to log savings!</div>';
     return;
   }
 
   const total = data.reduce((sum, item) => sum + (item.minutes_saved || 0), 0);
   document.getElementById('total-saved').textContent = `${total}m`;
-  document.getElementById('sub-hours').textContent = `~${(total/60).toFixed(1)} hours saved from ORR & Silk Board traffic`;
+  document.getElementById('sub-hours').textContent = `~${(total/60).toFixed(1)} hours saved from ORR & Silk Board bottlenecks`;
 
   document.getElementById('log-list').innerHTML = data.map(item => `
     <div class="row">
-      <span>${item.day_of_week} Commute</span>
+      <span>${item.day_of_week} Commute (${item.actual_departure_time || 'On-time'})</span>
       <strong style="color:#10b981">+${item.minutes_saved}m saved</strong>
     </div>
   `).join('');
