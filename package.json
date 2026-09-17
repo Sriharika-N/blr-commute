@@ -1,8 +1,9 @@
 {
   "name": "blr-commute",
-  "version": "1.0.0",
+  "version": "6.0.0",
   "private": true,
   "scripts": {
     "start": "serve public"
-  }
+  },
+  "dependencies": {}
 }
