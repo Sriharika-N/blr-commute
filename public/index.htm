@@ -15,7 +15,7 @@
   --txt:#f9fafb;--txt-muted:#9ca3af;--font:'Plus Jakarta Sans',sans-serif;
 }
 body{background:var(--bg);color:var(--txt);font-family:var(--font);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px 16px}
-.container{width:100%;max-width:480px}
+.container{width:100%;max-width:520px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:26px;box-shadow:0 16px 40px rgba(0,0,0,0.6)}
 .badge{display:inline-block;padding:4px 10px;background:rgba(16,185,129,0.12);color:var(--accent);border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.5px;margin-bottom:8px}
 h1{font-size:22px;font-weight:800;letter-spacing:-0.4px;margin-bottom:4px}
@@ -42,19 +42,30 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
 
 .btn{width:100%;padding:14px;background:var(--accent);color:#022c1d;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;margin-top:6px;transition:all 0.15s}
 .btn:active{transform:scale(0.98)}
-.btn-wa{display:flex;align-items:center;justify-content:center;gap:8px;background:#25D366;color:#042f1f;text-decoration:none;padding:14px;border-radius:10px;font-size:14px;font-weight:800;margin-top:14px}
-.btn-wa:hover{filter:brightness(1.05)}
-.card-summary{display:none;text-align:center;padding:10px 0}
-.icon-check{width:48px;height:48px;background:rgba(16,185,129,0.12);color:var(--accent);border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:22px;margin:0 auto 12px}
+
+/* RESULTS DASHBOARD */
+.dash{display:none}
+.metric-grid{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:14px 0}
+.metric-box{background:var(--card-inner);border:1px solid var(--border);border-radius:12px;padding:14px;text-align:center}
+.metric-val{font-family:'JetBrains Mono',monospace;font-size:20px;font-weight:800;color:var(--accent);margin-top:4px}
+.metric-lbl{font-size:11px;color:var(--txt-muted);text-transform:uppercase;font-weight:700}
+
+.prompt-preview{background:#090f0c;border:1px solid var(--border);border-radius:12px;padding:14px;margin:16px 0;font-family:'JetBrains Mono',monospace;font-size:12px;line-height:1.6;white-space:pre-wrap;color:#a7f3d0}
+.prompt-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:8px;font-family:'Plus Jakarta Sans',sans-serif;font-size:11px;color:var(--txt-muted);font-weight:700}
+
+.wa-status-box{background:rgba(37,211,102,0.1);border:1px solid rgba(37,211,102,0.3);border-radius:12px;padding:12px 14px;margin-top:14px;display:flex;align-items:center;justify-content:space-between;font-size:12px}
+.btn-outline{width:100%;padding:10px;background:transparent;border:1px solid var(--border);color:var(--txt-muted);border-radius:8px;font-size:12px;font-weight:700;cursor:pointer;margin-top:8px}
+.btn-outline:hover{color:#fff;border-color:var(--accent)}
 </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="card" id="form-box">
-    <span class="badge">BENGALURU COMMUTE RADAR</span>
-    <h1>Smart Week Commute Planner</h1>
-    <p>Predicts corridor bottlenecks across ORR, Whitefield, and Silk Board, and WhatsApps you the optimal departure window.</p>
+  <!-- 1. COMMUTE PLANNER FORM -->
+  <div class="card" id="form-card">
+    <span class="badge">BENGALURU COMMUTE INTELLIGENCE</span>
+    <h1>Commute Radar</h1>
+    <p>Real-time road vectors, rain impact, and peak arbitrage corridors across ORR, Silk Board, and Whitefield.</p>
 
     <div class="field">
       <label>Home Location</label>
@@ -115,25 +126,55 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
     </div>
 
     <div class="field">
-      <label>WhatsApp Phone (With 91, e.g. 917675954520)</label>
-      <input id="phone" placeholder="91XXXXXXXXXX"/>
+      <label>WhatsApp Phone Number (with Country Code)</label>
+      <input id="phone" placeholder="91XXXXXXXXXX (e.g. 919876543210)"/>
     </div>
 
-    <button class="btn" id="save-btn" onclick="saveCommutePlan()">Save &amp; Connect WhatsApp</button>
+    <button class="btn" id="save-btn" onclick="saveCommutePlan()">Compute Route &amp; Activate Radar</button>
   </div>
 
-  <div class="card card-summary" id="connect-box">
-    <div class="icon-check">✓</div>
-    <h2>Itinerary Registered!</h2>
-    <p style="margin-top:6px">Tap below to join our WhatsApp sandbox channel and activate your alerts instantly:</p>
-    
-    <a href="#" id="wa-link" class="btn-wa" target="_blank">
-      <span>📲 Tap to Activate on WhatsApp</span>
-    </a>
+  <!-- 2. ON-SCREEN RADAR DASHBOARD (Visible immediately after clicking!) -->
+  <div class="card dash" id="dash-card">
+    <span class="badge">RADAR LIVE &bull; ROUTE ACTIVE</span>
+    <h1 id="dash-title">Bengaluru Corridor Overview</h1>
+    <p id="dash-subtitle" style="margin-bottom:12px">Route calculated using live road distance and current weather.</p>
 
-    <p style="font-size:11px;color:var(--txt-muted);font-family:'JetBrains Mono',monospace;margin-top:16px" id="manual-helper">
-      Or text "<b>join twilio-trial</b>" to <b>+1 737 250 8034</b>
-    </p>
+    <div class="metric-grid">
+      <div class="metric-box">
+        <div class="metric-lbl">True Road Distance</div>
+        <div class="metric-val" id="d-dist">-- km</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-lbl">Clean Off-Peak Drive</div>
+        <div class="metric-val" id="d-clean">-- mins</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-lbl">Rec. Departure</div>
+        <div class="metric-val" id="d-dep">--:--</div>
+      </div>
+      <div class="metric-box">
+        <div class="metric-lbl">Expected Window</div>
+        <div class="metric-val" id="d-range">-- mins</div>
+      </div>
+    </div>
+
+    <div class="prompt-header">
+      <span>📲 GENERATED WHATSAPP RADAR BRIEF</span>
+      <span id="d-weather" style="color:var(--accent)">☀️ Clear</span>
+    </div>
+    <div class="prompt-preview" id="d-prompt">Loading prompt...</div>
+
+    <div class="wa-status-box">
+      <div>
+        <div style="font-weight:700;color:#25D366">Twilio WhatsApp Sandbox</div>
+        <div style="font-size:11px;color:var(--txt-muted)" id="wa-status-note">Dispatching in background to your phone</div>
+      </div>
+      <a href="#" id="wa-connect-btn" target="_blank" style="background:#25D366;color:#042f1f;padding:6px 12px;border-radius:6px;font-size:11px;font-weight:800;text-decoration:none">
+        Open Chat ➔
+      </a>
+    </div>
+
+    <button class="btn-outline" onclick="editPlan()">✏️ Edit Route or Schedule</button>
   </div>
 </div>
 
@@ -190,7 +231,7 @@ function searchLoc(type) {
       const data = await res.json();
       const items = data.features || [];
       if (!items.length) {
-        listEl.innerHTML = '<div style="padding:10px;font-size:12px;color:var(--txt-muted)">No matching location</div>';
+        listEl.innerHTML = '<div style="padding:10px;font-size:12px;color:var(--txt-muted)">No matching locations</div>';
         return;
       }
       listEl.innerHTML = items.map(feat => {
@@ -228,11 +269,11 @@ async function saveCommutePlan() {
   const fromName = document.getElementById('fi').value.trim();
   const toName = document.getElementById('ti').value.trim();
 
-  if (!coords.f || !coords.t) return alert("Please select both Home and Office locations from the suggestions list.");
-  if (!email || !phone) return alert("Enter your email and WhatsApp number with 91 (e.g., 917675954520).");
+  if (!coords.f || !coords.t) return alert("Please choose both Home and Office from the dropdown suggestions.");
+  if (!email || !phone) return alert("Enter your email and phone number (e.g., 919876543210).");
 
   saveBtn.disabled = true;
-  saveBtn.textContent = "Saving Routine...";
+  saveBtn.textContent = "Computing Corridor Trajectory...";
 
   try {
     const res = await fetch('/api/handshake', {
@@ -250,24 +291,36 @@ async function saveCommutePlan() {
     }
 
     saveBtn.disabled = false;
-    saveBtn.textContent = "Save & Connect WhatsApp";
+    saveBtn.textContent = "Compute Route & Activate Radar";
 
-    if (!res.ok || data.error) return alert("Error: " + (data.error || 'Server error'));
+    if (!res.ok || data.error) return alert("Error: " + (data.error || 'Unknown error'));
 
-    // Configured directly to your Twilio number (+17372508034) and trial code
-    const twilioNum = '17372508034';
-    const joinCode = encodeURIComponent('join twilio-trial');
-    document.getElementById('wa-link').href = `https://api.whatsapp.com/send?phone=${twilioNum}&text=${joinCode}`;
-    document.getElementById('manual-helper').innerHTML = `Or text "<b>join twilio-trial</b>" to <b>+1 737 250 8034</b>`;
+    // Populate Dashboard with the real computed metrics!
+    document.getElementById('dash-title').textContent = `${fromName} ➔ ${toName}`;
+    document.getElementById('d-dist').textContent = `${data.distKm} km`;
+    document.getElementById('d-clean').textContent = `${data.cleanMinutes} mins`;
+    document.getElementById('d-dep').textContent = data.todayDeparture;
+    document.getElementById('d-range').textContent = data.arrivalRange;
+    document.getElementById('d-weather').textContent = data.weather;
+    document.getElementById('d-prompt').textContent = data.previewMessage;
 
-    document.getElementById('form-box').style.display = 'none';
-    document.getElementById('connect-box').style.display = 'block';
+    // Configure Sandbox Connect Link
+    const twilioNum = (data.twilioNumber || '+17372508034').replace(/[^0-9]/g, '');
+    document.getElementById('wa-connect-btn').href = `https://api.whatsapp.com/send?phone=${twilioNum}&text=join%20twilio-trial`;
+
+    document.getElementById('form-card').style.display = 'none';
+    document.getElementById('dash-card').style.display = 'block';
 
   } catch (err) {
     saveBtn.disabled = false;
-    saveBtn.textContent = "Save & Connect WhatsApp";
-    alert("Connection Error: " + err.message);
+    saveBtn.textContent = "Compute Route & Activate Radar";
+    alert("Connection error: " + err.message);
   }
+}
+
+function editPlan() {
+  document.getElementById('dash-card').style.display = 'none';
+  document.getElementById('form-card').style.display = 'block';
 }
 </script>
 </body>
