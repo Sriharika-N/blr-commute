@@ -3,19 +3,19 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BLR Commute Radar — Zero-UI Setup</title>
+<title>BLR Commute Radar — Pushover Setup</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#090d0b;--card:#111915;--border:rgba(255,255,255,0.08);
   --accent:#10b981;--accent-glow:rgba(16,185,129,0.2);
-  --txt:#f9fafb;--txt-muted:#9ca3af;--font:'Plus Jakarta Sans',sans-serif;
+  --txt:#f9fafb;--txt-muted:#9ca3af;
 }
-body{background:var(--bg);color:var(--txt);font-family:var(--font);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+body{background:var(--bg);color:var(--txt);font-family:'Plus Jakarta Sans',sans-serif;display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
 .container{width:100%;max-width:440px}
 .card{background:var(--card);border:1px solid var(--border);border-radius:16px;padding:24px;box-shadow:0 12px 36px rgba(0,0,0,0.5)}
 .tag{display:inline-block;padding:4px 8px;background:rgba(16,185,129,0.1);color:var(--accent);border-radius:6px;font-size:10px;font-weight:700;letter-spacing:0.5px;margin-bottom:8px}
@@ -23,7 +23,7 @@ h1{font-size:20px;font-weight:800;margin-bottom:6px;letter-spacing:-0.4px}
 p{font-size:13px;color:var(--txt-muted);line-height:1.5;margin-bottom:20px}
 .field{margin-bottom:14px;position:relative}
 label{display:block;font-size:11px;font-weight:600;color:var(--txt-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
-input, select{width:100%;padding:12px 14px;background:#0d1310;border:1px solid var(--border);border-radius:8px;color:#fff;font-family:var(--font);font-size:14px;outline:none;transition:border-color 0.2s}
+input, select{width:100%;padding:12px 14px;background:#0d1310;border:1px solid var(--border);border-radius:8px;color:#fff;font-family:inherit;font-size:14px;outline:none;transition:border-color 0.2s}
 input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
 .grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .btn{width:100%;padding:14px;background:var(--accent);color:#022c1d;border:none;border-radius:8px;font-size:14px;font-weight:700;cursor:pointer;margin-top:10px;transition:transform 0.1s}
@@ -39,32 +39,32 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
 
 <div class="container">
   <div class="card" id="form-card">
-    <span class="tag">BLR COMMUTE RADAR</span>
+    <span class="tag">PUSHOVER RADAR</span>
     <h1>Outsmart Bangalore Traffic</h1>
-    <p>We monitor your route every morning and message your WhatsApp with the exact minute to leave so you skip peak crawl.</p>
+    <p>We monitor your route and push alerts directly to your phone via Pushover with the exact minute to depart.</p>
 
     <!-- Origin -->
     <div class="field">
       <label>Home Location</label>
-      <input id="fi" placeholder="Area, landmark, or building..." autocomplete="off" oninput="searchLoc('f')"/>
+      <input id="fi" placeholder="Area, landmark, or street..." autocomplete="off" oninput="searchLoc('f')"/>
       <div class="acl" id="fac"></div>
     </div>
 
     <!-- Destination -->
     <div class="field">
-      <label>Office / Work Location</label>
-      <input id="ti" placeholder="Tech park, office, or destination..." autocomplete="off" oninput="searchLoc('t')"/>
+      <label>Office Location</label>
+      <input id="ti" placeholder="Tech park, office, or building..." autocomplete="off" oninput="searchLoc('t')"/>
       <div class="acl" id="tac"></div>
     </div>
 
-    <!-- Times -->
+    <!-- Times & Mode -->
     <div class="grid">
       <div class="field">
         <label>Target Arrival</label>
         <input type="time" id="arrive_time" value="09:30"/>
       </div>
       <div class="field">
-        <label>Mode</label>
+        <label>Travel Mode</label>
         <select id="mode">
           <option value="car">Car / Cab</option>
           <option value="bike">Two-Wheeler</option>
@@ -72,15 +72,15 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
       </div>
     </div>
 
-    <!-- WhatsApp Details -->
+    <!-- Identifier & Pushover Key -->
     <div class="field">
-      <label>WhatsApp Phone (e.g. 919876543210)</label>
-      <input id="phone" placeholder="91XXXXXXXXXX"/>
+      <label>Your Email (Identifier)</label>
+      <input id="email" placeholder="name@company.com"/>
     </div>
 
     <div class="field">
-      <label>CallMeBot API Key (<a href="https://www.callmebot.com/blog/free-api-whatsapp-messages/" target="_blank" style="color:var(--accent)">Free Setup</a>)</label>
-      <input id="botkey" placeholder="Enter CallMeBot API key"/>
+      <label>Pushover User Key (<a href="https://pushover.net" target="_blank" style="color:var(--accent)">Find on Dashboard</a>)</label>
+      <input id="pushover_key" placeholder="30-character User Key"/>
     </div>
 
     <button class="btn" onclick="saveCommuterProfile()">Activate Commute Radar</button>
@@ -88,14 +88,12 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
 
   <div class="card success-card" id="success-card">
     <div class="icon-done">✓</div>
-    <h2>Radar Activated</h2>
-    <p style="margin-top:8px">Your routine is registered. Every weekday morning, you will get an automated WhatsApp alert before peak congestion hits your route.</p>
-    <p style="font-size:11px;color:var(--txt-muted);font-family:'JetBrains Mono',monospace">You can close this tab.</p>
+    <h2>Radar Active</h2>
+    <p style="margin-top:8px">Your routine is registered. Every weekday morning, you will receive a push notification on your phone before peak congestion hits.</p>
   </div>
 </div>
 
 <script>
-// Supabase credentials
 const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
 const supabase = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
@@ -116,7 +114,7 @@ function searchLoc(type) {
       const items = data.features || [];
       if (!items.length) { list.style.display = 'none'; return; }
 
-      list.innerHTML = items.map((item, idx) => {
+      list.innerHTML = items.map(item => {
         const name = item.properties.name || item.properties.street || "Location";
         const sub = [item.properties.district, item.properties.city || 'Bengaluru'].filter(Boolean).join(', ');
         return `<div class="aci" onmousedown="pickLoc('${type}', ${item.geometry.coordinates[0]}, ${item.geometry.coordinates[1]}, '${name.replace(/'/g, "\\'")}')">
@@ -124,7 +122,7 @@ function searchLoc(type) {
         </div>`;
       }).join('');
       list.style.display = 'block';
-    } catch (e) {
+    } catch {
       list.style.display = 'none';
     }
   }, 200);
@@ -138,26 +136,25 @@ function pickLoc(type, lng, lat, name) {
 }
 
 async function saveCommuterProfile() {
-  const phone = document.getElementById('phone').value.trim();
-  const botkey = document.getElementById('botkey').value.trim();
+  const userKey = document.getElementById('pushover_key').value.trim();
+  const email = document.getElementById('email').value.trim();
   const arriveTime = document.getElementById('arrive_time').value;
   const mode = document.getElementById('mode').value;
   const fromName = document.getElementById('fi').value.trim();
   const toName = document.getElementById('ti').value.trim();
 
-  if (!fc || !tc || !phone || !botkey) {
-    alert("Please select both locations from the dropdown and provide your WhatsApp phone + CallMeBot key.");
+  if (!fc || !tc || !userKey || !email) {
+    alert("Please select both locations from the list and provide your Email + Pushover User Key.");
     return;
   }
 
-  // Calculate standard departure 45 minutes before target arrival
   const [h, m] = arriveTime.split(':').map(Number);
   const totalMins = h * 60 + m - 45;
   const leaveHomeTime = `${String(Math.floor(totalMins / 60)).padStart(2, '0')}:${String(totalMins % 60).padStart(2, '0')}`;
 
   const days = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday'];
   const payloads = days.map(day => ({
-    user_email: `${phone}@whatsapp.user`,
+    user_email: email,
     day_of_week: day,
     origin_name: fromName,
     origin_lat: fc[1], origin_lng: fc[0],
@@ -165,15 +162,14 @@ async function saveCommuterProfile() {
     dest_lat: tc[1], dest_lng: tc[0],
     leave_home_time: leaveHomeTime,
     leave_office_time: '18:30',
-    phone: phone,
-    callmebot_key: botkey,
+    pushover_user_key: userKey,
     vehicle_mode: mode,
     alerts_enabled: true
   }));
 
   const { error } = await supabase.from('commute_plans').insert(payloads);
   if (error) {
-    alert("Supabase Error: " + error.message);
+    alert("Database Error: " + error.message);
   } else {
     document.getElementById('form-card').style.display = 'none';
     document.getElementById('success-card').style.display = 'block';
