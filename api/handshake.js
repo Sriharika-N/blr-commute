@@ -10,17 +10,16 @@ export default async function handler(req, res) {
     const { email, phone, fromName, toName, fc, tc, mode, weekSchedule } = req.body || {};
 
     if (!email || !phone || !fc || !tc) {
-      return res.status(400).json({ error: 'Missing required fields (email, phone, or route coordinates)' });
+      return res.status(400).json({ error: 'Missing required configuration fields (email, phone, or route coordinates)' });
     }
 
-    // Supabase Credentials
+    // Credentials with exact hardcoded fallbacks
     const supabaseUrl = process.env.BLR_SB_URL || 'https://rhljbzhpjhjsbknpiajn.supabase.co';
     const supabaseKey = process.env.BLR_SB_KEY || 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
     
-    // Twilio Credentials
     const twilioSid = process.env.TWILIO_ACCOUNT_SID || 'ACe1b417671f16134c0da4162dac193d39';
     const twilioToken = process.env.TWILIO_AUTH_TOKEN || '643362f522ed57db57edd48251cbdce1';
-    const twilioFrom = process.env.TWILIO_WHATSAPP_NUMBER || '+14155238886';
+    const twilioFrom = process.env.TWILIO_WHATSAPP_NUMBER || '+17372508034';
 
     const cleanPhone = String(phone).replace(/[^0-9]/g, '');
 
@@ -40,7 +39,7 @@ export default async function handler(req, res) {
         }
       }
     } catch (e) {
-      console.warn('OSRM calculation fallback active');
+      console.warn('OSRM calculation fallback active:', e.message);
     }
 
     // 2. Prepare 5-Day Mon-Fri Itinerary
@@ -65,10 +64,10 @@ export default async function handler(req, res) {
         user_email: email,
         phone: cleanPhone,
         day_of_week: day,
-        origin_name: fromName,
+        origin_name: fromName || 'Home',
         origin_lat: Number(fc[1]),
         origin_lng: Number(fc[0]),
-        dest_name: toName,
+        dest_name: toName || 'Office',
         dest_lat: Number(tc[1]),
         dest_lng: Number(tc[0]),
         leave_home_time: leaveHomeTime,
@@ -79,7 +78,7 @@ export default async function handler(req, res) {
       };
     });
 
-    // 3. Clear existing plan & write fresh records to Supabase
+    // 3. Clear existing plans & persist fresh records to Supabase
     await fetch(`${supabaseUrl}/rest/v1/commute_plans?phone=eq.${cleanPhone}`, {
       method: 'DELETE',
       headers: { 'apikey': supabaseKey, 'Authorization': `Bearer ${supabaseKey}` }
@@ -101,7 +100,7 @@ export default async function handler(req, res) {
       return res.status(500).json({ error: 'Supabase write error: ' + errText });
     }
 
-    // 4. Construct Instant WhatsApp Briefing Message
+    // 4. Construct Instant WhatsApp Confirmation Message
     const todayRecord = records[0];
     const [th, tm] = todayRecord.leave_home_time.split(':').map(Number);
     const depTimeDisplay = `${th % 12 || 12}:${String(tm).padStart(2, '0')} ${th >= 12 ? 'PM' : 'AM'}`;
@@ -120,7 +119,7 @@ _You will receive traffic arbitrage briefings 30 mins before your commute window
 
 🔗 Route Preview: ${mapsLink}`;
 
-    // 5. Dispatch via Twilio
+    // 5. Send via Twilio Sandbox
     await sendTwilioMessage(twilioSid, twilioToken, twilioFrom, cleanPhone, confirmationMsg);
 
     return res.status(200).json({
@@ -147,7 +146,7 @@ async function sendTwilioMessage(sid, token, fromNumber, toPhone, message) {
 
   try {
     const auth = Buffer.from(`${sid}:${token}`).toString('base64');
-    await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
+    const res = await fetch(`https://api.twilio.com/2010-04-01/Accounts/${sid}/Messages.json`, {
       method: 'POST',
       headers: {
         'Authorization': `Basic ${auth}`,
@@ -155,6 +154,11 @@ async function sendTwilioMessage(sid, token, fromNumber, toPhone, message) {
       },
       body: body.toString()
     });
+
+    if (!res.ok) {
+      const errText = await res.text();
+      console.error('Twilio Error:', errText);
+    }
   } catch (err) {
     console.error('Twilio dispatch exception:', err);
   }
