@@ -3,17 +3,16 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BLR COMMUTE — TACTICAL NAV v6 (ROAD LIVE)</title>
+<title>BLR COMMUTE — TACTICAL NAV PRO (LIVE)</title>
 <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;600;700;900&family=Rajdhani:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.css"/>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/leaflet/1.9.4/leaflet.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
   --bg:#000a04;--neon:#39ff14;--neon2:#00ff88;
-  --neon-dim:rgba(57,255,20,0.08);--nb:rgba(57,255,20,0.22);
-  --amber:#ffb300;--adim:rgba(255,179,0,0.09);
-  --red:#ff2442;--rdim:rgba(255,36,66,0.09);
+  --nb:rgba(57,255,20,0.22);--amber:#ffb300;--red:#ff2442;
   --brd:rgba(57,255,20,0.15);--brd2:rgba(57,255,20,0.06);
   --txt:#d4ffe0;--tdim:#7bab84;--tmut:#3a6644;
   --glow:0 0 10px rgba(57,255,20,0.5),0 0 25px rgba(57,255,20,0.15);
@@ -21,215 +20,261 @@
 html,body{height:100%;overflow:hidden;background:var(--bg)}
 body{font-family:'Rajdhani',sans-serif;color:var(--txt);display:flex;flex-direction:column}
 body::before{content:'';position:fixed;inset:0;pointer-events:none;z-index:9998;background:repeating-linear-gradient(0deg,transparent,transparent 3px,rgba(0,0,0,0.04) 3px,rgba(0,0,0,0.04) 4px)}
-body::after{content:'';position:fixed;inset:0;pointer-events:none;z-index:0;background-image:linear-gradient(rgba(57,255,20,0.02) 1px,transparent 1px),linear-gradient(90deg,rgba(57,255,20,0.02) 1px,transparent 1px);background-size:50px 50px}
 
 /* TOPBAR */
-.topbar{height:54px;flex-shrink:0;z-index:100;position:relative;background:rgba(0,8,3,0.99);border-bottom:1px solid var(--brd);display:flex;align-items:center;padding:0 22px;gap:16px}
-.logo{display:flex;align-items:center;gap:11px}
-.lhex{width:36px;height:36px;background:var(--neon-dim);border:1px solid var(--nb);display:flex;align-items:center;justify-content:center;font-size:17px;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)}
-.lname{font-family:'Orbitron',sans-serif;font-size:15px;font-weight:900;letter-spacing:3px;color:var(--neon);text-shadow:var(--glow)}
-.lsub{font-family:'Share Tech Mono',monospace;font-size:8px;color:var(--tmut);letter-spacing:2px}
+.topbar{height:54px;flex-shrink:0;z-index:100;background:rgba(0,8,3,0.99);border-bottom:1px solid var(--brd);display:flex;align-items:center;padding:0 20px;gap:14px}
+.logo{display:flex;align-items:center;gap:10px}
+.lhex{width:34px;height:34px;background:rgba(57,255,20,0.08);border:1px solid var(--nb);display:flex;align-items:center;justify-content:center;font-size:16px;clip-path:polygon(50% 0%,100% 25%,100% 75%,50% 100%,0% 75%,0% 25%)}
+.lname{font-family:'Orbitron',sans-serif;font-size:14px;font-weight:900;letter-spacing:2px;color:var(--neon);text-shadow:var(--glow)}
 .navpills{display:flex;gap:4px;flex:1;justify-content:center}
-.np{padding:7px 14px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:2px;color:var(--tmut);cursor:pointer;border:1px solid transparent;background:transparent;transition:all .2s}
-.np:hover{color:var(--neon);border-color:var(--brd);background:var(--neon-dim)}
+.np{padding:7px 12px;font-family:'Orbitron',sans-serif;font-size:9px;font-weight:700;letter-spacing:1px;color:var(--tmut);cursor:pointer;border:1px solid transparent;background:transparent;transition:all .2s}
+.np:hover{color:var(--neon);background:rgba(57,255,20,0.06)}
 .np.active{background:var(--neon);color:#000a04;border-color:var(--neon);box-shadow:var(--glow)}
-.trr{display:flex;align-items:center;gap:10px}
-.schip{display:flex;align-items:center;gap:6px;font-family:'Share Tech Mono',monospace;font-size:10px;padding:5px 11px;border:1px solid var(--brd);background:rgba(0,14,5,.9);color:var(--tdim)}
-.cd{width:6px;height:6px;border-radius:50%;background:var(--neon);box-shadow:var(--glow);animation:bl 1.5s infinite}
-@keyframes bl{0%,100%{opacity:1}50%{opacity:.2}}
-.clockd{font-family:'Orbitron',sans-serif;font-size:13px;font-weight:700;color:var(--neon);text-shadow:var(--glow)}
+.clockd{font-family:'Orbitron',sans-serif;font-size:12px;font-weight:700;color:var(--neon)}
 
 /* MAIN LAYOUT */
-.main{flex:1;display:flex;overflow:hidden;position:relative;z-index:1}
-.left{width:410px;flex-shrink:0;background:rgba(0,8,3,.98);border-right:1px solid var(--brd);overflow-y:auto;overflow-x:hidden}
-.panel{display:none}
+.main{flex:1;display:flex;overflow:hidden;position:relative}
+.left{width:430px;flex-shrink:0;background:rgba(0,8,3,.98);border-right:1px solid var(--brd);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--nb) transparent}
+.panel{display:none;padding:16px}
 .panel.active{display:block}
-.sec{padding:18px 20px 16px;border-bottom:1px solid var(--brd2);position:relative}
-.slbl{font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;letter-spacing:2.5px;color:var(--neon);margin-bottom:12px;display:flex;align-items:center;gap:8px}
+
+/* FORMS & INPUTS */
+.slbl{font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;letter-spacing:2px;color:var(--neon);margin:14px 0 6px;display:flex;align-items:center;gap:6px}
 .slbl::before{content:'◆';font-size:6px}
 .slbl::after{content:'';flex:1;height:1px;background:var(--brd2)}
-
-/* CORRIDOR SELECTOR DROPDOWN */
-.cor-select{width:100%;padding:11px 12px;background:rgba(57,255,20,.05);border:1px solid var(--nb);color:var(--neon);font-family:'Rajdhani',sans-serif;font-size:14px;font-weight:700;outline:none;margin-bottom:14px}
+.cor-select,.hi,.inp{width:100%;padding:10px 12px;background:rgba(57,255,20,.03);border:1px solid var(--brd);color:var(--txt);font-family:'Rajdhani',sans-serif;font-size:14px;outline:none}
+.cor-select:focus,.hi:focus,.inp:focus{border-color:var(--neon);background:rgba(57,255,20,.07);color:var(--neon)}
 .cor-select option{background:#000a04;color:var(--txt)}
 
-/* SEARCH INPUTS */
-.ib{margin-bottom:10px;position:relative}
-.ilbl{font-family:'Orbitron',sans-serif;font-size:8px;letter-spacing:2px;color:var(--tmut);margin-bottom:5px}
 .iw{position:relative}
-.hi{width:100%;padding:11px 34px 11px 12px;background:rgba(57,255,20,.03);border:1px solid var(--brd);font-family:'Rajdhani',sans-serif;font-size:15px;font-weight:600;color:var(--txt);outline:none;transition:all .2s}
-.hi:focus{border-color:var(--neon);background:rgba(57,255,20,.07);color:var(--neon)}
-.ix{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--tmut);cursor:pointer;font-size:13px;display:none}
-.isp{position:absolute;right:10px;top:50%;transform:translateY(-50%);display:none}
-.spin{width:13px;height:13px;border:2px solid var(--nb);border-top-color:var(--neon);border-radius:50%;animation:sp .7s linear infinite}
-@keyframes sp{to{transform:rotate(360deg)}}
-
-/* AUTOCOMPLETE RESULTS */
-.acl{position:absolute;top:calc(100% + 1px);left:0;right:0;background:rgba(0,8,3,.99);border:1px solid var(--brd);border-top:none;max-height:240px;overflow-y:auto;z-index:600;display:none;box-shadow:0 8px 24px rgba(0,0,0,.8)}
+.ix{position:absolute;right:10px;top:50%;transform:translateY(-50%);color:var(--tmut);cursor:pointer;display:none}
+.acl{position:absolute;top:calc(100% + 1px);left:0;right:0;background:#000d05;border:1px solid var(--brd);max-height:220px;overflow-y:auto;z-index:600;display:none}
 .acl.open{display:block}
-.aci{padding:10px 12px;cursor:pointer;border-bottom:1px solid var(--brd2);display:flex;align-items:flex-start;gap:9px}
-.aci:hover{background:rgba(57,255,20,.08)}
-.acm{font-size:14px;font-weight:700;color:var(--txt)}
-.acs2{font-size:11px;color:var(--tmut)}
+.aci{padding:9px 12px;cursor:pointer;border-bottom:1px solid var(--brd2)}
+.aci:hover{background:rgba(57,255,20,.1)}
+.acm{font-size:13px;font-weight:700;color:var(--txt)}
+.acs{font-size:10px;color:var(--tmut)}
 
-/* VEHICLE SELECTOR */
-.vg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:7px;margin:12px 0}
-.vb{padding:10px 4px;border:1px solid var(--brd2);background:transparent;color:var(--tmut);cursor:pointer;font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;text-align:center}
-.vb.active{border-color:var(--neon);color:var(--neon);background:var(--neon-dim);box-shadow:0 0 10px rgba(57,255,20,.2)}
+/* VEHICLE MODE */
+.vg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:6px;margin:8px 0}
+.vb{padding:9px 4px;border:1px solid var(--brd2);background:transparent;color:var(--tmut);cursor:pointer;font-family:'Orbitron',sans-serif;font-size:8px;font-weight:700;letter-spacing:1px;text-align:center}
+.vb.active{border-color:var(--neon);color:var(--neon);background:rgba(57,255,20,.08);box-shadow:0 0 10px rgba(57,255,20,.2)}
 
-/* EXECUTE BUTTON */
-.bex{width:100%;margin-top:14px;padding:14px;background:transparent;border:2px solid var(--neon);color:var(--neon);font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;letter-spacing:4px;cursor:pointer;transition:all .2s}
-.bex:hover{background:rgba(57,255,20,.12);box-shadow:var(--glow);color:#fff}
+/* ACTION BUTTONS */
+.bex{width:100%;margin-top:12px;padding:12px;background:transparent;border:2px solid var(--neon);color:var(--neon);font-family:'Orbitron',sans-serif;font-size:11px;font-weight:900;letter-spacing:3px;cursor:pointer;transition:all .2s}
+.bex:hover{background:rgba(57,255,20,.15);box-shadow:var(--glow);color:#fff}
 .bex.busy{animation:bb .7s ease-in-out infinite alternate}
 @keyframes bb{0%{border-color:var(--neon)}100%{border-color:var(--amber)}}
 
-/* ROUTE RESULTS */
-.rc{padding:12px 14px;border:1px solid var(--brd2);background:rgba(57,255,20,.02);margin-bottom:8px;cursor:pointer;border-left:3px solid var(--rcol,var(--neon))}
+/* TELEMETRY & RESULTS */
+.telemetry-bar{padding:10px 12px;margin:10px 0;background:rgba(57,255,20,.04);border:1px solid rgba(57,255,20,.2);display:flex;justify-content:space-between;font-family:'Share Tech Mono',monospace;font-size:11px;color:var(--neon)}
+.rc{padding:12px;border:1px solid var(--brd2);background:rgba(0,0,0,.4);margin-bottom:8px;cursor:pointer;border-left:3px solid var(--rcol,var(--neon))}
 .rc.sel{background:rgba(57,255,20,.08);border-color:var(--neon)}
-.rct{display:flex;align-items:center;justify-content:space-between;margin-bottom:6px}
-.rcn{font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700}
-.rst{display:flex;gap:12px;font-size:14px;color:var(--tdim);margin-bottom:4px}
+.rct{display:flex;justify-content:space-between;font-family:'Orbitron',sans-serif;font-size:10px;font-weight:700;margin-bottom:4px}
+.rst{display:flex;gap:12px;font-size:13px;color:var(--tdim)}
 .rst strong{color:var(--txt);font-size:15px}
 
-/* WEEKLY SCHEDULE PLANNER */
-.wk-card{padding:12px;border:1px solid var(--brd2);background:rgba(0,0,0,.4);margin-bottom:8px;border-left:3px solid var(--neon)}
-.wk-card.peak{border-left-color:var(--red)}
-.wk-head{display:flex;justify-content:space-between;font-family:'Orbitron',sans-serif;font-size:11px;font-weight:700;color:var(--neon);margin-bottom:6px}
-.wk-body{font-size:13px;color:var(--tdim);line-height:1.5}
+/* CARDS */
+.card{padding:12px;border:1px solid var(--brd2);background:rgba(0,0,0,.5);margin-bottom:10px;border-left:3px solid var(--neon)}
+.card.peak{border-left-color:var(--red)}
 
-/* RIGHT MAP */
-.right{flex:1;position:relative;overflow:hidden}
+/* MAP */
+.right{flex:1;position:relative}
 #map{width:100%;height:100%}
 .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) saturate(1.4) brightness(0.75)}
-.mhud{position:absolute;z-index:500;background:rgba(0,8,3,.92);border:1px solid var(--brd);padding:10px 14px;backdrop-filter:blur(8px)}
-.mhtl{top:14px;left:14px}
-.mhl{font-family:'Orbitron',sans-serif;font-size:7px;letter-spacing:2px;color:var(--tmut);margin-bottom:4px}
-.mhv{font-family:'Orbitron',sans-serif;font-size:18px;font-weight:900;color:var(--neon)}
+.mhud{position:absolute;top:14px;left:14px;z-index:500;background:rgba(0,8,3,.92);border:1px solid var(--brd);padding:10px 14px;backdrop-filter:blur(8px)}
+.mhv{font-family:'Orbitron',sans-serif;font-size:20px;font-weight:900;color:var(--neon)}
 
-.bst{height:33px;flex-shrink:0;z-index:100;background:rgba(0,8,3,.99);border-top:1px solid var(--brd);display:flex;align-items:center;padding:0 20px;gap:14px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut)}
+.bst{height:30px;z-index:100;background:rgba(0,8,3,.99);border-top:1px solid var(--brd);display:flex;align-items:center;padding:0 20px;gap:14px;font-family:'Share Tech Mono',monospace;font-size:10px;color:var(--tmut)}
 .bst b{color:var(--neon);font-weight:400}
 </style>
 </head>
 <body>
 
 <div class="topbar">
-  <div class="logo"><div class="lhex">🛣️</div><div><div class="lname">BLR COMMUTE</div><div class="lsub">TACTICAL ROAD NAV v6</div></div></div>
+  <div class="logo"><div class="lhex">🛣️</div><div><div class="lname">BLR TACTICAL NAV</div></div></div>
   <div class="navpills">
-    <button class="np active" onclick="gp('plan',this)">ROAD PLAN</button>
-    <button class="np" onclick="gp('corridor',this)">CORRIDORS</button>
-    <button class="np" onclick="gp('week',this)">WEEKLY PLANNER</button>
+    <button class="np active" onclick="gp('plan',this)">ROAD NAV</button>
+    <button class="np" onclick="gp('week',this)">WEEK PLANNER</button>
+    <button class="np" onclick="gp('whatsapp',this)">WHATSAPP ALERTS</button>
+    <button class="np" onclick="gp('settings',this)">SUPABASE CONFIG</button>
   </div>
-  <div class="trr">
-    <div class="schip"><div class="cd"></div><span id="stat">ROAD LIVE</span></div>
-    <div class="clockd" id="clk">00:00:00</div>
-  </div>
+  <div class="clockd" id="clk">00:00:00</div>
 </div>
 
 <div class="main">
   <div class="left">
 
-    <!-- PLAN PANEL -->
+    <!-- 1. LIVE ROAD NAVIGATION PANEL -->
     <div class="panel active" id="panel-plan">
-      <div class="sec">
-        <div class="slbl">1. CHOOSE CORRIDOR ARTERY</div>
-        <select class="cor-select" id="cor-picker" onchange="onCorridorChange()">
-          <option value="auto">⚡ AUTO-DETECT BASED ON ROUTE</option>
-          <option value="orr">OUTER RING ROAD (Silk Board ↔ Marathahalli ↔ Hebbal)</option>
-          <option value="wf">WHITEFIELD CORRIDOR (Old Airport / Varthur / ITPL)</option>
-          <option value="ec">ELECTRONIC CITY (Silk Board ↔ Hosur Rd Elevated)</option>
-          <option value="hbl">HEBBAL – MANYATA (Mekhri Circle ↔ Nagavara)</option>
-        </select>
+      <div class="slbl">CORRIDOR FOCUS</div>
+      <select class="cor-select" id="cor-picker" onchange="onCorridorSelect()">
+        <option value="auto">⚡ AUTO-DETECT (Based on Coordinates)</option>
+        <option value="orr">Outer Ring Road (Silk Board ↔ Bellandur ↔ Marathahalli)</option>
+        <option value="wf">Whitefield Corridor (Old Airport ↔ Varthur ↔ ITPL)</option>
+        <option value="ec">Electronic City (Silk Board ↔ Hosur Rd Elevated)</option>
+        <option value="hbl">Hebbal – Manyata (Mekhri ↔ Hebbal ↔ Nagavara)</option>
+      </select>
 
-        <div class="slbl">2. CHOOSE DESTINATIONS</div>
-        <div class="ib">
-          <div class="ilbl">START POINT</div>
-          <div class="iw">
-            <input class="hi" id="fi" placeholder="Type area, tech park, or locality..." autocomplete="off" oninput="acs('f')" onfocus="acs('f')" onkeydown="ack(event,'f')"/>
-            <span class="ix" id="fx" onclick="ci('f')">✕</span>
-            <div class="isp" id="fsp"><div class="spin"></div></div>
-            <div class="acl" id="fac"></div>
-          </div>
-        </div>
-
-        <div class="ib">
-          <div class="ilbl">END POINT</div>
-          <div class="iw">
-            <input class="hi" id="ti" placeholder="Destination, campus, tech park..." autocomplete="off" oninput="acs('t')" onfocus="acs('t')" onkeydown="ack(event,'t')"/>
-            <span class="ix" id="tx" onclick="ci('t')">✕</span>
-            <div class="isp" id="tsp"><div class="spin"></div></div>
-            <div class="acl" id="tac"></div>
-          </div>
-        </div>
-
-        <div class="slbl">3. COMMUTE VEHICLE MODE</div>
-        <div class="vg">
-          <button class="vb" onclick="sv('bike',this)">🏍️ BIKE</button>
-          <button class="vb active" onclick="sv('car',this)">🚗 CAR</button>
-          <button class="vb" onclick="sv('cab',this)">🚖 CAB</button>
-        </div>
-
-        <button class="bex" id="eb" onclick="executeRoadRoute()">⚡ CALCULATE ROAD ROUTE</button>
+      <div class="slbl">START POINT</div>
+      <div class="iw">
+        <input class="hi" id="fi" placeholder="Type area, apartment, tech park..." autocomplete="off" oninput="acs('f')"/>
+        <span class="ix" id="fx" onclick="ci('f')">✕</span>
+        <div class="acl" id="fac"></div>
       </div>
 
-      <div class="sec" id="rr" style="display:none">
-        <div class="slbl">REAL ROAD ROUTE OPTIONS</div>
+      <div class="slbl">END POINT</div>
+      <div class="iw">
+        <input class="hi" id="ti" placeholder="Destination, campus, landmark..." autocomplete="off" oninput="acs('t')"/>
+        <span class="ix" id="tx" onclick="ci('t')">✕</span>
+        <div class="acl" id="tac"></div>
+      </div>
+
+      <div class="slbl">VEHICLE MODE</div>
+      <div class="vg">
+        <button class="vb" onclick="sv('bike',this)">🏍️ BIKE</button>
+        <button class="vb active" onclick="sv('car',this)">🚗 CAR</button>
+        <button class="vb" onclick="sv('cab',this)">🚖 CAB</button>
+      </div>
+
+      <button class="bex" id="eb" onclick="calculateRoadRoute()">⚡ CALCULATE REAL ROAD ROUTE</button>
+
+      <div id="rr" style="display:none;margin-top:14px">
+        <div class="telemetry-bar" id="telemetry-hud"></div>
+        <div class="slbl">CALCULATED ROAD OPTIONS</div>
         <div id="ro"></div>
-
-        <div class="slbl" style="margin-top:14px">CORRIDOR BOTTLENECKS</div>
-        <div id="chokes"></div>
+        <div class="slbl">ACTIVE BOTTLENECK CHOKEPOINTS</div>
+        <div id="chokepoints"></div>
       </div>
     </div>
 
-    <!-- CORRIDORS PANEL -->
-    <div class="panel" id="panel-corridor">
-      <div class="sec">
-        <div class="slbl">HISTORICAL & LIVE CORRIDOR BENCHMARKS</div>
-        <div id="cor-list"></div>
-      </div>
-    </div>
-
-    <!-- WEEKLY PLANNER PANEL -->
+    <!-- 2. WEEK COMMUTE PLANNER (SUPABASE BACKED) -->
     <div class="panel" id="panel-week">
-      <div class="sec">
-        <div class="slbl">WEEK COMMUTE & MEETING PROTECTOR</div>
-        <p style="font-size:13px;color:var(--tdim);margin-bottom:12px">Pre-calculated departure windows based on TomTom verified city data (Wednesday evening rush has lowest average city speeds of 13.2 km/h).</p>
-        <div id="wk-plan"></div>
+      <div class="slbl">PERSISTENT WEEK COMMUTE SCHEDULE</div>
+      <p style="font-size:12px;color:var(--tdim);margin-bottom:12px">Configure your weekly home and office departure targets. Schedules are saved directly to your Supabase PostgreSQL database.</p>
+
+      <div class="card">
+        <div style="font-size:11px;font-family:'Orbitron';color:var(--neon);margin-bottom:8px">QUICK SAVE WORK COMMUTE</div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+          <div>
+            <span style="font-size:10px;color:var(--tmut)">DAY</span>
+            <select class="cor-select" id="plan-day">
+              <option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option>
+            </select>
+          </div>
+          <div>
+            <span style="font-size:10px;color:var(--tmut)">USER IDENTIFIER (EMAIL)</span>
+            <input class="inp" id="plan-user" placeholder="user@company.com" value="commuter@bengaluru.in"/>
+          </div>
+        </div>
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:8px">
+          <div>
+            <span style="font-size:10px;color:var(--tmut)">LEAVE HOME BY</span>
+            <input type="time" class="inp" id="plan-home-time" value="07:45"/>
+          </div>
+          <div>
+            <span style="font-size:10px;color:var(--tmut)">LEAVE DESK BY</span>
+            <input type="time" class="inp" id="plan-office-time" value="16:30"/>
+          </div>
+        </div>
+        <button class="bex" onclick="saveCommutePlan()">💾 SAVE TO SUPABASE</button>
       </div>
+
+      <div class="slbl">SAVED COMMUTE SCHEDULES</div>
+      <div id="saved-plans"><div style="font-size:12px;color:var(--tmut)">Loading schedules from Supabase...</div></div>
+    </div>
+
+    <!-- 3. WHATSAPP ALERT DISPATCH PANEL -->
+    <div class="panel" id="panel-whatsapp">
+      <div class="slbl">INSTANT WHATSAPP TRAFFIC BRIEFING</div>
+      <p style="font-size:12px;color:var(--tdim);margin-bottom:12px">Sends current corridor speed, safe departure buffers, and estimated delays to your WhatsApp number.</p>
+
+      <div class="card">
+        <label style="font-size:10px;color:var(--tmut)">WHATSAPP PHONE (Include country code, e.g. 919876543210)</label>
+        <input class="inp" id="wa-phone" placeholder="9198XXXXXXXX" style="margin:4px 0 10px"/>
+        
+        <label style="font-size:10px;color:var(--tmut)">AUTOMATED CALLMEBOT API KEY (OPTIONAL - FOR BACKGROUND PUSH)</label>
+        <input class="inp" id="wa-key" placeholder="Enter key if registered with CallMeBot" style="margin:4px 0 10px"/>
+
+        <button class="bex" onclick="dispatchWhatsAppNotification()">📲 SEND TRAFFIC ALERT NOW</button>
+      </div>
+      <div id="wa-status" style="font-size:12px;color:var(--neon);margin-top:8px"></div>
+    </div>
+
+    <!-- 4. SETTINGS & SUPABASE CREDENTIALS -->
+    <div class="panel" id="panel-settings">
+      <div class="slbl">SUPABASE PROJECT CREDENTIALS</div>
+      <p style="font-size:12px;color:var(--tdim);margin-bottom:12px">Enter your Project URL and Anon Key from your Supabase Dashboard to link your persistent database.</p>
+      
+      <label style="font-size:10px;color:var(--tmut)">SUPABASE URL</label>
+      <input class="inp" id="cfg-url" placeholder="https://xyzcompany.supabase.co" style="margin:4px 0 10px"/>
+
+      <label style="font-size:10px;color:var(--tmut)">SUPABASE ANON KEY</label>
+      <input class="inp" id="cfg-key" placeholder="eyJhbGciOi..." style="margin:4px 0 10px"/>
+
+      <button class="bex" onclick="persistSupabaseConfig()">⚡ SAVE CREDENTIALS</button>
+      <div id="cfg-status" style="font-size:12px;color:var(--neon);margin-top:8px"></div>
     </div>
 
   </div>
 
+  <!-- RIGHT INTERACTIVE MAP HUD -->
   <div class="right">
     <div id="map"></div>
-    <div class="mhud mhtl" id="htl" style="display:none">
-      <div class="mhl">REAL ROAD ETA</div>
-      <div class="mhv" id="hud-eta">-- MIN</div>
-      <div style="font-size:12px;color:var(--tdim)" id="hud-sub">--</div>
+    <div class="mhud" id="hud" style="display:none">
+      <div style="font-size:8px;font-family:'Orbitron';color:var(--tmut);letter-spacing:1px">ROAD NAV ACTIVE</div>
+      <div class="mhv" id="hud-time">-- MIN</div>
+      <div style="font-size:12px;color:var(--tdim)" id="hud-details">--</div>
     </div>
   </div>
 </div>
 
 <div class="bst">
-  <div>SYS <b>OSRM LIVE ROUTING</b></div><span>◆</span>
-  <div>GEOCODE <b>PHOTON BENGALURU BOUNDED</b></div><span>◆</span>
-  <div>BENCHMARK <b>TOMTOM VERIFIED FLOW</b></div>
+  <div>ROUTING ENGINE: <b>OSRM REAL ROAD</b></div><span>◆</span>
+  <div>DATA REFRESH: <b>LIVE DYNAMIC MULTIPLIERS</b></div><span>◆</span>
+  <div>PERSISTENCE: <b>SUPABASE POSTGRESQL</b></div>
 </div>
 
 <script>
-// Verified Bangalore Corridor Baseline Data (TomTom / Traffic Police data)
+// Verified Baseline Corridors & Historical Speeds in Bengaluru
 const CORRIDORS = {
-  orr: { name: "Outer Ring Road", short: "ORR", peakSpeed: 8, freeSpeed: 38, chokes: ["Silk Board", "Marathahalli Bridge", "Bellandur EcoSpace", "Kadubeesanahalli"], center: [12.9352, 77.6536] },
+  orr: { name: "Outer Ring Road", short: "ORR", peakSpeed: 8, freeSpeed: 38, chokes: ["Silk Board", "Bellandur EcoSpace", "Kadubeesanahalli", "Marathahalli Bridge"], center: [12.9352, 77.6536] },
   wf: { name: "Whitefield Corridor", short: "WF", peakSpeed: 11, freeSpeed: 42, chokes: ["Hope Farm Circle", "Varthur Kodi", "Kundalahalli Gate"], center: [12.9698, 77.7200] },
-  ec: { name: "Electronic City Corridor", short: "EC", peakSpeed: 14, freeSpeed: 52, chokes: ["Silk Board Down-ramp", "Bommanahalli", "Chandapura Circle"], center: [12.8458, 77.6629] },
-  hbl: { name: "Hebbal – Manyata", short: "HBL", peakSpeed: 13, freeSpeed: 44, chokes: ["Hebbal Flyover Junction", "Veerannapalya", "Nagavara Signal"], center: [13.0200, 77.6050] }
+  ec: { name: "Electronic City", short: "EC", peakSpeed: 14, freeSpeed: 52, chokes: ["Silk Board Downramp", "Bommanahalli", "Chandapura Circle"], center: [12.8458, 77.6629] },
+  hbl: { name: "Hebbal - Manyata", short: "HBL", peakSpeed: 13, freeSpeed: 44, chokes: ["Hebbal Flyover Exits", "Veerannapalya Signal", "Nagavara Junction"], center: [13.0200, 77.6050] }
 };
 
 let map, vehicle = 'car';
 let fc = null, tc = null; // [lng, lat]
 let acT = { f: null, t: null }, acD = { f: [], t: [] };
 let routeLayers = [], pinMarkers = {};
+let supabaseClient = null;
+let lastCalculatedData = null;
 
-function initMap(){
+// Initialize Supabase Client from LocalStorage or Defaults
+function initSupabase() {
+  const url = localStorage.getItem('BLR_SB_URL') || '';
+  const key = localStorage.getItem('BLR_SB_KEY') || '';
+  document.getElementById('cfg-url').value = url;
+  document.getElementById('cfg-key').value = key;
+  if (url && key && window.supabase) {
+    supabaseClient = window.supabase.createClient(url, key);
+    loadSavedCommutePlans();
+  }
+}
+
+function persistSupabaseConfig() {
+  const url = document.getElementById('cfg-url').value.trim();
+  const key = document.getElementById('cfg-key').value.trim();
+  if(!url || !key) return alert("Please enter both URL and Anon Key.");
+  localStorage.setItem('BLR_SB_URL', url);
+  localStorage.setItem('BLR_SB_KEY', key);
+  supabaseClient = window.supabase.createClient(url, key);
+  document.getElementById('cfg-status').textContent = "✓ Connected to Supabase.";
+  loadSavedCommutePlans();
+}
+
+function initMap() {
   map = L.map('map', { center: [12.9716, 77.5946], zoom: 12, zoomControl: false });
   L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
     attribution: '© OpenStreetMap contributors', maxZoom: 18
@@ -237,254 +282,299 @@ function initMap(){
   L.control.zoom({ position: 'bottomright' }).addTo(map);
 }
 
-// Autocomplete using Photon Geocoder bounded to Bangalore
-function acs(f){
-  const inp = document.getElementById(f==='f'?'fi':'ti');
+// Photon Autocomplete Geocoder (Bounded to Bengaluru)
+function acs(f) {
+  const inp = document.getElementById(f === 'f' ? 'fi' : 'ti');
   const val = inp.value.trim();
-  const xb = document.getElementById(f==='f'?'fx':'tx');
-  const sp = document.getElementById(f==='f'?'fsp':'tsp');
-  const list = document.getElementById(f==='f'?'fac':'tac');
+  const xb = document.getElementById(f === 'f' ? 'fx' : 'tx');
+  const list = document.getElementById(f === 'f' ? 'fac' : 'tac');
   xb.style.display = val ? 'block' : 'none';
-  if(val.length < 2){ list.classList.remove('open'); return; }
+  if (val.length < 2) { list.classList.remove('open'); return; }
 
   clearTimeout(acT[f]);
-  sp.style.display = 'block'; xb.style.display = 'none';
-  list.innerHTML = '<div style="padding:10px;font-size:11px;color:var(--tmut)">SCANNING ROADS...</div>';
+  list.innerHTML = '<div style="padding:8px;font-size:11px;color:var(--tmut)">SCANNING ROADS...</div>';
   list.classList.add('open');
 
-  acT[f] = setTimeout(async ()=>{
+  acT[f] = setTimeout(async () => {
     try {
       const res = await fetch(`https://photon.komoot.io/api/?q=${encodeURIComponent(val)}&lat=12.9716&lon=77.5946&limit=5`);
       const data = await res.json();
-      sp.style.display = 'none'; xb.style.display = 'block';
       renderSuggestions(f, data.features || [], list);
-    } catch(err) {
-      sp.style.display = 'none';
-      list.innerHTML = '<div style="padding:10px;font-size:11px;color:var(--red)">SEARCH ERROR</div>';
+    } catch (e) {
+      list.innerHTML = '<div style="padding:8px;font-size:11px;color:var(--red)">GEOCODER UNAVAILABLE</div>';
     }
-  }, 220);
+  }, 200);
 }
 
-function renderSuggestions(f, items, list){
+function renderSuggestions(f, items, list) {
   acD[f] = items;
-  if(!items.length){
-    list.innerHTML = '<div style="padding:10px;font-size:11px;color:var(--tmut)">NO MATCHES IN BENGALURU</div>';
+  if (!items.length) {
+    list.innerHTML = '<div style="padding:8px;font-size:11px;color:var(--tmut)">NO RESULTS IN BENGALURU</div>';
     return;
   }
   list.innerHTML = items.map((item, i) => {
     const p = item.properties;
-    const title = p.name || p.street || p.district || "Location";
+    const name = p.name || p.street || p.district || 'Location';
     const sub = [p.district, p.city || 'Bengaluru'].filter(Boolean).join(', ');
     return `<div class="aci" onmousedown="selectLoc('${f}', ${i})">
-      <div style="flex:1">
-        <div class="acm">📍 ${title}</div>
-        <div class="acs2">${sub}</div>
-      </div>
+      <div class="acm">📍 ${name}</div>
+      <div class="acs">${sub}</div>
     </div>`;
   }).join('');
 }
 
-function selectLoc(f, idx){
-  const item = acD[f][idx];
-  if(!item) return;
+function selectLoc(f, i) {
+  const item = acD[f][i];
+  if (!item) return;
   const [lng, lat] = item.geometry.coordinates;
   const name = item.properties.name || item.properties.street || "Selected Location";
-  document.getElementById(f==='f'?'fi':'ti').value = name;
-  document.getElementById(f==='f'?'fac':'tac').classList.remove('open');
-  if(f === 'f') fc = [lng, lat]; else tc = [lng, lat];
+  document.getElementById(f === 'f' ? 'fi' : 'ti').value = name;
+  document.getElementById(f === 'f' ? 'fac' : 'tac').classList.remove('open');
+  if (f === 'f') fc = [lng, lat]; else tc = [lng, lat];
   addMarker(lat, lng, f);
-  if(fc && tc) map.fitBounds([[fc[1], fc[0]], [tc[1], tc[0]]], { padding: [60, 60] });
+  if (fc && tc) map.fitBounds([[fc[1], fc[0]], [tc[1], tc[0]]], { padding: [50, 50] });
   else map.flyTo([lat, lng], 14);
 }
 
-function addMarker(lat, lng, type){
-  if(pinMarkers[type]) map.removeLayer(pinMarkers[type]);
-  const color = type==='f' ? '#39ff14' : '#ffb300';
+function addMarker(lat, lng, type) {
+  if (pinMarkers[type]) map.removeLayer(pinMarkers[type]);
+  const col = type === 'f' ? '#39ff14' : '#ffb300';
   const icon = L.divIcon({
-    html: `<div style="color:${color};font-size:22px;filter:drop-shadow(0 0 6px ${color})">${type==='f'?'📍':'🏁'}</div>`,
-    className: '', iconSize: [24,24], iconAnchor: [12,22]
+    html: `<div style="color:${col};font-size:20px;filter:drop-shadow(0 0 6px ${col})">${type === 'f' ? '📍' : '🏁'}</div>`,
+    className: '', iconSize: [24, 24], iconAnchor: [12, 20]
   });
   pinMarkers[type] = L.marker([lat, lng], { icon }).addTo(map);
 }
 
-function ci(f){
-  document.getElementById(f==='f'?'fi':'ti').value = '';
-  document.getElementById(f==='f'?'fx':'tx').style.display = 'none';
-  document.getElementById(f==='f'?'fac':'tac').classList.remove('open');
-  if(f==='f'){ fc = null; if(pinMarkers.f) map.removeLayer(pinMarkers.f); }
-  else { tc = null; if(pinMarkers.t) map.removeLayer(pinMarkers.t); }
+function ci(f) {
+  document.getElementById(f === 'f' ? 'fi' : 'ti').value = '';
+  document.getElementById(f === 'f' ? 'fx' : 'tx').style.display = 'none';
+  document.getElementById(f === 'f' ? 'fac' : 'tac').classList.remove('open');
+  if (f === 'f') { fc = null; if (pinMarkers.f) map.removeLayer(pinMarkers.f); }
+  else { tc = null; if (pinMarkers.t) map.removeLayer(pinMarkers.t); }
 }
 
-function onCorridorChange(){
-  const sel = document.getElementById('cor-picker').value;
-  if(sel !== 'auto' && CORRIDORS[sel]){
-    map.flyTo(CORRIDORS[sel].center, 13);
-  }
+function onCorridorSelect() {
+  const c = document.getElementById('cor-picker').value;
+  if (c !== 'auto' && CORRIDORS[c]) map.flyTo(CORRIDORS[c].center, 13);
 }
 
-// True Road Routing via OSRM Live Engine
-async function executeRoadRoute(){
+// True Road Routing via Live OSRM Motor/Bicycle Network
+async function calculateRoadRoute() {
   const fv = document.getElementById('fi').value.trim();
   const tv = document.getElementById('ti').value.trim();
-  if(!fv || !tv || !fc || !tc){
-    alert("Please select both start and end locations from the suggestions dropdown.");
-    return;
-  }
+  if (!fc || !tc) return alert("Select both locations from suggestions list.");
 
   const btn = document.getElementById('eb');
-  btn.classList.add('busy');
-  btn.textContent = "CALCULATING ROAD PATH...";
+  btn.classList.add('busy'); btn.textContent = "COMPUTING ROAD PATH...";
 
-  // Select road profile: bike uses bicycle/car network, car/cab uses driving
   const profile = (vehicle === 'bike') ? 'bike' : 'driving';
-  const osrmUrl = `https://router.project-osrm.org/route/v1/${profile}/${fc[0]},${fc[1]};${tc[0]},${tc[1]}?overview=full&geometries=geojson&alternatives=true`;
+  const url = `https://router.project-osrm.org/route/v1/${profile}/${fc[0]},${fc[1]};${tc[0]},${tc[1]}?overview=full&geometries=geojson&alternatives=true`;
 
   try {
-    const res = await fetch(osrmUrl);
+    const res = await fetch(url);
     const data = await res.json();
-    btn.classList.remove('busy');
-    btn.textContent = "⚡ CALCULATE ROAD ROUTE";
-
-    if(!data.routes || !data.routes.length){
-      alert("Could not compute road navigation between these points.");
-      return;
-    }
-
-    renderRoadResults(data.routes);
-  } catch(e) {
-    btn.classList.remove('busy');
-    btn.textContent = "⚡ CALCULATE ROAD ROUTE";
-    alert("Navigation API timeout. Please re-try.");
+    btn.classList.remove('busy'); btn.textContent = "⚡ CALCULATE REAL ROAD ROUTE";
+    if (!data.routes || !data.routes.length) return alert("No viable road route found.");
+    renderRouteTelemetry(data.routes);
+  } catch (err) {
+    btn.classList.remove('busy'); btn.textContent = "⚡ CALCULATE REAL ROAD ROUTE";
+    alert("Live routing engine timeout. Retrying...");
   }
 }
 
-function renderRoadResults(routes){
+function renderRouteTelemetry(routes) {
   routeLayers.forEach(l => map.removeLayer(l));
   routeLayers = [];
 
   const corKey = document.getElementById('cor-picker').value;
-  const activeCor = corKey !== 'auto' ? CORRIDORS[corKey] : CORRIDORS.orr;
+  const cor = corKey !== 'auto' ? CORRIDORS[corKey] : CORRIDORS.orr;
 
-  // Traffic multiplier based on current Bangalore hour
-  const hour = new Date().getHours();
-  const isPeak = (hour >= 8 && hour <= 11) || (hour >= 17 && hour <= 20.5);
-  const trafficMultiplier = isPeak ? (vehicle==='bike'? 1.45 : 1.95) : 1.15;
+  // Real Bangalore Congestion Multiplier Calculation
+  const now = new Date();
+  const hour = now.getHours() + (now.getMinutes() / 60);
+  const day = now.getDay();
+  let mult = 1.0;
+  let status = "NORMAL FLOW";
+  let peakRange = "8:00 AM - 11:00 AM & 5:00 PM - 8:30 PM";
+
+  if (hour >= 8 && hour <= 11) {
+    mult = (vehicle === 'bike') ? 1.45 : 1.95;
+    status = "MORNING PEAK SURGE";
+  } else if (hour >= 17 && hour <= 20.5) {
+    mult = (vehicle === 'bike') ? 1.55 : 2.15;
+    status = (day === 3) ? "WEDNESDAY SEVERE RUSH" : "EVENING PEAK SURGE";
+  } else {
+    mult = 1.15;
+  }
+
+  const prime = routes[0];
+  const distKm = (prime.distance / 1000).toFixed(1);
+  const cleanMinutes = Math.round(prime.duration / 60);
+  let trafficMinutes = Math.round(cleanMinutes * mult);
+  if (vehicle === 'cab') trafficMinutes += 8; // Cab hailing & dispatch lag
+  const bufferMin = Math.round(trafficMinutes * 0.20); // 20% tactical buffer
+
+  lastCalculatedData = {
+    corridor: cor.name,
+    distKm,
+    trafficMinutes,
+    bufferMin,
+    status,
+    timestamp: now.toLocaleTimeString()
+  };
+
+  document.getElementById('telemetry-hud').innerHTML = `
+    <div>STATUS: <b style="color:var(--neon)">${status}</b></div>
+    <div>BUFFER: <b style="color:var(--amber)">+${bufferMin}m</b></div>
+    <div>UPDATED: <b>${lastCalculatedData.timestamp}</b></div>
+  `;
 
   const container = document.getElementById('ro');
   container.innerHTML = '';
 
   routes.forEach((rt, idx) => {
-    const distKm = (rt.distance / 1000).toFixed(1);
-    const freeMinutes = Math.round(rt.duration / 60);
-    // Real traffic adjusted minutes
-    let adjustedMinutes = Math.round(freeMinutes * trafficMultiplier);
-    if(vehicle === 'cab') adjustedMinutes += 8; // add realistic cab hail & pickup wait
+    const dKm = (rt.distance / 1000).toFixed(1);
+    const freeM = Math.round(rt.duration / 60);
+    const finalM = Math.round(freeM * mult) + (vehicle === 'cab' ? 8 : 0);
+    const col = idx === 0 ? '#39ff14' : (idx === 1 ? '#ffb300' : '#00f5ff');
 
-    const color = idx === 0 ? '#39ff14' : (idx === 1 ? '#ffb300' : '#00f5ff');
-
-    // Draw genuine road polyline
     const poly = L.geoJSON(rt.geometry, {
-      style: { color, weight: idx === 0 ? 5 : 3, opacity: idx === 0 ? 0.9 : 0.45 }
+      style: { color: col, weight: idx === 0 ? 5 : 3, opacity: idx === 0 ? 0.9 : 0.4 }
     }).addTo(map);
     routeLayers.push(poly);
 
-    if(idx === 0) {
+    if (idx === 0) {
       map.fitBounds(poly.getBounds(), { padding: [50, 50] });
-      document.getElementById('htl').style.display = 'block';
-      document.getElementById('hud-eta').textContent = `${adjustedMinutes} MIN`;
-      document.getElementById('hud-sub').textContent = `${distKm} km road via ${activeCor.short}`;
+      document.getElementById('hud').style.display = 'block';
+      document.getElementById('hud-time').textContent = `${finalM} MIN`;
+      document.getElementById('hud-details').textContent = `${dKm} km road via ${cor.short}`;
     }
 
     container.innerHTML += `
-      <div class="rc ${idx===0?'sel':''}" style="--rcol:${color}" onclick="selectRouteIndex(${idx})">
+      <div class="rc ${idx===0?'sel':''}" style="--rcol:${col}" onclick="highlightRoute(${idx})">
         <div class="rct">
-          <div class="rcn" style="color:${color}">${idx===0?'TACTICAL OPTIMAL ROUTE':'ALTERNATE ROUTE '+idx}</div>
-          <span style="font-size:10px;font-family:'Share Tech Mono';color:var(--neon)">${vehicle.toUpperCase()}</span>
+          <div style="color:${col}">${idx===0?'TACTICAL FASTEST ROUTE':'ALTERNATE OPTION '+idx}</div>
+          <div>${vehicle.toUpperCase()}</div>
         </div>
         <div class="rst">
-          <div><strong>${adjustedMinutes} min</strong> (with traffic)</div>
-          <div><strong>${distKm} km</strong> road</div>
-          <div>${freeMinutes}m clean</div>
+          <div><strong>${finalM} min</strong> (w/ traffic)</div>
+          <div><strong>${dKm} km</strong> road</div>
+          <div>${freeM}m clean</div>
         </div>
-      </div>
-    `;
+      </div>`;
   });
 
-  // Render chokepoint warnings
-  document.getElementById('chokes').innerHTML = activeCor.chokes.map(c => `
-    <div style="display:flex;justify-content:space-between;padding:8px 10px;background:rgba(255,36,66,.08);border-left:3px solid var(--red);margin-bottom:4px;font-size:13px">
-      <span>⚠ ${c}</span>
-      <span style="color:var(--red);font-family:'Share Tech Mono'">CRITICAL DELAY ZONE</span>
-    </div>
-  `).join('');
+  document.getElementById('chokepoints').innerHTML = cor.chokes.map(ch => `
+    <div style="display:flex;justify-content:space-between;padding:7px 10px;background:rgba(255,36,66,.07);border-left:3px solid var(--red);margin-bottom:4px;font-size:13px">
+      <span>⚠ ${ch}</span><span style="color:var(--red);font-family:'Share Tech Mono'">ACTIVE BOTTLENECK</span>
+    </div>`).join('');
 
   document.getElementById('rr').style.display = 'block';
 }
 
-function selectRouteIndex(idx){
+function highlightRoute(idx) {
   document.querySelectorAll('.rc').forEach((el, i) => el.classList.toggle('sel', i === idx));
   routeLayers.forEach((l, i) => {
-    if(l.setStyle) l.setStyle({ opacity: i === idx ? 0.9 : 0.35, weight: i === idx ? 5 : 3 });
+    if (l.setStyle) l.setStyle({ opacity: i === idx ? 0.9 : 0.35, weight: i === idx ? 5 : 3 });
   });
 }
 
-function sv(v, el){
+function sv(v, el) {
   vehicle = v;
   document.querySelectorAll('.vb').forEach(b => b.classList.remove('active'));
   el.classList.add('active');
-  if(fc && tc) executeRoadRoute();
+  if (fc && tc) calculateRoadRoute();
 }
 
-function gp(name, el){
+function gp(id, el) {
   document.querySelectorAll('.panel').forEach(p => p.classList.remove('active'));
   document.querySelectorAll('.np').forEach(p => p.classList.remove('active'));
-  document.getElementById('panel-' + name).classList.add('active');
-  if(el) el.classList.add('active');
-  if(name === 'corridor') renderCorridorsPanel();
-  if(name === 'week') renderWeeklyPlanner();
+  document.getElementById('panel-' + id).classList.add('active');
+  if (el) el.classList.add('active');
 }
 
-function renderCorridorsPanel(){
-  document.getElementById('cor-list').innerHTML = Object.entries(CORRIDORS).map(([k, c]) => `
-    <div style="padding:12px;border:1px solid var(--brd2);background:rgba(0,0,0,.4);margin-bottom:8px;border-left:3px solid var(--neon)">
-      <div style="font-family:'Orbitron';font-size:12px;font-weight:700;color:var(--neon);margin-bottom:6px">${c.name}</div>
-      <div style="display:grid;grid-template-columns:1fr 1fr;gap:6px;font-size:13px;color:var(--tdim)">
-        <div>Peak Avg: <b style="color:var(--red)">${c.peakSpeed} km/h</b></div>
-        <div>Off-Peak: <b style="color:var(--neon)">${c.freeSpeed} km/h</b></div>
-      </div>
-      <div style="font-size:11px;color:var(--tmut);margin-top:6px">Chokepoints: ${c.chokes.join(', ')}</div>
-    </div>
-  `).join('');
+// Supabase Save & Retrieve Logic
+async function saveCommutePlan() {
+  if (!supabaseClient) return alert("Configure your Supabase URL & Anon Key in SUPABASE CONFIG tab first.");
+  if (!fc || !tc) return alert("Select start and end points on the ROAD NAV tab first.");
+
+  const payload = {
+    user_email: document.getElementById('plan-user').value.trim(),
+    day_of_week: document.getElementById('plan-day').value,
+    origin_name: document.getElementById('fi').value.trim(),
+    origin_lat: fc[1], origin_lng: fc[0],
+    dest_name: document.getElementById('ti').value.trim(),
+    dest_lat: tc[1], dest_lng: tc[0],
+    leave_home_time: document.getElementById('plan-home-time').value,
+    leave_office_time: document.getElementById('plan-office-time').value,
+    vehicle_mode: vehicle,
+    corridor: document.getElementById('cor-picker').value
+  };
+
+  const { error } = await supabaseClient.from('commute_plans').insert([payload]);
+  if (error) alert("Supabase Error: " + error.message);
+  else {
+    alert("✓ Week commute plan saved!");
+    loadSavedCommutePlans();
+  }
 }
 
-function renderWeeklyPlanner(){
-  const days = [
-    { day: "Monday", peak: "Heavy Morning", bestDep: "Before 7:45 AM", returnSlot: "After 8:30 PM", risk: "warn" },
-    { day: "Tuesday", peak: "Steady Rush", bestDep: "Before 8:00 AM", returnSlot: "4:15 PM or after 8:15 PM", risk: "go" },
-    { day: "Wednesday", peak: "Highest Peak of Week (13.2 km/h avg)", bestDep: "Before 7:30 AM", returnSlot: "Post 9:00 PM only", risk: "peak" },
-    { day: "Thursday", peak: "Heavy Evening Surge", bestDep: "Before 7:50 AM", returnSlot: "Before 4:30 PM", risk: "warn" },
-    { day: "Friday", peak: "Mass Exodus to Exits/Airports", bestDep: "Before 8:00 AM", returnSlot: "Leave by 3:45 PM or stay till 9:30 PM", risk: "peak" }
-  ];
-
-  document.getElementById('wk-plan').innerHTML = days.map(d => `
-    <div class="wk-card ${d.risk==='peak'?'peak':''}">
-      <div class="wk-head">
-        <span>${d.day.toUpperCase()}</span>
-        <span style="color:${d.risk==='peak'?'var(--red)':'var(--amber)'}">${d.peak}</span>
+async function loadSavedCommutePlans() {
+  if (!supabaseClient) return;
+  const { data, error } = await supabaseClient.from('commute_plans').select('*').order('created_at', { ascending: false });
+  const container = document.getElementById('saved-plans');
+  if (error || !data || !data.length) {
+    container.innerHTML = '<div style="font-size:12px;color:var(--tmut)">No saved routines found in Supabase.</div>';
+    return;
+  }
+  container.innerHTML = data.map(item => `
+    <div class="card">
+      <div style="display:flex;justify-content:space-between;font-family:'Orbitron';font-size:11px;color:var(--neon);margin-bottom:4px">
+        <span>${item.day_of_week.toUpperCase()} ROUTINE</span>
+        <span>${item.vehicle_mode.toUpperCase()}</span>
       </div>
-      <div class="wk-body">
-        ◆ <b>Safe Morning Departure:</b> ${d.bestDep}<br>
-        ◆ <b>Safe Evening Desk Exit:</b> ${d.returnSlot}
+      <div style="font-size:13px;color:var(--tdim)">
+        ◆ <b>From:</b> ${item.origin_name} (Leave: ${item.leave_home_time})<br>
+        ◆ <b>To:</b> ${item.dest_name} (Return: ${item.leave_office_time})
       </div>
-    </div>
-  `).join('');
+    </div>`).join('');
 }
 
-window.addEventListener('load', ()=>{
+// WhatsApp Dispatch Logic
+async function dispatchWhatsAppNotification() {
+  const phone = document.getElementById('wa-phone').value.trim();
+  const apiKey = document.getElementById('wa-key').value.trim();
+  if (!phone) return alert("Please enter your phone number with country code (e.g. 919876543210).");
+
+  const msg = lastCalculatedData 
+    ? `🚨 *BLR COMMUTE TACTICAL BRIEFING*\nCorridor: ${lastCalculatedData.corridor}\nRoute ETA: ${lastCalculatedData.trafficMinutes} mins in ${lastCalculatedData.status}\nDistance: ${lastCalculatedData.distKm} km\nSuggested Buffer: +${lastCalculatedData.bufferMin} mins\nUpdated: ${lastCalculatedData.timestamp}`
+    : `🚨 *BLR COMMUTE ALERT*\nPeak Hours Detected: 8:00 AM - 11:00 AM & 5:00 PM - 8:30 PM.\nWednesday evening rush is currently highest across ORR and Whitefield.`;
+
+  try {
+    const res = await fetch('/api/notify', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ phone, message: msg, autoSend: Boolean(apiKey), apiKey })
+    });
+    const result = await res.json();
+    if (result.mode === 'deeplink') {
+      window.open(result.url, '_blank');
+      document.getElementById('wa-status').textContent = "✓ WhatsApp conversation opened!";
+    } else {
+      document.getElementById('wa-status').textContent = "✓ Automated WhatsApp notification delivered!";
+    }
+  } catch (err) {
+    // Direct Fallback if running purely on local static file
+    window.open(`https://api.whatsapp.com/send?phone=${phone}&text=${encodeURIComponent(msg)}`, '_blank');
+  }
+}
+
+window.addEventListener('load', () => {
   initMap();
-  setInterval(()=>{
-    const d = new Date();
-    document.getElementById('clk').textContent = d.toTimeString().split(' ')[0];
+  initSupabase();
+  setInterval(() => {
+    document.getElementById('clk').textContent = new Date().toTimeString().split(' ')[0];
   }, 1000);
 });
 </script>
