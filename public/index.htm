@@ -4,7 +4,6 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>BLR COMMUTE — TACTICAL NAV PRO v7</title>
-<!-- Clean, readable modern typography -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400;600;700&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
@@ -24,11 +23,9 @@
 }
 html,body{height:100%;overflow:hidden;background:var(--bg);font-family:var(--font-main);color:var(--txt)}
 
-/* TACTILE INTERACTION FEEDBACK */
 button, .clickable, .rc{transition:transform 0.12s cubic-bezier(0.4, 0, 0.2, 1), box-shadow 0.12s, border-color 0.12s; user-select: none;}
 button:active, .clickable:active, .rc:active{transform:scale(0.97)!important;box-shadow:0 0 15px var(--accent-glow)!important;}
 
-/* TOPBAR */
 .topbar{height:58px;flex-shrink:0;z-index:1000;background:rgba(10,18,13,0.95);border-bottom:1px solid var(--border);display:flex;align-items:center;padding:0 20px;gap:16px;backdrop-filter:blur(10px)}
 .brand{display:flex;align-items:center;gap:10px}
 .brand-icon{width:36px;height:36px;background:var(--card-bg);border:1px solid var(--border-active);border-radius:10px;display:flex;align-items:center;justify-content:center;font-size:18px;box-shadow:0 0 12px var(--accent-glow)}
@@ -40,13 +37,11 @@ button:active, .clickable:active, .rc:active{transform:scale(0.97)!important;box
 .np.active{background:var(--accent);color:#022c1d;font-weight:700;box-shadow:0 0 14px var(--accent-glow)}
 .clock{font-family:var(--font-mono);font-size:12px;color:var(--txt-muted);background:rgba(0,0,0,0.4);padding:6px 12px;border-radius:6px;border:1px solid var(--border)}
 
-/* LAYOUT */
 .main{flex:1;display:flex;overflow:hidden;position:relative}
-.left{width:450px;flex-shrink:0;background:var(--panel-bg);border-right:1px solid var(--border);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;z-index:10}
+.left{width:460px;flex-shrink:0;background:var(--panel-bg);border-right:1px solid var(--border);overflow-y:auto;scrollbar-width:thin;scrollbar-color:var(--border) transparent;z-index:10}
 .panel{display:none;padding:18px}
 .panel.active{display:block}
 
-/* FORMS & INPUTS */
 .sec-title{font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:1px;color:var(--accent);margin:14px 0 8px}
 .input-wrap{position:relative;margin-bottom:12px}
 .inp{width:100%;padding:12px 14px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;color:#fff;font-family:var(--font-main);font-size:14px;outline:none;transition:border-color 0.2s}
@@ -59,7 +54,6 @@ button:active, .clickable:active, .rc:active{transform:scale(0.97)!important;box
 .acm{font-size:13px;font-weight:600;color:#fff}
 .acs{font-size:11px;color:var(--txt-muted)}
 
-/* VEHICLE MODE */
 .vg{display:grid;grid-template-columns:1fr 1fr 1fr;gap:8px;margin:8px 0 14px}
 .vb{padding:10px;border-radius:8px;border:1px solid var(--border);background:var(--card-bg);color:var(--txt-muted);cursor:pointer;font-size:12px;font-weight:600;text-align:center}
 .vb.active{border-color:var(--accent);color:var(--accent);background:rgba(16,185,129,0.08);box-shadow:0 0 10px var(--accent-glow)}
@@ -67,13 +61,11 @@ button:active, .clickable:active, .rc:active{transform:scale(0.97)!important;box
 .bex{width:100%;padding:14px;border-radius:8px;border:none;background:var(--accent);color:#022c1d;font-size:13px;font-weight:800;letter-spacing:0.5px;cursor:pointer;margin-top:6px}
 .bex:hover{background:#0fa573;box-shadow:0 0 18px var(--accent-glow)}
 
-/* AHA MOMENT CALLOUT */
 .aha-card{padding:14px;background:linear-gradient(135deg,rgba(16,185,129,0.12),rgba(6,182,212,0.06));border:1px solid var(--accent);border-radius:10px;margin:14px 0}
 .aha-title{font-size:12px;font-weight:800;color:var(--accent);text-transform:uppercase;letter-spacing:0.5px;margin-bottom:4px}
 .aha-text{font-size:13px;color:#fff;line-height:1.4}
 .aha-delta{font-size:18px;font-weight:800;color:var(--accent);margin-top:6px}
 
-/* CONFIDENCE ENGINE CARD */
 .conf-box{padding:12px 14px;background:var(--card-bg);border:1px solid var(--border);border-radius:8px;margin-bottom:12px}
 .conf-head{display:flex;justify-content:space-between;align-items:center;margin-bottom:6px}
 .conf-score{font-family:var(--font-mono);font-size:16px;font-weight:700}
@@ -81,21 +73,17 @@ button:active, .clickable:active, .rc:active{transform:scale(0.97)!important;box
 .conf-fill{height:100%;background:var(--accent);border-radius:3px;transition:width 0.8s ease}
 .conf-desc{font-size:12px;color:var(--txt-muted);line-height:1.4}
 
-/* ROUTE CARDS */
 .rc{padding:14px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;margin-bottom:10px;cursor:pointer;border-left:4px solid var(--rcol,var(--accent))}
 .rc.sel{border-color:var(--accent);background:rgba(16,185,129,0.06);box-shadow:0 4px 14px rgba(0,0,0,0.4)}
 .rct{display:flex;justify-content:space-between;font-size:13px;font-weight:700;margin-bottom:4px}
 .rst{display:flex;gap:14px;font-size:13px;color:var(--txt-muted)}
 .rst strong{color:#fff;font-size:15px}
 
-/* IN-ROUTE CHOKEPOINTS */
 .choke-item{display:flex;justify-content:space-between;align-items:center;padding:10px 12px;background:rgba(239,68,68,0.08);border-left:3px solid var(--red);border-radius:6px;margin-bottom:6px;font-size:12px}
 
-/* WEEK CARDS */
 .week-card{padding:14px;background:var(--card-bg);border:1px solid var(--border);border-radius:10px;margin-bottom:10px}
 .week-card-head{display:flex;justify-content:space-between;font-size:13px;font-weight:700;color:var(--accent);margin-bottom:6px}
 
-/* MAP & NAV OVERLAY */
 .right{flex:1;position:relative}
 #map{width:100%;height:100%}
 .leaflet-tile-pane{filter:invert(1) hue-rotate(180deg) saturate(1.3) brightness(0.85)}
@@ -157,12 +145,9 @@ button:active, .clickable:active, .rc:active{transform:scale(0.97)!important;box
 
       <button class="bex clickable" id="scan-btn" onclick="executeScan()">⚡ EXECUTE PREDICTIVE ROAD SCAN</button>
 
-      <!-- RESULTS CONTAINER -->
       <div id="results-area" style="display:none;margin-top:16px">
-        <!-- AHA MOMENT DISPLAY -->
         <div class="aha-card" id="aha-box"></div>
 
-        <!-- CONFIDENCE RATING BOX -->
         <div class="conf-box">
           <div class="conf-head">
             <span style="font-size:12px;font-weight:700;text-transform:uppercase">Route Confidence</span>
@@ -183,27 +168,47 @@ button:active, .clickable:active, .rc:active{transform:scale(0.97)!important;box
     <!-- 2. WEEKLY PLANNER PANEL -->
     <div class="panel" id="panel-week">
       <div class="sec-title">Saved Commute Plans (Supabase)</div>
-      <p style="font-size:12px;color:var(--txt-muted);margin-bottom:12px">Save your weekly office routines. Click any saved day (even on Sunday night) to simulate that day's exact predicted peak traffic conditions.</p>
+      <p style="font-size:12px;color:var(--txt-muted);margin-bottom:12px">Save your weekly office routines. Click any saved day to simulate that day's exact predicted peak traffic conditions.</p>
 
       <div class="week-card">
-        <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px">NEW RECURRING COMMUTE</div>
-        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
-          <select class="inp" id="wp-day">
-            <option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option>
-          </select>
-          <input class="inp" id="wp-email" placeholder="user@company.com" value="commuter@bengaluru.in"/>
-        </div>
+        <div style="font-size:12px;font-weight:700;color:var(--accent);margin-bottom:8px">COMMUTE RADAR ONBOARDING</div>
+        
         <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
           <div>
-            <span style="font-size:10px;color:var(--txt-dim)">MORNING START</span>
+            <span style="font-size:10px;color:var(--txt-dim)">ACTIVE DAY</span>
+            <select class="inp" id="wp-day">
+              <option>Monday</option><option>Tuesday</option><option>Wednesday</option><option>Thursday</option><option>Friday</option>
+            </select>
+          </div>
+          <div>
+            <span style="font-size:10px;color:var(--txt-dim)">WORK EMAIL</span>
+            <input class="inp" id="wp-email" placeholder="user@company.com" value="commuter@bengaluru.in"/>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div>
+            <span style="font-size:10px;color:var(--txt-dim)">WHATSAPP PHONE (e.g. 919876543210)</span>
+            <input class="inp" id="wp-phone" placeholder="91XXXXXXXXXX"/>
+          </div>
+          <div>
+            <span style="font-size:10px;color:var(--txt-dim)">CALLMEBOT API KEY</span>
+            <input class="inp" id="wp-botkey" placeholder="Enter CallMeBot Key"/>
+          </div>
+        </div>
+
+        <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px">
+          <div>
+            <span style="font-size:10px;color:var(--txt-dim)">TARGET MORNING DEPARTURE</span>
             <input type="time" class="inp" id="wp-time" value="08:15"/>
           </div>
           <div>
-            <span style="font-size:10px;color:var(--txt-dim)">EVENING RETURN</span>
+            <span style="font-size:10px;color:var(--txt-dim)">TARGET DESK EXIT</span>
             <input type="time" class="inp" id="wp-return" value="18:30"/>
           </div>
         </div>
-        <button class="bex clickable" onclick="savePlanToSupabase()">💾 SAVE TO WEEKLY SCHEDULE</button>
+
+        <button class="bex clickable" onclick="savePlanToSupabase()">⚡ ACTIVATE COMMUTE RADAR</button>
       </div>
 
       <div class="sec-title">Your Active Week Roster</div>
@@ -244,18 +249,15 @@ button:active, .clickable:active, .rc:active{transform:scale(0.97)!important;box
 
   </div>
 
-  <!-- RIGHT MAP CONTAINER -->
   <div class="right">
     <div id="map"></div>
     
-    <!-- IN-DRIVE HUD -->
     <div class="nav-hud" id="hud">
       <div style="font-size:10px;font-family:var(--font-mono);color:var(--txt-muted);letter-spacing:1px">TACTICAL HUD</div>
       <div class="nav-hud-eta" id="hud-eta">-- MIN</div>
       <div class="nav-hud-sub" id="hud-sub">--</div>
     </div>
 
-    <!-- SIMULATED NAVIGATION CONTROLS -->
     <div class="nav-controls" id="nav-actions">
       <button class="btn-nav-act btn-nav-start clickable" id="start-drive-btn" onclick="startNavigationSimulation()">▶ START DRIVING</button>
       <button class="btn-nav-act btn-nav-stop clickable" id="stop-drive-btn" style="display:none" onclick="stopNavigationSimulation()">■ EXIT NAVIGATION</button>
@@ -264,11 +266,8 @@ button:active, .clickable:active, .rc:active{transform:scale(0.97)!important;box
 </div>
 
 <script>
-// Verified Bangalore Database Matrix (TomTom Historical Index + BBMP Data)
-// Reference: TomTom Traffic Index Bengaluru (13.9 km/h peak average speed)
 const BLR_DATA_REF = "https://www.tomtom.com/traffic-index/bangalore-traffic/";
 
-// Critical bottleneck nodes across Bangalore corridors
 const ALL_CHOKEPOINTS = [
   { name: "Silk Board Junction", lat: 12.9172, lng: 77.6228, delay: "+25-35 min" },
   { name: "Bellandur EcoSpace", lat: 12.9279, lng: 77.6836, delay: "+15-25 min" },
@@ -281,7 +280,7 @@ const ALL_CHOKEPOINTS = [
 ];
 
 let map, vehicle = 'car';
-let fc = null, tc = null; // Coordinates: [lng, lat]
+let fc = null, tc = null;
 let acTimer = { f: null, t: null }, acData = { f: [], t: [] };
 let routeLayers = [], pinMarkers = {};
 let activeGeoJsonCoords = [];
@@ -289,7 +288,6 @@ let animInterval = null, vehicleMarker = null;
 let supabaseClient = null;
 let currentCalculatedModel = null;
 
-// Initialize Supabase Connection
 function initSupabase() {
   const url = localStorage.getItem('BLR_SB_URL') || '';
   const key = localStorage.getItem('BLR_SB_KEY') || '';
@@ -320,7 +318,6 @@ function initMap() {
   L.control.zoom({ position: 'bottomright' }).addTo(map);
 }
 
-// Photon Autocomplete Geocoder (Bounded specifically to Bangalore)
 function runAutocomplete(f) {
   const inp = document.getElementById(f === 'f' ? 'fi' : 'ti');
   const val = inp.value.trim();
@@ -398,7 +395,6 @@ function setMode(m, el) {
   if (fc && tc) executeScan();
 }
 
-// Accurate Haversine Distance
 function haversineDist(lat1, lon1, lat2, lon2) {
   const R = 6371;
   const dLat = (lat2 - lat1) * Math.PI / 180;
@@ -409,18 +405,15 @@ function haversineDist(lat1, lon1, lat2, lon2) {
   return R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
 }
 
-// Filter Chokepoints: MUST be within 350m of calculated road trajectory
 function filterChokepointsOnRoute(coords) {
   return ALL_CHOKEPOINTS.filter(ch => {
     return coords.some(pt => {
-      // pt is [lng, lat]
       const d = haversineDist(ch.lat, ch.lng, pt[1], pt[0]);
-      return d <= 0.35; // 350 meters threshold
+      return d <= 0.35;
     });
   });
 }
 
-// True Road Navigation Engine via OSRM + Traffic Multiplier
 async function executeScan(overrideHour = null, overrideDay = null) {
   if (!fc || !tc) return alert("Please select both start and end locations.");
 
@@ -450,7 +443,6 @@ function processRouteModel(routes, overrideHour, overrideDay) {
   const hour = (overrideHour !== null) ? overrideHour : (now.getHours() + now.getMinutes() / 60);
   const day = (overrideDay !== null) ? overrideDay : now.getDay();
 
-  // Traffic Multipliers derived from TomTom Bengaluru Matrix
   let mult = 1.15;
   let confScore = 88;
   let confReason = "Normal off-peak traffic conditions. Estimates are reliable within ±5 minutes.";
@@ -461,22 +453,21 @@ function processRouteModel(routes, overrideHour, overrideDay) {
   if (isMorningPeak) {
     mult = (vehicle === 'bike') ? 1.45 : 1.95;
     confScore = 65;
-    confReason = "Morning Peak Surge (8–11 AM). Silk Board and ORR corridors experience heavy variance due to bottleneck queuing.";
+    confReason = "Morning Peak Surge (8–11 AM). Heavy queuing variance across bottlenecks.";
   } else if (isEveningPeak) {
     mult = (vehicle === 'bike') ? 1.55 : 2.20;
-    if (day === 3) mult += 0.25; // Wednesday Peak Penalty (verified TomTom worst day)
+    if (day === 3) mult += 0.25;
     confScore = 58;
     confReason = `Evening Rush Hour. Lower confidence due to unpredictable junction spillovers (Historical avg: 13.2 km/h).`;
   }
 
   const primeRoute = routes[0];
-  activeGeoJsonCoords = primeRoute.geometry.coordinates; // [lng, lat]
+  activeGeoJsonCoords = primeRoute.geometry.coordinates;
   const distKm = (primeRoute.distance / 1000).toFixed(1);
   const cleanMins = Math.round(primeRoute.duration / 60);
   let trafficMins = Math.round(cleanMins * mult);
-  if (vehicle === 'cab') trafficMins += 7; // Dispatch + hail overhead
+  if (vehicle === 'cab') trafficMins += 7;
 
-  // Calculate The Aha Moment: Time saved by departing strategically
   const peakPenaltyMins = Math.round(cleanMins * (vehicle === 'bike' ? 1.5 : 2.1)) - trafficMins;
   const ahaBox = document.getElementById('aha-box');
   if (isMorningPeak || isEveningPeak) {
@@ -492,13 +483,11 @@ function processRouteModel(routes, overrideHour, overrideDay) {
     `;
   }
 
-  // Set Confidence Engine
   document.getElementById('conf-val').textContent = `${confScore}%`;
   document.getElementById('conf-bar').style.width = `${confScore}%`;
   document.getElementById('conf-bar').style.background = confScore > 75 ? 'var(--accent)' : (confScore > 60 ? 'var(--amber)' : 'var(--red)');
   document.getElementById('conf-explanation').innerHTML = `<b>Why ${confScore}%?</b> ${confReason} (Ref: <a href="${BLR_DATA_REF}" target="_blank" style="color:var(--accent)">TomTom Historical Index</a>)`;
 
-  // Render Routes
   const rList = document.getElementById('routes-list');
   rList.innerHTML = '';
 
@@ -535,7 +524,6 @@ function processRouteModel(routes, overrideHour, overrideDay) {
     `;
   });
 
-  // Filter and display chokepoints strictly ON THIS ROUTE
   const confirmedChokes = filterChokepointsOnRoute(activeGeoJsonCoords);
   const chokeContainer = document.getElementById('route-chokes');
   if (confirmedChokes.length) {
@@ -561,14 +549,12 @@ function selectRouteLayer(idx) {
   });
 }
 
-// ANIMATED IN-MAP NAVIGATION SIMULATION
 function startNavigationSimulation() {
   if (!activeGeoJsonCoords.length) return;
 
   document.getElementById('start-drive-btn').style.display = 'none';
   document.getElementById('stop-drive-btn').style.display = 'block';
 
-  // Choose tactical vehicle emoji token
   const vehicleEmoji = vehicle === 'bike' ? '🏍️' : (vehicle === 'cab' ? '🚕' : '🏎️');
 
   const vIcon = L.divIcon({
@@ -578,7 +564,7 @@ function startNavigationSimulation() {
 
   let step = 0;
   const totalSteps = activeGeoJsonCoords.length;
-  const startPt = activeGeoJsonCoords[0]; // [lng, lat]
+  const startPt = activeGeoJsonCoords[0];
 
   if (vehicleMarker) map.removeLayer(vehicleMarker);
   vehicleMarker = L.marker([startPt[1], startPt[0]], { icon: vIcon }).addTo(map);
@@ -596,7 +582,7 @@ function startNavigationSimulation() {
     const currentCoord = activeGeoJsonCoords[step];
     vehicleMarker.setLatLng([currentCoord[1], currentCoord[0]]);
     map.panTo([currentCoord[1], currentCoord[0]], { animate: true });
-  }, 350); // Updates progress smoothly across nodes
+  }, 350);
 }
 
 function stopNavigationSimulation() {
@@ -607,7 +593,6 @@ function stopNavigationSimulation() {
   if (fc && tc) map.fitBounds([[fc[1], fc[0]], [tc[1], tc[0]]], { padding: [50, 50] });
 }
 
-// SUPABASE LOGIC & PREDICTIVE CALENDAR
 async function savePlanToSupabase() {
   if (!supabaseClient) return alert("Connect to Supabase under the SUPABASE CONFIG tab first.");
   if (!fc || !tc) return alert("Select origin and destination under COMMUTE SCAN tab first.");
@@ -621,13 +606,16 @@ async function savePlanToSupabase() {
     dest_lat: tc[1], dest_lng: tc[0],
     leave_home_time: document.getElementById('wp-time').value,
     leave_office_time: document.getElementById('wp-return').value,
-    vehicle_mode: vehicle
+    phone: document.getElementById('wp-phone').value.trim(),
+    callmebot_key: document.getElementById('wp-botkey').value.trim(),
+    vehicle_mode: vehicle,
+    alerts_enabled: true
   };
 
   const { error } = await supabaseClient.from('commute_plans').insert([payload]);
   if (error) alert("Supabase Error: " + error.message);
   else {
-    alert("✓ Routine saved to Supabase!");
+    alert("✓ Commute Radar Activated! Routine saved to Supabase.");
     loadSavedPlans();
   }
 }
@@ -644,11 +632,12 @@ async function loadSavedPlans() {
     <div class="week-card">
       <div class="week-card-head">
         <span>${plan.day_of_week.toUpperCase()} COMMUTE</span>
-        <span>${plan.vehicle_mode.toUpperCase()}</span>
+        <span>${(plan.vehicle_mode || 'car').toUpperCase()}</span>
       </div>
       <div style="font-size:12px;color:var(--txt-muted);line-height:1.5">
         ◆ <b>Origin:</b> ${plan.origin_name} (${plan.leave_home_time})<br>
-        ◆ <b>Destination:</b> ${plan.dest_name} (Return: ${plan.leave_office_time})
+        ◆ <b>Destination:</b> ${plan.dest_name} (Return: ${plan.leave_office_time})<br>
+        ◆ <b>Phone:</b> ${plan.phone || 'Not configured'}
       </div>
       <button class="bex clickable" style="padding:8px;font-size:11px;margin-top:8px" onclick="simulateSavedPlan(${idx})">
         ⚡ RUN PREDICTIVE TRAFFIC SCAN FOR THIS DAY
@@ -658,12 +647,10 @@ async function loadSavedPlans() {
   window._savedPlans = data;
 }
 
-// Act Upon the Plan (Simulates Monday or specific day traffic even on Sunday)
 function simulateSavedPlan(idx) {
   const plan = window._savedPlans[idx];
   if (!plan) return;
   
-  // Set inputs & coordinates
   document.getElementById('fi').value = plan.origin_name;
   document.getElementById('ti').value = plan.dest_name;
   fc = [plan.origin_lng, plan.origin_lat];
@@ -673,7 +660,6 @@ function simulateSavedPlan(idx) {
   renderMarker(fc[1], fc[0], 'f');
   renderMarker(tc[1], tc[0], 't');
 
-  // Parse time
   const [h, m] = plan.leave_home_time.split(':').map(Number);
   const hourDecimal = h + m / 60;
   
@@ -684,7 +670,6 @@ function simulateSavedPlan(idx) {
   executeScan(hourDecimal, targetDay);
 }
 
-// WHATSAPP ALERTS DISPATCH
 async function sendWhatsAppAlert() {
   const phone = document.getElementById('wa-phone').value.trim();
   const apiKey = document.getElementById('wa-apikey').value.trim();
