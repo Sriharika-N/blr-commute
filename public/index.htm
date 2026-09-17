@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>BLR Commute Radar — Tactical Nav</title>
+<title>BLR Commute Radar — WhatsApp Commute Engine</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=JetBrains+Mono:wght@500;700&display=swap" rel="stylesheet">
@@ -11,23 +11,31 @@
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
 :root{
-  --bg:#070b09;--card:#0f1713;--border:rgba(255,255,255,0.08);
+  --bg:#070b09;--card:#0f1713;--card-inner:#141f1a;--border:rgba(255,255,255,0.08);
   --border-focus:rgba(16,185,129,0.5);--accent:#10b981;
   --accent-glow:rgba(16,185,129,0.25);--txt:#f9fafb;--txt-muted:#9ca3af;
-  --font:'Plus Jakarta Sans',sans-serif;
+  --amber:#f59e0b;--red:#ef4444;--font:'Plus Jakarta Sans',sans-serif;
 }
 body{background:var(--bg);color:var(--txt);font-family:var(--font);display:flex;align-items:center;justify-content:center;min-height:100vh;padding:24px 16px}
-.container{width:100%;max-width:480px}
-.card{background:var(--card);border:1px solid var(--border);border-radius:18px;padding:26px;box-shadow:0 16px 40px rgba(0,0,0,0.6)}
-.badge{display:inline-block;padding:5px 10px;background:rgba(16,185,129,0.12);color:var(--accent);border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.5px;margin-bottom:10px}
-h1{font-size:22px;font-weight:800;letter-spacing:-0.4px;margin-bottom:6px}
-p{font-size:13px;color:var(--txt-muted);line-height:1.5;margin-bottom:20px}
+.container{width:100%;max-width:520px}
+.card{background:var(--card);border:1px solid var(--border);border-radius:20px;padding:26px;box-shadow:0 16px 40px rgba(0,0,0,0.6)}
+.badge{display:inline-block;padding:4px 10px;background:rgba(16,185,129,0.12);color:var(--accent);border-radius:6px;font-size:11px;font-weight:700;letter-spacing:0.5px;margin-bottom:8px}
+h1{font-size:22px;font-weight:800;letter-spacing:-0.4px;margin-bottom:4px}
+p{font-size:13px;color:var(--txt-muted);line-height:1.5;margin-bottom:18px}
+
 .field{margin-bottom:14px;position:relative}
 label{display:block;font-size:11px;font-weight:700;color:var(--txt-muted);margin-bottom:6px;text-transform:uppercase;letter-spacing:0.5px}
 .input-box{position:relative}
 input, select{width:100%;padding:12px 14px;background:#090f0c;border:1px solid var(--border);border-radius:10px;color:#fff;font-family:inherit;font-size:14px;outline:none;transition:all 0.15s}
 input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--accent-glow)}
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:12px}
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+
+/* WEEK DAY TABS */
+.day-tabs{display:flex;gap:6px;margin:12px 0 16px;background:#090f0c;padding:4px;border-radius:12px;border:1px solid var(--border)}
+.d-tab{flex:1;padding:8px 4px;font-size:11px;font-weight:700;text-align:center;border-radius:8px;cursor:pointer;color:var(--txt-muted);background:transparent;border:none;transition:all 0.15s}
+.d-tab.active{background:var(--accent);color:#042f1f}
+.day-card{background:var(--card-inner);border:1px solid var(--border);border-radius:14px;padding:16px;margin-bottom:16px}
+.wfh-toggle{display:flex;align-items:center;gap:8px;font-size:12px;color:var(--txt-muted);cursor:pointer;margin-top:10px}
 
 .acl{position:absolute;top:calc(100% + 4px);left:0;right:0;background:#0d1612;border:1px solid var(--border-focus);border-radius:10px;max-height:220px;overflow-y:auto;z-index:999;display:none;box-shadow:0 12px 30px rgba(0,0,0,0.85)}
 .acl.open{display:block}
@@ -36,57 +44,76 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
 .aci-name{font-size:13px;font-weight:700;color:#fff}
 .aci-sub{font-size:11px;color:var(--txt-muted);margin-top:2px}
 
-.btn{width:100%;padding:15px;background:var(--accent);color:#022c1d;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;margin-top:10px;transition:transform 0.1s, box-shadow 0.15s}
-.btn:hover{box-shadow:0 0 20px var(--accent-glow)}
+.btn{width:100%;padding:14px;background:var(--accent);color:#022c1d;border:none;border-radius:10px;font-size:14px;font-weight:800;cursor:pointer;margin-top:6px;transition:all 0.15s}
 .btn:active{transform:scale(0.98)}
+.btn-outline{background:transparent;border:1px solid var(--border);color:var(--txt-muted);padding:10px;font-size:12px;font-weight:700;border-radius:8px;cursor:pointer;width:100%;margin-top:8px}
+.btn-outline:hover{border-color:var(--accent);color:#fff}
 
-/* VERIFICATION & ITINERARY DISPLAY */
-.result-box{display:none;padding-top:10px}
-.itin-card{background:#090f0c;border:1px solid rgba(16,185,129,0.25);border-radius:12px;padding:16px;margin:14px 0}
-.itin-row{display:flex;justify-content:space-between;font-size:13px;padding:6px 0;border-bottom:1px solid rgba(255,255,255,0.05)}
+/* DASHBOARD & ITINERARY */
+.itin-box{background:var(--card-inner);border:1px solid var(--border);border-radius:14px;padding:16px;margin:14px 0}
+.itin-row{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.05);font-size:13px}
 .itin-row:last-child{border-bottom:none}
 .itin-val{font-weight:700;color:var(--accent);font-family:'JetBrains Mono',monospace}
-.btn-wa{display:inline-block;width:100%;padding:13px;text-align:center;background:#25D366;color:#052e16;text-decoration:none;border-radius:10px;font-size:13px;font-weight:800;margin-top:8px}
 </style>
 </head>
 <body>
 
 <div class="container">
-  <div class="card" id="form-box">
-    <span class="badge">BENGALURU CORRIDOR NAV</span>
-    <h1>Outsmart Bangalore Traffic</h1>
-    <p>Calibrates your daily home ↔ office routine against historical bottleneck curves and live storms.</p>
+  <div class="card" id="main-card">
+    <span class="badge">BENGALURU COMMUTE RADAR</span>
+    <h1>Smart Week Commute Planner</h1>
+    <p>Configure your commute routine per day. We monitor Bengaluru bottlenecks and WhatsApp you the best departure time.</p>
 
-    <!-- Origin -->
+    <!-- Location Inputs -->
     <div class="field">
       <label>Home Location</label>
       <div class="input-box">
-        <input id="fi" placeholder="Type locality, apartment, or landmark..." autocomplete="off" oninput="searchLoc('f')"/>
+        <input id="fi" placeholder="Area, landmark, or apartment..." autocomplete="off" oninput="searchLoc('f')"/>
         <div class="acl" id="fac"></div>
       </div>
     </div>
 
-    <!-- Destination -->
     <div class="field">
-      <label>Office / Work Destination</label>
+      <label>Office Destination</label>
       <div class="input-box">
-        <input id="ti" placeholder="Tech park, office, or building..." autocomplete="off" oninput="searchLoc('t')"/>
+        <input id="ti" placeholder="Tech park, building, or office..." autocomplete="off" oninput="searchLoc('t')"/>
         <div class="acl" id="tac"></div>
       </div>
     </div>
 
-    <!-- Times & Mode -->
-    <div class="grid">
-      <div class="field">
-        <label>Target Arrival</label>
-        <input type="time" id="arrive_time" value="09:30"/>
+    <!-- DAY BY DAY SCHEDULE TABS -->
+    <label>Schedule By Day</label>
+    <div class="day-tabs">
+      <button class="d-tab active" onclick="setDay('Monday',this)">Mon</button>
+      <button class="d-tab" onclick="setDay('Tuesday',this)">Tue</button>
+      <button class="d-tab" onclick="setDay('Wednesday',this)">Wed</button>
+      <button class="d-tab" onclick="setDay('Thursday',this)">Thu</button>
+      <button class="d-tab" onclick="setDay('Friday',this)">Fri</button>
+    </div>
+
+    <div class="day-card">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:10px">
+        <span id="active-day-label" style="font-size:13px;font-weight:800;color:var(--accent)">Monday Schedule</span>
+        <label class="wfh-toggle">
+          <input type="checkbox" id="is-wfh" onchange="toggleWFH()"/> Work From Home
+        </label>
       </div>
-      <div class="field">
-        <label>Evening Return</label>
-        <input type="time" id="return_time" value="18:30"/>
+      
+      <div id="day-time-fields">
+        <div class="grid">
+          <div class="field" style="margin-bottom:0">
+            <label>Reach Office By</label>
+            <input type="time" id="arrive_time" value="09:30" onchange="updateDaySchedule()"/>
+          </div>
+          <div class="field" style="margin-bottom:0">
+            <label>Leave Office At</label>
+            <input type="time" id="return_time" value="18:30" onchange="updateDaySchedule()"/>
+          </div>
+        </div>
       </div>
     </div>
 
+    <!-- Communication & Mode -->
     <div class="grid">
       <div class="field">
         <label>Travel Mode</label>
@@ -96,58 +123,97 @@ input:focus, select:focus{border-color:var(--accent);box-shadow:0 0 0 3px var(--
         </select>
       </div>
       <div class="field">
-        <label>WhatsApp Number</label>
-        <input id="phone" placeholder="91XXXXXXXXXX"/>
+        <label>Your Email</label>
+        <input id="email" placeholder="name@company.com"/>
       </div>
     </div>
 
-    <div class="field">
-      <label>Identifier (Your Email)</label>
-      <input id="email" placeholder="name@company.com"/>
+    <div class="grid">
+      <div class="field">
+        <label>WhatsApp Phone</label>
+        <input id="phone" placeholder="91XXXXXXXXXX"/>
+      </div>
+      <div class="field">
+        <label>CallMeBot Key (<a href="https://www.callmebot.com/blog/free-api-whatsapp-messages/" target="_blank" style="color:var(--accent)">Get Free Key</a>)</label>
+        <input id="whatsapp_key" placeholder="API Key"/>
+      </div>
     </div>
 
-    <div class="field">
-      <label>Pushover User Key (Optional - for Push Alerts)</label>
-      <input id="pushover_key" placeholder="30-character key from pushover.net"/>
-    </div>
-
-    <button class="btn" id="sub-btn" onclick="activateCommuteRadar()">Activate Commute Radar</button>
+    <button class="btn" id="save-btn" onclick="saveWeekRadar()">Activate Commute Radar</button>
   </div>
 
-  <!-- INSTANT HANDSHAKE RESULT -->
-  <div class="card result-box" id="result-box">
-    <span class="badge" style="background:rgba(16,185,129,0.15)">✓ RADAR ACTIVE &amp; AUDITED</span>
-    <h2>Commute Itinerary Verified</h2>
-    <p style="margin-bottom:12px">Your Mon–Fri commute schedule has been saved to Supabase and calibrated against live road vectors.</p>
+  <!-- ITINERARY & LIVE REFRESH DASHBOARD -->
+  <div class="card" id="dash-card" style="display:none">
+    <span class="badge">RADAR ACTIVE</span>
+    <h2>Your Week Commute Plan</h2>
+    <p>Schedules stored in Supabase. You can check current traffic predictions or refresh estimates anytime.</p>
 
-    <div class="itin-card">
-      <div class="itin-row"><span>Road Distance:</span><span class="itin-val" id="res-dist">-- km</span></div>
-      <div class="itin-row"><span>Clean Duration:</span><span class="itin-val" id="res-clean">-- mins</span></div>
-      <div class="itin-row"><span>Recommended Departure:</span><span class="itin-val" id="res-dep">--</span></div>
-      <div class="itin-row"><span>Peak Rush Penalty:</span><span class="itin-val" id="res-peak" style="color:#ef4444">--</span></div>
-      <div class="itin-row"><span>Arbitrage Opportunity:</span><span class="itin-val" id="res-saved" style="color:#10b981">-- mins saved</span></div>
+    <div class="itin-box" id="forecast-box">
+      <div class="itin-row"><span>Mon – Fri Distance:</span><span class="itin-val" id="d-dist">-- km</span></div>
+      <div class="itin-row"><span>Clean Off-Peak Time:</span><span class="itin-val" id="d-clean">-- mins</span></div>
+      <div class="itin-row"><span>Today's Rec. Departure:</span><span class="itin-val" id="d-start">--</span></div>
+      <div class="itin-row"><span>Expected Arrival Window:</span><span class="itin-val" id="d-range">--</span></div>
+      <div class="itin-row"><span>Live Weather &amp; Storms:</span><span class="itin-val" id="d-weather">Clear</span></div>
     </div>
 
-    <a href="#" id="wa-btn" class="btn-wa" target="_blank">📲 Verify Immediately on WhatsApp</a>
-    <p style="font-size:11px;color:var(--txt-muted);font-family:'JetBrains Mono',monospace;text-align:center;margin-top:12px">Automated briefings will trigger before every commute window.</p>
+    <button class="btn-outline" onclick="refreshForecast()">🔄 Refresh Live Traffic &amp; Weather</button>
+    <button class="btn" style="background:#090f0c;color:#fff;border:1px solid var(--border);margin-top:10px" onclick="editPlan()">✏️ Edit Commute Routine</button>
   </div>
 </div>
 
 <script>
+const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
+const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
+const dbClient = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+
 let coords = { f: null, t: null };
 let searchTimers = { f: null, t: null };
+let currentDay = 'Monday';
 
+// Day-by-Day Itinerary Storage
+let weekSchedule = {
+  Monday: { arrive: '09:30', return: '18:30', isWFH: false },
+  Tuesday: { arrive: '09:30', return: '18:30', isWFH: false },
+  Wednesday: { arrive: '09:30', return: '18:30', isWFH: false },
+  Thursday: { arrive: '09:30', return: '18:30', isWFH: false },
+  Friday: { arrive: '09:30', return: '18:00', isWFH: false }
+};
+
+function setDay(day, btn) {
+  currentDay = day;
+  document.querySelectorAll('.d-tab').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+  document.getElementById('active-day-label').textContent = `${day} Schedule`;
+
+  const conf = weekSchedule[day];
+  document.getElementById('arrive_time').value = conf.arrive;
+  document.getElementById('return_time').value = conf.return;
+  document.getElementById('is-wfh').checked = conf.isWFH;
+  document.getElementById('day-time-fields').style.opacity = conf.isWFH ? '0.3' : '1';
+}
+
+function toggleWFH() {
+  const isChecked = document.getElementById('is-wfh').checked;
+  weekSchedule[currentDay].isWFH = isChecked;
+  document.getElementById('day-time-fields').style.opacity = isChecked ? '0.3' : '1';
+}
+
+function updateDaySchedule() {
+  weekSchedule[currentDay].arrive = document.getElementById('arrive_time').value;
+  weekSchedule[currentDay].return = document.getElementById('return_time').value;
+}
+
+// Bounded Bengaluru Geocoder (Photon)
 function searchLoc(type) {
-  const inputEl = document.getElementById(type === 'f' ? 'fi' : 'ti');
-  const query = inputEl.value.trim();
+  const query = document.getElementById(type === 'f' ? 'fi' : 'ti').value.trim();
   const listEl = document.getElementById(type === 'f' ? 'fac' : 'tac');
-
   coords[type] = null;
+
   if (query.length < 2) { listEl.classList.remove('open'); return; }
 
   clearTimeout(searchTimers[type]);
   searchTimers[type] = setTimeout(async () => {
-    listEl.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--txt-muted)">Searching Bengaluru...</div>';
+    listEl.innerHTML = '<div style="padding:10px;font-size:12px;color:var(--txt-muted)">Searching Bengaluru...</div>';
     listEl.classList.add('open');
 
     try {
@@ -156,7 +222,7 @@ function searchLoc(type) {
       const items = data.features || [];
 
       if (!items.length) {
-        listEl.innerHTML = '<div style="padding:12px;font-size:12px;color:var(--txt-muted)">No matching location found</div>';
+        listEl.innerHTML = '<div style="padding:10px;font-size:12px;color:var(--txt-muted)">No matching location found</div>';
         return;
       }
 
@@ -166,20 +232,17 @@ function searchLoc(type) {
         const sub = [p.district, p.city || 'Bengaluru'].filter(Boolean).join(', ');
         const [lng, lat] = feat.geometry.coordinates;
         return `
-          <div class="aci" onmousedown="chooseLocation('${type}', ${lng}, ${lat}, '${escapeStr(main)}')">
+          <div class="aci" onmousedown="chooseLoc('${type}', ${lng}, ${lat}, '${main.replace(/'/g, "\\'")}')">
             <div><div class="aci-name">📍 ${main}</div><div class="aci-sub">${sub}</div></div>
-          </div>
-        `;
+          </div>`;
       }).join('');
     } catch {
-      listEl.innerHTML = '<div style="padding:12px;font-size:12px;color:#ef4444">Search timeout. Try area name.</div>';
+      listEl.innerHTML = '<div style="padding:10px;font-size:12px;color:#ef4444">Search service timeout</div>';
     }
   }, 200);
 }
 
-function escapeStr(str) { return str.replace(/'/g, "\\'").replace(/"/g, '&quot;'); }
-
-function chooseLocation(type, lng, lat, name) {
+function chooseLoc(type, lng, lat, name) {
   document.getElementById(type === 'f' ? 'fi' : 'ti').value = name;
   document.getElementById(type === 'f' ? 'fac' : 'tac').classList.remove('open');
   coords[type] = [lng, lat];
@@ -191,72 +254,80 @@ document.addEventListener('click', (e) => {
   }
 });
 
-async function activateCommuteRadar() {
-  const submitBtn = document.getElementById('sub-btn');
+// Save Week Schedule & Trigger Instant Verification
+async function saveWeekRadar() {
+  const saveBtn = document.getElementById('save-btn');
   const email = document.getElementById('email').value.trim();
   const phone = document.getElementById('phone').value.trim();
-  const pushoverKey = document.getElementById('pushover_key').value.trim();
-  const arriveTime = document.getElementById('arrive_time').value;
-  const returnTime = document.getElementById('return_time').value;
+  const waKey = document.getElementById('whatsapp_key').value.trim();
   const mode = document.getElementById('mode').value;
   const fromName = document.getElementById('fi').value.trim();
   const toName = document.getElementById('ti').value.trim();
 
-  if (!coords.f || !coords.t) {
-    alert("Please select both your Home and Office locations from the suggestion list.");
-    return;
-  }
-  if (!email || !phone) {
-    alert("Please enter both your Email and your WhatsApp Phone Number.");
-    return;
-  }
+  if (!coords.f || !coords.t) return alert("Select both Home and Office locations from the suggestions.");
+  if (!email || !phone || !waKey) return alert("Enter your Email, WhatsApp Phone (with 91), and CallMeBot API Key.");
 
-  submitBtn.disabled = true;
-  submitBtn.textContent = "Auditing Road Vectors...";
+  saveBtn.disabled = true;
+  saveBtn.textContent = "Verifying Route & Activating...";
 
   try {
     const res = await fetch('/api/handshake', {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify({
-        email,
-        phone,
-        pushoverKey,
-        fromName,
-        toName,
-        fc: coords.f,
-        tc: coords.t,
-        arriveTime,
-        returnTime,
-        mode
+        email, phone, waKey,
+        fromName, toName,
+        fc: coords.f, tc: coords.t,
+        mode, weekSchedule
       })
     });
 
     const data = await res.json();
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Activate Commute Radar";
+    saveBtn.disabled = false;
+    saveBtn.textContent = "Activate Commute Radar";
 
-    if (data.error) {
-      alert("Verification Error: " + data.error);
-      return;
-    }
+    if (data.error) return alert("Error: " + data.error);
 
-    // Populate Verified Itinerary UI
-    document.getElementById('res-dist').textContent = `${data.distKm} km`;
-    document.getElementById('res-clean').textContent = `${data.cleanMinutes} mins`;
-    document.getElementById('res-dep').textContent = data.leaveHomeTime;
-    document.getElementById('res-peak').textContent = `${data.peakETA} mins in surge`;
-    document.getElementById('res-saved').textContent = `+${data.potentialSavings} mins`;
-    document.getElementById('wa-btn').href = data.whatsappDeeplink;
+    // Populate Dashboard
+    document.getElementById('d-dist').textContent = `${data.distKm} km`;
+    document.getElementById('d-clean').textContent = `${data.cleanMinutes} mins`;
+    document.getElementById('d-start').textContent = data.todayDeparture;
+    document.getElementById('d-range').textContent = data.arrivalRange;
+    document.getElementById('d-weather').textContent = data.weather;
 
-    document.getElementById('form-box').style.display = 'none';
-    document.getElementById('result-box').style.display = 'block';
+    document.getElementById('main-card').style.display = 'none';
+    document.getElementById('dash-card').style.display = 'block';
 
   } catch (err) {
-    submitBtn.disabled = false;
-    submitBtn.textContent = "Activate Commute Radar";
-    alert("Server error connecting to verification engine: " + err.message);
+    saveBtn.disabled = false;
+    saveBtn.textContent = "Activate Commute Radar";
+    alert("Connection failed: " + err.message);
   }
+}
+
+async function refreshForecast() {
+  const email = document.getElementById('email').value.trim();
+  const box = document.getElementById('forecast-box');
+  box.style.opacity = '0.4';
+
+  try {
+    const res = await fetch(`/api/refresh-traffic?email=${encodeURIComponent(email)}`);
+    const data = await res.json();
+    box.style.opacity = '1';
+
+    if (data.success) {
+      document.getElementById('d-start').textContent = data.todayDeparture;
+      document.getElementById('d-range').textContent = data.arrivalRange;
+      document.getElementById('d-weather').textContent = data.weather;
+    }
+  } catch {
+    box.style.opacity = '1';
+  }
+}
+
+function editPlan() {
+  document.getElementById('dash-card').style.display = 'none';
+  document.getElementById('main-card').style.display = 'block';
 }
 </script>
 </body>
