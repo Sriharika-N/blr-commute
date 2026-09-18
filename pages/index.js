@@ -8,9 +8,6 @@ const supabase = createClient(supabaseUrl, supabaseAnonKey);
 
 export default function Home() {
   const [email, setEmail] = useState('test@commuter.com');
-
-export default function Home() {
-  const [email, setEmail] = useState('test@commuter.com');
   const [origin, setOrigin] = useState('Indiranagar Metro');
   const [destination, setDestination] = useState('Ecospace Bellandur');
   const [mode, setMode] = useState('bike');
@@ -50,6 +47,8 @@ export default function Home() {
     if (permission !== 'granted') return alert('Permission denied.');
 
     const vapidKey = process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY;
+    if (!vapidKey) return alert('VAPID public key not set');
+
     const padding = '='.repeat((4 - (vapidKey.length % 4)) % 4);
     const base64 = (vapidKey + padding).replace(/-/g, '+').replace(/_/g, '/');
     const rawData = window.atob(base64);
