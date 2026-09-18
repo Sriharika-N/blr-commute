@@ -18,10 +18,10 @@ export default async function handler(req, res) {
   const { user_email, title, body } = req.body;
 
   if (!user_email) {
-    return res.status(400).json({ error: 'user_email required' });
+    return res.status(400).json({ error: 'Missing user_email' });
   }
 
-  // 1. Fetch user subscription
+  // 1. Fetch commuter subscription from Supabase
   const { data: commuter, error } = await supabase
     .from('commute_plans')
     .select('id, push_subscription, last_alert_sent_at')
@@ -29,10 +29,10 @@ export default async function handler(req, res) {
     .single();
 
   if (error || !commuter?.push_subscription) {
-    return res.status(404).json({ error: 'No subscription found for user' });
+    return res.status(404).json({ error: 'No push subscription found' });
   }
 
-  // 2. Prevent duplicate alerts within a 4-hour window
+  // 2. Prevent duplicate alerts within 4 hours
   if (commuter.last_alert_sent_at) {
     const hoursSince = (Date.now() - new Date(commuter.last_alert_sent_at).getTime()) / (1000 * 60 * 60);
     if (hoursSince < 4) {
@@ -42,8 +42,8 @@ export default async function handler(req, res) {
 
   try {
     const payload = JSON.stringify({
-      title: title || 'Bengaluru Commute Alert',
-      body: body || 'Time to depart for your corridor.',
+      title: title || 'BLR Commute Arbitrage',
+      body: body || 'Time to depart for your optimal corridor window.',
       icon: '/icon-192.png'
     });
 
