@@ -5,7 +5,9 @@ const supabaseUrl = process.env.NEXT_PUBLIC_SUPABASE_URL || 'https://placeholder
 const supabaseAnonKey = process.env.NEXT_PUBLIC_SUPABASE_ANON_KEY || 'placeholder-key';
 
 const supabase = createClient(supabaseUrl, supabaseAnonKey);
-);
+
+export default function Home() {
+  const [email, setEmail] = useState('test@commuter.com');
 
 export default function Home() {
   const [email, setEmail] = useState('test@commuter.com');
