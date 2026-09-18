@@ -13,30 +13,41 @@ const supabase = createClient(
 );
 
 export default async function handler(req, res) {
-  if (req.method !== 'POST') return res.status(405).end();
+  if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
   const { user_email, title, body } = req.body;
 
-  const { data: commuter } = await supabase
+  if (!user_email) {
+    return res.status(400).json({ error: 'user_email required' });
+  }
+
+  // 1. Fetch user subscription
+  const { data: commuter, error } = await supabase
     .from('commute_plans')
     .select('id, push_subscription, last_alert_sent_at')
     .eq('user_email', user_email)
     .single();
 
-  if (!commuter?.push_subscription) {
-    return res.status(404).json({ error: 'No subscription found' });
+  if (error || !commuter?.push_subscription) {
+    return res.status(404).json({ error: 'No subscription found for user' });
   }
 
-  // Deduplicate: prevent alerts sent within the last 4 hours
+  // 2. Prevent duplicate alerts within a 4-hour window
   if (commuter.last_alert_sent_at) {
     const hoursSince = (Date.now() - new Date(commuter.last_alert_sent_at).getTime()) / (1000 * 60 * 60);
-    if (hoursSince < 4) return res.status(200).json({ status: 'SKIPPED_DUPLICATE' });
+    if (hoursSince < 4) {
+      return res.status(200).json({ status: 'SKIPPED_DUPLICATE' });
+    }
   }
 
   try {
-    await webpush.sendNotification(
-      commuter.push_subscription,
-      JSON.stringify({ title: title || 'BLR Commute Alert', body })
-    );
+    const payload = JSON.stringify({
+      title: title || 'Bengaluru Commute Alert',
+      body: body || 'Time to depart for your corridor.',
+      icon: '/icon-192.png'
+    });
+
+    await webpush.sendNotification(commuter.push_subscription, payload);
 
     await supabase
       .from('commute_plans')
