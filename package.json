@@ -1,8 +1,16 @@
 {
-  "name": "blr-commute",
+  "name": "blr-commute-arbitrage",
   "version": "1.0.0",
-  "type": "module",
+  "scripts": {
+    "dev": "next dev",
+    "build": "next build",
+    "start": "next start"
+  },
   "dependencies": {
+    "next": "latest",
+    "react": "latest",
+    "react-dom": "latest",
+    "@supabase/supabase-js": "^2.45.0",
     "web-push": "^3.6.7"
   }
 }
