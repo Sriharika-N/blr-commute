@@ -2,7 +2,7 @@ import webpush from 'web-push';
 import { createClient } from '@supabase/supabase-js';
 
 webpush.setVapidDetails(
-  'mailto:alerts@cruizgo.app',
+  'mailto:alerts@cruizgo-commute.vercel.app',
   process.env.NEXT_PUBLIC_VAPID_PUBLIC_KEY,
   process.env.VAPID_PRIVATE_KEY
 );
@@ -25,19 +25,21 @@ export default async function handler(req, res) {
     .single();
 
   if (error || !commuter?.push_subscription) {
-    return res.status(404).json({ error: 'No subscription found for this user' });
+    return res.status(404).json({ error: 'No push subscription found for user' });
   }
 
-  // Prevent duplicate spam if alerted within 3 hours
+  // Prevent duplicate spam within 3 hours
   if (commuter.last_alert_sent_at) {
     const hoursSince = (Date.now() - new Date(commuter.last_alert_sent_at).getTime()) / (1000 * 60 * 60);
-    if (hoursSince < 3) return res.status(200).json({ status: 'SKIPPED_DUPLICATE' });
+    if (hoursSince < 3) {
+      return res.status(200).json({ status: 'SKIPPED_DUPLICATE' });
+    }
   }
 
   try {
     const payload = JSON.stringify({
-      title: title || 'CruizGo Departure Alert',
-      body: body || 'Optimal departure window is live.',
+      title: title || '⚡ CruizGo Departure Alert',
+      body: body || 'Time to depart for your corridor.',
       icon: '/logo.png'
     });
 
