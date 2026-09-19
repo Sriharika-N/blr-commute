@@ -1,21 +1,19 @@
 self.addEventListener('push', (event) => {
   if (!event.data) return;
-  const payload = event.data.json();
+  const data = event.data.json();
 
   const options = {
-    body: payload.body || 'Optimal departure window active.',
-    icon: '/icon-192.png',
-    badge: '/icon-192.png',
+    body: data.body || 'Time to depart for your corridor.',
+    icon: '/logo.png',
+    badge: '/logo.png',
     vibrate: [200, 100, 200],
-    tag: 'blr-commute-alert',
+    tag: 'cruizgo-departure-alert',
     renotify: true,
-    data: {
-      url: payload.url || '/'
-    }
+    data: { url: data.url || '/' }
   };
 
   event.waitUntil(
-    self.registration.showNotification(payload.title || 'BLR Commute Alert', options)
+    self.registration.showNotification(data.title || 'CruizGo Departure Alert', options)
   );
 });
 
@@ -32,4 +30,4 @@ self.addEventListener('notificationclick', (event) => {
 });
 
 self.addEventListener('install', () => self.skipWaiting());
-self.addEventListener('activate', (event) => event.waitUntil(clients.claim()));
+self.addEventListener('activate', (e) => e.waitUntil(clients.claim()));
