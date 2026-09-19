@@ -1,14 +1,15 @@
 {
-  "name": "BLR Commute Arbitrage",
-  "short_name": "BLR Commute",
+  "name": "CruizGo",
+  "short_name": "CruizGo",
+  "description": "Beat the rush. Plan ahead.",
   "start_url": "/",
   "display": "standalone",
-  "background_color": "#ffffff",
-  "theme_color": "#2563eb",
+  "background_color": "#040810",
+  "theme_color": "#040810",
   "icons": [
     {
-      "src": "/icon-192.png",
-      "sizes": "192x192",
+      "src": "/logo.png",
+      "sizes": "192x192 512x512",
       "type": "image/png"
     }
   ]
