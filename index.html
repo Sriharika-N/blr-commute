@@ -124,7 +124,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:var(--sa
 }
 .tinp:focus{border-color:rgba(0,255,136,.4);box-shadow:0 0 0 3px rgba(0,255,136,.06)}
 
-/* ─ VEHICLE (BIKE & CAR WITHOUT PARENTHETICAL LABELS) ─ */
+/* ─ VEHICLE ─ */
 .vrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .vcard{padding:14px 10px;border-radius:13px;background:var(--bg3);border:1px solid var(--brd);cursor:pointer;transition:all .2s;text-align:center}
 .vcard:hover{border-color:var(--brd2);background:var(--surf)}
@@ -230,7 +230,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:var(--sa
 .routecard{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:16px;display:flex;gap:14px;align-items:center}
 .rp2{flex:1}
 .rfrm{font-size:13px;font-weight:700;color:var(--neon)}
-.rarr{font-size:11px;color:var(--txt3);margin:3px 0}
+.rarr{font-size:11px;color:var(--txt3);margin-3px 0}
 .rto2{font-size:13px;font-weight:700;color:var(--amber)}
 .gmb{padding:10px 16px;background:var(--neon);border:none;border-radius:10px;color:#040810;font-size:13px;font-weight:900;cursor:pointer;white-space:nowrap;transition:all .15s}
 .gmb:hover{box-shadow:0 0 18px rgba(0,255,136,.4)}
@@ -245,7 +245,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:var(--sa
 .hlrow{display:flex;gap:8px;margin-top:8px}
 .fbdn{font-size:13px;color:var(--neon);text-align:center;padding:10px;font-weight:700;display:none}
 
-/* ─ WEEK PANEL WITH INDIVIDUAL SAVE BUTTONS ─ */
+/* ─ WEEK PANEL ─ */
 .wscrl{flex:1;overflow-y:auto;padding:20px;display:flex;flex-direction:column;gap:16px}
 .whd{font-size:18px;font-weight:900;margin-bottom:4px}
 .wsub{font-size:13px;color:var(--txt3);line-height:1.7}
@@ -421,7 +421,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:var(--sa
       </div>
     </div>
 
-    <!-- VEHICLE (BIKE & CAR WITHOUT PARENTHETICAL LABELS) -->
+    <!-- VEHICLE -->
     <div class="sec">
       <div class="slbl">Vehicle</div>
       <div class="vrow">
@@ -654,7 +654,7 @@ html,body{height:100%;background:var(--bg);color:var(--txt);font-family:var(--sa
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════ CONFIGURATION ═══════════
+// ═══════════ CONFIGURATION (PRE-FILLED) ═══════════
 const SB_URL  = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY  = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
 const VAPID   = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0';
@@ -777,11 +777,9 @@ async function executeSearch(field, query) {
   const sp = document.getElementById(field === 'from' ? 'spFrom' : 'spTo');
   const cleanQ = query.toLowerCase();
 
-  // 1. Check local POI matches first
   const localMatches = POIS.filter(p => p.n.toLowerCase().includes(cleanQ) || p.s.toLowerCase().includes(cleanQ));
 
   try {
-    // 2. Fetch live OpenStreetMap Nominatim results
     const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query + ' Bengaluru')}&countrycodes=in&format=json&addressdetails=1&limit=6`;
     const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
     const osmData = await res.json() || [];
@@ -794,7 +792,6 @@ async function executeSearch(field, query) {
       return { n: main, s: sub, lat: parseFloat(d.lat), lon: parseFloat(d.lon), i: ico };
     });
 
-    // Merge without duplicates
     const combined = [...localMatches];
     mappedOsm.forEach(item => {
       if (!combined.some(c => c.n.toLowerCase() === item.n.toLowerCase())) {
@@ -1003,19 +1000,17 @@ async function runDepartureScan() {
   const effectiveKmh = Math.round((distKm / travelMins) * 60 * 10) / 10;
   const bufferMins = S.vehicle === 'bike' ? 8 : 12;
 
-  // Calculate morning departure
   const arrMins = timeToMins(arrStr);
   const depMins = arrMins - travelMins - bufferMins;
   const mornDepStr = minsToFormattedTime(depMins);
 
-  // Calculate evening departure
   let retDepStr = '';
   if (retStr) {
     const retMins = timeToMins(retStr);
     retDepStr = minsToFormattedTime(retMins - travelMins - bufferMins);
   }
 
-  // Model reliability confidence calibrated between 96% and 99%
+  // Guaranteed high confidence rating between 96% and 99%
   const confScore = Math.min(99, Math.max(96, Math.round(98 - (totalMult - 1) * 3)));
 
   S.lastScan = {
@@ -1024,7 +1019,6 @@ async function runDepartureScan() {
     confScore, cor, penaltyMin: S.vehicle === 'bike' ? 14 : 22
   };
 
-  // Render UI elements
   document.getElementById('empEl').style.display = 'none';
   document.getElementById('resWrap').style.display = 'flex';
 
@@ -1039,7 +1033,6 @@ async function runDepartureScan() {
   document.getElementById('hgT').textContent = travelMins;
   document.getElementById('hgS').textContent = effectiveKmh;
 
-  // Confidence ring
   const strokeOffset = 194.8 - (194.8 * confScore) / 100;
   document.getElementById('crFill').style.strokeDashoffset = strokeOffset;
   document.getElementById('crPct').textContent = `${confScore}%`;
@@ -1070,7 +1063,6 @@ async function runDepartureScan() {
   document.getElementById('rFrom').textContent = fv;
   document.getElementById('rTo').textContent = tv;
 
-  // Supabase Profile Sync
   const email = document.getElementById('uEmail').value.trim();
   if (email) {
     supabaseUpsert('commute_plans', {
@@ -1307,7 +1299,6 @@ async function enableDepartureAlerts() {
       subObj = sub.toJSON();
     }
 
-    // Persist to Supabase
     await supabaseUpsert('commute_plans', {
       user_email: email,
       username: document.getElementById('uName').value.trim() || 'Commuter',
@@ -1326,7 +1317,6 @@ async function enableDepartureAlerts() {
     btn.textContent = '🔔 Alerts Enabled';
     btn.disabled = false;
 
-    // Trigger instant scheduling confirmation
     triggerImmediateAlert();
     showToast('✓ CruizGo paired with iOS lock-screen alerts');
   } catch (err) {
@@ -1540,7 +1530,6 @@ window.addEventListener('DOMContentLoaded', () => {
     document.getElementById('pwa').classList.add('show');
   }
 
-  // Auto-run initial departure scan
   runDepartureScan();
 });
 </script>
