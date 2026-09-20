@@ -177,7 +177,7 @@ html,body{
 .ww-title{font-size:13px;font-weight:800;color:#fff}
 .ww-desc{font-size:11px;color:var(--cyan);margin-top:2px}
 
-/* GREETING BANNER */
+/* GREETING BANNER PLACED PROMINENTLY BELOW HEADER */
 .greeting-banner{
   display:flex;align-items:center;gap:14px;padding:16px 20px;
   background:linear-gradient(135deg,#091f33,#0f2b48);border:1.5px solid rgba(0,212,255,.3);
@@ -1456,7 +1456,7 @@ async function initSupabaseAuthListener() {
   });
 }
 
-// AUTO LOAD TOMORROW'S / TODAY'S SCHEDULE FROM HISTORY / WEEKLY PLANNER
+// AUTO LOAD TOMORROW'S / TODAY'S SCHEDULE FROM HISTORY & WEEKLY PLANNER
 function checkAndAutoLoadTodaySchedule() {
   const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   const todayKey = days[new Date().getDay()];
@@ -2235,7 +2235,7 @@ function initBackgroundEngagementLoops() {
   }, 9000000); // 2.5 hours
 }
 
-// ALERTS LOG
+// ALERTS LOG WITH CLICK-TO-READ DECREMENT & CLEAR ALL SUPPORT
 function renderAlerts() {
   const isAuth = !!S.currentUser;
   document.getElementById('authGateAlerts').style.display = isAuth ? 'none' : 'block';
@@ -2243,10 +2243,11 @@ function renderAlerts() {
 
   const badge = document.getElementById('badgeAlerts');
   if (isAuth) {
-    badge.textContent = S.alertsList.length;
     if (S.alertsList.length === 0) {
+      badge.textContent = ''; // Hides number entirely once all read/cleared
       document.getElementById('alertsListContainer').innerHTML = `<div style="padding:20px;text-align:center;color:var(--txt3);font-size:12px">All alerts read and cleared! 🎯</div>`;
     } else {
+      badge.textContent = S.alertsList.length;
       document.getElementById('alertsListContainer').innerHTML = S.alertsList.map(a => `
         <div class="alert-card" onclick="openAlertDeepLink('${a.id}', '${a.type}')">
           <div style="font-family:var(--mono);font-size:11px;color:var(--neon)">${a.time}</div>
@@ -2256,7 +2257,7 @@ function renderAlerts() {
       `).join('');
     }
   } else {
-    badge.textContent = '0';
+    badge.textContent = ''; // No badge count when signed out
   }
 }
 
@@ -2277,16 +2278,36 @@ function clearAllAlerts() {
   showToast('✓ All alerts cleared');
 }
 
-// PUSH NOTIFICATIONS
+// PUSH NOTIFICATIONS & SERVICE WORKER REGISTRATION
+async function registerServiceWorker() {
+  if ('serviceWorker' in navigator) {
+    try {
+      const reg = await navigator.serviceWorker.register('/sw.js');
+      console.log('CruizGo ServiceWorker registered successfully:', reg.scope);
+    } catch (err) {
+      console.error('ServiceWorker registration failed:', err);
+    }
+  }
+}
+
 async function enableAlerts() {
   if (!S.currentUser) {
     showToast('Please sign in to enable alerts', 'err');
     openAuthModal('login');
     return;
   }
+  
+  if ('Notification' in window) {
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+      return showToast('Notification permission denied in browser settings', 'err');
+    }
+  }
+
   const btn = document.getElementById('alertsBtn');
   btn.disabled = true;
   btn.textContent = 'Pairing phone…';
+  
   setTimeout(() => {
     btn.classList.add('on');
     btn.textContent = '🔔 Alerts Active';
@@ -2358,6 +2379,7 @@ function switchTab(name, btn) {
 
 // INITIALIZATION
 window.addEventListener('DOMContentLoaded', () => {
+  registerServiceWorker();
   initClock();
   initCorridorAutoRefresh();
   initBackgroundEngagementLoops();
