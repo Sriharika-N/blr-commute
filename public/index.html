@@ -12,7 +12,6 @@
 <link rel="apple-touch-icon" href="/logo.png">
 <title>CruizGo — Beat the rush. Plan ahead.</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-<!-- Supabase Official JS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
@@ -33,7 +32,7 @@ html,body{
 }
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--sur2);border-radius:3px}
 
-/* STICKY HEADER */
+/* FIXED HEADER */
 .top-stack{
   flex-shrink:0;z-index:900;background:rgba(4,8,16,.98);
   border-bottom:1px solid var(--brd);backdrop-filter:blur(25px)
@@ -58,7 +57,7 @@ html,body{
 
 .user-badge{
   display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;
-  background:var(--surf);border:1px solid var(--brd);cursor:pointer;font-size:12px;font-weight:700;color:var(--txt);transition:all .2s
+  background:var(--surf);border:1px solid var(--brd);cursor:pointer;font-size:11px;font-weight:700;color:var(--txt);transition:all .2s
 }
 .user-badge:hover{border-color:var(--neon);color:var(--neon)}
 .user-dot{width:7px;height:7px;border-radius:50%;background:var(--txt3)}
@@ -85,7 +84,7 @@ html,body{
 .rp{display:none;width:100%;flex-direction:column;padding:16px;gap:14px}
 .rp.on{display:flex}
 
-/* TODAY TAB 2-COLUMN ON DESKTOP, STACK ON MOBILE */
+/* TODAY TAB 2-COLUMN LAYOUT */
 .today-layout{display:flex;width:100%;gap:16px}
 .today-controls{width:380px;flex-shrink:0}
 .today-results{flex:1;display:flex;flex-direction:column;gap:14px}
@@ -156,7 +155,7 @@ html,body{
 .scan:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(0,255,136,.35)}
 .altbtn{width:100%;padding:10px;margin-top:8px;background:none;border:1px solid var(--brd);border-radius:10px;color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 
-/* HERO OUTPUT & CARDS */
+/* HERO OUTPUT */
 .hero{padding:20px;background:linear-gradient(145deg,#0a1525,#0f1e35);border:1px solid rgba(0,255,136,.18);border-radius:16px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon),#00d4ff,var(--neon))}
 .hero-eye{font-size:10px;font-weight:800;letter-spacing:2px;color:var(--neon);text-transform:uppercase;margin-bottom:6px}
@@ -181,7 +180,7 @@ html,body{
 .inapp-map-header{padding:8px 12px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
 .inapp-iframe{width:100%;height:200px;border:none;background:#050a14}
 
-/* CORRIDORS & 3D RADAR MAP */
+/* CORRIDORS & RADAR COMPASS */
 .map-canvas-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:14px}
 .compass-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .compass-dial{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--cyan);font-family:var(--mono);background:var(--sur2);padding:4px 10px;border-radius:20px;border:1px solid rgba(0,212,255,.3)}
@@ -203,53 +202,6 @@ html,body{
 .cdot3.danger{background:var(--red)}.cdot3.warn{background:var(--amber)}.cdot3.go{background:var(--neon)}
 .cr-lb{font-size:12px;color:var(--txt2);flex:1}
 .cr-dl{font-family:var(--mono);font-size:11px;font-weight:600}
-
-/* ALERTS TAB */
-.alerts-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
-.alert-card{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all .2s ease}
-.alert-card:hover{border-color:var(--neon);background:rgba(0,255,136,.04);transform:translateY(-2px)}
-
-/* SAVED TIME TAB */
-.st-hero{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.st-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:all .2s}
-.st-card:hover{border-color:var(--neon);background:rgba(0,255,136,.03);transform:translateY(-2px)}
-.st-val{font-family:var(--mono);font-size:24px;font-weight:800;color:var(--neon)}
-.st-lbl{font-size:10px;font-weight:700;color:var(--txt3);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
-
-.weekly-summary-box{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;margin-top:14px}
-.wsb-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.05);padding-bottom:8px}
-.wsb-title{font-size:13px;font-weight:800;color:var(--neon)}
-.wsb-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px}
-.wsb-date{font-family:var(--mono);color:var(--txt2)}
-.wsb-saved{color:var(--neon);font-weight:800;font-family:var(--mono)}
-
-/* STATUS PLACEHOLDER INLINE WITH CYBERPUNK UI */
-.emp-card{
-  background:linear-gradient(145deg,#091626,#0d1e33);
-  border:1px solid rgba(0,255,136,.18);border-radius:16px;padding:26px 20px;
-  display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px
-}
-.emp-badge{
-  display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;
-  letter-spacing:1.5px;color:var(--neon);background:rgba(0,255,136,.08);
-  border:1px solid rgba(0,255,136,.25);padding:4px 10px;border-radius:20px;text-transform:uppercase
-}
-.emp-title{font-size:18px;font-weight:900;color:#fff}
-.emp-desc{font-size:12px;color:var(--txt2);line-height:1.6;max-width:340px}
-.emp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:6px}
-.emp-chip{padding:9px 8px;background:rgba(4,8,16,.6);border:1px solid var(--brd);border-radius:8px;font-size:11px;font-weight:700;color:var(--txt2)}
-
-/* FEEDBACK CARD */
-.feedback-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:18px;margin-top:10px}
-.fbc-title{font-size:14px;font-weight:800;color:#fff;margin-bottom:4px}
-.fbc-sub{font-size:12px;color:var(--txt2);margin-bottom:12px;line-height:1.5}
-.fbc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-.fbc-btn{padding:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt);font-size:12px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
-.fbc-btn.sel-good{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
-.fbc-btn.sel-late{background:var(--ag);border-color:var(--amber);color:var(--amber)}
-.fbc-notes{width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-size:12px;outline:none;margin-bottom:10px}
-.fbc-save-btn{width:100%;padding:11px;background:var(--surf);border:1.5px solid var(--neon);color:var(--neon);border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
-.fbc-save-btn:hover{background:var(--neon);color:#040810}
 
 /* WEEK ACCORDION */
 .dstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px}
@@ -285,6 +237,50 @@ html,body{
 .drbig{font-family:var(--mono);font-size:36px;color:var(--neon);line-height:1.1;font-weight:700}
 .drret{font-family:var(--mono);font-size:24px;color:var(--amber);margin-top:2px;font-weight:700}
 
+/* ALERTS TAB */
+.alerts-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.alert-card{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all .2s ease}
+.alert-card:hover{border-color:var(--neon);background:rgba(0,255,136,.04);transform:translateY(-2px)}
+
+/* SAVED TIME TAB */
+.st-hero{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.st-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center;cursor:pointer}
+.st-val{font-family:var(--mono);font-size:24px;font-weight:800;color:var(--neon)}
+.st-lbl{font-size:10px;font-weight:700;color:var(--txt3);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+
+.weekly-summary-box{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;margin-top:14px}
+.wsb-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.05);padding-bottom:8px}
+.wsb-title{font-size:13px;font-weight:800;color:var(--neon)}
+.wsb-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px}
+.wsb-date{font-family:var(--mono);color:var(--txt2)}
+.wsb-saved{color:var(--neon);font-weight:800;font-family:var(--mono)}
+
+/* EMPTY STATE CARD */
+.emp-card{
+  background:linear-gradient(145deg,#091626,#0d1e33);
+  border:1px solid rgba(0,255,136,.18);border-radius:16px;padding:26px 20px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px
+}
+.emp-badge{
+  display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;
+  letter-spacing:1.5px;color:var(--neon);background:rgba(0,255,136,.08);
+  border:1px solid rgba(0,255,136,.25);padding:4px 10px;border-radius:20px;text-transform:uppercase
+}
+.emp-title{font-size:18px;font-weight:900;color:#fff}
+.emp-desc{font-size:12px;color:var(--txt2);line-height:1.6;max-width:340px}
+.emp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:6px}
+.emp-chip{padding:9px 8px;background:rgba(4,8,16,.6);border:1px solid var(--brd);border-radius:8px;font-size:11px;font-weight:700;color:var(--txt2)}
+
+/* FEEDBACK CARD */
+.feedback-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:18px;margin-top:4px}
+.fbc-title{font-size:14px;font-weight:800;color:#fff;margin-bottom:4px}
+.fbc-sub{font-size:12px;color:var(--txt2);margin-bottom:12px;line-height:1.5}
+.fbc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.fbc-btn{padding:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt);font-size:12px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
+.fbc-btn.sel-good{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
+.fbc-btn.sel-late{background:var(--ag);border-color:var(--amber);color:var(--amber)}
+.fbc-notes{width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-size:12px;outline:none;margin-bottom:10px}
+
 /* MODAL DIALOGS */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(4,8,16,.85);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:16px}
 .modal-overlay.show{display:flex}
@@ -298,12 +294,11 @@ html,body{
 .q-btn{padding:9px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer}
 .q-btn.sel{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
 
-/* AUTH & SETTINGS MODAL */
+/* AUTH MODAL */
 .auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg);padding:4px;border-radius:10px;margin-bottom:14px}
 .at-btn{padding:8px;border-radius:7px;border:none;background:none;color:var(--txt3);font-size:12px;font-weight:800;cursor:pointer}
 .at-btn.on{background:var(--surf);color:var(--neon)}
 .oauth-btn{width:100%;padding:12px;border-radius:10px;background:#fff;border:none;color:#111;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;margin-bottom:12px}
-
 .opt-in-row{
   display:flex;align-items:flex-start;gap:8px;padding:10px;border-radius:8px;
   background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.2);margin-top:10px;font-size:11px;color:var(--txt);text-align:left
@@ -348,7 +343,7 @@ html,body{
 
 <div class="app">
 
-  <!-- TODAY TAB: CONTROLS & ARBITRAGE SCOPED HERE -->
+  <!-- TODAY TAB: INPUT CONTROLS & ARBITRAGE OUTPUT -->
   <div class="rp on" id="pToday">
     <div class="today-layout">
 
@@ -437,6 +432,7 @@ html,body{
       </div>
 
       <div class="today-results">
+        <!-- POLISHED STATUS CARD -->
         <div class="emp-card" id="empEl">
           <div class="emp-badge">⚡ CORRIDOR RADAR READY</div>
           <div class="emp-title">Ready to Calculate</div>
@@ -501,7 +497,7 @@ html,body{
               <button class="fbc-btn" id="fbcHelpNo" onclick="setFeedbackHelpful(false)">👎 Inaccurate Routing</button>
             </div>
             <input class="fbc-notes" id="inlineNotesInp" placeholder="Add specific road blockages, diversions or ideas..." />
-            <button class="fbc-save-btn" onclick="saveInlineFeedback()">💾 Save Feedback</button>
+            <button class="scan" style="margin-top:0;padding:10px;font-size:12px" onclick="saveInlineFeedback()">💾 Save Feedback</button>
           </div>
         </div>
       </div>
@@ -509,7 +505,7 @@ html,body{
     </div>
   </div>
 
-  <!-- WEEK TAB -->
+  <!-- RESTORED WEEK TAB -->
   <div class="rp" id="pWeek">
     <div style="font-size:16px;font-weight:900;margin-bottom:4px">Weekly Commute Planner</div>
     <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Configure individual departure plans. Click chips to toggle commute days:</div>
@@ -517,15 +513,15 @@ html,body{
     <div id="weekCards"></div>
   </div>
 
-  <!-- CORRIDORS TAB -->
+  <!-- RESTORED CORRIDORS TAB WITH 3D RADAR COMPASS & HEATMAPS -->
   <div class="rp" id="pCorridors">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
       <div style="font-size:16px;font-weight:900">Bengaluru Corridor Heatmaps & Belts</div>
       <div style="font-size:10px;color:var(--cyan);font-family:var(--mono)" id="corridorRefreshCountdown">Refreshes in 15:00</div>
     </div>
-    <div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:12px" id="corridorLiveSyncPill">Synced: Sun, 20 Sep 2026 at 04:03:00 PM IST</div>
+    <div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:12px" id="corridorLiveSyncPill">Synced: Sun, 20 Sep 2026 at 04:15:00 PM IST</div>
 
-    <!-- 3D RADAR MAP & COMPASS -->
+    <!-- 3D RADAR COMPASS MAP -->
     <div class="map-canvas-card">
       <div class="compass-toolbar">
         <div class="compass-dial">🧭 COMPASS: N 0° · BENGALURU RADIAL</div>
@@ -613,6 +609,7 @@ html,body{
         <div class="r-seg r-clear" title="KR Puram: Open"></div>
       </div>
     </div>
+
     <div id="allCorr"></div>
   </div>
 
@@ -665,7 +662,7 @@ html,body{
     </div>
   </div>
 
-  <!-- HISTORY TAB -->
+  <!-- RESTORED HISTORY TAB -->
   <div class="rp" id="pHistory">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
       <div style="font-size:16px;font-weight:900">Saved Routes & Completed Trips</div>
@@ -819,9 +816,9 @@ html,body{
 <div class="toast" id="toast"></div>
 
 <script>
-// CONFIG & APP STATE
 const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
+const VAPID  = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0';
 
 const sbClient = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
 
@@ -845,7 +842,6 @@ const S = {
 
 const AC = { from: { timer: null }, to: { timer: null } };
 
-// PRE-INDEXED POIS
 const POIS = [
   { n: 'Whitefield (Kadugodi) Metro Station', s: 'Purple Line · Kadugodi', lat: 12.9961, lon: 77.7607, i: '🚇' },
   { n: 'KR Pura (KR Puram) Metro Station', s: 'Purple Line & Interchange · ORR', lat: 12.9972, lon: 77.6792, i: '🚇' },
@@ -872,7 +868,7 @@ const CORR = {
     safeSpeed: '32–38 km/h on open flyovers · 14–18 km/h in construction zones',
     laneGuide: 'Hold middle/right lanes. Avoid extreme left lane near Bellandur EcoSpace bus bay.',
     metro: 'Phase 2A Blue Line barricading active from Kadubeesanahalli to Marathahalli.',
-    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:03:00 PM IST',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:15:00 PM IST',
     chokes: [
       { n: 'Silk Board Lower Flyover Merge', s: 'danger', d: '+25–40 min' },
       { n: 'Bellandur EcoSpace BMTC Bus Bay (Left lane overflow)', s: 'danger', d: '+15–20 min' },
@@ -887,7 +883,7 @@ const CORR = {
     safeSpeed: '28–35 km/h · Maintain steady spacing behind BMTC Volvo buses',
     laneGuide: 'Keep to center lane. Stay off left shoulder near Hoodi.',
     metro: 'ITPL road surface reconstruction & Hoodi station diversions.',
-    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:03:00 PM IST',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:15:00 PM IST',
     chokes: [
       { n: 'Tin Factory / KR Puram Station Bus Stop bottleneck', s: 'danger', d: '+20–30 min' },
       { n: 'Garudacharpalya Signal Cross-traffic', s: 'warn', d: '+10–15 min' },
@@ -901,7 +897,7 @@ const CORR = {
     safeSpeed: '45–55 km/h on Elevated Expressway · 20–25 km/h on Hosur Road surface',
     laneGuide: 'Elevated highway offers consistent flow. If on surface road, avoid Kudlu Gate left lane.',
     metro: 'Yellow Line street reinstatement; Bommasandra and Kudlu Gate restrictions.',
-    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:03:00 PM IST',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:15:00 PM IST',
     chokes: [
       { n: 'Kudlu Gate Signal Spillover', s: 'danger', d: '+15–25 min' },
       { n: 'Bommanahalli Bus Stop Cluster', s: 'warn', d: '+10–14 min' }
@@ -914,7 +910,7 @@ const CORR = {
     safeSpeed: '40–48 km/h on NH 44 · 18–22 km/h entering Manyata Tech Park gates',
     laneGuide: 'Avoid left lane before Veerannapalya flyover.',
     metro: 'Airport Line pillar construction on NH 44 at Veerannapalya.',
-    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:03:00 PM IST',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:15:00 PM IST',
     chokes: [
       { n: 'Hebbal Flyover Loop Merging', s: 'danger', d: '+18–30 min' },
       { n: 'Veerannapalya Manyata Gate BMTC bay choke', s: 'danger', d: '+15–22 min' }
@@ -924,13 +920,14 @@ const CORR = {
     id: 'corr-tmk',
     name: 'Tumkur Road – Yeshwanthpur – Majestic (NH 48)',
     carPeak: 14, bikePeak: 22, carFree: 45, bikeFree: 55,
-    safeSpeed: '35–40 km/h · Steady spacing',
-    laneGuide: 'Right lane over Yeshwanthpur flyover.',
-    metro: 'Green Line elevated corridor.',
-    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:03:00 PM IST',
+    safeSpeed: '35–40 km/h · Maintain steady distance on Goraguntepalya flyover',
+    laneGuide: 'Stay in right-hand lanes over Yeshwanthpur flyover to bypass city-bus depot entrances.',
+    metro: 'Namma Metro Green Line elevated corridor · Outer junction diversions.',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:15:00 PM IST',
     chokes: [
-      { n: 'Goraguntepalya Junction', s: 'danger', d: '+18–26 min' },
-      { n: 'Yeshwanthpur Railway Station', s: 'warn', d: '+10–14 min' }
+      { n: 'Goraguntepalya Junction / Flyover Funnel', s: 'danger', d: '+18–26 min' },
+      { n: 'Yeshwanthpur Bus Terminal Ingress', s: 'warn', d: '+10–14 min' },
+      { n: 'Majestic Metro Interchange Approach', s: 'danger', d: '+12–18 min' }
     ]
   },
   irr: {
@@ -938,12 +935,12 @@ const CORR = {
     name: 'Intermediate Ring Road & Central CBD',
     carPeak: 17, bikePeak: 24, carFree: 45, bikeFree: 55,
     safeSpeed: '30–38 km/h steady transit',
-    laneGuide: 'Domlur flyover clear.',
-    metro: 'MG Road, Richmond Circle cross-arterials.',
-    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:03:00 PM IST',
+    laneGuide: 'Domlur flyover is clear. Maintain center lane near Command Hospital.',
+    metro: 'MG Road, Richmond Circle & Domlur cross-arterials.',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:15:00 PM IST',
     chokes: [
       { n: 'Domlur Flyover Incline', s: 'warn', d: '+10–16 min' },
-      { n: 'Command Hospital Bus Bay', s: 'warn', d: '+8–12 min' }
+      { n: 'Command Hospital Bus Bay merge', s: 'warn', d: '+8–12 min' }
     ]
   }
 };
@@ -1009,15 +1006,10 @@ function loadProfile() {
   if (saved.r) document.getElementById('tReturn').value = saved.r;
 }
 
-// ══════════════════════════════════════════════════════════════════
-// AUTH & SETTINGS LOGIC
-// ══════════════════════════════════════════════════════════════════
+// AUTH & SETTINGS
 function openProfileOrAuth() {
-  if (S.currentUser) {
-    openProfileModal();
-  } else {
-    openAuthModal('login');
-  }
+  if (S.currentUser) openProfileModal();
+  else openAuthModal('login');
 }
 
 function openProfileModal() {
@@ -1143,11 +1135,7 @@ async function executeAuthAction() {
     if (!newPassword || newPassword.length < 6) return showToast('Password must be at least 6 characters', 'err');
 
     showToast('Verifying code & updating password…');
-    const { error: otpErr } = await sbClient.auth.verifyOtp({
-      email,
-      token,
-      type: 'recovery'
-    });
+    const { error: otpErr } = await sbClient.auth.verifyOtp({ email, token, type: 'recovery' });
     if (otpErr) return showToast('Invalid OTP code: ' + otpErr.message, 'err');
 
     const { error: pwdErr } = await sbClient.auth.updateUser({ password: newPassword });
@@ -1173,9 +1161,7 @@ async function updateUserProfileName() {
   const fullName = document.getElementById('accFullName').value.trim();
   if (!fullName) return showToast('Name cannot be blank', 'err');
   showToast('Updating profile…');
-  const { error } = await sbClient.auth.updateUser({
-    data: { full_name: fullName }
-  });
+  const { error } = await sbClient.auth.updateUser({ data: { full_name: fullName } });
   if (error) return showToast(error.message, 'err');
   document.getElementById('uName').value = fullName;
   persistProfile();
@@ -1260,9 +1246,7 @@ async function initSupabaseAuthListener() {
   });
 }
 
-// ══════════════════════════════════════════════════════════════════
 // TEMPORAL LOGIC & AUTO-ADJUSTMENT
-// ══════════════════════════════════════════════════════════════════
 function validateSelectedTimes() {
   const errBox = document.getElementById('temporalErrBox');
   if (S.tripMode === 'now') {
@@ -1508,11 +1492,10 @@ function setV(v) {
 
 function detectCorridor(fv, tv) {
   const t = ((fv||'') + ' ' + (tv||'')).toLowerCase();
+  if (t.includes('tumkur') || t.includes('yeshwanthpur') || t.includes('majestic') || t.includes('goraguntepalya')) return 'tmk';
   if (t.includes('whitefield') || t.includes('itpl') || t.includes('aecs')) return 'wf';
   if (t.includes('electronic') || t.includes('hosur')) return 'ec';
   if (t.includes('hebbal') || t.includes('manyata')) return 'hbl';
-  if (t.includes('tumkur') || t.includes('yeshwanthpur')) return 'tmk';
-  if (t.includes('domlur') || t.includes('cbd')) return 'irr';
   return 'orr';
 }
 
@@ -1528,9 +1511,7 @@ function minsToFormattedTime(totalMins) {
   return `${hh}:${mm}`;
 }
 
-// ══════════════════════════════════════════════════════════════════
-// SCAN & CALCULATION ENGINE
-// ══════════════════════════════════════════════════════════════════
+// ARBITRAGE SCANNER
 async function doScan() {
   switchTab('today', document.getElementById('tabToday'));
 
@@ -1627,7 +1608,7 @@ function openGoogleMapsDirect() {
   window.open(`https://www.google.com/maps/dir/?api=1&origin=${fv}&destination=${tv}&travelmode=${mode}&dir_action=navigate`, '_blank');
 }
 
-// CHECK-IN SURVEY (TRIGGERED STRICTLY FROM ALERTS TAB)
+// CHECK-IN & ARRIVAL RIDE LOGGING
 let survey = { onTime: true, savedGridlock: true, helpedPlan: true };
 
 function openCompletionModal() { document.getElementById('completionModal').classList.add('show'); }
@@ -1845,7 +1826,7 @@ function showToast(msg, type = 'ok') {
   setTimeout(() => t.classList.remove('up'), 3200);
 }
 
-// TAB SWITCHING (SCOPES CONTROLS TO TODAY ONLY)
+// TAB SWITCHING
 function switchTab(name, btn) {
   document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
@@ -1876,7 +1857,6 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('inpFrom').value = S.fromVal;
   document.getElementById('inpTo').value = S.toVal;
 
-  // Render initial tab cleanly without modal popups
   switchTab('today', document.getElementById('tabToday'));
 });
 </script>
