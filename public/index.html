@@ -177,7 +177,7 @@ html,body{
 .ww-title{font-size:13px;font-weight:800;color:#fff}
 .ww-desc{font-size:11px;color:var(--cyan);margin-top:2px}
 
-/* GREETING BANNER PLACED PROMINENTLY BELOW HEADER */
+/* GREETING BANNER */
 .greeting-banner{
   display:flex;align-items:center;gap:14px;padding:16px 20px;
   background:linear-gradient(135deg,#091f33,#0f2b48);border:1.5px solid rgba(0,212,255,.3);
@@ -984,7 +984,7 @@ html,body{
 <script>
 const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
-const VAPID_PUBLIC_KEY_STR = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0'; // Replace with your actual generated VAPID public key
+const VAPID_PUBLIC_KEY_STR = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0'; // Replace with your actual VAPID public key
 
 const sbClient = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
 
@@ -1176,7 +1176,6 @@ function initCorridorAutoRefresh() {
   }, 1000);
 }
 
-// REAL-TIME TIMESTAMP UPDATE ON 15-MIN REFRESH CYCLE
 function refreshCorridorTelemetry() {
   const now = new Date();
   const timeStr = now.toLocaleDateString('en-GB', { weekday:'short', day:'2-digit', month:'short', year:'numeric' }) + ' at ' + now.toLocaleTimeString('en-GB', { hour:'2-digit', minute:'2-digit', second:'2-digit' }) + ' IST';
@@ -1233,7 +1232,6 @@ function loadProfile() {
   if (saved.r) document.getElementById('tReturn').value = saved.r;
 }
 
-// AUTH & SETTINGS LOGIC WITH LOG IN / SIGN UP TERMS
 function openProfileOrAuth() {
   if (S.currentUser) openProfileModal();
   else openAuthModal('login');
@@ -1458,7 +1456,6 @@ async function initSupabaseAuthListener() {
   });
 }
 
-// AUTO LOAD TOMORROW'S / TODAY'S SCHEDULE FROM HISTORY & WEEKLY PLANNER
 function checkAndAutoLoadTodaySchedule() {
   const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
   const todayKey = days[new Date().getDay()];
@@ -1476,7 +1473,6 @@ function checkAndAutoLoadTodaySchedule() {
   }
 }
 
-// TEMPORAL LOGIC & OVERLAP VALIDATION
 function validateSelectedTimes() {
   const errBox = document.getElementById('temporalErrBox');
   if (S.tripMode === 'now') {
@@ -1547,7 +1543,6 @@ function confirmSaveJourneyToDay(dayKey) {
   renderHistory();
 }
 
-// 0ms SEARCH AUTOCOMPLETE WITH IMMEDIATE DISMISSAL FIX
 let activeSearchSession = { from: 0, to: 0 };
 
 function onSearch(field) {
@@ -1740,7 +1735,6 @@ function minsToFormattedTime(mins) {
   return `${Math.floor(norm/60).toString().padStart(2,'0')}:${(norm%60).toString().padStart(2,'0')}`;
 }
 
-// GOOGLE-PRECISION DISTANCE & ROUTING ENGINE
 function calculateHaversineKm(coords1, coords2) {
   if (!coords1 || !coords2) return 14.5;
   const R = 6371;
@@ -1828,7 +1822,6 @@ function openGoogleMapsDirect() {
   window.open(`https://www.google.com/maps/dir/?api=1&origin=${fv}&destination=${tv}&travelmode=${mode}&dir_action=navigate`, '_blank');
 }
 
-// WEEK ACCORDION
 function buildDayStrip() {
   const currentDayKey = WEEK_CONFIG[(new Date().getDay() + 6) % 7].k;
   document.getElementById('dayStrip').innerHTML = WEEK_CONFIG.map(d => {
@@ -1976,7 +1969,6 @@ async function saveDaySchedule(k) {
   renderHistory();
 }
 
-// CORRIDORS WITH SORT-TO-TOP FEATURE
 function renderCorridors(highlightKey = null) {
   const container = document.getElementById('allCorr');
   const keys = Object.keys(CORR);
@@ -2035,7 +2027,6 @@ function setCorridorToToday(k) {
   doScan();
 }
 
-// HISTORY
 function renderHistory() {
   const sSec = document.getElementById('savedSection');
   const saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
@@ -2115,7 +2106,6 @@ function clearPastTrips() {
   showToast('Past trip history cleared · Saved Time reset to 0');
 }
 
-// SAVED TIME & AUTH GATES FOR TABS
 function renderSavedTimeView() {
   const isAuth = !!S.currentUser;
   document.getElementById('authGateContainer').style.display = isAuth ? 'none' : 'block';
@@ -2146,7 +2136,6 @@ function renderSavedTimeView() {
   }
 }
 
-// CHECK-IN SURVEY
 let survey = { onTime: true, savedGridlock: true, helpedPlan: true };
 
 function openCompletionModal() { document.getElementById('completionModal').classList.add('show'); }
@@ -2191,7 +2180,6 @@ function promptSave() {
   document.getElementById('saveJourneyModal').classList.add('show');
 }
 
-// INLINE FEEDBACK
 let inlineFeedbackState = { onTime: true, helpful: true };
 
 function setFeedbackTiming(onTime) {
@@ -2215,7 +2203,6 @@ async function saveInlineFeedback() {
   showToast('✓ Feedback saved! Thank you.');
 }
 
-// REAL DEVICE PUSH DISPATCHER VIA SERVICE WORKER
 async function showDeviceNotification(title, body) {
   if ('serviceWorker' in navigator && Notification.permission === 'granted') {
     try {
@@ -2232,7 +2219,6 @@ async function showDeviceNotification(title, body) {
   }
 }
 
-// BACKGROUND REAL-TIME ALERTS (2.5 HOUR INTERVALS + WEATHER/CONGESTION/TRAFFIC)
 function initBackgroundEngagementLoops() {
   setInterval(async () => {
     if (!S.currentUser) return;
@@ -2274,7 +2260,6 @@ function initBackgroundEngagementLoops() {
   }, 9000000); // 2.5 hours
 }
 
-// ALERTS LOG
 function renderAlerts() {
   const isAuth = !!S.currentUser;
   document.getElementById('authGateAlerts').style.display = isAuth ? 'none' : 'block';
@@ -2317,7 +2302,6 @@ function clearAllAlerts() {
   showToast('✓ All alerts cleared');
 }
 
-// URL BASE64 HELPER FOR PUSH SUBSCRIPTION
 function urlBase64ToUint8Array(base64String) {
   const padding = '='.repeat((4 - base64String.length % 4) % 4);
   const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
@@ -2329,7 +2313,6 @@ function urlBase64ToUint8Array(base64String) {
   return outputArray;
 }
 
-// PUSH NOTIFICATIONS & SERVICE WORKER REGISTRATION
 async function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
     try {
@@ -2341,9 +2324,47 @@ async function registerServiceWorker() {
   }
 }
 
+// BULLETPROOF CHECK-THEN-WRITE PUSH SUBSCRIPTION
 async function enableAlerts() {
-  if (sbClient) {
-      // 1. Check if a profile already exists for this email
+  if (!S.currentUser) {
+    showToast('Please sign in to enable alerts', 'err');
+    openAuthModal('login');
+    return;
+  }
+  
+  const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+  const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+
+  if (isIOS && !isStandalone) {
+    showToast('To receive push alerts on iOS, tap Share and select "Add to Home Screen" first!', 'err');
+    return;
+  }
+
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    return showToast('Push notifications not supported on this browser version', 'err');
+  }
+
+  try {
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+      return showToast('Notification permission denied in browser settings', 'err');
+    }
+
+    const btn = document.getElementById('alertsBtn');
+    btn.disabled = true;
+    btn.textContent = 'Pairing device…';
+
+    const reg = await navigator.serviceWorker.ready;
+    let subscription = await reg.pushManager.getSubscription();
+    if (!subscription) {
+      subscription = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY_STR)
+      });
+    }
+
+    if (sbClient) {
+      // 1. Check if profile already exists for this email
       const { data: existingProfile } = await sbClient
         .from('commute_plans')
         .select('id')
@@ -2353,7 +2374,6 @@ async function enableAlerts() {
       let dbError = null;
 
       if (existingProfile) {
-        // Update existing row
         const { error } = await sbClient
           .from('commute_plans')
           .update({
@@ -2363,7 +2383,6 @@ async function enableAlerts() {
           .eq('user_email', S.currentUser.email);
         dbError = error;
       } else {
-        // Insert new row
         const { error } = await sbClient
           .from('commute_plans')
           .insert({
@@ -2376,10 +2395,11 @@ async function enableAlerts() {
 
       if (dbError) throw dbError;
     }
+
     btn.classList.add('on');
     btn.textContent = '🔔 Alerts Active';
     btn.disabled = false;
-    showToast('✓ Home screen push notifications enabled!');
+    showToast('✓ Successfully paired: Home screen push alerts active');
   } catch (err) {
     console.error('Push subscription failed:', err);
     const btn = document.getElementById('alertsBtn');
@@ -2391,7 +2411,6 @@ async function enableAlerts() {
   }
 }
 
-// TEST DATA MODAL
 function promptClearAllDataModal() { document.getElementById('confirmClearModal').classList.add('show'); }
 function closeClearModal() { document.getElementById('confirmClearModal').classList.remove('show'); }
 function executeClearAllData() {
@@ -2414,7 +2433,6 @@ function showToast(msg, type = 'ok') {
   setTimeout(() => t.classList.remove('up'), 3200);
 }
 
-// TAB SWITCHING WITH AUTH GATES AND SCROLL-TO-TOP
 function switchTab(name, btn) {
   document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
@@ -2452,7 +2470,6 @@ function switchTab(name, btn) {
   }
 }
 
-// INITIALIZATION
 window.addEventListener('DOMContentLoaded', () => {
   registerServiceWorker();
   initClock();
