@@ -12,7 +12,7 @@ self.addEventListener('push', (event) => {
     body: data.body,
     icon: '/logo.png',
     badge: '/logo.png',
-    vibrate: [100, 50, 100],
+    vibrate: [200, 100, 200],
     data: { url: self.location.origin }
   };
 
