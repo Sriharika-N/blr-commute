@@ -33,13 +33,13 @@ html,body{
 }
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--sur2);border-radius:3px}
 
-/* FIXED HEADER WITH LOGGED IN STATUS */
+/* FIXED TOP HEADER */
 .top-stack{
   flex-shrink:0;z-index:900;background:rgba(4,8,16,.98);
   border-bottom:1px solid var(--brd);backdrop-filter:blur(25px)
 }
 .hdr{
-  height:60px;padding:0 16px;display:flex;align-items:center;
+  height:58px;padding:0 16px;display:flex;align-items:center;
   justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.04)
 }
 .brand{display:flex;align-items:center;gap:10px}
@@ -54,14 +54,9 @@ html,body{
   filter:drop-shadow(0 0 8px rgba(0,255,136,.3));line-height:1.1
 }
 .btag{font-size:10px;color:var(--txt2);font-weight:600;letter-spacing:.3px;margin-top:1px}
-.hdr-r{display:flex;align-items:center;gap:8px}
-.user-badge{
-  display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:20px;
-  background:var(--surf);border:1px solid var(--brd);cursor:pointer;font-size:11px;font-weight:700;color:var(--txt)
-}
-.user-badge:hover{border-color:var(--neon);color:var(--neon)}
-.user-dot{width:6px;height:6px;border-radius:50%;background:var(--txt3)}
-.user-dot.online{background:var(--neon);box-shadow:0 0 6px var(--neon)}
+.hdr-r{display:flex;align-items:center;gap:6px}
+.date-pill{font-size:11px;font-weight:700;color:var(--txt2);background:var(--bg3);border:1px solid var(--brd);padding:5px 8px;border-radius:8px;font-family:var(--mono)}
+.clk{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--txt);background:var(--bg3);border:1px solid var(--brd);padding:5px 8px;border-radius:7px}
 
 .global-tabs{display:flex;background:rgba(7,13,26,.98);overflow-x:auto}
 .gtab{
@@ -81,6 +76,7 @@ html,body{
 .rp{display:none;width:100%;flex-direction:column;padding:16px;gap:14px}
 .rp.on{display:flex}
 
+/* TODAY TAB 2-COLUMN ON DESKTOP, STACK ON MOBILE */
 .today-layout{display:flex;width:100%;gap:16px}
 .today-controls{width:380px;flex-shrink:0}
 .today-results{flex:1;display:flex;flex-direction:column;gap:14px}
@@ -123,7 +119,7 @@ html,body{
 }
 .acd.open{display:block}
 .acd-header{padding:7px 12px 5px;font-size:9px;font-weight:800;letter-spacing:1px;color:var(--neon);text-transform:uppercase;background:rgba(0,0,0,.4);border-bottom:1px solid rgba(255,255,255,.05)}
-.aci{display:flex;align-items:flex-start;gap:11px;padding:11px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s}
+.aci{display:flex;align-items:flex-start;gap:11px;padding:11px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04)}
 .aci:hover{background:rgba(0,255,136,.12)}
 .aci-ico{width:30px;height:30px;border-radius:8px;background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
 .aci-n{font-size:13px;font-weight:700;color:#fff;line-height:1.3}
@@ -149,8 +145,9 @@ html,body{
 
 .scan{width:100%;padding:14px;margin-top:10px;background:var(--neon);border:none;border-radius:12px;color:#040810;font-size:14px;font-weight:900;cursor:pointer;transition:all .2s}
 .scan:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(0,255,136,.35)}
+.altbtn{width:100%;padding:10px;margin-top:8px;background:none;border:1px solid var(--brd);border-radius:10px;color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 
-/* HERO BOARD */
+/* HERO OUTPUT & CARDS */
 .hero{padding:20px;background:linear-gradient(145deg,#0a1525,#0f1e35);border:1px solid rgba(0,255,136,.18);border-radius:16px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon),#00d4ff,var(--neon))}
 .hero-eye{font-size:10px;font-weight:800;letter-spacing:2px;color:var(--neon);text-transform:uppercase;margin-bottom:6px}
@@ -175,7 +172,7 @@ html,body{
 .inapp-map-header{padding:8px 12px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
 .inapp-iframe{width:100%;height:200px;border:none;background:#050a14}
 
-/* CORRIDORS */
+/* CORRIDORS & RIBBON */
 .linear-ribbon-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px}
 .ribbon-track{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:10px 0 6px;gap:2px}
 .r-seg{flex:1;height:100%;cursor:pointer}
@@ -191,7 +188,12 @@ html,body{
 .cr-lb{font-size:12px;color:var(--txt2);flex:1}
 .cr-dl{font-family:var(--mono);font-size:11px;font-weight:600}
 
-/* SAVED TIME TAB */
+/* ALERTS TAB */
+.alerts-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.alert-card{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all .2s ease}
+.alert-card:hover{border-color:var(--neon);background:rgba(0,255,136,.04);transform:translateY(-2px)}
+
+/* SAVED TIME TAB: WEEKLY SUMMARIES & AUTH GATE */
 .st-hero{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .st-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center;cursor:pointer}
 .st-val{font-family:var(--mono);font-size:24px;font-weight:800;color:var(--neon)}
@@ -204,7 +206,27 @@ html,body{
 .wsb-date{font-family:var(--mono);color:var(--txt2)}
 .wsb-saved{color:var(--neon);font-weight:800;font-family:var(--mono)}
 
-/* MODAL DIALOGS */
+/* AUTH CONVERSION CARD */
+.auth-gate-box{background:linear-gradient(145deg,#0b1828,#0e2238);border:1.5px solid var(--neon);border-radius:16px;padding:24px;text-align:center}
+.ag-title{font-size:18px;font-weight:900;color:#fff;margin-bottom:6px}
+.ag-sub{font-size:12px;color:var(--txt2);line-height:1.6;margin-bottom:18px}
+.auth-tabs-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg);padding:4px;border-radius:10px;margin-bottom:16px}
+.at-btn{padding:8px;border-radius:7px;border:none;background:none;color:var(--txt3);font-size:12px;font-weight:800;cursor:pointer}
+.at-btn.on{background:var(--surf);color:var(--neon)}
+
+.oauth-btn{width:100%;padding:12px;border-radius:10px;background:#ffffff;border:none;color:#1a1a1a;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;margin-bottom:12px}
+
+/* INLINE FEEDBACK CARD */
+.feedback-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-top:10px}
+.fbc-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:4px}
+.fbc-sub{font-size:12px;color:var(--txt2);margin-bottom:10px;line-height:1.5}
+.fbc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.fbc-btn{padding:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt);font-size:12px;font-weight:700;cursor:pointer;text-align:center}
+.fbc-btn.sel-good{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
+.fbc-btn.sel-late{background:var(--ag);border-color:var(--amber);color:var(--amber)}
+.fbc-notes{width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-size:12px;outline:none;margin-bottom:10px}
+
+/* MODAL OVERLAY (CHECK-IN) */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(4,8,16,.85);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:16px}
 .modal-overlay.show{display:flex}
 .modal-card{background:#0b1424;border:1.5px solid var(--neon);border-radius:18px;width:100%;max-width:440px;padding:22px;max-height:90vh;overflow-y:auto}
@@ -217,12 +239,6 @@ html,body{
 .q-btn{padding:9px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer}
 .q-btn.sel{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
 
-/* AUTH & SETTINGS MODAL */
-.auth-tabs{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg);padding:4px;border-radius:10px;margin-bottom:14px}
-.at-btn{padding:8px;border-radius:7px;border:none;background:none;color:var(--txt3);font-size:12px;font-weight:800;cursor:pointer}
-.at-btn.on{background:var(--surf);color:var(--neon)}
-.oauth-btn{width:100%;padding:12px;border-radius:10px;background:#fff;border:none;color:#111;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;margin-bottom:12px}
-
 .toast{position:fixed;bottom:24px;right:24px;z-index:99999;padding:12px 18px;border-radius:10px;background:#111f33;border:1px solid var(--neon);font-size:12px;font-weight:700;color:var(--txt);box-shadow:0 16px 40px rgba(0,0,0,.8);transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.3,.64,1);max-width:320px}
 .toast.up{transform:translateY(0);opacity:1}
 .toast.err{border-color:var(--red)}
@@ -230,7 +246,7 @@ html,body{
 </head>
 <body>
 
-<!-- STICKY HEADER -->
+<!-- FIXED STACK -->
 <div class="top-stack">
   <header class="hdr">
     <div class="brand">
@@ -241,10 +257,6 @@ html,body{
       </div>
     </div>
     <div class="hdr-r">
-      <div class="user-badge" id="userBadge" onclick="openProfileOrAuth()">
-        <div class="user-dot" id="userDot"></div>
-        <span id="userBadgeLabel">Sign In</span>
-      </div>
       <div class="date-pill" id="datePill">Sun, 20 Sep 2026</div>
       <div class="clk" id="clk">00:00:00</div>
     </div>
@@ -262,23 +274,24 @@ html,body{
 
 <div class="app">
 
-  <!-- TODAY TAB -->
+  <!-- TODAY TAB: CONTROLS & RESULTS SCOPED TOGETHER -->
   <div class="rp on" id="pToday">
     <div class="today-layout">
 
+      <!-- LEFT COLUMN: CONTROLS (ONLY PRESENT IN TODAY TAB) -->
       <div class="today-controls">
         <div class="sec">
           <div class="slbl">Commuter Profile</div>
           <div class="urow">
             <input class="uf" id="uName" placeholder="Your name" oninput="persistProfile()" />
-            <input class="uf" id="uEmail" type="email" placeholder="Email (daily digest)" oninput="persistProfile()" />
+            <input class="uf" id="uEmail" type="email" placeholder="Email (saved for daily digest)" oninput="persistProfile()" />
           </div>
         </div>
 
         <div class="sec">
           <div class="slbl">Journey Configuration</div>
           <div class="mode-toggle">
-            <button class="mt-btn on" id="btnModePlan" onclick="setTripMode('plan')">Plan by Arrival</button>
+            <button class="mt-btn on" id="btnModePlan" onclick="setTripMode('plan')">Plan by Target Arrival</button>
             <button class="mt-btn" id="btnModeNow" onclick="setTripMode('now')">⚡ Leave Right Now</button>
           </div>
 
@@ -346,14 +359,23 @@ html,body{
         <button class="scan" id="scanBtn" onclick="doScan()">Calculate Departure Window →</button>
       </div>
 
+      <!-- RIGHT COLUMN: ARBITRAGE RESULTS -->
       <div class="today-results">
         <div class="emp" id="empEl">
           <div class="emp-i">⚡</div>
           <div class="emp-h">Ready to Calculate</div>
-          <div class="emp-p">Enter origin and destination points above and tap Calculate for your optimal departure window.</div>
+          <div class="emp-p">Enter start and end points above and tap Calculate for your departure window.</div>
         </div>
 
         <div id="resWrap" style="display:none;flex-direction:column;gap:14px">
+          <div class="wx" id="wxEl">
+            <div class="wx-i" id="wxIco">☀️</div>
+            <div>
+              <div class="wx-d" id="wxDesc">Bengaluru Weather</div>
+              <div class="wx-imp ok" id="wxImp">Dry asphalt · Free corridor flow</div>
+            </div>
+          </div>
+
           <div class="hero">
             <div class="hero-eye" id="heroEyeLabel">LEAVE BY — OPTIMAL MORNING WINDOW</div>
             <div class="spill go" id="sig1">Clear window</div>
@@ -394,9 +416,23 @@ html,body{
             </div>
             <iframe class="inapp-iframe" id="inAppMapFrame" src="about:blank"></iframe>
           </div>
+
+          <div class="feedback-card">
+            <div class="fbc-title">Commute Feedback & Timing Accuracy</div>
+            <div class="fbc-sub">Tell us how your commute went so CruizGo can calibrate corridor weights:</div>
+            <div class="fbc-grid">
+              <button class="fbc-btn" id="fbcOnTime" onclick="setFeedbackTiming(true)">✓ Departed On Time</button>
+              <button class="fbc-btn" id="fbcLate" onclick="setFeedbackTiming(false)">⚠ Departed 15m Late</button>
+            </div>
+            <div class="fbc-grid">
+              <button class="fbc-btn" id="fbcHelpYes" onclick="setFeedbackHelpful(true)">👍 Helpful Prediction</button>
+              <button class="fbc-btn" id="fbcHelpNo" onclick="setFeedbackHelpful(false)">👎 Inaccurate Routing</button>
+            </div>
+            <input class="fbc-notes" id="inlineNotesInp" placeholder="Add specific road blockages, diversions or ideas..." />
+            <button class="scan" style="margin-top:0;padding:10px;font-size:12px" onclick="saveInlineFeedback()">💾 Save Feedback</button>
+          </div>
         </div>
       </div>
-
     </div>
   </div>
 
@@ -438,19 +474,32 @@ html,body{
     <div id="alertsListContainer"></div>
   </div>
 
-  <!-- SAVED TIME TAB -->
+  <!-- SAVED TIME TAB: CONVERSION POINT + WEEKLY SUMMARIES -->
   <div class="rp" id="pSavedTime">
-    <div id="authGateContainer" style="display:none">
-      <div class="sec" style="text-align:center;padding:24px">
-        <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">Unlock Verified Saved Time</div>
-        <div style="font-size:12px;color:var(--txt2);margin-bottom:16px">Sign in or create an account to view your weekly summaries, reclaimed hours, and route stats.</div>
-        <button class="scan" style="max-width:280px;margin:0 auto" onclick="openAuthModal('login')">Sign In / Register →</button>
+    <div id="authGateContainer" class="auth-gate-box" style="display:none">
+      <div class="ag-title">Unlock Your Saved Commute Time</div>
+      <div class="ag-sub">Log in or create a free account to track verified hours saved vs. peak gridlock and receive weekly commute summaries by date.</div>
+
+      <div class="auth-tabs-row">
+        <button class="at-btn on" id="btnAuthLogin" onclick="setAuthTab('login')">Log In</button>
+        <button class="at-btn" id="btnAuthSignup" onclick="setAuthTab('signup')">Sign Up</button>
+      </div>
+
+      <!-- 1-TAP GOOGLE AUTH -->
+      <button class="oauth-btn" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+        Continue with Google
+      </button>
+
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <input class="uf" id="authEmailInput" type="email" placeholder="name@company.com / gmail.com" style="text-align:center" />
+        <button class="scan" style="margin-top:0;padding:12px;font-size:13px" onclick="signInWithMagicLink()">Send Secure Magic Link →</button>
       </div>
     </div>
 
     <div id="savedTimeStatsContainer">
       <div style="font-size:16px;font-weight:900;margin-bottom:4px">Your Cumulative Commute Savings</div>
-      <div style="font-size:12px;color:var(--txt3);margin-bottom:14px">Metrics computed exclusively from your completed rides. Tap any card to review logs:</div>
+      <div style="font-size:12px;color:var(--txt3);margin-bottom:14px">Real metrics computed exclusively from your completed rides. Tap any box to review logs:</div>
 
       <div class="st-hero">
         <div class="st-card" onclick="switchTab('history', document.getElementById('tabHistory'))">
@@ -463,10 +512,11 @@ html,body{
         </div>
       </div>
 
+      <!-- DYNAMIC WEEKLY SUMMARY BY DATE -->
       <div class="weekly-summary-box">
         <div class="wsb-hdr">
-          <span class="wsb-title">📅 Verified Weekly Summaries</span>
-          <span style="font-size:11px;color:var(--neon)" id="wsbTotalWeek">Saved: 88 min</span>
+          <span class="wsb-title">📅 Weekly Commute Summary (14 Sep – 20 Sep 2026)</span>
+          <span style="font-size:11px;color:var(--txt2)" id="wsbTotalWeek">Saved: 88 min</span>
         </div>
         <div id="weeklySummaryRows">
           <div class="wsb-row"><span>Mon, 14 Sep</span><span>Bellandur Corridor</span><span class="wsb-saved">+22m saved</span></div>
@@ -482,10 +532,7 @@ html,body{
   <div class="rp" id="pHistory">
     <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
       <div style="font-size:16px;font-weight:900">Saved Routes & Completed Trips</div>
-      <div style="display:flex;gap:8px">
-        <button onclick="clearAllDataForTesting()" style="padding:6px 12px;background:none;border:1px solid rgba(255,191,63,.4);border-radius:6px;color:var(--amber);font-size:11px;font-weight:700;cursor:pointer">Clear All Data (Test)</button>
-        <button onclick="clearPastTrips()" style="padding:6px 12px;background:none;border:1px solid rgba(255,64,96,.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer">Clear Past Trips</button>
-      </div>
+      <button onclick="clearPastTrips()" style="padding:6px 12px;background:none;border:1px solid rgba(255,64,96,.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer">Clear Past Trips</button>
     </div>
     <div id="savedSection"></div>
     <div id="histSection"></div>
@@ -493,94 +540,7 @@ html,body{
 
 </div>
 
-<!-- USER ACCOUNT & SETTINGS MODAL -->
-<div class="modal-overlay" id="profileModal">
-  <div class="modal-card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div class="modal-title">👤 Account Settings</div>
-      <button onclick="closeProfileModal()" style="background:none;border:none;color:var(--txt3);font-size:18px;cursor:pointer">✕</button>
-    </div>
-
-    <div class="sec">
-      <div class="slbl">Profile Information</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <label style="font-size:11px;color:var(--txt2)">Full Name</label>
-        <input class="uf" id="accFullName" placeholder="Your name" />
-        <label style="font-size:11px;color:var(--txt2)">Email Address</label>
-        <input class="uf" id="accEmail" readonly style="opacity:0.6" />
-      </div>
-      <button class="scan" style="padding:10px;font-size:12px;margin-top:10px" onclick="updateUserProfileName()">Update Profile</button>
-    </div>
-
-    <div class="sec">
-      <div class="slbl">Change Password</div>
-      <div style="display:flex;flex-direction:column;gap:8px">
-        <input class="uf" id="accNewPassword" type="password" placeholder="New password (min 6 characters)" />
-        <input class="uf" id="accConfirmPassword" type="password" placeholder="Confirm new password" />
-      </div>
-      <button class="scan" style="padding:10px;font-size:12px;margin-top:10px" onclick="updateUserPassword()">Change Password</button>
-    </div>
-
-    <div style="display:flex;gap:8px;margin-top:10px">
-      <button class="altbtn" style="flex:1" onclick="triggerPasswordResetOTP()">🔑 Send Reset OTP</button>
-      <button class="altbtn" style="flex:1;border-color:var(--red);color:var(--red)" onclick="signOutUser()">Sign Out</button>
-    </div>
-  </div>
-</div>
-
-<!-- AUTHENTICATION & PASSWORD RESET MODAL -->
-<div class="modal-overlay" id="authModal">
-  <div class="modal-card">
-    <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div class="modal-title" id="authModalTitle">Sign In to CruizGo</div>
-      <button onclick="closeAuthModal()" style="background:none;border:none;color:var(--txt3);font-size:18px;cursor:pointer">✕</button>
-    </div>
-
-    <div class="auth-tabs" id="authTabsHeader">
-      <button class="at-btn on" id="atLogin" onclick="setAuthView('login')">Sign In</button>
-      <button class="at-btn" id="atSignup" onclick="setAuthView('signup')">Sign Up</button>
-    </div>
-
-    <!-- 1-TAP GOOGLE AUTH -->
-    <div id="oauthContainer">
-      <button class="oauth-btn" onclick="signInWithGoogle()">
-        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-        Continue with Google
-      </button>
-      <div style="display:flex;align-items:center;gap:10px;margin:12px 0;color:var(--txt3);font-size:11px">
-        <div style="flex:1;height:1px;background:var(--brd)"></div>
-        <span>OR WITH EMAIL & PASSWORD</span>
-        <div style="flex:1;height:1px;background:var(--brd)"></div>
-      </div>
-    </div>
-
-    <!-- EMAIL / PASSWORD VIEW -->
-    <div id="emailAuthFields">
-      <div style="display:flex;flex-direction:column;gap:10px">
-        <div id="signupNameField" style="display:none">
-          <input class="uf" id="authFullName" placeholder="Your full name" style="width:100%" />
-        </div>
-        <input class="uf" id="authEmail" type="email" placeholder="name@company.com / gmail.com" style="width:100%" />
-        <div id="passwordFieldGroup">
-          <input class="uf" id="authPassword" type="password" placeholder="Password (min 6 chars)" style="width:100%" />
-        </div>
-        <div id="otpFieldGroup" style="display:none">
-          <input class="uf" id="authOTP" placeholder="Enter 6-digit OTP code sent to email" style="width:100%;font-family:var(--mono);letter-spacing:2px;text-align:center" />
-          <input class="uf" id="authNewPasswordReset" type="password" placeholder="Enter new password" style="width:100%;margin-top:6px" />
-        </div>
-      </div>
-
-      <button class="scan" id="authActionBtn" style="margin-top:12px;padding:12px" onclick="executeAuthAction()">Sign In</button>
-
-      <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:11px">
-        <span id="forgotPwdLink" style="color:var(--cyan);cursor:pointer" onclick="setAuthView('forgot')">Forgot Password?</span>
-        <span id="backToLoginLink" style="color:var(--neon);cursor:pointer;display:none" onclick="setAuthView('login')">← Back to Sign In</span>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- COMMUTE ARRIVAL CHECK-IN MODAL -->
+<!-- CHECK-IN MODAL -->
 <div class="modal-overlay" id="completionModal">
   <div class="modal-card">
     <div class="modal-title">🏁 Commute Arrival Check-in</div>
@@ -616,7 +576,7 @@ html,body{
 
     <div class="q-block">
       <div class="q-lbl">4. Any specific road blockages, diversions, or suggestions?</div>
-      <input class="uf" id="compNotes" placeholder="e.g. Bus breakdown near Marathahalli" style="width:100%" />
+      <input class="uf" id="compNotes" placeholder="e.g. Bus breakdown near Marathahalli, waterlogging" style="width:100%" />
     </div>
 
     <div style="display:flex;gap:8px;margin-top:16px">
@@ -629,10 +589,9 @@ html,body{
 <div class="toast" id="toast"></div>
 
 <script>
-// CONFIG & INITIAL STATE
+// CONFIG & APP STATE
 const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
-
 const sbClient = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
 
 const S = {
@@ -644,7 +603,7 @@ const S = {
   weekDays: ['mon','tue','wed','thu','fri','sat','sun'],
   lastScan: null,
   currentUser: null,
-  authView: 'login',
+  authTab: 'login',
   alertsList: [
     { id:'a1', time: '12:30 PM', title: 'Mid-Day Commute Check-in', body: 'How was your morning commute to Bellandur? Confirm your arrival to log verified Saved Time.', type: 'checkin' },
     { id:'a2', time: '07:30 AM', title: 'Good Morning, Commuter! 🌅', body: 'Plan your commute today. Outer Ring Road is experiencing moderate congestion near Silk Board.', type: 'morning' },
@@ -654,7 +613,7 @@ const S = {
 
 const AC = { from: { timer: null }, to: { timer: null } };
 
-// POIS PRE-INDEX
+// PRE-INDEXED POIS
 const POIS = [
   { n: 'Whitefield (Kadugodi) Metro Station', s: 'Purple Line · Kadugodi', lat: 12.9961, lon: 77.7607, i: '🚇' },
   { n: 'KR Pura (KR Puram) Metro Station', s: 'Purple Line & Interchange · ORR', lat: 12.9972, lon: 77.6792, i: '🚇' },
@@ -673,6 +632,7 @@ const POIS = [
   { n: 'Dooravani Nagar', s: 'Near ITI Colony, KR Puram, Bengaluru', lat: 13.0035, lon: 77.6710, i: '🏘️' }
 ];
 
+// FULL CORRIDORS DATA
 const CORR = {
   orr: {
     id: 'corr-orr',
@@ -741,7 +701,7 @@ const WEEK_CONFIG = [
   { k: 'sun', full: 'Sunday', mult: 0.95, peak: 'Light traffic all day', wx: '29°C · Clear', dot: '🟢', dt: '20' }
 ];
 
-// CLOCK & PROFILES
+// INITIALIZATION
 function initClock() {
   const clk = document.getElementById('clk');
   const dPill = document.getElementById('datePill');
@@ -766,269 +726,7 @@ function loadProfile() {
   if (saved.e) document.getElementById('uEmail').value = saved.e;
 }
 
-// ══════════════════════════════════════════════════════════════════
-// FULL AUTHENTICATION & PASSWORD MANAGEMENT
-// ══════════════════════════════════════════════════════════════════
-function openProfileOrAuth() {
-  if (S.currentUser) {
-    openProfileModal();
-  } else {
-    openAuthModal('login');
-  }
-}
-
-function openProfileModal() {
-  document.getElementById('accFullName').value = S.currentUser.user_metadata?.full_name || document.getElementById('uName').value || '';
-  document.getElementById('accEmail').value = S.currentUser.email || '';
-  document.getElementById('profileModal').classList.add('show');
-}
-
-function closeProfileModal() {
-  document.getElementById('profileModal').classList.remove('show');
-}
-
-function openAuthModal(view) {
-  setAuthView(view);
-  document.getElementById('authModal').classList.add('show');
-}
-
-function closeAuthModal() {
-  document.getElementById('authModal').classList.remove('show');
-}
-
-function setAuthView(view) {
-  S.authView = view;
-  const title = document.getElementById('authModalTitle');
-  const atLogin = document.getElementById('atLogin');
-  const atSignup = document.getElementById('atSignup');
-  const nameField = document.getElementById('signupNameField');
-  const pwdGroup = document.getElementById('passwordFieldGroup');
-  const otpGroup = document.getElementById('otpFieldGroup');
-  const oauthBox = document.getElementById('oauthContainer');
-  const btn = document.getElementById('authActionBtn');
-  const forgotLink = document.getElementById('forgotPwdLink');
-  const backLink = document.getElementById('backToLoginLink');
-  const tabsHeader = document.getElementById('authTabsHeader');
-
-  if (view === 'login') {
-    title.textContent = 'Sign In to CruizGo';
-    tabsHeader.style.display = 'grid';
-    atLogin.className = 'at-btn on';
-    atSignup.className = 'at-btn';
-    nameField.style.display = 'none';
-    pwdGroup.style.display = 'block';
-    otpGroup.style.display = 'none';
-    oauthBox.style.display = 'block';
-    btn.textContent = 'Sign In';
-    forgotLink.style.display = 'inline';
-    backLink.style.display = 'none';
-  } else if (view === 'signup') {
-    title.textContent = 'Create CruizGo Account';
-    tabsHeader.style.display = 'grid';
-    atLogin.className = 'at-btn';
-    atSignup.className = 'at-btn on';
-    nameField.style.display = 'block';
-    pwdGroup.style.display = 'block';
-    otpGroup.style.display = 'none';
-    oauthBox.style.display = 'block';
-    btn.textContent = 'Create Account';
-    forgotLink.style.display = 'none';
-    backLink.style.display = 'none';
-  } else if (view === 'forgot') {
-    title.textContent = 'Reset Password with OTP';
-    tabsHeader.style.display = 'none';
-    nameField.style.display = 'none';
-    pwdGroup.style.display = 'none';
-    otpGroup.style.display = 'none';
-    oauthBox.style.display = 'none';
-    btn.textContent = 'Send Reset Code to Email';
-    forgotLink.style.display = 'none';
-    backLink.style.display = 'inline';
-  } else if (view === 'verify_otp') {
-    title.textContent = 'Enter Verification Code';
-    tabsHeader.style.display = 'none';
-    nameField.style.display = 'none';
-    pwdGroup.style.display = 'none';
-    otpGroup.style.display = 'block';
-    oauthBox.style.display = 'none';
-    btn.textContent = 'Verify & Set New Password';
-    forgotLink.style.display = 'none';
-    backLink.style.display = 'inline';
-  }
-}
-
-async function executeAuthAction() {
-  if (!sbClient) return showToast('Supabase auth initializing…', 'err');
-  const email = document.getElementById('authEmail').value.trim();
-  const password = document.getElementById('authPassword').value;
-
-  if (!email || !email.includes('@')) return showToast('Please enter a valid email address', 'err');
-
-  if (S.authView === 'login') {
-    if (!password) return showToast('Please enter your password', 'err');
-    showToast('Signing in…');
-    const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
-    if (error) return showToast(error.message, 'err');
-    showToast(`✓ Welcome back, ${data.user.email}!`);
-    closeAuthModal();
-  } else if (S.authView === 'signup') {
-    const fullName = document.getElementById('authFullName').value.trim();
-    if (!password || password.length < 6) return showToast('Password must be at least 6 characters', 'err');
-    showToast('Creating account…');
-    const { data, error } = await sbClient.auth.signUp({
-      email,
-      password,
-      options: { data: { full_name: fullName || splitEmail(email) } }
-    });
-    if (error) return showToast(error.message, 'err');
-    showToast('✓ Account created! Check your email to confirm registration.');
-    closeAuthModal();
-  } else if (S.authView === 'forgot') {
-    showToast('Sending OTP reset code to your email…');
-    const { error } = await sbClient.auth.resetPasswordForEmail(email);
-    if (error) return showToast(error.message, 'err');
-    showToast('✓ Code sent! Check your inbox.');
-    setAuthView('verify_otp');
-  } else if (S.authView === 'verify_otp') {
-    const token = document.getElementById('authOTP').value.trim();
-    const newPassword = document.getElementById('authNewPasswordReset').value;
-    if (!token) return showToast('Please enter the 6-digit OTP code', 'err');
-    if (!newPassword || newPassword.length < 6) return showToast('Password must be at least 6 characters', 'err');
-
-    showToast('Verifying code & updating password…');
-    const { error: otpErr } = await sbClient.auth.verifyOtp({
-      email,
-      token,
-      type: 'recovery'
-    });
-    if (otpErr) return showToast('Invalid OTP code: ' + otpErr.message, 'err');
-
-    const { error: pwdErr } = await sbClient.auth.updateUser({ password: newPassword });
-    if (pwdErr) return showToast('Password update error: ' + pwdErr.message, 'err');
-
-    showToast('✓ Password changed successfully! You are now logged in.');
-    closeAuthModal();
-  }
-}
-
-async function signInWithGoogle() {
-  if (!sbClient) return showToast('Supabase auth initializing…', 'err');
-  showToast('Connecting to Google Auth…');
-  const { error } = await sbClient.auth.signInWithOAuth({
-    provider: 'google',
-    options: { redirectTo: window.location.origin }
-  });
-  if (error) showToast(error.message, 'err');
-}
-
-async function updateUserProfileName() {
-  if (!sbClient || !S.currentUser) return;
-  const fullName = document.getElementById('accFullName').value.trim();
-  if (!fullName) return showToast('Name cannot be blank', 'err');
-  showToast('Updating profile…');
-  const { error } = await sbClient.auth.updateUser({
-    data: { full_name: fullName }
-  });
-  if (error) return showToast(error.message, 'err');
-  document.getElementById('uName').value = fullName;
-  persistProfile();
-  showToast('✓ Profile updated');
-  updateUserHeaderBadge();
-  closeProfileModal();
-}
-
-async function updateUserPassword() {
-  if (!sbClient || !S.currentUser) return;
-  const p1 = document.getElementById('accNewPassword').value;
-  const p2 = document.getElementById('accConfirmPassword').value;
-  if (!p1 || p1.length < 6) return showToast('Password must be at least 6 characters', 'err');
-  if (p1 !== p2) return showToast('Passwords do not match', 'err');
-
-  showToast('Updating password…');
-  const { error } = await sbClient.auth.updateUser({ password: p1 });
-  if (error) return showToast(error.message, 'err');
-  showToast('✓ Password changed successfully');
-  document.getElementById('accNewPassword').value = '';
-  document.getElementById('accConfirmPassword').value = '';
-  closeProfileModal();
-}
-
-async function triggerPasswordResetOTP() {
-  if (!S.currentUser?.email) return;
-  showToast('Sending OTP reset code to ' + S.currentUser.email + '…');
-  const { error } = await sbClient.auth.resetPasswordForEmail(S.currentUser.email);
-  if (error) return showToast(error.message, 'err');
-  showToast('✓ Check your email for the reset code');
-  closeProfileModal();
-  openAuthModal('verify_otp');
-}
-
-async function signOutUser() {
-  if (!sbClient) return;
-  showToast('Signing out…');
-  await sbClient.auth.signOut();
-  S.currentUser = null;
-  updateUserHeaderBadge();
-  closeProfileModal();
-  showToast('Signed out');
-  renderSavedTimeView();
-}
-
-function splitEmail(e) {
-  return (e || '').split('@')[0];
-}
-
-function updateUserHeaderBadge() {
-  const dot = document.getElementById('userDot');
-  const label = document.getElementById('userBadgeLabel');
-  if (S.currentUser) {
-    dot.className = 'user-dot online';
-    const name = S.currentUser.user_metadata?.full_name || splitEmail(S.currentUser.email);
-    label.textContent = name;
-  } else {
-    dot.className = 'user-dot';
-    label.textContent = 'Sign In';
-  }
-}
-
-async function initSupabaseAuthListener() {
-  if (!sbClient) return;
-  const { data: { session } } = await sbClient.auth.getSession();
-  if (session?.user) {
-    S.currentUser = session.user;
-    document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
-    updateUserHeaderBadge();
-  }
-
-  sbClient.auth.onAuthStateChange((_event, session) => {
-    S.currentUser = session?.user || null;
-    if (session?.user) {
-      document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
-    }
-    updateUserHeaderBadge();
-    renderSavedTimeView();
-  });
-}
-
-// ══════════════════════════════════════════════════════════════════
-// CLEAR ALL DATA FOR TESTING
-// ══════════════════════════════════════════════════════════════════
-function clearAllDataForTesting() {
-  if (!confirm('Clear all saved routes, completed trips, custom schedules, and cached profile data?')) return;
-  localStorage.clear();
-  S.fromVal = '310, 2nd A Cross Rd';
-  S.toVal = 'Ecospace Business Park, Bellandur';
-  document.getElementById('inpFrom').value = S.fromVal;
-  document.getElementById('inpTo').value = S.toVal;
-  document.getElementById('uName').value = '';
-  document.getElementById('uEmail').value = '';
-  renderHistory();
-  renderSavedTimeView();
-  renderWeekCards();
-  showToast('✓ All local test data cleared');
-}
-
-// TAB SWITCHING
+// TAB SWITCHING (SCOPES CONTROLS TO TODAY ONLY)
 function switchTab(name, btn) {
   document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
@@ -1048,7 +746,7 @@ function switchTab(name, btn) {
   if (name === 'history') renderHistory();
 }
 
-// RESTORED WEEK TAB LOGIC
+// WEEK TAB LOGIC (RESTORED)
 function buildDayStrip() {
   const currentDayKey = WEEK_CONFIG[(new Date().getDay() + 6) % 7].k;
   document.getElementById('dayStrip').innerHTML = WEEK_CONFIG.map(d => {
@@ -1180,7 +878,7 @@ async function saveDaySchedule(k) {
   showToast(`✓ ${k.toUpperCase()} saved`);
 }
 
-// RESTORED CORRIDORS TAB LOGIC
+// CORRIDORS TAB LOGIC (RESTORED)
 function renderCorridors() {
   document.getElementById('allCorr').innerHTML = Object.entries(CORR).map(([k, c]) => `
     <div class="corrcard" id="${c.id}" style="margin-bottom:14px">
@@ -1227,7 +925,7 @@ function setCorridorToToday(k) {
   doScan();
 }
 
-// RESTORED HISTORY TAB LOGIC
+// HISTORY TAB LOGIC (RESTORED)
 function renderHistory() {
   const sSec = document.getElementById('savedSection');
   const saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
@@ -1259,7 +957,7 @@ function renderHistory() {
 
   if (hist.length) {
     hSec.innerHTML = `
-      <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase;margin:18px 0 10px">🕒 Completed Verified Trips</div>
+      <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase;margin:18px 0 10px">🕒 Past Completed Trips</div>
       ${hist.map(h => `
         <div style="background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:12px;margin-bottom:8px">
           <div style="display:flex;justify-content:space-between">
@@ -1306,6 +1004,13 @@ function clearPastTrips() {
   showToast('Past trip history cleared · Saved Time reset to 0');
 }
 
+// SAVED TIME TAB AUTH CONVERSION GATE
+function setAuthTab(mode) {
+  S.authTab = mode;
+  document.getElementById('btnAuthLogin').classList.toggle('on', mode === 'login');
+  document.getElementById('btnAuthSignup').classList.toggle('on', mode === 'signup');
+}
+
 function renderSavedTimeView() {
   const isAuth = !!S.currentUser;
   document.getElementById('authGateContainer').style.display = isAuth ? 'none' : 'block';
@@ -1322,12 +1027,52 @@ function renderSavedTimeView() {
   }
 }
 
-// ══════════════════════════════════════════════════════════════════
-// ROUTING CALCULATIONS & REAL-TIME GEOCODING
-// ══════════════════════════════════════════════════════════════════
-async function doScan() {
-  switchTab('today', document.getElementById('tabToday'));
+async function signInWithGoogle() {
+  if (!sbClient) return showToast('Supabase auth initializing…', 'err');
+  showToast('Redirecting to Google Sign-In…');
+  const { error } = await sbClient.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin }
+  });
+  if (error) showToast(error.message, 'err');
+}
 
+async function signInWithMagicLink() {
+  if (!sbClient) return showToast('Supabase auth initializing…', 'err');
+  const email = document.getElementById('authEmailInput').value.trim();
+  if (!email || !email.includes('@')) return showToast('Please enter a valid email', 'err');
+  showToast('Sending magic sign-in link…');
+  const { error } = await sbClient.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: window.location.origin }
+  });
+  if (error) {
+    showToast(error.message, 'err');
+  } else {
+    showToast('✓ Magic link sent! Check your inbox / spam.');
+  }
+}
+
+async function initSupabaseAuthListener() {
+  if (!sbClient) return;
+  const { data: { session } } = await sbClient.auth.getSession();
+  if (session?.user) {
+    S.currentUser = session.user;
+    document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
+  }
+
+  sbClient.auth.onAuthStateChange((_event, session) => {
+    if (session?.user) {
+      S.currentUser = session.user;
+      document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
+      renderSavedTimeView();
+      showToast(`✓ Logged in as ${session.user.email}`);
+    }
+  });
+}
+
+// CORE ROUTE CALCULATIONS
+async function doScan() {
   const fv = document.getElementById('inpFrom').value.trim() || S.fromVal;
   const tv = document.getElementById('inpTo').value.trim() || S.toVal;
   const arrStr = document.getElementById('tArrive').value;
@@ -1376,6 +1121,7 @@ function openGoogleMapsDirect() {
   window.open(`https://www.google.com/maps/dir/?api=1&origin=${fv}+Bengaluru&destination=${tv}+Bengaluru&travelmode=${S.vehicle === 'bike' ? 'bicycling' : 'driving'}&dir_action=navigate`, '_blank');
 }
 
+// SEARCH AUTOCOMPLETE
 function onSearch(field) {
   const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
   const q = (inp.value || '').trim().toLowerCase();
