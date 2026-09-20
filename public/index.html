@@ -979,62 +979,220 @@ function acquireLiveGPS() {
   }, { enableHighAccuracy: true, timeout: 9000 });
 }
 
+// ══════════════════════════════════════════════════════════════════
+// COMPREHENSIVE BENGALURU PRE-INDEX (METRO, TECH PARKS, HUBS)
+// ══════════════════════════════════════════════════════════════════
 const POIS = [
-  {n:'310, 2nd A Cross Rd',s:'Kasturi Nagar, Benniganahalli, Bengaluru',i:'📍'},
-  {n:'Dooravani Nagar',s:'Near ITI Colony, KR Puram, Bengaluru',i:'🏘️'},
-  {n:'Benniganahalli Lake',s:'Old Madras Road, Kasturi Nagar',i:'🏞️'},
-  {n:'Benniganahalli Metro Station',s:'Purple Line, Tin Factory, Bengaluru',i:'🚇'},
-  {n:'Binnypet',s:'Cottonpet, Central Bengaluru',i:'🏘️'},
-  {n:'Halasuru Metro Station',s:'Old Airport Road, Bengaluru',i:'🚇'},
-  {n:'AECS Layout',s:'Brookefield, Kundalahalli, Bengaluru',i:'🏘️'},
-  {n:'AECS Layout Cult Fit',s:'60 Feet Main Rd, AECS Layout, Bengaluru',i:'🏋️'},
-  {n:'Ecospace Business Park',s:'Outer Ring Road, Bellandur',i:'🏢'},
-  {n:'Goraguntepalya Junction',s:'Tumkur Road, Yeshwanthpur',i:'🚦'},
-  {n:'Manyata Tech Park',s:'Hebbal, North Bengaluru',i:'🏢'}
+  // ── ALL PURPLE LINE METRO STATIONS ──
+  { n: 'Whitefield (Kadugodi) Metro Station', s: 'Purple Line · Kadugodi', lat: 12.9961, lon: 77.7607, i: '🚇' },
+  { n: 'Hopefarm Channasandra Metro Station', s: 'Purple Line · Whitefield', lat: 12.9912, lon: 77.7513, i: '🚇' },
+  { n: 'Kadugodi Tree Park Metro Station', s: 'Purple Line · Whitefield', lat: 12.9881, lon: 77.7423, i: '🚇' },
+  { n: 'Pattandur Agrahara Metro Station', s: 'Purple Line · Near ITPL', lat: 12.9877, lon: 77.7348, i: '🚇' },
+  { n: 'Sri Sathya Sai Hospital Metro Station', s: 'Purple Line · EPIP Zone', lat: 12.9823, lon: 77.7289, i: '🚇' },
+  { n: 'Nallurhalli Metro Station', s: 'Purple Line · Whitefield Rd', lat: 12.9768, lon: 77.7234, i: '🚇' },
+  { n: 'Kundalahalli Metro Station', s: 'Purple Line · Brookefield / AECS', lat: 12.9723, lon: 77.7154, i: '🚇' },
+  { n: 'Seetharampalya Metro Station', s: 'Purple Line · Hoodi / EPIP', lat: 12.9812, lon: 77.7093, i: '🚇' },
+  { n: 'Hoodi Metro Station', s: 'Purple Line · ITPL Main Rd', lat: 12.9918, lon: 77.7151, i: '🚇' },
+  { n: 'Garudacharpalya Metro Station', s: 'Purple Line · Mahadevapura', lat: 12.9934, lon: 77.7021, i: '🚇' },
+  { n: 'Singayyanapalya Metro Station', s: 'Purple Line · Mahadevapura', lat: 12.9962, lon: 77.6934, i: '🚇' },
+  { n: 'KR Pura (KR Puram) Metro Station', s: 'Purple Line & Interchange · ORR', lat: 12.9972, lon: 77.6792, i: '🚇' },
+  { n: 'Benniganahalli Metro Station', s: 'Purple Line · Old Madras Rd / Tin Factory', lat: 12.9950, lon: 77.6610, i: '🚇' },
+  { n: 'Baiyappanahalli Metro Station', s: 'Purple Line · Old Madras Road', lat: 12.9907, lon: 77.6525, i: '🚇' },
+  { n: 'Swami Vivekananda Road Metro Station', s: 'Purple Line · Old Madras Rd', lat: 12.9860, lon: 77.6433, i: '🚇' },
+  { n: 'Indiranagar Metro Station', s: 'Purple Line · 100 Feet Rd Junction', lat: 12.9784, lon: 77.6408, i: '🚇' },
+  { n: 'Halasuru Metro Station', s: 'Purple Line · Old Airport Road', lat: 12.9791, lon: 77.6269, i: '🚇' },
+  { n: 'Trinity Metro Station', s: 'Purple Line · Trinity Circle / MG Road', lat: 12.9728, lon: 77.6169, i: '🚇' },
+  { n: 'MG Road Metro Station', s: 'Purple Line & Pink Line Interchange', lat: 12.9755, lon: 77.6067, i: '🚇' },
+  { n: 'Cubbon Park Metro Station', s: 'Purple Line · Chinnaswamy / GPO', lat: 12.9810, lon: 77.5976, i: '🚇' },
+  { n: 'Dr. BR Ambedkar Station Vidhana Soudha', s: 'Purple Line · High Court', lat: 12.9795, lon: 77.5925, i: '🚇' },
+  { n: 'Sir M. Visveshwaraya Central College', s: 'Purple Line · KR Circle', lat: 12.9739, lon: 77.5839, i: '🚇' },
+  { n: 'Nadaprabhu Kempegowda Station Majestic', s: 'Interchange · Purple & Green Lines', lat: 12.9757, lon: 77.5728, i: '🚇' },
+  { n: 'City Railway Station (KSR Bengaluru)', s: 'Purple Line · Sangolli Rayanna', lat: 12.9782, lon: 77.5672, i: '🚇' },
+  { n: 'Magadi Road Metro Station', s: 'Purple Line · Magadi Main Rd', lat: 12.9756, lon: 77.5552, i: '🚇' },
+  { n: 'Hosahalli Metro Station', s: 'Purple Line · Vijayanagar Tollgate', lat: 12.9744, lon: 77.5453, i: '🚇' },
+  { n: 'Vijayanagar Metro Station', s: 'Purple Line · Vijayanagar TTMC', lat: 12.9698, lon: 77.5375, i: '🚇' },
+  { n: 'Attiguppe Metro Station', s: 'Purple Line · Chord Road', lat: 12.9622, lon: 77.5334, i: '🚇' },
+  { n: 'Deepanjali Nagar Metro Station', s: 'Purple Line · Mysore Road', lat: 12.9525, lon: 77.5367, i: '🚇' },
+  { n: 'Mysuru Road Metro Station', s: 'Purple Line · Nayandahalli', lat: 12.9478, lon: 77.5283, i: '🚇' },
+  { n: 'Pantharapalya Nayandahalli Metro Station', s: 'Purple Line · Mysore Rd', lat: 12.9423, lon: 77.5222, i: '🚇' },
+  { n: 'Rajarajeshwari Nagar Metro Station', s: 'Purple Line · RR Nagar Arch', lat: 12.9366, lon: 77.5167, i: '🚇' },
+  { n: 'Jnanabharathi Metro Station', s: 'Purple Line · Bangalore University', lat: 12.9298, lon: 77.5098, i: '🚇' },
+  { n: 'Pattanagere Metro Station', s: 'Purple Line · Mysore Rd', lat: 12.9242, lon: 77.4988, i: '🚇' },
+  { n: 'Kengeri Bus Terminal Metro Station', s: 'Purple Line · Kengeri TTMC', lat: 12.9177, lon: 77.4891, i: '🚇' },
+  { n: 'Kengeri Metro Station', s: 'Purple Line · Kengeri Satellite Town', lat: 12.9090, lon: 77.4765, i: '🚇' },
+  { n: 'Challaghatta Metro Station', s: 'Purple Line Terminal · Mysore Rd', lat: 12.9034, lon: 77.4645, i: '🚇' },
+
+  // ── ALL GREEN LINE METRO STATIONS ──
+  { n: 'Madavara (BIEC) Metro Station', s: 'Green Line Terminal · Tumkur Rd', lat: 13.0645, lon: 77.4789, i: '🚇' },
+  { n: 'Chikkabidarakallu Metro Station', s: 'Green Line · Jindal / Tumkur Rd', lat: 13.0566, lon: 77.4878, i: '🚇' },
+  { n: 'Manjunathanagar Metro Station', s: 'Green Line · NH 48', lat: 13.0489, lon: 77.4956, i: '🚇' },
+  { n: 'Nagasandra Metro Station', s: 'Green Line · Tumkur Road / Bagalakunte', lat: 13.0478, lon: 77.5002, i: '🚇' },
+  { n: 'Dasarahalli Metro Station', s: 'Green Line · T. Dasarahalli', lat: 13.0438, lon: 77.5131, i: '🚇' },
+  { n: 'Jalahalli Metro Station', s: 'Green Line · Peenya 1st Stage', lat: 13.0392, lon: 77.5197, i: '🚇' },
+  { n: 'Peenya Industry Metro Station', s: 'Green Line · Peenya Industrial Area', lat: 13.0366, lon: 77.5255, i: '🚇' },
+  { n: 'Peenya Metro Station', s: 'Green Line · Tumkur Road', lat: 13.0329, lon: 77.5342, i: '🚇' },
+  { n: 'Goraguntepalya Metro Station', s: 'Green Line · Taj Yeshwantpur / Outer Ring', lat: 13.0286, lon: 77.5417, i: '🚇' },
+  { n: 'Yeshwanthpur Metro Station', s: 'Green Line · Yeshwanthpur Railway Station', lat: 13.0232, lon: 77.5501, i: '🚇' },
+  { n: 'Sandal Soap Factory Metro Station', s: 'Green Line · Rajajinagar', lat: 13.0147, lon: 77.5542, i: '🚇' },
+  { n: 'Mahalakshmi Metro Station', s: 'Green Line · Mahalakshmi Layout', lat: 13.0084, lon: 77.5494, i: '🚇' },
+  { n: 'Rajajinagar Metro Station', s: 'Green Line · 1st Block Rajajinagar', lat: 12.9989, lon: 77.5558, i: '🚇' },
+  { n: 'Kuvempu Road Metro Station', s: 'Green Line · Malleshwaram West', lat: 12.9934, lon: 77.5599, i: '🚇' },
+  { n: 'Srirampura Metro Station', s: 'Green Line · Srirampura', lat: 12.9961, lon: 77.5638, i: '🚇' },
+  { n: 'Sampige Road Malleshwaram Metro Station', s: 'Green Line · Mantri Square', lat: 12.9912, lon: 77.5708, i: '🚇' },
+  { n: 'Chickpete Metro Station', s: 'Green Line · Chickpet Market', lat: 12.9669, lon: 77.5750, i: '🚇' },
+  { n: 'Krishna Rajendra Market Metro Station', s: 'Green Line · KR Market / Victoria', lat: 12.9610, lon: 77.5744, i: '🚇' },
+  { n: 'National College Metro Station', s: 'Green Line · Basavanagudi', lat: 12.9511, lon: 77.5736, i: '🚇' },
+  { n: 'Lalbagh Metro Station', s: 'Green Line · Lalbagh West Gate', lat: 12.9461, lon: 77.5800, i: '🚇' },
+  { n: 'South End Circle Metro Station', s: 'Green Line · Jayanagar', lat: 12.9377, lon: 77.5802, i: '🚇' },
+  { n: 'Jayanagar Metro Station', s: 'Green Line · 4th Block Jayanagar', lat: 12.9298, lon: 77.5801, i: '🚇' },
+  { n: 'Rashtreeya Vidyalaya Road Metro Station', s: 'Green Line · RV Road Interchange', lat: 12.9216, lon: 77.5802, i: '🚇' },
+  { n: 'Banashankari Metro Station', s: 'Green Line · Banashankari TTMC / Bus Stand', lat: 12.9154, lon: 77.5736, i: '🚇' },
+  { n: 'Jaya Prakash Nagar (JP Nagar) Metro Station', s: 'Green Line · Sarakki', lat: 12.9073, lon: 77.5734, i: '🚇' },
+  { n: 'Yelachenahalli Metro Station', s: 'Green Line · Kanakapura Road', lat: 12.8958, lon: 77.5701, i: '🚇' },
+  { n: 'Konanakunte Cross Metro Station', s: 'Green Line · Forum South City Mall', lat: 12.8879, lon: 77.5684, i: '🚇' },
+  { n: 'Doddakallasandra Metro Station', s: 'Green Line · Kanakapura Rd', lat: 12.8767, lon: 77.5621, i: '🚇' },
+  { n: 'Vajrahalli Metro Station', s: 'Green Line · Kanakapura Rd', lat: 12.8689, lon: 77.5552, i: '🚇' },
+  { n: 'Thalaghattapura Metro Station', s: 'Green Line · Kanakapura Rd', lat: 12.8598, lon: 77.5458, i: '🚇' },
+  { n: 'Silk Institute Metro Station', s: 'Green Line Terminal · Nice Road Cross', lat: 12.8512, lon: 77.5389, i: '🚇' },
+
+  // ── YELLOW LINE METRO STATIONS ──
+  { n: 'Central Silk Board Metro Station', s: 'Yellow Line Interchange · Hosur Rd / ORR', lat: 12.9176, lon: 77.6235, i: '🚇' },
+  { n: 'BTM Layout Metro Station', s: 'Yellow Line · Outer Ring Road', lat: 12.9161, lon: 77.6102, i: '🚇' },
+  { n: 'Jayadeva Hospital Metro Station', s: 'Yellow & Pink Interchange · Bannerghatta', lat: 12.9189, lon: 77.5989, i: '🚇' },
+  { n: 'Bommanahalli Metro Station', s: 'Yellow Line · Hosur Road', lat: 12.9089, lon: 77.6256, i: '🚇' },
+  { n: 'Hongasandra Metro Station', s: 'Yellow Line · Hosur Road / Garvebhavipalya', lat: 12.9011, lon: 77.6322, i: '🚇' },
+  { n: 'Kudlu Gate Metro Station', s: 'Yellow Line · Hosur Road', lat: 12.8902, lon: 77.6412, i: '🚇' },
+  { n: 'Singasandra Metro Station', s: 'Yellow Line · Hosur Road', lat: 12.8812, lon: 77.6498, i: '🚇' },
+  { n: 'Hosa Road Metro Station', s: 'Yellow Line · Jail Road Cross', lat: 12.8711, lon: 77.6588, i: '🚇' },
+  { n: 'Beratena Agrahara Metro Station', s: 'Yellow Line · Hosur Road', lat: 12.8612, lon: 77.6654, i: '🚇' },
+  { n: 'Electronic City Metro Station', s: 'Yellow Line · Phase 1 Toll Plaza', lat: 12.8509, lon: 77.6637, i: '🚇' },
+  { n: 'Infosys Foundation Electronic City Metro', s: 'Yellow Line · Wipro Gate / E-City', lat: 12.8423, lon: 77.6689, i: '🚇' },
+  { n: 'Huskur Road Metro Station', s: 'Yellow Line · Huskur Gate', lat: 12.8312, lon: 77.6744, i: '🚇' },
+  { n: 'Hebbagodi Metro Station', s: 'Yellow Line · Bommasandra Industrial', lat: 12.8211, lon: 77.6801, i: '🚇' },
+  { n: 'Bommasandra Metro Station', s: 'Yellow Line Terminal · Jigani Link Rd', lat: 12.8123, lon: 77.6877, i: '🚇' },
+
+  // ── ALL MAJOR BENGALURU TECH PARKS & IT HUBS ──
+  { n: 'Manyata Tech Park', s: 'Outer Ring Road, Hebbal / Nagavara', lat: 13.0469, lon: 77.6191, i: '🏢' },
+  { n: 'RMZ Ecospace', s: 'Outer Ring Road, Bellandur', lat: 12.9279, lon: 77.6841, i: '🏢' },
+  { n: 'Ecospace Business Park', s: 'Outer Ring Road, Bellandur', lat: 12.9260, lon: 77.6762, i: '🏢' },
+  { n: 'Embassy TechVillage (ETV)', s: 'Outer Ring Road, Devarabisanahalli', lat: 12.9352, lon: 77.6936, i: '🏢' },
+  { n: 'Prestige Tech Park (PTP)', s: 'Outer Ring Road, Kadubeesanahalli / Marathahalli', lat: 12.9416, lon: 77.6948, i: '🏢' },
+  { n: 'Prestige Cessna Business Park', s: 'Kadubeesanahalli, ORR', lat: 12.9388, lon: 77.6912, i: '🏢' },
+  { n: 'Prestige Ferns Galaxy', s: 'Outer Ring Road, Bellandur', lat: 12.9298, lon: 77.6812, i: '🏢' },
+  { n: 'Bagmane Tech Park', s: 'CV Raman Nagar / Byrasandra', lat: 12.9766, lon: 77.6558, i: '🏢' },
+  { n: 'Bagmane Constellation Business Park', s: 'Doddanekundi, Outer Ring Road', lat: 12.9812, lon: 77.6978, i: '🏢' },
+  { n: 'Bagmane Solarium City', s: 'Kundalahalli / Whitefield', lat: 12.9744, lon: 77.7089, i: '🏢' },
+  { n: 'ITPL (International Tech Park Bangalore)', s: 'Whitefield Main Road', lat: 12.9867, lon: 77.7360, i: '🏢' },
+  { n: 'Prestige Shantiniketan', s: 'ITPL Main Road, Whitefield', lat: 12.9912, lon: 77.7289, i: '🏢' },
+  { n: 'Brigade Tech Gardens (BTG)', s: 'Brookefield, Kundalahalli', lat: 12.9698, lon: 77.7189, i: '🏢' },
+  { n: 'Embassy GolfLinks (EGL)', s: 'Intermediate Ring Road, Domlur / Challaghatta', lat: 12.9491, lon: 77.6447, i: '🏢' },
+  { n: 'Global Village Tech Park', s: 'Mylasandra, Mysore Road / RR Nagar', lat: 12.9189, lon: 77.5023, i: '🏢' },
+  { n: 'Kalyani Magnum Tech Park', s: 'JP Nagar 7th Phase, Bannerghatta Rd', lat: 12.8988, lon: 77.5967, i: '🏢' },
+  { n: 'Divyasree Technopolis', s: 'Yemalur, HAL Airport Road', lat: 12.9456, lon: 77.6811, i: '🏢' },
+  { n: 'Divyasree 77 East', s: 'Yemalur Main Rd, Marathahalli', lat: 12.9421, lon: 77.6789, i: '🏢' },
+  { n: 'RMZ Infinity', s: 'Old Madras Road, Benniganahalli', lat: 12.9934, lon: 77.6623, i: '🏢' },
+  { n: 'RMZ Titanium', s: 'Old Airport Road, Kodihalli', lat: 12.9623, lon: 77.6512, i: '🏢' },
+  { n: 'IBC Knowledge Park', s: 'Bannerghatta Main Road, Dairy Circle', lat: 12.9312, lon: 77.5989, i: '🏢' },
+  { n: 'Velankani Tech Park', s: 'Electronic City Phase 1', lat: 12.8423, lon: 77.6644, i: '🏢' },
+  { n: 'Helios Business Park', s: 'Kadubeesanahalli, Outer Ring Road', lat: 12.9378, lon: 77.6922, i: '🏢' },
+  { n: 'Sattva Knowledge Court', s: 'Doddanekundi Industrial Area, Whitefield', lat: 12.9856, lon: 77.7088, i: '🏢' },
+
+  // ── KEY BUS TERMINALS, LAKES & LANDMARKS ──
+  { n: '310, 2nd A Cross Rd', s: 'Kasturi Nagar, Benniganahalli, Bengaluru', lat: 12.9960, lon: 77.6620, i: '📍' },
+  { n: 'Dooravani Nagar', s: 'Near ITI Colony, KR Puram, Bengaluru', lat: 13.0035, lon: 77.6710, i: '🏘️' },
+  { n: 'Benniganahalli Lake', s: 'Old Madras Road, Kasturi Nagar', lat: 12.9965, lon: 77.6624, i: '🏞️' },
+  { n: 'AECS Layout', s: 'Brookefield, Kundalahalli, Bengaluru', lat: 12.9634, lon: 77.7142, i: '🏘️' },
+  { n: 'AECS Layout Cult Fit', s: '60 Feet Main Rd, AECS Layout', lat: 12.9650, lon: 77.7155, i: '🏋️' },
+  { n: 'Binnypet', s: 'Cottonpet, Central Bengaluru', lat: 12.9680, lon: 77.5550, i: '🏘️' },
+  { n: 'Kempegowda Bus Station (Majestic KBS)', s: 'Central Bus Terminal', lat: 12.9772, lon: 77.5718, i: '🚌' },
+  { n: 'Shantinagar Bus Station (BMTC / KSRTC)', s: 'Double Road, Shantinagar', lat: 12.9544, lon: 77.5933, i: '🚌' },
+  { n: 'Shivajinagar Bus Terminal', s: 'Central Bengaluru', lat: 12.9856, lon: 77.6056, i: '🚌' },
+  { n: 'Banashankari TTMC & Bus Stand', s: 'Kanakapura Rd / Outer Ring Rd', lat: 12.9154, lon: 77.5736, i: '🚌' },
+  { n: 'Domlur TTMC Bus Station', s: 'Old Airport Road, Domlur', lat: 12.9612, lon: 77.6389, i: '🚌' },
+  { n: 'Tin Factory Bus Stop', s: 'KR Puram / Benniganahalli Junction', lat: 12.9962, lon: 77.6654, i: '🚏' },
+  { n: 'Silk Board Junction Bus Stop', s: 'Hosur Road / Outer Ring Road', lat: 12.9176, lon: 77.6235, i: '🚏' },
+  { n: 'Marathahalli Bridge Bus Stop', s: 'Outer Ring Road, Marathahalli', lat: 12.9562, lon: 77.7010, i: '🚏' },
+  { n: 'Goraguntepalya Junction', s: 'Tumkur Road / Yeshwanthpur NH 48', lat: 13.0286, lon: 77.5417, i: '🚦' },
+  { n: 'Phoenix Marketcity', s: 'Whitefield Main Road, Mahadevapura', lat: 12.9963, lon: 77.6953, i: '🛍️' },
+  { n: 'Orion Mall', s: 'Dr. Rajkumar Road, Rajajinagar', lat: 12.9933, lon: 77.5552, i: '🛍️' },
+  { n: 'Nexus Koramangala Mall', s: 'Hosur Road, Koramangala', lat: 12.9347, lon: 77.6122, i: '🛍️' },
+  { n: 'Kempegowda International Airport (BLR)', s: 'Devanahalli, NH 44', lat: 13.1986, lon: 77.7066, i: '✈️' }
 ];
 
-function onSearch(field) {
-  const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
-  const val = inp.value.trim();
-  clearTimeout(AC[field].timer);
-
-  if (!val || val.length < 2) {
-    document.getElementById(field === 'from' ? 'acFrom' : 'acTo').classList.remove('open');
-    return;
-  }
-
-  document.getElementById(field === 'from' ? 'spFrom' : 'spTo').style.display = 'block';
-  AC[field].timer = setTimeout(() => executeSearch(field, val), 240);
-}
-
+// ══════════════════════════════════════════════════════════════════
+// DUAL-SOURCE DEEP AUTOCOMPLETE ENGINE (PHOTON + NOMINATIM)
+// ══════════════════════════════════════════════════════════════════
 async function executeSearch(field, q) {
-  const cleanQ = q.toLowerCase();
-  const localMatches = POIS.filter(p => p.n.toLowerCase().includes(cleanQ) || p.s.toLowerCase().includes(cleanQ));
+  const cleanQ = q.trim().toLowerCase();
+  
+  // 1. Instant match against comprehensive pre-indexed Bengaluru database
+  const localMatches = POIS.filter(p => 
+    p.n.toLowerCase().includes(cleanQ) || 
+    p.s.toLowerCase().includes(cleanQ)
+  );
 
   try {
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q + ' Bengaluru')}&countrycodes=in&format=json&addressdetails=1&limit=8`;
-    const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
-    const osm = await res.json() || [];
+    // 2. Query Photon (Komoot OpenStreetMap engine) tuned for real-time typeahead
+    // Bounded strictly to Bengaluru: minLon=77.35, minLat=12.75, maxLon=77.85, maxLat=13.25
+    const photonUrl = `https://photon.komoot.io/api/?q=${encodeURIComponent(q)}&lat=12.9716&lon=77.5946&bbox=77.35,12.75,77.85,13.25&limit=10`;
+    
+    // 3. Parallel query to OSM Nominatim for exact house numbers, layouts & streets
+    const nominatimUrl = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(q + ' Bengaluru')}&countrycodes=in&viewbox=77.35,13.25,77.85,12.75&bounded=0&format=json&addressdetails=1&limit=8`;
 
-    const mapped = osm.map(d => ({
-      n: d.name || d.display_name.split(',')[0].trim(),
-      s: d.display_name.split(',').slice(1,3).join(', ').trim(),
-      i: '📍'
-    }));
+    const [photonRes, nomRes] = await Promise.allSettled([
+      fetch(photonUrl).then(r => r.json()),
+      fetch(nominatimUrl, { headers: { 'Accept-Language': 'en' } }).then(r => r.json())
+    ]);
 
+    const liveResults = [];
+
+    // Parse Photon Features (Streets, Buildings, Shops, Crosses)
+    if (photonRes.status === 'fulfilled' && photonRes.value?.features) {
+      photonRes.value.features.forEach(f => {
+        const p = f.properties;
+        const coords = f.geometry.coordinates; // [lon, lat]
+        const mainName = p.name || p.street || `${p.housenumber || ''} ${p.street || ''}`.trim() || 'Bengaluru Location';
+        const parts = [p.district, p.locality, p.suburb, p.city, 'Bengaluru'].filter(Boolean);
+        const sub = [...new Set(parts)].slice(0, 2).join(', ');
+        
+        let icon = '📍';
+        if (p.osm_value === 'station' || p.osm_key === 'railway') icon = '🚇';
+        else if (p.osm_value === 'bus_stop' || p.osm_key === 'highway') icon = '🚏';
+        else if (p.osm_key === 'shop' || p.osm_key === 'amenity') icon = '🛍️';
+        else if (p.osm_value === 'water' || p.osm_key === 'natural') icon = '🏞️';
+
+        liveResults.push({ n: mainName, s: sub || 'Bengaluru', lat: coords[1], lon: coords[0], i: icon });
+      });
+    }
+
+    // Parse Nominatim Features (exact addresses & administrative layouts)
+    if (nomRes.status === 'fulfilled' && Array.isArray(nomRes.value)) {
+      nomRes.value.forEach(d => {
+        const addr = d.address || {};
+        const mainName = d.name || d.display_name.split(',')[0].trim();
+        const sub = [addr.suburb, addr.neighbourhood, addr.road, 'Bengaluru'].filter(Boolean).slice(0, 2).join(', ');
+        const icon = d.type === 'station' ? '🚇' : d.type === 'bus_stop' ? '🚏' : d.class === 'highway' ? '🛣️' : '📍';
+        liveResults.push({ n: mainName, s: sub, lat: parseFloat(d.lat), lon: parseFloat(d.lon), i: icon });
+      });
+    }
+
+    // Deduplicate and rank: In-memory curated stations/tech parks first, followed by live geo matches
     const combined = [...localMatches];
-    mapped.forEach(m => {
-      if (!combined.some(c => c.n.toLowerCase() === m.n.toLowerCase())) combined.push(m);
+    liveResults.forEach(item => {
+      const exists = combined.some(c => 
+        c.n.toLowerCase() === item.n.toLowerCase() || 
+        (Math.abs(c.lat - item.lat) < 0.001 && Math.abs(c.lon - item.lon) < 0.001)
+      );
+      if (!exists) combined.push(item);
     });
 
-    renderAC(field, combined.slice(0, 8), q);
+    renderAC(field, combined.slice(0, 10), q);
   } catch {
-    renderAC(field, localMatches, q);
+    renderAC(field, localMatches.slice(0, 8), q);
   } finally {
     document.getElementById(field === 'from' ? 'spFrom' : 'spTo').style.display = 'none';
   }
 }
-
 function renderAC(field, items, q) {
   const el = document.getElementById(field === 'from' ? 'acFrom' : 'acTo');
   if (!items.length) {
