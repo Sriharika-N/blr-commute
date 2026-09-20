@@ -1,4386 +1,1282 @@
 <!DOCTYPE html>
-
 <html lang="en">
-
 <head>
-
 <meta charset="UTF-8">
-
 <meta name="viewport" content="width=device-width,initial-scale=1,maximum-scale=1,user-scalable=no,viewport-fit=cover">
-
 <meta name="theme-color" content="#040810">
-
 <meta name="apple-mobile-web-app-capable" content="yes">
-
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
-
 <meta name="apple-mobile-web-app-title" content="CruizGo">
-
 <link rel="manifest" href="/manifest.json">
-
 <link rel="icon" type="image/png" href="/logo.png">
-
 <link rel="apple-touch-icon" href="/logo.png">
-
 <title>CruizGo — Beat the rush. Plan ahead.</title>
-
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
-
-<!-- Supabase Official JS SDK for Google & Magic Link Auth -->
-
+<!-- Supabase Official JS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-
 <style>
-
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
-
 :root{
-
   --bg:#040810;--bg2:#070d1a;--bg3:#0b1220;--surf:#0f1a2e;--sur2:#162540;
-
   --brd:rgba(255,255,255,.07);--brd2:rgba(255,255,255,.12);
-
   --neon:#00ff88;--neon2:#00cc6a;--ng:rgba(0,255,136,.1);--ng2:rgba(0,255,136,.05);
-
   --amber:#ffbf3f;--ag:rgba(255,191,63,.1);
-
   --red:#ff4060;--darkred:#b3142f;--rg:rgba(255,64,96,.1);
-
   --cyan:#00d4ff;--cg:rgba(0,212,255,.08);
-
   --txt:#edf2ff;--txt2:#7a90b0;--txt3:#3b4f6b;
-
   --mono:'DM Mono',monospace;--sans:'Inter',sans-serif;
-
 }
-
-html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-family:var(--sans);display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
-
+html,body{
+  height:100%;height:100dvh;background:var(--bg);color:var(--txt);
+  font-family:var(--sans);display:flex;flex-direction:column;
+  overflow:hidden;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)
+}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--sur2);border-radius:3px}
 
-
-
-/* FIXED HEADER */
-
-.top-stack{flex-shrink:0;z-index:900;background:rgba(4,8,16,.98);border-bottom:1px solid var(--brd);backdrop-filter:blur(25px)}
-
-.hdr{height:60px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.04)}
-
-.brand{display:flex;align-items:center;gap:11px}
-
-.bico-img{width:36px;height:36px;border-radius:9px;object-fit:cover;border:1.5px solid var(--neon);box-shadow:0 0 14px rgba(0,255,136,.35);flex-shrink:0}
-
-.bname{font-size:18px;font-weight:900;letter-spacing:-.4px;background:linear-gradient(90deg,#00ff88 0%,#00d4ff 50%,#ff4060 100%);-webkit-background-clip:text;-webkit-text-fill-color:transparent;filter:drop-shadow(0 0 8px rgba(0,255,136,.3));line-height:1.1}
-
+/* FIXED TOP HEADER */
+.top-stack{
+  flex-shrink:0;z-index:900;background:rgba(4,8,16,.98);
+  border-bottom:1px solid var(--brd);backdrop-filter:blur(25px)
+}
+.hdr{
+  height:58px;padding:0 16px;display:flex;align-items:center;
+  justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.04)
+}
+.brand{display:flex;align-items:center;gap:10px}
+.bico-img{
+  width:36px;height:36px;border-radius:9px;object-fit:cover;
+  border:1.5px solid var(--neon);box-shadow:0 0 14px rgba(0,255,136,.35);flex-shrink:0
+}
+.bname{
+  font-size:18px;font-weight:900;letter-spacing:-.4px;
+  background:linear-gradient(90deg,#00ff88 0%,#00d4ff 50%,#ff4060 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+  filter:drop-shadow(0 0 8px rgba(0,255,136,.3));line-height:1.1
+}
 .btag{font-size:10px;color:var(--txt2);font-weight:600;letter-spacing:.3px;margin-top:1px}
-
-.hdr-r{display:flex;align-items:center;gap:8px}
-
-.date-pill{font-size:11px;font-weight:700;color:var(--txt2);background:var(--bg3);border:1px solid var(--brd);padding:5px 9px;border-radius:8px;font-family:var(--mono)}
-
-.live{display:flex;align-items:center;gap:5px;padding:4px 9px;border-radius:20px;background:var(--ng2);border:1px solid rgba(0,255,136,.25);font-size:11px;font-weight:800;color:var(--neon)}
-
-.ldot{width:6px;height:6px;border-radius:50%;background:var(--neon);animation:lp 2s infinite}
-
-@keyframes lp{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,.7)}50%{box-shadow:0 0 0 5px rgba(0,255,136,0)}}
-
+.hdr-r{display:flex;align-items:center;gap:6px}
+.date-pill{font-size:11px;font-weight:700;color:var(--txt2);background:var(--bg3);border:1px solid var(--brd);padding:5px 8px;border-radius:8px;font-family:var(--mono)}
 .clk{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--txt);background:var(--bg3);border:1px solid var(--brd);padding:5px 8px;border-radius:7px}
 
-
-
 .global-tabs{display:flex;background:rgba(7,13,26,.98);overflow-x:auto}
-
-.gtab{flex:1;min-width:72px;padding:12px 3px;text-align:center;font-size:11px;font-weight:800;color:var(--txt3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all .2s;letter-spacing:.3px;white-space:nowrap}
-
+.gtab{
+  flex:1;min-width:68px;padding:12px 2px;text-align:center;
+  font-size:11px;font-weight:800;color:var(--txt3);cursor:pointer;
+  border:none;background:none;border-bottom:2px solid transparent;
+  transition:all .2s;letter-spacing:.3px;white-space:nowrap
+}
 .gtab:hover{color:var(--txt2)}
-
 .gtab.on{color:var(--neon);border-bottom-color:var(--neon)}
-
 .badge-count{background:var(--red);color:#fff;font-size:9px;padding:1px 5px;border-radius:10px;margin-left:3px;font-family:var(--mono)}
 
-
-
-/* APP LAYOUT */
-
-.app{flex:1;display:flex;overflow:hidden;position:relative}
-
-.left{width:410px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--brd);overflow-y:auto;-webkit-overflow-scrolling:touch}
-
-.right{flex:1;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg)}
-
-
-
-.sec{padding:16px 18px;border-bottom:1px solid var(--brd)}
-
-.slbl{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--neon);text-transform:uppercase;margin-bottom:10px}
-
-.urow{display:grid;grid-template-columns:1fr 1.6fr;gap:8px}
-
-.uf{padding:10px 12px;background:var(--bg3);border:1px solid var(--brd);border-radius:10px;color:var(--txt);font-size:13px;font-weight:600;outline:none}
-
-.uf:focus{border-color:var(--neon);box-shadow:0 0 0 2px rgba(0,255,136,.1)}
-
-
-
-/* MODE TOGGLE */
-
-.mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg3);padding:4px;border-radius:10px;margin-bottom:12px;border:1px solid var(--brd)}
-
-.mt-btn{padding:8px;text-align:center;border-radius:7px;border:none;background:none;color:var(--txt3);font-size:11px;font-weight:800;cursor:pointer;transition:all .2s}
-
-.mt-btn.on{background:var(--sur2);color:var(--neon);border:1px solid rgba(0,255,136,.3)}
-
-
-
-/* SEARCH BOXES & DROPDOWN */
-
-.lloc{margin-bottom:8px;position:relative}
-
-.lloc-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
-
-.lloc-lbl{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:1px;color:var(--txt3);text-transform:uppercase}
-
-.gps-quick{font-size:10px;font-weight:800;color:var(--cyan);background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.25);padding:2px 8px;border-radius:6px;cursor:pointer}
-
-.ldot2{width:7px;height:7px;border-radius:50%}
-
-.ldot2.s{background:var(--neon);box-shadow:0 0 8px rgba(0,255,136,.7)}
-
-.ldot2.e{background:var(--amber);box-shadow:0 0 8px rgba(255,191,63,.7)}
-
-.lwrap{position:relative}
-
-.linp{width:100%;padding:12px 38px 12px 14px;background:var(--bg3);border:1px solid var(--brd);border-radius:12px;color:var(--txt);font-size:14px;font-weight:600;outline:none;transition:all .2s}
-
-.linp:focus{border-color:rgba(0,255,136,.4);box-shadow:0 0 0 3px rgba(0,255,136,.08)}
-
-.linp.end:focus{border-color:rgba(255,191,63,.4);box-shadow:0 0 0 3px rgba(255,191,63,.08)}
-
-.lbtn{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:none;border:none;color:var(--txt3);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
-
-.lspin{position:absolute;right:12px;top:50%;width:15px;height:15px;border:2px solid var(--brd);border-top-color:var(--neon);border-radius:50%;animation:sp .6s linear infinite;display:none;margin-top:-7.5px}
-
-@keyframes sp{to{transform:rotate(360deg)}}
-
-
-
-.acd{
-
-  display:none;position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:99999;
-
-  background:#091322;border:1.5px solid var(--neon);border-radius:14px;overflow:hidden;
-
-  max-height:300px;overflow-y:auto;box-shadow:0 24px 70px rgba(0,0,0,.95), 0 0 0 1px rgba(0,255,136,.2);
-
-}
-
-.acd.open{display:block}
-
-.acd-header{padding:7px 12px 5px;font-size:9px;font-weight:800;letter-spacing:1px;color:var(--neon);text-transform:uppercase;background:rgba(0,0,0,.4);border-bottom:1px solid rgba(255,255,255,.05)}
-
-.aci{display:flex;align-items:flex-start;gap:11px;padding:11px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04);transition:background .15s}
-
-.aci:last-child{border-bottom:none}
-
-.aci:hover{background:rgba(0,255,136,.12)}
-
-.aci-ico{width:32px;height:32px;border-radius:8px;background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:15px;flex-shrink:0}
-
-.aci-n{font-size:13px;font-weight:700;color:#fff;line-height:1.3}
-
-.aci-n mark{background:none;color:var(--neon);font-weight:900}
-
-.aci-s{font-size:11px;color:var(--txt2);margin-top:2px;line-height:1.3}
-
-
-
-.swaprow{display:flex;align-items:center;gap:10px;margin:4px 0}
-
-.swapline{flex:1;height:1px;background:var(--brd)}
-
-.swapbtn{width:30px;height:30px;border-radius:50%;background:var(--bg3);border:1px solid var(--brd);color:var(--txt2);font-size:14px;display:flex;align-items:center;justify-content:center;cursor:pointer}
-
-.swapbtn:hover{background:var(--ng2);border-color:var(--neon);color:var(--neon);transform:rotate(180deg)}
-
-
-
-.time-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
-
-.tlbl{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--txt3);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:5px}
-
-.treq{width:5px;height:5px;border-radius:50%;background:var(--neon)}
-
-.tinp{width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--brd);border-radius:10px;color:var(--txt);font-size:14px;font-weight:700;font-family:var(--mono);outline:none;color-scheme:dark}
-
-
-
-.temporal-err-box{display:none;background:rgba(255,64,96,.1);border:1px solid var(--red);border-radius:10px;padding:10px 12px;margin-top:10px;font-size:12px;color:#ff99aa;line-height:1.5}
-
-
-
-.vrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-
-.vcard{padding:12px 10px;border-radius:12px;background:var(--bg3);border:1px solid var(--brd);cursor:pointer;text-align:center;transition:all .2s}
-
-.vcard:hover{border-color:var(--brd2);background:var(--surf)}
-
-.vcard.on{background:var(--ng2);border-color:var(--neon);box-shadow:inset 0 0 20px rgba(0,255,136,.06)}
-
-.vico{font-size:24px;display:block;margin-bottom:3px}
-
-.vnm{font-size:13px;font-weight:800;color:var(--txt2)}
-
-.vcard.on .vnm{color:var(--neon)}
-
-
-
-.scan{width:100%;padding:15px 20px;margin-top:14px;background:var(--neon);border:none;border-radius:12px;color:#040810;font-size:15px;font-weight:900;cursor:pointer;transition:all .2s}
-
-.scan:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(0,255,136,.35)}
-
-.altbtn{width:100%;padding:11px;margin-top:8px;background:none;border:1px solid var(--brd);border-radius:10px;color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
-
-.altbtn:hover{border-color:var(--neon);color:var(--neon);background:var(--ng2)}
-
-
-
-/* RIGHT PANELS */
-
-.rp{display:none;flex:1;overflow-y:auto;flex-direction:column;padding:20px;gap:14px}
-
+/* APP MAIN CONTAINER */
+.app{flex:1;display:flex;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative}
+
+/* RIGHT & MAIN PANELS */
+.rp{display:none;width:100%;flex-direction:column;padding:16px;gap:14px}
 .rp.on{display:flex}
 
-
-
-.emp{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:50px 30px;gap:12px;text-align:center}
-
-.emp-i{font-size:46px;opacity:.2}
-
-.emp-h{font-size:18px;font-weight:900;color:var(--txt2)}
-
-.emp-p{font-size:13px;color:var(--txt3);line-height:1.65;max-width:280px}
-
-.emp-cta{padding:9px 18px;border-radius:10px;background:var(--ng2);border:1px solid rgba(0,255,136,.15);font-size:12px;font-weight:800;color:var(--neon)}
-
-
-
-.wx{display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:12px;background:var(--bg3);border:1px solid var(--brd)}
-
-.wx-i{font-size:22px}
-
-.wx-d{font-size:13px;font-weight:700;flex:1}
-
-.wx-imp{font-size:11px;margin-top:2px}
-
-.wx-imp.ok{color:var(--neon)}.wx-imp.rain{color:var(--red)}
-
-
-
-.hero{padding:22px 20px;background:linear-gradient(145deg,#0a1525,#0f1e35);border:1px solid rgba(0,255,136,.18);border-radius:18px;position:relative;overflow:hidden}
-
-.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon),#00d4ff,var(--neon))}
-
-.hero-eye{font-size:10px;font-weight:800;letter-spacing:2px;color:var(--neon);text-transform:uppercase;margin-bottom:6px}
-
-.spill{display:inline-flex;align-items:center;gap:6px;padding:4px 12px;border-radius:20px;font-size:11px;font-weight:800;margin-bottom:8px}
-
-.spill.go{background:rgba(0,255,136,.1);color:var(--neon);border:1px solid rgba(0,255,136,.25)}
-
-.htime{font-family:var(--mono);font-size:62px;font-weight:500;line-height:1;letter-spacing:-2px;display:flex;align-items:flex-end;gap:6px;margin-bottom:4px}
-
-.htime-main{color:var(--neon);text-shadow:0 0 35px rgba(0,255,136,.4)}
-
-.htime-ap{font-size:20px;color:var(--txt3);margin-bottom:8px}
-
-.hreason{font-size:13px;color:var(--txt2);line-height:1.6;margin-bottom:18px}
-
-
-
-.hgrid-2col{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.05);border-radius:12px;overflow:hidden}
-
-.hcell{background:rgba(4,8,16,.85);padding:14px 10px;text-align:center}
-
-.hcv{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--txt)}
-
-.hcl{font-size:10px;color:var(--txt3);margin-top:4px;font-weight:700;letter-spacing:.5px}
-
-
-
-.safe-speed-card{background:linear-gradient(145deg,#091a2a,#0f243b);border:1px solid rgba(0,212,255,.25);border-radius:16px;padding:18px}
-
-.ssc-tag{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px}
-
-.ssc-val{font-family:var(--mono);font-size:22px;font-weight:700;color:#fff;margin-bottom:4px}
-
-.ssc-lane{font-size:13px;color:var(--txt);line-height:1.6;margin-top:6px;padding:10px 12px;background:rgba(0,0,0,.3);border-radius:10px;border-left:3px solid var(--cyan)}
-
-
-
-/* CORRIDORS & RIBBON */
-
-.linear-ribbon-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:18px;margin-bottom:14px}
-
-.lrc-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
-
-.lrc-title{font-size:14px;font-weight:900;color:var(--neon)}
-
-.sync-time-tag{font-size:10px;color:var(--txt2);font-family:var(--mono);margin-bottom:12px}
-
-.ribbon-track{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:10px 0 6px;gap:2px}
-
-.r-seg{flex:1;height:100%;transition:transform .2s;cursor:pointer}
-
-.r-seg:hover{transform:scaleY(1.3)}
-
-.r-clear{background:var(--neon)}
-
-.r-warn{background:var(--amber)}
-
-.r-heavy{background:var(--red)}
-
-.r-jam{background:var(--darkred)}
-
-.ribbon-legend{display:flex;justify-content:space-between;font-size:10px;color:var(--txt3);font-family:var(--mono);margin-top:4px}
-
-
-
-.choke-table-hdr{display:flex;justify-content:space-between;padding:0 4px 6px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:8px}
-
-.cth-label{font-size:9px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase}
-
-
-
-.inapp-map-box{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;overflow:hidden;margin-top:4px}
-
-.inapp-map-header{padding:10px 14px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
-
-.inapp-map-title{font-size:11px;font-weight:800;color:var(--neon);letter-spacing:1px;text-transform:uppercase}
-
-.inapp-iframe{width:100%;height:220px;border:none;background:#050a14}
-
-
-
-.map-canvas-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:14px}
-
-.compass-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-
-.compass-dial{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--cyan);font-family:var(--mono);background:var(--sur2);padding:4px 10px;border-radius:20px;border:1px solid rgba(0,212,255,.3)}
-
-.circ-svg{width:100%;height:320px;border-radius:12px;background:#050a14;border:1px solid rgba(255,255,255,.05)}
-
-.map-node{cursor:pointer;transition:transform .2s}
-
-.map-node:hover{transform:scale(1.05)}
-
-
-
-.corrcard{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:15px;scroll-margin-top:20px}
-
-.corr-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-
-.corr-nm{font-size:14px;font-weight:800}
-
-.corr-rows{display:flex;flex-direction:column;gap:7px}
-
-.crow2{display:flex;align-items:center;gap:8px}
-
-.cdot3{width:7px;height:7px;border-radius:50%;flex-shrink:0}
-
-.cdot3.danger{background:var(--red)}
-
-.cdot3.warn{background:var(--amber)}
-
-.cdot3.go{background:var(--neon)}
-
-.cr-lb{font-size:12px;color:var(--txt2);flex:1}
-
-.cr-dl{font-family:var(--mono);font-size:11px;font-weight:600}
-
-
-
-/* CONFIDENCE BOX */
-
-.confidence-box{background:linear-gradient(145deg,#0a1525,#0d1a2d);border:1px solid rgba(0,255,136,.25);border-radius:16px;padding:18px;margin-top:4px}
-
-.cb-hdr{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--neon);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
-
-.cb-body{font-size:13px;color:var(--txt2);line-height:1.6}
-
-.cb-body strong{color:#fff}
-
-
-
-/* VOLUNTARY BANNER */
-
-.arrival-voluntary-banner{display:none;align-items:center;justify-content:space-between;background:linear-gradient(90deg,#091a2e,#0d2440);border:1px solid var(--cyan);border-radius:12px;padding:12px 16px;margin-top:10px}
-
-.avb-txt{font-size:12px;font-weight:700;color:#fff}
-
-.avb-btns{display:flex;gap:8px}
-
-.avb-btn-log{padding:6px 12px;border-radius:7px;background:var(--neon);border:none;color:#040810;font-size:11px;font-weight:900;cursor:pointer}
-
-.avb-btn-skip{padding:6px 10px;border-radius:7px;background:none;border:1px solid var(--brd);color:var(--txt3);font-size:11px;font-weight:700;cursor:pointer}
-
-
-
-/* PERMANENT INLINE FEEDBACK CARD WITH SAVE BUTTON */
-
-.feedback-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:18px;margin-top:4px}
-
-.fbc-title{font-size:14px;font-weight:800;color:#fff;margin-bottom:4px}
-
-.fbc-sub{font-size:12px;color:var(--txt2);margin-bottom:12px;line-height:1.5}
-
-.fbc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
-
-.fbc-btn{padding:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt);font-size:12px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
-
-.fbc-btn.sel-good{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
-
-.fbc-btn.sel-late{background:var(--ag);border-color:var(--amber);color:var(--amber)}
-
-.fbc-notes{width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-size:12px;outline:none;margin-bottom:10px}
-
-.fbc-save-btn{width:100%;padding:11px;background:var(--surf);border:1.5px solid var(--neon);color:var(--neon);border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
-
-.fbc-save-btn:hover{background:var(--neon);color:#040810}
-
-
-
-/* WEEK TIMETABLE */
-
-.dstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px}
-
-.dchip{aspect-ratio:1;border-radius:10px;background:var(--bg3);border:1px solid var(--brd);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
-
-.dchip.on{background:var(--ng2);border-color:rgba(0,255,136,.4)}
-
-.dchip.today{border-color:var(--neon);box-shadow:0 0 12px rgba(0,255,136,.25)}
-
-.dcn{font-size:9px;font-weight:800;color:var(--txt3);text-transform:uppercase}
-
-.dcd{font-family:var(--mono);font-size:15px;color:var(--txt);margin-top:1px}
-
-.dcs{font-size:10px;margin-top:1px}
-
-.dchip.on .dcn,.dchip.on .dcd{color:var(--neon)}
-
-
-
-.daycard{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;overflow:hidden;margin-bottom:10px}
-
-.daycard.open{border-color:rgba(0,255,136,.3)}
-
-.dc-hdr{padding:13px 16px;display:flex;align-items:center;gap:10px;cursor:pointer;background:rgba(255,255,255,.02)}
-
-.dctit{font-size:14px;font-weight:900;flex:1}
-
-.dc-body{display:none;padding:0 16px 16px}
-
-.daycard.open .dc-body{display:block}
-
-
-
-.jf{margin-top:12px;display:flex;flex-direction:column;gap:10px}
-
-.jf2{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-
-.jflbl{font-size:9px;font-weight:700;letter-spacing:1px;color:var(--txt3);text-transform:uppercase;margin-bottom:4px}
-
-.jfinp{width:100%;padding:9px 11px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-size:12px;font-weight:600;outline:none}
-
-.jftime{width:100%;padding:9px 11px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--neon);font-size:13px;font-weight:700;font-family:var(--mono);outline:none;color-scheme:dark}
-
-.calcbtn{width:100%;padding:11px;background:var(--neon);border:none;border-radius:8px;color:#040810;font-size:13px;font-weight:900;cursor:pointer}
-
-.save-day-bar{display:flex;align-items:center;justify-content:space-between;margin-top:10px;padding-top:8px;border-top:1px solid var(--brd)}
-
-.savedaybtn{padding:7px 14px;background:var(--surf);border:1px solid var(--neon);color:var(--neon);border-radius:6px;font-size:11px;font-weight:800;cursor:pointer}
-
-.savedaybtn:hover{background:var(--neon);color:#040810}
-
-.unsavebtn{padding:7px 14px;background:none;border:1px solid rgba(255,64,96,.4);color:var(--red);border-radius:6px;font-size:11px;font-weight:800;cursor:pointer}
-
-.unsavebtn:hover{background:rgba(255,64,96,.15)}
-
-
-
-.dr{margin-top:10px;padding:14px;border-radius:12px;background:rgba(0,255,136,.04);border:1px solid rgba(0,255,136,.18);display:none}
-
-.dr.show{display:block}
-
-.drbig{font-family:var(--mono);font-size:36px;color:var(--neon);line-height:1.1;font-weight:700}
-
-.drret{font-family:var(--mono);font-size:24px;color:var(--amber);margin-top:2px;font-weight:700}
-
-
-
-/* ALERTS TAB */
-
-.alerts-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
-
-.alert-card{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all .2s ease}
-
-.alert-card:hover{border-color:var(--neon);background:rgba(0,255,136,.04);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.5)}
-
-.alert-time{font-family:var(--mono);font-size:11px;color:var(--neon);margin-bottom:4px}
-
-.alert-title{font-size:13px;font-weight:800;color:#fff}
-
-.alert-body{font-size:12px;color:var(--txt2);margin-top:2px;line-height:1.5}
-
-.alert-conf{display:inline-block;font-size:10px;font-family:var(--mono);color:var(--cyan);background:rgba(0,212,255,.08);padding:2px 8px;border-radius:4px;margin-top:6px}
-
-
-
-/* SAVED TIME */
-
-.st-hero{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-
-.st-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:all .2s}
-
-.st-card:hover{border-color:var(--neon);background:rgba(0,255,136,.03);transform:translateY(-2px)}
-
-.st-val{font-family:var(--mono);font-size:26px;font-weight:800;color:var(--neon)}
-
-.st-lbl{font-size:10px;font-weight:700;color:var(--txt3);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
-
-.st-analysis{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;font-size:13px;color:var(--txt2);line-height:1.6}
-
-
-
-/* MODAL OVERLAY (CHECK-IN) */
-
-.modal-overlay{display:none;position:fixed;inset:0;background:rgba(4,8,16,.85);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:18px}
-
-.modal-overlay.show{display:flex}
-
-.modal-card{background:#0b1424;border:1.5px solid var(--neon);border-radius:18px;width:100%;max-width:440px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.9);max-height:92vh;overflow-y:auto}
-
-.modal-title{font-size:17px;font-weight:900;color:#fff;margin-bottom:6px}
-
-.modal-sub{font-size:13px;color:var(--txt2);line-height:1.55;margin-bottom:14px}
-
-.modal-why{padding:12px 14px;background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.25);border-radius:10px;font-size:12px;color:var(--txt);line-height:1.55;margin-bottom:16px}
-
-.q-block{margin-bottom:14px}
-
-.q-lbl{font-size:12px;font-weight:700;color:var(--txt);margin-bottom:6px}
-
-.q-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-
-.q-btn{padding:9px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer;transition:all .15s}
-
-.q-btn.sel{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
-
-
-
-/* AUTH SIGN-IN MODAL (2-EXPERIENCE TRIAL GATE) */
-
-.auth-modal-card{background:#0a1220;border:1.5px solid var(--neon);border-radius:20px;width:100%;max-width:400px;padding:28px 24px;box-shadow:0 25px 80px rgba(0,0,0,.95);text-align:center}
-
-.auth-logo-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px}
-
-.auth-title{font-size:19px;font-weight:900;color:#fff;margin-bottom:6px}
-
-.auth-sub{font-size:12px;color:var(--txt2);line-height:1.6;margin-bottom:20px}
-
-.oauth-btn{width:100%;padding:13px;border-radius:10px;background:#ffffff;border:none;color:#1a1a1a;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;margin-bottom:14px;box-shadow:0 4px 15px rgba(255,255,255,.1)}
-
-.auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--txt3);font-size:11px;font-weight:700}
-
-.auth-divline{flex:1;height:1px;background:var(--brd)}
-
-.email-auth-box{display:flex;flex-direction:column;gap:10px}
-
-
-
-.toast{position:fixed;bottom:24px;right:24px;z-index:99999;padding:12px 18px;border-radius:10px;background:#111f33;border:1px solid var(--neon);font-size:12px;font-weight:700;color:var(--txt);box-shadow:0 16px 40px rgba(0,0,0,.8);transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.3,.64,1);max-width:320px}
-
-.toast.up{transform:translateY(0);opacity:1}
-
-.toast.err{border-color:var(--red)}
-
-
-
-@media(max-width:768px){
-
-  .app{flex-direction:column}
-
-  .left{width:100%;max-height:48vh;border-right:none;border-bottom:1px solid var(--brd)}
-
-  .right{flex:1}
-
-  .htime{font-size:52px}
-
+/* TODAY TAB 2-COLUMN ON DESKTOP, STACK ON MOBILE */
+.today-layout{display:flex;width:100%;gap:16px}
+.today-controls{width:380px;flex-shrink:0}
+.today-results{flex:1;display:flex;flex-direction:column;gap:14px}
+
+@media(max-width:860px){
+  .today-layout{flex-direction:column}
+  .today-controls{width:100%}
 }
 
+/* FORM CONTROLS */
+.sec{background:var(--bg2);border:1px solid var(--brd);border-radius:14px;padding:14px;margin-bottom:12px}
+.slbl{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--neon);text-transform:uppercase;margin-bottom:10px}
+.urow{display:grid;grid-template-columns:1fr 1.6fr;gap:8px}
+.uf{padding:10px 12px;background:var(--bg3);border:1px solid var(--brd);border-radius:10px;color:var(--txt);font-size:13px;font-weight:600;outline:none}
+.uf:focus{border-color:var(--neon);box-shadow:0 0 0 2px rgba(0,255,136,.1)}
+
+.mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg3);padding:4px;border-radius:10px;margin-bottom:12px;border:1px solid var(--brd)}
+.mt-btn{padding:8px;text-align:center;border-radius:7px;border:none;background:none;color:var(--txt3);font-size:11px;font-weight:800;cursor:pointer;transition:all .2s}
+.mt-btn.on{background:var(--sur2);color:var(--neon);border:1px solid rgba(0,255,136,.3)}
+
+.lloc{margin-bottom:8px;position:relative}
+.lloc-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.lloc-lbl{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:1px;color:var(--txt3);text-transform:uppercase}
+.gps-quick{font-size:10px;font-weight:800;color:var(--cyan);background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.25);padding:2px 8px;border-radius:6px;cursor:pointer}
+.ldot2{width:7px;height:7px;border-radius:50%}
+.ldot2.s{background:var(--neon);box-shadow:0 0 8px rgba(0,255,136,.7)}
+.ldot2.e{background:var(--amber);box-shadow:0 0 8px rgba(255,191,63,.7)}
+.lwrap{position:relative}
+.linp{width:100%;padding:12px 38px 12px 14px;background:var(--bg3);border:1px solid var(--brd);border-radius:12px;color:var(--txt);font-size:14px;font-weight:600;outline:none;transition:all .2s}
+.linp:focus{border-color:rgba(0,255,136,.4);box-shadow:0 0 0 3px rgba(0,255,136,.08)}
+.linp.end:focus{border-color:rgba(255,191,63,.4);box-shadow:0 0 0 3px rgba(255,191,63,.08)}
+.lbtn{position:absolute;right:10px;top:50%;transform:translateY(-50%);width:22px;height:22px;border-radius:50%;background:none;border:none;color:var(--txt3);font-size:12px;cursor:pointer;display:flex;align-items:center;justify-content:center}
+.lspin{position:absolute;right:12px;top:50%;width:15px;height:15px;border:2px solid var(--brd);border-top-color:var(--neon);border-radius:50%;animation:sp .6s linear infinite;display:none;margin-top:-7.5px}
+@keyframes sp{to{transform:rotate(360deg)}}
+
+.acd{
+  display:none;position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:99999;
+  background:#091322;border:1.5px solid var(--neon);border-radius:14px;overflow:hidden;
+  max-height:280px;overflow-y:auto;box-shadow:0 24px 70px rgba(0,0,0,.95)
+}
+.acd.open{display:block}
+.acd-header{padding:7px 12px 5px;font-size:9px;font-weight:800;letter-spacing:1px;color:var(--neon);text-transform:uppercase;background:rgba(0,0,0,.4);border-bottom:1px solid rgba(255,255,255,.05)}
+.aci{display:flex;align-items:flex-start;gap:11px;padding:11px 14px;cursor:pointer;border-bottom:1px solid rgba(255,255,255,.04)}
+.aci:hover{background:rgba(0,255,136,.12)}
+.aci-ico{width:30px;height:30px;border-radius:8px;background:var(--surf);display:flex;align-items:center;justify-content:center;font-size:14px;flex-shrink:0}
+.aci-n{font-size:13px;font-weight:700;color:#fff;line-height:1.3}
+.aci-n mark{background:none;color:var(--neon);font-weight:900}
+.aci-s{font-size:11px;color:var(--txt2);margin-top:2px}
+
+.swaprow{display:flex;align-items:center;gap:10px;margin:4px 0}
+.swapline{flex:1;height:1px;background:var(--brd)}
+.swapbtn{width:28px;height:28px;border-radius:50%;background:var(--bg3);border:1px solid var(--brd);color:var(--txt2);font-size:13px;display:flex;align-items:center;justify-content:center;cursor:pointer}
+
+.time-row{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:8px}
+.tlbl{font-size:10px;font-weight:700;letter-spacing:1px;color:var(--txt3);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:5px}
+.treq{width:5px;height:5px;border-radius:50%;background:var(--neon)}
+.tinp{width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--brd);border-radius:10px;color:var(--txt);font-size:14px;font-weight:700;font-family:var(--mono);outline:none;color-scheme:dark}
+.temporal-err-box{display:none;background:rgba(255,64,96,.1);border:1px solid var(--red);border-radius:10px;padding:10px 12px;margin-top:10px;font-size:12px;color:#ff99aa;line-height:1.5}
+
+.vrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.vcard{padding:10px;border-radius:12px;background:var(--bg3);border:1px solid var(--brd);cursor:pointer;text-align:center;transition:all .2s}
+.vcard.on{background:var(--ng2);border-color:var(--neon)}
+.vico{font-size:22px;display:block;margin-bottom:2px}
+.vnm{font-size:12px;font-weight:800;color:var(--txt2)}
+.vcard.on .vnm{color:var(--neon)}
+
+.scan{width:100%;padding:14px;margin-top:10px;background:var(--neon);border:none;border-radius:12px;color:#040810;font-size:14px;font-weight:900;cursor:pointer;transition:all .2s}
+.scan:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(0,255,136,.35)}
+.altbtn{width:100%;padding:10px;margin-top:8px;background:none;border:1px solid var(--brd);border-radius:10px;color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
+
+/* HERO OUTPUT & CARDS */
+.hero{padding:20px;background:linear-gradient(145deg,#0a1525,#0f1e35);border:1px solid rgba(0,255,136,.18);border-radius:16px;position:relative;overflow:hidden}
+.hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon),#00d4ff,var(--neon))}
+.hero-eye{font-size:10px;font-weight:800;letter-spacing:2px;color:var(--neon);text-transform:uppercase;margin-bottom:6px}
+.spill{display:inline-flex;align-items:center;gap:6px;padding:4px 10px;border-radius:20px;font-size:11px;font-weight:800;margin-bottom:8px}
+.spill.go{background:rgba(0,255,136,.1);color:var(--neon);border:1px solid rgba(0,255,136,.25)}
+.htime{font-family:var(--mono);font-size:56px;font-weight:500;line-height:1;letter-spacing:-2px;display:flex;align-items:flex-end;gap:6px;margin-bottom:4px}
+.htime-main{color:var(--neon);text-shadow:0 0 35px rgba(0,255,136,.4)}
+.htime-ap{font-size:18px;color:var(--txt3);margin-bottom:6px}
+.hreason{font-size:13px;color:var(--txt2);line-height:1.6;margin-bottom:16px}
+
+.hgrid-2col{display:grid;grid-template-columns:1fr 1fr;gap:1px;background:rgba(255,255,255,.05);border-radius:12px;overflow:hidden}
+.hcell{background:rgba(4,8,16,.85);padding:12px 8px;text-align:center}
+.hcv{font-family:var(--mono);font-size:20px;font-weight:600;color:var(--txt)}
+.hcl{font-size:9px;color:var(--txt3);margin-top:4px;font-weight:700;letter-spacing:.5px}
+
+.safe-speed-card{background:linear-gradient(145deg,#091a2a,#0f243b);border:1px solid rgba(0,212,255,.25);border-radius:14px;padding:16px}
+.ssc-tag{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px}
+.ssc-val{font-family:var(--mono);font-size:20px;font-weight:700;color:#fff;margin-bottom:4px}
+.ssc-lane{font-size:12px;color:var(--txt);line-height:1.6;margin-top:6px;padding:10px 12px;background:rgba(0,0,0,.3);border-radius:8px;border-left:3px solid var(--cyan)}
+
+.inapp-map-box{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;overflow:hidden}
+.inapp-map-header{padding:8px 12px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
+.inapp-iframe{width:100%;height:200px;border:none;background:#050a14}
+
+/* CORRIDORS & RIBBON */
+.linear-ribbon-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px}
+.ribbon-track{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:10px 0 6px;gap:2px}
+.r-seg{flex:1;height:100%;cursor:pointer}
+.r-clear{background:var(--neon)}.r-warn{background:var(--amber)}.r-heavy{background:var(--red)}.r-jam{background:var(--darkred)}
+
+.choke-table-hdr{display:flex;justify-content:space-between;padding:0 4px 6px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:8px}
+.cth-label{font-size:9px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase}
+.corrcard{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:14px;margin-bottom:12px}
+.corr-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.crow2{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.cdot3{width:7px;height:7px;border-radius:50%;flex-shrink:0}
+.cdot3.danger{background:var(--red)}.cdot3.warn{background:var(--amber)}.cdot3.go{background:var(--neon)}
+.cr-lb{font-size:12px;color:var(--txt2);flex:1}
+.cr-dl{font-family:var(--mono);font-size:11px;font-weight:600}
+
+/* ALERTS TAB */
+.alerts-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.alert-card{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all .2s ease}
+.alert-card:hover{border-color:var(--neon);background:rgba(0,255,136,.04);transform:translateY(-2px)}
+
+/* SAVED TIME TAB: WEEKLY SUMMARIES & AUTH GATE */
+.st-hero{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.st-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center;cursor:pointer}
+.st-val{font-family:var(--mono);font-size:24px;font-weight:800;color:var(--neon)}
+.st-lbl{font-size:10px;font-weight:700;color:var(--txt3);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+
+.weekly-summary-box{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;margin-top:14px}
+.wsb-hdr{display:flex;justify-content:space-between;align-items:center;margin-bottom:12px;border-bottom:1px solid rgba(255,255,255,.05);padding-bottom:8px}
+.wsb-title{font-size:13px;font-weight:800;color:var(--neon)}
+.wsb-row{display:flex;justify-content:space-between;align-items:center;padding:8px 0;border-bottom:1px solid rgba(255,255,255,.03);font-size:12px}
+.wsb-date{font-family:var(--mono);color:var(--txt2)}
+.wsb-saved{color:var(--neon);font-weight:800;font-family:var(--mono)}
+
+/* AUTH CONVERSION CARD */
+.auth-gate-box{background:linear-gradient(145deg,#0b1828,#0e2238);border:1.5px solid var(--neon);border-radius:16px;padding:24px;text-align:center}
+.ag-title{font-size:18px;font-weight:900;color:#fff;margin-bottom:6px}
+.ag-sub{font-size:12px;color:var(--txt2);line-height:1.6;margin-bottom:18px}
+.auth-tabs-row{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg);padding:4px;border-radius:10px;margin-bottom:16px}
+.at-btn{padding:8px;border-radius:7px;border:none;background:none;color:var(--txt3);font-size:12px;font-weight:800;cursor:pointer}
+.at-btn.on{background:var(--surf);color:var(--neon)}
+
+.oauth-btn{width:100%;padding:12px;border-radius:10px;background:#ffffff;border:none;color:#1a1a1a;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;margin-bottom:12px}
+
+/* INLINE FEEDBACK CARD */
+.feedback-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-top:10px}
+.fbc-title{font-size:13px;font-weight:800;color:#fff;margin-bottom:4px}
+.fbc-sub{font-size:12px;color:var(--txt2);margin-bottom:10px;line-height:1.5}
+.fbc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:8px}
+.fbc-btn{padding:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt);font-size:12px;font-weight:700;cursor:pointer;text-align:center}
+.fbc-btn.sel-good{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
+.fbc-btn.sel-late{background:var(--ag);border-color:var(--amber);color:var(--amber)}
+.fbc-notes{width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-size:12px;outline:none;margin-bottom:10px}
+
+/* MODAL OVERLAY (CHECK-IN) */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(4,8,16,.85);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:16px}
+.modal-overlay.show{display:flex}
+.modal-card{background:#0b1424;border:1.5px solid var(--neon);border-radius:18px;width:100%;max-width:440px;padding:22px;max-height:90vh;overflow-y:auto}
+.modal-title{font-size:17px;font-weight:900;color:#fff;margin-bottom:4px}
+.modal-sub{font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:12px}
+.modal-why{padding:12px 14px;background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.25);border-radius:10px;font-size:12px;color:var(--txt);line-height:1.55;margin-bottom:14px}
+.q-block{margin-bottom:12px}
+.q-lbl{font-size:12px;font-weight:700;color:var(--txt);margin-bottom:6px}
+.q-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.q-btn{padding:9px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer}
+.q-btn.sel{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
+
+.toast{position:fixed;bottom:24px;right:24px;z-index:99999;padding:12px 18px;border-radius:10px;background:#111f33;border:1px solid var(--neon);font-size:12px;font-weight:700;color:var(--txt);box-shadow:0 16px 40px rgba(0,0,0,.8);transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.3,.64,1);max-width:320px}
+.toast.up{transform:translateY(0);opacity:1}
+.toast.err{border-color:var(--red)}
 </style>
-
 </head>
-
 <body>
 
-
-
-<!-- STICKY HEADER -->
-
+<!-- FIXED STACK -->
 <div class="top-stack">
-
   <header class="hdr">
-
     <div class="brand">
-
       <img src="/logo.png" alt="CruizGo Logo" class="bico-img" />
-
       <div>
-
         <div class="bname">CruizGo</div>
-
         <div class="btag">Beat the rush. Plan ahead.</div>
-
       </div>
-
     </div>
-
     <div class="hdr-r">
-
       <div class="date-pill" id="datePill">Sun, 20 Sep 2026</div>
-
-      <div class="live"><div class="ldot"></div>Live</div>
-
       <div class="clk" id="clk">00:00:00</div>
-
     </div>
-
   </header>
 
-
-
   <nav class="global-tabs">
-
     <button class="gtab on" id="tabToday" onclick="switchTab('today',this)">Today</button>
-
     <button class="gtab" id="tabWeek" onclick="switchTab('week',this)">Week</button>
-
     <button class="gtab" id="tabCorridors" onclick="switchTab('corridors',this)">Corridors</button>
-
     <button class="gtab" id="tabAlerts" onclick="switchTab('alerts',this)">Alerts <span class="badge-count" id="badgeAlerts">3</span></button>
-
     <button class="gtab" id="tabSavedTime" onclick="switchTab('savedTime',this)">Saved Time</button>
-
     <button class="gtab" id="tabHistory" onclick="switchTab('history',this)">History</button>
-
   </nav>
-
 </div>
-
-
 
 <div class="app">
 
+  <!-- TODAY TAB: CONTROLS & RESULTS SCOPED TOGETHER -->
+  <div class="rp on" id="pToday">
+    <div class="today-layout">
 
+      <!-- LEFT COLUMN: CONTROLS (ONLY PRESENT IN TODAY TAB) -->
+      <div class="today-controls">
+        <div class="sec">
+          <div class="slbl">Commuter Profile</div>
+          <div class="urow">
+            <input class="uf" id="uName" placeholder="Your name" oninput="persistProfile()" />
+            <input class="uf" id="uEmail" type="email" placeholder="Email (saved for daily digest)" oninput="persistProfile()" />
+          </div>
+        </div>
 
-  <!-- LEFT CONTROLS -->
+        <div class="sec">
+          <div class="slbl">Journey Configuration</div>
+          <div class="mode-toggle">
+            <button class="mt-btn on" id="btnModePlan" onclick="setTripMode('plan')">Plan by Target Arrival</button>
+            <button class="mt-btn" id="btnModeNow" onclick="setTripMode('now')">⚡ Leave Right Now</button>
+          </div>
 
-  <div class="left">
+          <div class="lloc">
+            <div class="lloc-hdr">
+              <div class="lloc-lbl"><div class="ldot2 s"></div>Start Point</div>
+              <button class="gps-quick" onclick="acquireLiveGPS()">📍 Live GPS</button>
+            </div>
+            <div class="lwrap">
+              <input class="linp" id="inpFrom" placeholder="Street, layout, metro, office…" autocomplete="off"
+                oninput="onSearch('from')" onfocus="onSearch('from')" onkeydown="onKey(event,'from')" />
+              <button class="lbtn" onclick="clearLoc('from')">✕</button>
+              <div class="lspin" id="spFrom"></div>
+              <div class="acd" id="acFrom"></div>
+            </div>
+          </div>
 
+          <div class="swaprow">
+            <div class="swapline"></div>
+            <button class="swapbtn" onclick="doSwap()">⇅</button>
+            <div class="swapline"></div>
+          </div>
 
+          <div class="lloc">
+            <div class="lloc-lbl"><div class="ldot2 e"></div>Destination</div>
+            <div class="lwrap">
+              <input class="linp end" id="inpTo" placeholder="Tech park, office, hospital, destination…" autocomplete="off"
+                oninput="onSearch('to')" onfocus="onSearch('to')" onkeydown="onKey(event,'to')" />
+              <button class="lbtn" onclick="clearLoc('to')">✕</button>
+              <div class="lspin" id="spTo"></div>
+              <div class="acd" id="acTo"></div>
+            </div>
+          </div>
 
-    <div class="sec">
+          <div class="time-row" id="timeRowPlan">
+            <div>
+              <div class="tlbl"><div class="treq"></div>Arrive by</div>
+              <input class="tinp" type="time" id="tArrive" value="09:15" onchange="validateSelectedTimes()" />
+            </div>
+            <div>
+              <div class="tlbl"><div class="treq"></div>Return by</div>
+              <input class="tinp" type="time" id="tReturn" value="18:30" onchange="validateSelectedTimes()" />
+            </div>
+          </div>
 
-      <div class="slbl">Commuter Details</div>
+          <div class="temporal-err-box" id="temporalErrBox">
+            ⚠️ Target arrival time has passed. Select a future time or choose "Leave Right Now".
+          </div>
+        </div>
 
-      <div class="urow">
+        <div class="sec">
+          <div class="slbl">Mode of Travel</div>
+          <div class="vrow">
+            <div class="vcard" id="vBike" onclick="setV('bike')">
+              <span class="vico">🏍️</span>
+              <div class="vnm">Bike</div>
+            </div>
+            <div class="vcard on" id="vCar" onclick="setV('car')">
+              <span class="vico">🏎️</span>
+              <div class="vnm">Car</div>
+            </div>
+          </div>
+        </div>
 
-        <input class="uf" id="uName" placeholder="Your name" oninput="persistProfile()" />
-
-        <input class="uf" id="uEmail" type="email" placeholder="Email (saved for alerts)" oninput="persistProfile()" />
-
+        <button class="scan" id="scanBtn" onclick="doScan()">Calculate Departure Window →</button>
       </div>
 
+      <!-- RIGHT COLUMN: ARBITRAGE RESULTS -->
+      <div class="today-results">
+        <div class="emp" id="empEl">
+          <div class="emp-i">⚡</div>
+          <div class="emp-h">Ready to Calculate</div>
+          <div class="emp-p">Enter start and end points above and tap Calculate for your departure window.</div>
+        </div>
+
+        <div id="resWrap" style="display:none;flex-direction:column;gap:14px">
+          <div class="wx" id="wxEl">
+            <div class="wx-i" id="wxIco">☀️</div>
+            <div>
+              <div class="wx-d" id="wxDesc">Bengaluru Weather</div>
+              <div class="wx-imp ok" id="wxImp">Dry asphalt · Free corridor flow</div>
+            </div>
+          </div>
+
+          <div class="hero">
+            <div class="hero-eye" id="heroEyeLabel">LEAVE BY — OPTIMAL MORNING WINDOW</div>
+            <div class="spill go" id="sig1">Clear window</div>
+            <div class="htime">
+              <div class="htime-main" id="heroT1">08:18</div>
+              <div class="htime-ap" id="heroAp1">AM</div>
+            </div>
+            <div class="hreason" id="heroR1">Loading corridor conditions…</div>
+
+            <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--neon);text-transform:uppercase;margin-bottom:6px;margin-top:14px">Return journey — leave work by</div>
+            <div style="font-family:var(--mono);font-size:28px;font-weight:600;color:var(--amber);margin-bottom:4px" id="heroT2">17:42</div>
+            <div style="font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:14px" id="heroR2">--</div>
+
+            <div class="hgrid-2col">
+              <div class="hcell">
+                <div class="hcv" id="hgD">14.5 km</div>
+                <div class="hcl">ROAD DISTANCE</div>
+              </div>
+              <div class="hcell">
+                <div class="hcv" id="hgT">52 min</div>
+                <div class="hcl" id="hgTLabel">TRANSIT DURATION</div>
+              </div>
+            </div>
+          </div>
+
+          <div class="safe-speed-card">
+            <div class="ssc-tag">🛡️ SAFE COMMUTING ADVISORY & LANE DISCIPLINE</div>
+            <div class="ssc-val" id="sscSpeed">Cruise Target: 35–42 km/h</div>
+            <div class="ssc-lane" id="sscLaneGuide">
+              Hold middle/right lanes. Avoid extreme left lane near tech park gates (RMZ Ecospace) due to BMTC bus-bay bunching.
+            </div>
+          </div>
+
+          <div class="inapp-map-box">
+            <div class="inapp-map-header">
+              <span style="font-size:11px;font-weight:800;color:var(--neon)">📍 Live Corridor Route Preview</span>
+              <button class="scan" style="margin-top:0;padding:6px 12px;font-size:11px;width:auto" onclick="openGoogleMapsDirect()">Navigate in Maps ↗</button>
+            </div>
+            <iframe class="inapp-iframe" id="inAppMapFrame" src="about:blank"></iframe>
+          </div>
+
+          <div class="feedback-card">
+            <div class="fbc-title">Commute Feedback & Timing Accuracy</div>
+            <div class="fbc-sub">Tell us how your commute went so CruizGo can calibrate corridor weights:</div>
+            <div class="fbc-grid">
+              <button class="fbc-btn" id="fbcOnTime" onclick="setFeedbackTiming(true)">✓ Departed On Time</button>
+              <button class="fbc-btn" id="fbcLate" onclick="setFeedbackTiming(false)">⚠ Departed 15m Late</button>
+            </div>
+            <div class="fbc-grid">
+              <button class="fbc-btn" id="fbcHelpYes" onclick="setFeedbackHelpful(true)">👍 Helpful Prediction</button>
+              <button class="fbc-btn" id="fbcHelpNo" onclick="setFeedbackHelpful(false)">👎 Inaccurate Routing</button>
+            </div>
+            <input class="fbc-notes" id="inlineNotesInp" placeholder="Add specific road blockages, diversions or ideas..." />
+            <button class="scan" style="margin-top:0;padding:10px;font-size:12px" onclick="saveInlineFeedback()">💾 Save Feedback</button>
+          </div>
+        </div>
+      </div>
     </div>
-
-
-
-    <div class="sec">
-
-      <div class="slbl">Journey Route</div>
-
-
-
-      <!-- TIMING TOGGLE -->
-
-      <div class="mode-toggle">
-
-        <button class="mt-btn on" id="btnModePlan" onclick="setTripMode('plan')">Plan by Target Arrival</button>
-
-        <button class="mt-btn" id="btnModeNow" onclick="setTripMode('now')">⚡ Leave Right Now</button>
-
-      </div>
-
-
-
-      <!-- ORIGIN SEARCH -->
-
-      <div class="lloc">
-
-        <div class="lloc-hdr">
-
-          <div class="lloc-lbl"><div class="ldot2 s"></div>Start point</div>
-
-          <button class="gps-quick" onclick="acquireLiveGPS()">📍 Use Live GPS</button>
-
-        </div>
-
-        <div class="lwrap">
-
-          <input class="linp" id="inpFrom" placeholder="Street, layout, metro, shop…" autocomplete="off"
-
-            oninput="onSearch('from')" onfocus="onSearch('from')" onkeydown="onKey(event,'from')" />
-
-          <button class="lbtn" onclick="clearLoc('from')">✕</button>
-
-          <div class="lspin" id="spFrom"></div>
-
-          <div class="acd" id="acFrom"></div>
-
-        </div>
-
-      </div>
-
-
-
-      <div class="swaprow">
-
-        <div class="swapline"></div>
-
-        <button class="swapbtn" onclick="doSwap()">⇅</button>
-
-        <div class="swapline"></div>
-
-      </div>
-
-
-
-      <!-- DESTINATION SEARCH -->
-
-      <div class="lloc">
-
-        <div class="lloc-lbl"><div class="ldot2 e"></div>End point</div>
-
-        <div class="lwrap">
-
-          <input class="linp end" id="inpTo" placeholder="Tech park, office, hospital, destination…" autocomplete="off"
-
-            oninput="onSearch('to')" onfocus="onSearch('to')" onkeydown="onKey(event,'to')" />
-
-          <button class="lbtn" onclick="clearLoc('to')">✕</button>
-
-          <div class="lspin" id="spTo"></div>
-
-          <div class="acd" id="acTo"></div>
-
-        </div>
-
-      </div>
-
-
-
-      <!-- TIME INPUTS -->
-
-      <div class="time-row" id="timeRowPlan">
-
-        <div>
-
-          <div class="tlbl"><div class="treq"></div>Need to arrive by</div>
-
-          <input class="tinp" type="time" id="tArrive" value="09:15" onchange="validateSelectedTimes()" />
-
-        </div>
-
-        <div>
-
-          <div class="tlbl"><div class="treq"></div>Return by</div>
-
-          <input class="tinp" type="time" id="tReturn" value="18:30" onchange="validateSelectedTimes()" />
-
-        </div>
-
-      </div>
-
-
-
-      <div class="temporal-err-box" id="temporalErrBox">
-
-        ⚠️ Target arrival time has already passed for today. Please choose a future time or toggle "Leave Right Now".
-
-      </div>
-
-
-
-      <div id="timeRowNow" style="display:none;margin-top:8px;font-size:12px;color:var(--neon);font-family:var(--mono);padding:8px 10px;background:rgba(0,255,136,.06);border-radius:8px">
-
-        ⚡ Direct live trip starting right now. Zero alerts while driving.
-
-      </div>
-
-    </div>
-
-
-
-    <!-- VEHICLE SELECTOR -->
-
-    <div class="sec">
-
-      <div class="slbl">Vehicle Mode</div>
-
-      <div class="vrow">
-
-        <div class="vcard" id="vBike" onclick="setV('bike')">
-
-          <span class="vico">🏍️</span>
-
-          <div class="vnm">Bike</div>
-
-        </div>
-
-        <div class="vcard on" id="vCar" onclick="setV('car')">
-
-          <span class="vico">🏎️</span>
-
-          <div class="vnm">Car</div>
-
-        </div>
-
-      </div>
-
-    </div>
-
-
-
-    <!-- ACTIONS -->
-
-    <div class="sec" style="border-bottom:none">
-
-      <button class="scan" id="scanBtn" onclick="doScan()">Calculate Departure Window →</button>
-
-      <div style="display:flex;gap:8px;margin-top:8px">
-
-        <button class="altbtn" onclick="promptSave()" style="flex:1">💾 Save journey</button>
-
-        <button class="altbtn" id="alertsBtn" onclick="enableAlerts()" style="flex:1">🔔 Enable alerts</button>
-
-      </div>
-
-    </div>
-
-
-
   </div>
 
+  <!-- WEEK TAB -->
+  <div class="rp" id="pWeek">
+    <div style="font-size:16px;font-weight:900;margin-bottom:4px">Weekly Commute Planner</div>
+    <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Configure individual departure plans. Click chips to toggle commute days:</div>
+    <div class="dstrip" id="dayStrip"></div>
+    <div id="weekCards"></div>
+  </div>
 
+  <!-- CORRIDORS TAB -->
+  <div class="rp" id="pCorridors">
+    <div style="font-size:16px;font-weight:900;margin-bottom:4px">Bengaluru Corridor Heatmaps & Belts</div>
+    <div class="linear-ribbon-card" id="corridorRibbonBox">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
+        <div style="font-size:14px;font-weight:900;color:var(--neon)" id="ribbonCorridorName">Outer Ring Road (Silk Board ➔ KR Puram)</div>
+        <span style="font-size:10px;color:var(--neon);font-family:var(--mono)">LIVE HEATMAP</span>
+      </div>
+      <div class="ribbon-track">
+        <div class="r-seg r-clear" title="Silk Board Flyover: Clear"></div>
+        <div class="r-seg r-heavy" title="HSR Sector 5: Bus Stop Bunching"></div>
+        <div class="r-seg r-warn" title="Agara Lake Road: Slowdown"></div>
+        <div class="r-seg r-jam" title="EcoSpace BMTC Bay: Standstill"></div>
+        <div class="r-seg r-heavy" title="Kadubeesanahalli Pillar Construction"></div>
+        <div class="r-seg r-jam" title="Marathahalli Multiplex: Signal Jam"></div>
+        <div class="r-seg r-clear" title="KR Puram: Open"></div>
+      </div>
+    </div>
+    <div id="allCorr"></div>
+  </div>
 
-  <!-- RIGHT COLUMN -->
+  <!-- ALERTS TAB -->
+  <div class="rp" id="pAlerts">
+    <div class="alerts-toolbar">
+      <div style="font-size:16px;font-weight:900">Notifications & Alerts</div>
+      <button onclick="clearAllAlerts()" style="padding:6px 12px;background:none;border:1px solid rgba(255,64,96,.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer">Clear All</button>
+    </div>
+    <div id="alertsListContainer"></div>
+  </div>
 
-  <div class="right">
+  <!-- SAVED TIME TAB: CONVERSION POINT + WEEKLY SUMMARIES -->
+  <div class="rp" id="pSavedTime">
+    <div id="authGateContainer" class="auth-gate-box" style="display:none">
+      <div class="ag-title">Unlock Your Saved Commute Time</div>
+      <div class="ag-sub">Log in or create a free account to track verified hours saved vs. peak gridlock and receive weekly commute summaries by date.</div>
 
-
-
-    <!-- TODAY TAB -->
-
-    <div class="rp on" id="pToday">
-
-      <div class="emp" id="empEl">
-
-        <div class="emp-i">⚡</div>
-
-        <div class="emp-h">Ready to Calculate</div>
-
-        <div class="emp-p">Enter start and end points, select arrival time or "Leave Right Now", and tap Calculate.</div>
-
-        <div class="emp-cta">⚡ Instant Arbitrage Window</div>
-
+      <div class="auth-tabs-row">
+        <button class="at-btn on" id="btnAuthLogin" onclick="setAuthTab('login')">Log In</button>
+        <button class="at-btn" id="btnAuthSignup" onclick="setAuthTab('signup')">Sign Up</button>
       </div>
 
-
-
-      <div id="resWrap" style="display:none;flex-direction:column;gap:14px">
-
-
-
-        <div class="wx" id="wxEl">
-
-          <div class="wx-i" id="wxIco">☀️</div>
-
-          <div>
-
-            <div class="wx-d" id="wxDesc">Bengaluru Weather</div>
-
-            <div class="wx-imp ok" id="wxImp">Dry asphalt · Free corridor flow</div>
-
-          </div>
-
-        </div>
-
-
-
-        <!-- HERO BOARD -->
-
-        <div class="hero">
-
-          <div class="hero-eye" id="heroEyeLabel">LEAVE BY — OPTIMAL MORNING WINDOW</div>
-
-          <div class="spill go" id="sig1">Clear window</div>
-
-          <div class="htime">
-
-            <div class="htime-main" id="heroT1">08:18</div>
-
-            <div class="htime-ap" id="heroAp1">AM</div>
-
-          </div>
-
-          <div class="hreason" id="heroR1">Loading corridor conditions…</div>
-
-
-
-          <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--neon);text-transform:uppercase;margin-bottom:6px;margin-top:14px">Return journey — leave work by</div>
-
-          <div class="spill go" id="sig2" style="font-size:10px;padding:3px 9px">Evening window</div>
-
-          <div style="font-family:var(--mono);font-size:32px;font-weight:600;color:var(--amber);margin-bottom:4px" id="heroT2">17:42</div>
-
-          <div style="font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:16px" id="heroR2">--</div>
-
-
-
-          <div class="hgrid-2col">
-
-            <div class="hcell">
-
-              <div class="hcv" id="hgD">14.5 km</div>
-
-              <div class="hcl">ROAD DISTANCE</div>
-
-            </div>
-
-            <div class="hcell">
-
-              <div class="hcv" id="hgT">52 min</div>
-
-              <div class="hcl" id="hgTLabel">TRANSIT DURATION</div>
-
-            </div>
-
-          </div>
-
-        </div>
-
-
-
-        <!-- SAFE COMMUTING ADVISORY -->
-
-        <div class="safe-speed-card">
-
-          <div class="ssc-tag">🛡️ SAFE COMMUTING ADVISORY & LANE DISCIPLINE</div>
-
-          <div class="ssc-val" id="sscSpeed">Cruise Target: 35–42 km/h</div>
-
-          <div style="font-size:12px;color:var(--txt2)">
-
-            Google Maps estimates 30 min assuming continuous average speed. CruizGo estimates <strong>41–52 min</strong> based on safe commute speeds and BMTC bus-bay bottlenecks.
-
-          </div>
-
-          <div class="ssc-lane" id="sscLaneGuide">
-
-            <strong>Recommended Lane Position:</strong> Hold middle/right lanes. Avoid extreme left lane near tech park gates (RMZ Ecospace, Prestige Tech Park) due to BMTC bus-bay bunching and passenger drops.
-
-          </div>
-
-        </div>
-
-
-
-        <!-- IN-APP ROUTE VIEWER -->
-
-        <div class="inapp-map-box">
-
-          <div class="inapp-map-header">
-
-            <span class="inapp-map-title">📍 Live Corridor Route Preview</span>
-
-            <button class="scan" style="margin-top:0;padding:6px 12px;font-size:11px;width:auto" onclick="openGoogleMapsDirect()">
-
-              Navigate in Google Maps ↗
-
-            </button>
-
-          </div>
-
-          <iframe class="inapp-iframe" id="inAppMapFrame" src="about:blank"></iframe>
-
-        </div>
-
-
-
-        <!-- CONFIDENCE BOX -->
-
-        <div class="confidence-box">
-
-          <div class="cb-hdr">
-
-            <span>🛡️ CRUIZGO ARBITRAGE CONFIDENCE INDEX</span>
-
-            <span style="font-family:var(--mono);color:var(--neon);margin-left:auto" id="confBadgeScore">98% VERIFIED</span>
-
-          </div>
-
-          <div class="cb-body" id="confExpText">
-
-            <strong>98% Prediction Reliability:</strong> Cross-verified against road sensors and historical corridor telemetry. Guaranteed arrival within <strong>±3 minutes</strong> at your destination when recommended safe cruise speeds are maintained.
-
-          </div>
-
-        </div>
-
-
-
-        <!-- VOLUNTARY RIDE COMPLETION BANNER -->
-
-        <div class="arrival-voluntary-banner" id="voluntaryArrivalBanner">
-
-          <div class="avb-txt">🏁 Completed your commute? Log verified time to update your Saved Hours.</div>
-
-          <div class="avb-btns">
-
-            <button class="avb-btn-log" onclick="openCompletionModal()">Log Saved Time</button>
-
-            <button class="avb-btn-skip" onclick="dismissVoluntaryBanner()">Dismiss</button>
-
-          </div>
-
-        </div>
-
-
-
-        <!-- PERMANENT INLINE FEEDBACK CARD WITH EXPLICIT SAVE BUTTON -->
-
-        <div class="feedback-card">
-
-          <div class="fbc-title">Commute Feedback & Timing Accuracy</div>
-
-          <div class="fbc-sub">Tell us how your commute went so CruizGo can calibrate corridor weights:</div>
-
-          <div class="fbc-grid">
-
-            <button class="fbc-btn" id="fbcOnTime" onclick="setFeedbackTiming(true)">✓ Departed On Time</button>
-
-            <button class="fbc-btn" id="fbcLate" onclick="setFeedbackTiming(false)">⚠ Departed 15m Late</button>
-
-          </div>
-
-          <div class="fbc-grid">
-
-            <button class="fbc-btn" id="fbcHelpYes" onclick="setFeedbackHelpful(true)">👍 Helpful Prediction</button>
-
-            <button class="fbc-btn" id="fbcHelpNo" onclick="setFeedbackHelpful(false)">👎 Inaccurate Routing</button>
-
-          </div>
-
-          <input class="fbc-notes" id="inlineNotesInp" placeholder="Add specific road blockages, diversions or ideas..." />
-
-          <button class="fbc-save-btn" onclick="saveInlineFeedback()">💾 Save Feedback to Improve App</button>
-
-        </div>
-
-
-
+      <!-- 1-TAP GOOGLE AUTH -->
+      <button class="oauth-btn" onclick="signInWithGoogle()">
+        <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+        Continue with Google
+      </button>
+
+      <div style="display:flex;flex-direction:column;gap:8px">
+        <input class="uf" id="authEmailInput" type="email" placeholder="name@company.com / gmail.com" style="text-align:center" />
+        <button class="scan" style="margin-top:0;padding:12px;font-size:13px" onclick="signInWithMagicLink()">Send Secure Magic Link →</button>
       </div>
-
     </div>
 
-
-
-    <!-- WEEK PANEL -->
-
-    <div class="rp" id="pWeek">
-
-      <div style="font-size:16px;font-weight:900;margin-bottom:4px">Weekly Commute Planner</div>
-
-      <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Configure individual departure plans. Select or unselect day chips to toggle active commute days:</div>
-
-      
-
-      <div class="dstrip" id="dayStrip"></div>
-
-      <div id="weekCards"></div>
-
-    </div>
-
-
-
-    <!-- CORRIDORS PANEL -->
-
-    <div class="rp" id="pCorridors">
-
-      <div style="font-size:16px;font-weight:900;margin-bottom:4px">Bengaluru Corridor Heatmaps & Belts</div>
-
-      <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Segment-by-segment congestion ribbons and choke hotspots across Bengaluru's arterial network:</div>
-
-
-
-      <div class="linear-ribbon-card" id="corridorRibbonBox">
-
-        <div class="lrc-hdr">
-
-          <div class="lrc-title" id="ribbonCorridorName">Outer Ring Road (Silk Board ➔ KR Puram)</div>
-
-          <span style="font-size:10px;color:var(--neon);font-family:var(--mono)">LIVE HEATMAP</span>
-
-        </div>
-
-        <div class="sync-time-tag" id="ribbonSyncTime">Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST · Live Traffic Sensors</div>
-
-
-
-        <div class="ribbon-track">
-
-          <div class="r-seg r-clear" title="Silk Board Flyover: Clear"></div>
-
-          <div class="r-seg r-heavy" title="HSR Layout Sector 5: Bus Stop & Auto Bunching"></div>
-
-          <div class="r-seg r-warn" title="Agara Lake Road: Slowdown"></div>
-
-          <div class="r-seg r-jam" title="Bellandur EcoSpace BMTC Bus Bay: Standstill (+18m)"></div>
-
-          <div class="r-seg r-heavy" title="Kadubeesanahalli Pillar Construction"></div>
-
-          <div class="r-seg r-jam" title="Marathahalli Multiplex Signal: Standstill (+15m)"></div>
-
-          <div class="r-seg r-clear" title="KR Puram Flyover: Flowing"></div>
-
-        </div>
-
-
-
-        <div class="ribbon-legend">
-
-          <span>🟢 Free Flow</span>
-
-          <span>🟡 Slowdown</span>
-
-          <span>🔴 Heavy</span>
-
-          <span>⛔ Standstill Jam</span>
-
-        </div>
-
-
-
-        <div style="margin-top:12px;font-size:12px;color:var(--txt2);line-height:1.5" id="ribbonChokeSummary">
-
-          ⚠️ <strong>Active Bottlenecks on this Corridor:</strong> Bellandur EcoSpace BMTC Bus Bay queue spilling across 2 lanes; Metro Phase 2A single-lane barricades near Kadubeesanahalli underpass.
-
-        </div>
-
-      </div>
-
-
-
-      <!-- 3D RADAR MAP -->
-
-      <div class="map-canvas-card">
-
-        <div class="compass-toolbar">
-
-          <div class="compass-dial">🧭 COMPASS: N 0° · BENGALURU RADIAL</div>
-
-          <span style="font-size:10px;color:var(--txt3)">Tap any sector to inspect corridor</span>
-
-        </div>
-
-
-
-        <svg class="circ-svg" viewBox="0 0 560 360">
-
-          <defs>
-
-            <radialGradient id="radarGlow" cx="50%" cy="50%" r="50%">
-
-              <stop offset="0%" stop-color="#00ff88" stop-opacity="0.14"/>
-
-              <stop offset="100%" stop-color="#00ff88" stop-opacity="0"/>
-
-            </radialGradient>
-
-          </defs>
-
-
-
-          <rect width="100%" height="100%" fill="#050a14"/>
-
-          <circle cx="280" cy="180" r="145" fill="url(#radarGlow)"/>
-
-
-
-          <text x="280" y="24" fill="#00ff88" font-size="11" font-weight="900" text-anchor="middle" font-family="DM Mono">N (Hebbal / Airport NH 44)</text>
-
-          <text x="280" y="348" fill="#00d4ff" font-size="11" font-weight="900" text-anchor="middle" font-family="DM Mono">S (E-City / Hosur Rd)</text>
-
-          <text x="548" y="174" fill="#ffbf3f" font-size="11" font-weight="900" text-anchor="end" font-family="DM Mono">E (Whitefield Hub)</text>
-
-          <text x="12" y="174" fill="#ff4060" font-size="11" font-weight="900" text-anchor="start" font-family="DM Mono">W (Tumkur / Majestic)</text>
-
-
-
-          <circle cx="280" cy="180" r="120" fill="none" stroke="rgba(0,255,136,0.28)" stroke-width="3" stroke-dasharray="6,4"/>
-
-          <circle cx="280" cy="180" r="70" fill="none" stroke="rgba(0,212,255,0.25)" stroke-width="2.5"/>
-
-
-
-          <line x1="280" y1="180" x2="280" y2="35" stroke="rgba(255,64,96,0.25)" stroke-width="2"/>
-
-          <line x1="280" y1="180" x2="280" y2="330" stroke="rgba(0,212,255,0.25)" stroke-width="2"/>
-
-          <line x1="280" y1="180" x2="495" y2="180" stroke="rgba(255,191,63,0.25)" stroke-width="2"/>
-
-          <line x1="280" y1="180" x2="65" y2="180" stroke="rgba(255,64,96,0.25)" stroke-width="2"/>
-
-
-
-          <g class="map-node" onclick="inspectCorridor('irr')">
-
-            <circle cx="280" cy="180" r="22" fill="#0b1a2e" stroke="#00d4ff" stroke-width="2"/>
-
-            <text x="280" y="184" fill="#fff" font-size="9" font-weight="900" text-anchor="middle">CBD</text>
-
-          </g>
-
-
-
-          <g class="map-node" onclick="inspectCorridor('orr')">
-
-            <rect x="340" y="225" width="165" height="36" rx="8" fill="#0b1626" stroke="#00ff88" stroke-width="1.5"/>
-
-            <circle cx="354" cy="243" r="5" fill="#ff4060"/>
-
-            <text x="365" y="240" fill="#00ff88" font-size="10" font-weight="900">ORR Tech Belt</text>
-
-            <text x="365" y="253" fill="#8fa0b8" font-size="8">Ecospace · Silk Board · Kadub.</text>
-
-          </g>
-
-
-
-          <g class="map-node" onclick="inspectCorridor('wf')">
-
-            <rect x="365" y="115" width="150" height="36" rx="8" fill="#0b1626" stroke="#ffbf3f" stroke-width="1.5"/>
-
-            <circle cx="379" cy="133" r="5" fill="#ffbf3f"/>
-
-            <text x="390" y="130" fill="#ffbf3f" font-size="10" font-weight="900">Whitefield Hub</text>
-
-            <text x="390" y="143" fill="#8fa0b8" font-size="8">ITPL · Hope Farm · AECS</text>
-
-          </g>
-
-
-
-          <g class="map-node" onclick="inspectCorridor('ec')">
-
-            <rect x="205" y="280" width="150" height="36" rx="8" fill="#0b1626" stroke="#00d4ff" stroke-width="1.5"/>
-
-            <circle cx="219" cy="298" r="5" fill="#00ff88"/>
-
-            <text x="230" y="295" fill="#00d4ff" font-size="10" font-weight="900">E-City Industrial</text>
-
-            <text x="230" y="308" fill="#8fa0b8" font-size="8">Phases 1 & 2 · Hosur Rd</text>
-
-          </g>
-
-
-
-          <g class="map-node" onclick="inspectCorridor('hbl')">
-
-            <rect x="205" y="45" width="150" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
-
-            <circle cx="219" cy="63" r="5" fill="#ff4060"/>
-
-            <text x="230" y="60" fill="#ff4060" font-size="10" font-weight="900">Hebbal / Manyata</text>
-
-            <text x="230" y="73" fill="#8fa0b8" font-size="8">Airport NH 44 · Thanisandra</text>
-
-          </g>
-
-
-
-          <g class="map-node" onclick="inspectCorridor('tmk')">
-
-            <rect x="40" y="105" width="170" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
-
-            <circle cx="54" cy="123" r="5" fill="#ff4060"/>
-
-            <text x="65" y="120" fill="#ff4060" font-size="10" font-weight="900">Tumkur Rd – Majestic</text>
-
-            <text x="65" y="133" fill="#8fa0b8" font-size="8">Goraguntepalya · Yeshwanthpur</text>
-
-          </g>
-
-        </svg>
-
-      </div>
-
-
-
-      <div id="allCorr"></div>
-
-    </div>
-
-
-
-    <!-- ALERTS TAB -->
-
-    <div class="rp" id="pAlerts">
-
-      <div class="alerts-toolbar">
-
-        <div>
-
-          <div style="font-size:16px;font-weight:900">Notifications & Alerts</div>
-
-          <div style="font-size:12px;color:var(--txt3);margin-top:2px">Tap any notification to view stats or complete your ride:</div>
-
-        </div>
-
-        <button onclick="clearAllAlerts()" style="padding:6px 12px;background:none;border:1px solid rgba(255,64,96,.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer">Clear All</button>
-
-      </div>
-
-      <div id="alertsListContainer"></div>
-
-    </div>
-
-
-
-    <!-- SAVED TIME TAB -->
-
-    <div class="rp" id="pSavedTime">
-
-      <div style="font-size:16px;font-weight:900;margin-bottom:4px">Your Cumulative Saved Commute Time</div>
-
-      <div style="font-size:12px;color:var(--txt3);margin-bottom:14px">Real metrics computed exclusively from your completed rides. Tap any box to review route logs:</div>
-
-
+    <div id="savedTimeStatsContainer">
+      <div style="font-size:16px;font-weight:900;margin-bottom:4px">Your Cumulative Commute Savings</div>
+      <div style="font-size:12px;color:var(--txt3);margin-bottom:14px">Real metrics computed exclusively from your completed rides. Tap any box to review logs:</div>
 
       <div class="st-hero">
-
         <div class="st-card" onclick="switchTab('history', document.getElementById('tabHistory'))">
-
           <div class="st-val" id="totalSavedFormatted">0 min</div>
-
           <div class="st-lbl">Time Saved vs Peak Gridlock</div>
-
         </div>
-
         <div class="st-card" onclick="switchTab('history', document.getElementById('tabHistory'))">
-
           <div class="st-val" id="completedRidesDisplay">0</div>
-
           <div class="st-lbl">Verified Rides Logged</div>
-
         </div>
-
       </div>
 
-
-
-      <div class="st-analysis">
-
-        <strong style="color:var(--neon)">⚡ Dynamic Commute Savings Overview:</strong><br>
-
-        <span id="stDynamicText">No completed journeys logged yet. Confirm your arrivals via the voluntary prompt to compute verified time saved by steering clear of active BMTC bus-bay spillovers and metro barricades.</span>
-
+      <!-- DYNAMIC WEEKLY SUMMARY BY DATE -->
+      <div class="weekly-summary-box">
+        <div class="wsb-hdr">
+          <span class="wsb-title">📅 Weekly Commute Summary (14 Sep – 20 Sep 2026)</span>
+          <span style="font-size:11px;color:var(--txt2)" id="wsbTotalWeek">Saved: 88 min</span>
+        </div>
+        <div id="weeklySummaryRows">
+          <div class="wsb-row"><span>Mon, 14 Sep</span><span>Bellandur Corridor</span><span class="wsb-saved">+22m saved</span></div>
+          <div class="wsb-row"><span>Wed, 16 Sep</span><span>Whitefield Corridor</span><span class="wsb-saved">+26m saved</span></div>
+          <div class="wsb-row"><span>Fri, 18 Sep</span><span>Hebbal / Manyata</span><span class="wsb-saved">+20m saved</span></div>
+          <div class="wsb-row"><span>Sun, 20 Sep</span><span>Outer Ring Road</span><span class="wsb-saved">+20m saved</span></div>
+        </div>
       </div>
-
     </div>
-
-
-
-    <!-- HISTORY PANEL -->
-
-    <div class="rp" id="pHistory">
-
-      <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-
-        <div style="font-size:16px;font-weight:900">Saved Routes & Completed Trips</div>
-
-        <button onclick="clearPastTrips()" style="padding:6px 12px;background:none;border:1px solid rgba(255,64,96,.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer">Clear Past Trips</button>
-
-      </div>
-
-      <div id="savedSection"></div>
-
-      <div id="histSection"></div>
-
-    </div>
-
-
-
   </div>
 
-
+  <!-- HISTORY TAB -->
+  <div class="rp" id="pHistory">
+    <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
+      <div style="font-size:16px;font-weight:900">Saved Routes & Completed Trips</div>
+      <button onclick="clearPastTrips()" style="padding:6px 12px;background:none;border:1px solid rgba(255,64,96,.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer">Clear Past Trips</button>
+    </div>
+    <div id="savedSection"></div>
+    <div id="histSection"></div>
+  </div>
 
 </div>
 
-
-
-<!-- REVAMPED EMOTIONAL ARRIVAL CHECK-IN MODAL -->
-
+<!-- CHECK-IN MODAL -->
 <div class="modal-overlay" id="completionModal">
-
   <div class="modal-card">
-
     <div class="modal-title">🏁 Commute Arrival Check-in</div>
-
-    <div class="modal-sub">Tell us how your commute went so you can track your verified saved hours.</div>
-
-
+    <div class="modal-sub">Confirm your ride to update your verified <strong>Saved Time</strong> dashboard.</div>
 
     <div class="modal-why">
-
       🛡️ <strong>Why check in?</strong> Every time you depart early, you avoid high-stress crawling traffic, protect your safety with recommended cruise speeds, and arrive relaxed for your day. Looking back, you'll see exact hours of your life reclaimed.
-
     </div>
 
-
-
-    <!-- Q1 -->
-
     <div class="q-block">
-
       <div class="q-lbl">1. Did you leave within your recommended window?</div>
-
       <div class="q-options">
-
         <button class="q-btn sel" id="q1Yes" onclick="selectQ(1, true)">✓ Left on time</button>
-
         <button class="q-btn" id="q1No" onclick="selectQ(1, false)">⚠ Left late (+15m)</button>
-
       </div>
-
     </div>
 
-
-
-    <!-- Q2 -->
-
     <div class="q-block">
-
       <div class="q-lbl">2. Did this timing help you avoid peak crawling traffic?</div>
-
       <div class="q-options">
-
         <button class="q-btn sel" id="q2Yes" onclick="selectQ(2, true)">👍 Yes, saved 20–30 min</button>
-
         <button class="q-btn" id="q2No" onclick="selectQ(2, false)">👎 Faced usual traffic</button>
-
       </div>
-
     </div>
 
-
-
-    <!-- Q3 -->
-
     <div class="q-block">
-
       <div class="q-lbl">3. Is CruizGo helping you plan your day with less stress?</div>
-
       <div class="q-options">
-
         <button class="q-btn sel" id="q3Yes" onclick="selectQ(3, true)">⭐ Yes, much better</button>
-
         <button class="q-btn" id="q3No" onclick="selectQ(3, false)">😐 About the same</button>
-
       </div>
-
     </div>
-
-
-
-    <!-- Q4 -->
 
     <div class="q-block">
-
       <div class="q-lbl">4. Any specific road blockages, diversions, or suggestions?</div>
-
       <input class="uf" id="compNotes" placeholder="e.g. Bus breakdown near Marathahalli, waterlogging" style="width:100%" />
-
     </div>
-
-
 
     <div style="display:flex;gap:8px;margin-top:16px">
-
       <button class="altbtn" onclick="skipCompletionModal()" style="flex:1">Skip for Now</button>
-
       <button class="scan" style="margin-top:0;flex:2;padding:12px" onclick="submitCompletedRide()">✓ Log Saved Time</button>
-
     </div>
-
   </div>
-
 </div>
-
-
-
-<!-- SIGN-IN SHEET (APPEARS AFTER 2 FREE USES) -->
-
-<div class="modal-overlay" id="authGateModal">
-
-  <div class="auth-modal-card">
-
-    <div class="auth-logo-row">
-
-      <img src="/logo.png" alt="CruizGo Logo" style="width:40px;height:40px;border-radius:10px;border:1.5px solid var(--neon)" />
-
-      <span style="font-size:22px;font-weight:900;color:#fff">CruizGo</span>
-
-    </div>
-
-    <div class="auth-title">Save Your Routes & Schedules</div>
-
-    <div class="auth-sub">You have unlocked 2 free commute scans! Sign in to keep your verified saved time, custom schedules, and lock-screen alerts synced permanently.</div>
-
-
-
-    <!-- 1-TAP GOOGLE SIGN IN -->
-
-    <button class="oauth-btn" onclick="signInWithGoogle()">
-
-      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
-
-      Continue with Google
-
-    </button>
-
-
-
-    <div class="auth-divider">
-
-      <div class="auth-divline"></div>
-
-      <span>OR WITH EMAIL</span>
-
-      <div class="auth-divline"></div>
-
-    </div>
-
-
-
-    <!-- UNIVERSAL MAGIC LINK (GMAIL, OUTLOOK, YAHOO, WORK EMAILS) -->
-
-    <div class="email-auth-box">
-
-      <input class="uf" id="authEmailInput" type="email" placeholder="name@company.com / gmail.com" style="text-align:center" />
-
-      <button class="scan" style="margin-top:0;padding:12px;font-size:13px" onclick="signInWithMagicLink()">Send Magic Sign-In Link →</button>
-
-    </div>
-
-
-
-    <div style="margin-top:16px;font-size:11px;color:var(--txt3)">
-
-      By continuing, you agree to safe commuting practices.
-
-    </div>
-
-  </div>
-
-</div>
-
-
 
 <div class="toast" id="toast"></div>
 
-
-
 <script>
-
 // CONFIG & APP STATE
-
 const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
-
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
-
-const VAPID  = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0';
-
-
-
-// Initialize Supabase Auth SDK client
-
 const sbClient = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
 
-
-
 const S = {
-
   tripMode: 'plan',
-
   vehicle: 'car',
-
   fromVal: '310, 2nd A Cross Rd',
-
   toVal: 'Ecospace Business Park, Bellandur',
-
   fromCoords: [77.6710, 13.0035],
-
   weekDays: ['mon','tue','wed','thu','fri','sat','sun'],
-
   lastScan: null,
-
   currentUser: null,
-
+  authTab: 'login',
   alertsList: [
-
-    { id:'a1', time: '12:30 PM', title: 'Mid-Day Commute Check-in', body: 'How was your morning commute to Bellandur? Confirm your arrival to log verified Saved Time.', type: 'checkin', conf: 97 },
-
-    { id:'a2', time: '07:30 AM', title: 'Good Morning, Commuter! 🌅', body: 'Plan your commute today. Outer Ring Road is experiencing moderate congestion near Silk Board.', type: 'morning', conf: 98 },
-
-    { id:'a3', time: '08:03 AM', title: '15 Min Departure Call: Bellandur Route', body: 'Traffic funneling near Kadubeesanahalli underpass. Leave now via middle lane to ensure 09:15 AM arrival.', type: 'traffic', conf: 96 }
-
+    { id:'a1', time: '12:30 PM', title: 'Mid-Day Commute Check-in', body: 'How was your morning commute to Bellandur? Confirm your arrival to log verified Saved Time.', type: 'checkin' },
+    { id:'a2', time: '07:30 AM', title: 'Good Morning, Commuter! 🌅', body: 'Plan your commute today. Outer Ring Road is experiencing moderate congestion near Silk Board.', type: 'morning' },
+    { id:'a3', time: '08:03 AM', title: '15 Min Departure Call: Bellandur Route', body: 'Traffic funneling near Kadubeesanahalli underpass. Leave now via middle lane to ensure 09:15 AM arrival.', type: 'traffic' }
   ]
-
 };
 
+const AC = { from: { timer: null }, to: { timer: null } };
 
-
-const AC = {
-
-  from: { timer: null },
-
-  to:   { timer: null }
-
-};
-
-
-
-// ══════════════════════════════════════════════════════════════════
-
-// COMPREHENSIVE BENGALURU PRE-INDEX: STATIONS, TECH PARKS, HUBS
-
-// ══════════════════════════════════════════════════════════════════
-
+// PRE-INDEXED POIS
 const POIS = [
-
-  // ALL PURPLE LINE METRO STATIONS
-
   { n: 'Whitefield (Kadugodi) Metro Station', s: 'Purple Line · Kadugodi', lat: 12.9961, lon: 77.7607, i: '🚇' },
-
-  { n: 'Hopefarm Channasandra Metro Station', s: 'Purple Line · Whitefield', lat: 12.9912, lon: 77.7513, i: '🚇' },
-
-  { n: 'Kadugodi Tree Park Metro Station', s: 'Purple Line · Whitefield', lat: 12.9881, lon: 77.7423, i: '🚇' },
-
-  { n: 'Pattandur Agrahara Metro Station', s: 'Purple Line · Near ITPL', lat: 12.9877, lon: 77.7348, i: '🚇' },
-
-  { n: 'Sri Sathya Sai Hospital Metro Station', s: 'Purple Line · EPIP Zone', lat: 12.9823, lon: 77.7289, i: '🚇' },
-
-  { n: 'Nallurhalli Metro Station', s: 'Purple Line · Whitefield Rd', lat: 12.9768, lon: 77.7234, i: '🚇' },
-
-  { n: 'Kundalahalli Metro Station', s: 'Purple Line · Brookefield / AECS', lat: 12.9723, lon: 77.7154, i: '🚇' },
-
-  { n: 'Seetharampalya Metro Station', s: 'Purple Line · Hoodi / EPIP', lat: 12.9812, lon: 77.7093, i: '🚇' },
-
-  { n: 'Hoodi Metro Station', s: 'Purple Line · ITPL Main Rd', lat: 12.9918, lon: 77.7151, i: '🚇' },
-
-  { n: 'Garudacharpalya Metro Station', s: 'Purple Line · Mahadevapura', lat: 12.9934, lon: 77.7021, i: '🚇' },
-
-  { n: 'Singayyanapalya Metro Station', s: 'Purple Line · Mahadevapura', lat: 12.9962, lon: 77.6934, i: '🚇' },
-
   { n: 'KR Pura (KR Puram) Metro Station', s: 'Purple Line & Interchange · ORR', lat: 12.9972, lon: 77.6792, i: '🚇' },
-
   { n: 'Benniganahalli Metro Station', s: 'Purple Line · Old Madras Rd / Tin Factory', lat: 12.9950, lon: 77.6610, i: '🚇' },
-
-  { n: 'Baiyappanahalli Metro Station', s: 'Purple Line · Old Madras Road', lat: 12.9907, lon: 77.6525, i: '🚇' },
-
-  { n: 'Swami Vivekananda Road Metro Station', s: 'Purple Line · Old Madras Rd', lat: 12.9860, lon: 77.6433, i: '🚇' },
-
   { n: 'Indiranagar Metro Station', s: 'Purple Line · 100 Feet Rd Junction', lat: 12.9784, lon: 77.6408, i: '🚇' },
-
-  { n: 'Halasuru Metro Station', s: 'Purple Line · Old Airport Road', lat: 12.9791, lon: 77.6269, i: '🚇' },
-
-  { n: 'Trinity Metro Station', s: 'Purple Line · Trinity Circle / MG Road', lat: 12.9728, lon: 77.6169, i: '🚇' },
-
-  { n: 'MG Road Metro Station', s: 'Purple Line & Pink Line Interchange', lat: 12.9755, lon: 77.6067, i: '🚇' },
-
-  { n: 'Cubbon Park Metro Station', s: 'Purple Line · Chinnaswamy / GPO', lat: 12.9810, lon: 77.5976, i: '🚇' },
-
-  { n: 'Dr. BR Ambedkar Station Vidhana Soudha', s: 'Purple Line · High Court', lat: 12.9795, lon: 77.5925, i: '🚇' },
-
-  { n: 'Sir M. Visveshwaraya Central College', s: 'Purple Line · KR Circle', lat: 12.9739, lon: 77.5839, i: '🚇' },
-
-  { n: 'Nadaprabhu Kempegowda Station Majestic', s: 'Interchange · Purple & Green Lines', lat: 12.9757, lon: 77.5728, i: '🚇' },
-
-  { n: 'City Railway Station (KSR Bengaluru)', s: 'Purple Line · Sangolli Rayanna', lat: 12.9782, lon: 77.5672, i: '🚇' },
-
-  { n: 'Magadi Road Metro Station', s: 'Purple Line · Magadi Main Rd', lat: 12.9756, lon: 77.5552, i: '🚇' },
-
-  { n: 'Hosahalli Metro Station', s: 'Purple Line · Vijayanagar Tollgate', lat: 12.9744, lon: 77.5453, i: '🚇' },
-
-  { n: 'Vijayanagar Metro Station', s: 'Purple Line · Vijayanagar TTMC', lat: 12.9698, lon: 77.5375, i: '🚇' },
-
-  { n: 'Attiguppe Metro Station', s: 'Purple Line · Chord Road', lat: 12.9622, lon: 77.5334, i: '🚇' },
-
-  { n: 'Deepanjali Nagar Metro Station', s: 'Purple Line · Mysore Road', lat: 12.9525, lon: 77.5367, i: '🚇' },
-
-  { n: 'Mysuru Road Metro Station', s: 'Purple Line · Nayandahalli', lat: 12.9478, lon: 77.5283, i: '🚇' },
-
-  { n: 'Pantharapalya Nayandahalli Metro Station', s: 'Purple Line · Mysore Rd', lat: 12.9423, lon: 77.5222, i: '🚇' },
-
-  { n: 'Rajarajeshwari Nagar Metro Station', s: 'Purple Line · RR Nagar Arch', lat: 12.9366, lon: 77.5167, i: '🚇' },
-
-  { n: 'Jnanabharathi Metro Station', s: 'Purple Line · Bangalore University', lat: 12.9298, lon: 77.5098, i: '🚇' },
-
-  { n: 'Pattanagere Metro Station', s: 'Purple Line · Mysore Rd', lat: 12.9242, lon: 77.4988, i: '🚇' },
-
-  { n: 'Kengeri Bus Terminal Metro Station', s: 'Purple Line · Kengeri TTMC', lat: 12.9177, lon: 77.4891, i: '🚇' },
-
-  { n: 'Kengeri Metro Station', s: 'Purple Line · Kengeri Satellite Town', lat: 12.9090, lon: 77.4765, i: '🚇' },
-
-  { n: 'Challaghatta Metro Station', s: 'Purple Line Terminal · Mysore Rd', lat: 12.9034, lon: 77.4645, i: '🚇' },
-
-
-
-  // ALL GREEN LINE METRO STATIONS
-
-  { n: 'Madavara (BIEC) Metro Station', s: 'Green Line Terminal · Tumkur Rd', lat: 13.0645, lon: 77.4789, i: '🚇' },
-
-  { n: 'Chikkabidarakallu Metro Station', s: 'Green Line · Jindal / Tumkur Rd', lat: 13.0566, lon: 77.4878, i: '🚇' },
-
-  { n: 'Manjunathanagar Metro Station', s: 'Green Line · NH 48', lat: 13.0489, lon: 77.4956, i: '🚇' },
-
-  { n: 'Nagasandra Metro Station', s: 'Green Line · Tumkur Road / Bagalakunte', lat: 13.0478, lon: 77.5002, i: '🚇' },
-
-  { n: 'Dasarahalli Metro Station', s: 'Green Line · T. Dasarahalli', lat: 13.0438, lon: 77.5131, i: '🚇' },
-
-  { n: 'Jalahalli Metro Station', s: 'Green Line · Peenya 1st Stage', lat: 13.0392, lon: 77.5197, i: '🚇' },
-
-  { n: 'Peenya Industry Metro Station', s: 'Green Line · Peenya Industrial Area', lat: 13.0366, lon: 77.5255, i: '🚇' },
-
-  { n: 'Peenya Metro Station', s: 'Green Line · Tumkur Road', lat: 13.0329, lon: 77.5342, i: '🚇' },
-
-  { n: 'Goraguntepalya Metro Station', s: 'Green Line · Taj Yeshwantpur / Outer Ring', lat: 13.0286, lon: 77.5417, i: '🚇' },
-
-  { n: 'Yeshwanthpur Metro Station', s: 'Green Line · Yeshwanthpur Railway Station', lat: 13.0232, lon: 77.5501, i: '🚇' },
-
-  { n: 'Sandal Soap Factory Metro Station', s: 'Green Line · Rajajinagar', lat: 13.0147, lon: 77.5542, i: '🚇' },
-
-  { n: 'Mahalakshmi Metro Station', s: 'Green Line · Mahalakshmi Layout', lat: 13.0084, lon: 77.5494, i: '🚇' },
-
-  { n: 'Rajajinagar Metro Station', s: 'Green Line · 1st Block Rajajinagar', lat: 12.9989, lon: 77.5558, i: '🚇' },
-
-  { n: 'Kuvempu Road Metro Station', s: 'Green Line · Malleshwaram West', lat: 12.9934, lon: 77.5599, i: '🚇' },
-
-  { n: 'Srirampura Metro Station', s: 'Green Line · Srirampura', lat: 12.9961, lon: 77.5638, i: '🚇' },
-
-  { n: 'Sampige Road Malleshwaram Metro Station', s: 'Green Line · Mantri Square', lat: 12.9912, lon: 77.5708, i: '🚇' },
-
-  { n: 'Chickpete Metro Station', s: 'Green Line · Chickpet Market', lat: 12.9669, lon: 77.5750, i: '🚇' },
-
-  { n: 'Krishna Rajendra Market Metro Station', s: 'Green Line · KR Market / Victoria', lat: 12.9610, lon: 77.5744, i: '🚇' },
-
-  { n: 'National College Metro Station', s: 'Green Line · Basavanagudi', lat: 12.9511, lon: 77.5736, i: '🚇' },
-
-  { n: 'Lalbagh Metro Station', s: 'Green Line · Lalbagh West Gate', lat: 12.9461, lon: 77.5800, i: '🚇' },
-
-  { n: 'South End Circle Metro Station', s: 'Green Line · Jayanagar', lat: 12.9377, lon: 77.5802, i: '🚇' },
-
-  { n: 'Jayanagar Metro Station', s: 'Green Line · 4th Block Jayanagar', lat: 12.9298, lon: 77.5801, i: '🚇' },
-
-  { n: 'Rashtreeya Vidyalaya Road Metro Station', s: 'Green Line · RV Road Interchange', lat: 12.9216, lon: 77.5802, i: '🚇' },
-
-  { n: 'Banashankari Metro Station', s: 'Green Line · Banashankari TTMC / Bus Stand', lat: 12.9154, lon: 77.5736, i: '🚇' },
-
-  { n: 'Jaya Prakash Nagar (JP Nagar) Metro Station', s: 'Green Line · Sarakki', lat: 12.9073, lon: 77.5734, i: '🚇' },
-
-  { n: 'Yelachenahalli Metro Station', s: 'Green Line · Kanakapura Road', lat: 12.8958, lon: 77.5701, i: '🚇' },
-
-  { n: 'Konanakunte Cross Metro Station', s: 'Green Line · Forum South City Mall', lat: 12.8879, lon: 77.5684, i: '🚇' },
-
-  { n: 'Doddakallasandra Metro Station', s: 'Green Line · Kanakapura Rd', lat: 12.8767, lon: 77.5621, i: '🚇' },
-
-  { n: 'Vajrahalli Metro Station', s: 'Green Line · Kanakapura Rd', lat: 12.8689, lon: 77.5552, i: '🚇' },
-
-  { n: 'Thalaghattapura Metro Station', s: 'Green Line · Kanakapura Rd', lat: 12.8598, lon: 77.5458, i: '🚇' },
-
-  { n: 'Silk Institute Metro Station', s: 'Green Line Terminal · Nice Road Cross', lat: 12.8512, lon: 77.5389, i: '🚇' },
-
-
-
-  // ALL YELLOW LINE METRO STATIONS
-
   { n: 'Central Silk Board Metro Station', s: 'Yellow Line Interchange · Hosur Rd / ORR', lat: 12.9176, lon: 77.6235, i: '🚇' },
-
-  { n: 'BTM Layout Metro Station', s: 'Yellow Line · Outer Ring Road', lat: 12.9161, lon: 77.6102, i: '🚇' },
-
-  { n: 'Jayadeva Hospital Metro Station', s: 'Yellow & Pink Interchange · Bannerghatta', lat: 12.9189, lon: 77.5989, i: '🚇' },
-
-  { n: 'Bommanahalli Metro Station', s: 'Yellow Line · Hosur Road', lat: 12.9089, lon: 77.6256, i: '🚇' },
-
-  { n: 'Hongasandra Metro Station', s: 'Yellow Line · Hosur Road / Garvebhavipalya', lat: 12.9011, lon: 77.6322, i: '🚇' },
-
-  { n: 'Kudlu Gate Metro Station', s: 'Yellow Line · Hosur Road', lat: 12.8902, lon: 77.6412, i: '🚇' },
-
-  { n: 'Singasandra Metro Station', s: 'Yellow Line · Hosur Road', lat: 12.8812, lon: 77.6498, i: '🚇' },
-
-  { n: 'Hosa Road Metro Station', s: 'Yellow Line · Jail Road Cross', lat: 12.8711, lon: 77.6588, i: '🚇' },
-
-  { n: 'Beratena Agrahara Metro Station', s: 'Yellow Line · Hosur Road', lat: 12.8612, lon: 77.6654, i: '🚇' },
-
   { n: 'Electronic City Metro Station', s: 'Yellow Line · Phase 1 Toll Plaza', lat: 12.8509, lon: 77.6637, i: '🚇' },
-
-  { n: 'Infosys Foundation Electronic City Metro', s: 'Yellow Line · Wipro Gate / E-City', lat: 12.8423, lon: 77.6689, i: '🚇' },
-
-  { n: 'Huskur Road Metro Station', s: 'Yellow Line · Huskur Gate', lat: 12.8312, lon: 77.6744, i: '🚇' },
-
-  { n: 'Hebbagodi Metro Station', s: 'Yellow Line · Bommasandra Industrial', lat: 12.8211, lon: 77.6801, i: '🚇' },
-
-  { n: 'Bommasandra Metro Station', s: 'Yellow Line Terminal · Jigani Link Rd', lat: 12.8123, lon: 77.6877, i: '🚇' },
-
-
-
-  // ALL TECH PARKS
-
+  { n: 'Goraguntepalya Metro Station', s: 'Green Line · Tumkur Road / Ring Road', lat: 13.0286, lon: 77.5417, i: '🚇' },
   { n: 'Manyata Tech Park', s: 'Outer Ring Road, Hebbal / Nagavara', lat: 13.0469, lon: 77.6191, i: '🏢' },
-
   { n: 'RMZ Ecospace', s: 'Outer Ring Road, Bellandur', lat: 12.9279, lon: 77.6841, i: '🏢' },
-
   { n: 'Ecospace Business Park', s: 'Outer Ring Road, Bellandur', lat: 12.9260, lon: 77.6762, i: '🏢' },
-
   { n: 'Embassy TechVillage (ETV)', s: 'Outer Ring Road, Devarabisanahalli', lat: 12.9352, lon: 77.6936, i: '🏢' },
-
   { n: 'Prestige Tech Park (PTP)', s: 'Outer Ring Road, Kadubeesanahalli', lat: 12.9416, lon: 77.6948, i: '🏢' },
-
-  { n: 'Prestige Cessna Business Park', s: 'Kadubeesanahalli, ORR', lat: 12.9388, lon: 77.6912, i: '🏢' },
-
-  { n: 'Prestige Ferns Galaxy', s: 'Outer Ring Road, Bellandur', lat: 12.9298, lon: 77.6812, i: '🏢' },
-
-  { n: 'Bagmane Tech Park', s: 'CV Raman Nagar / Byrasandra', lat: 12.9766, lon: 77.6558, i: '🏢' },
-
-  { n: 'Bagmane Constellation Business Park', s: 'Doddanekundi, Outer Ring Road', lat: 12.9812, lon: 77.6978, i: '🏢' },
-
-  { n: 'Bagmane Solarium City', s: 'Kundalahalli / Whitefield', lat: 12.9744, lon: 77.7089, i: '🏢' },
-
   { n: 'ITPL (International Tech Park Bangalore)', s: 'Whitefield Main Road', lat: 12.9867, lon: 77.7360, i: '🏢' },
-
-  { n: 'Prestige Shantiniketan', s: 'ITPL Main Road, Whitefield', lat: 12.9912, lon: 77.7289, i: '🏢' },
-
-  { n: 'Brigade Tech Gardens (BTG)', s: 'Brookefield, Kundalahalli', lat: 12.9698, lon: 77.7189, i: '🏢' },
-
-  { n: 'Embassy GolfLinks (EGL)', s: 'Intermediate Ring Road, Domlur / Challaghatta', lat: 12.9491, lon: 77.6447, i: '🏢' },
-
-  { n: 'Global Village Tech Park', s: 'Mylasandra, Mysore Road / RR Nagar', lat: 12.9189, lon: 77.5023, i: '🏢' },
-
-  { n: 'Kalyani Magnum Tech Park', s: 'JP Nagar 7th Phase, Bannerghatta Rd', lat: 12.8988, lon: 77.5967, i: '🏢' },
-
-  { n: 'Divyasree Technopolis', s: 'Yemalur, HAL Airport Road', lat: 12.9456, lon: 77.6811, i: '🏢' },
-
-  { n: 'Divyasree 77 East', s: 'Yemalur Main Rd, Marathahalli', lat: 12.9421, lon: 77.6789, i: '🏢' },
-
-  { n: 'RMZ Infinity', s: 'Old Madras Road, Benniganahalli', lat: 12.9934, lon: 77.6623, i: '🏢' },
-
-  { n: 'RMZ Titanium', s: 'Old Airport Road, Kodihalli', lat: 12.9623, lon: 77.6512, i: '🏢' },
-
-  { n: 'IBC Knowledge Park', s: 'Bannerghatta Main Road, Dairy Circle', lat: 12.9312, lon: 77.5989, i: '🏢' },
-
-  { n: 'Velankani Tech Park', s: 'Electronic City Phase 1', lat: 12.8423, lon: 77.6644, i: '🏢' },
-
-  { n: 'Helios Business Park', s: 'Kadubeesanahalli, Outer Ring Road', lat: 12.9378, lon: 77.6922, i: '🏢' },
-
-  { n: 'Sattva Knowledge Court', s: 'Doddanekundi Industrial Area, Whitefield', lat: 12.9856, lon: 77.7088, i: '🏢' },
-
-
-
-  // RESIDENTIAL HUBS, BUS STANDS & LANDMARKS
-
   { n: '310, 2nd A Cross Rd', s: 'Kasturi Nagar, Benniganahalli, Bengaluru', lat: 12.9960, lon: 77.6620, i: '📍' },
-
-  { n: 'Dooravani Nagar', s: 'Near ITI Colony, KR Puram, Bengaluru', lat: 13.0035, lon: 77.6710, i: '🏘️' },
-
-  { n: 'Benniganahalli Lake', s: 'Old Madras Road, Kasturi Nagar', lat: 12.9965, lon: 77.6624, i: '🏞️' },
-
-  { n: 'AECS Layout', s: 'Brookefield, Kundalahalli, Bengaluru', lat: 12.9634, lon: 77.7142, i: '🏘️' },
-
-  { n: 'AECS Layout Cult Fit', s: '60 Feet Main Rd, AECS Layout', lat: 12.9650, lon: 77.7155, i: '🏋️' },
-
-  { n: 'Binnypet', s: 'Cottonpet, Central Bengaluru', lat: 12.9680, lon: 77.5550, i: '🏘️' },
-
-  { n: 'Kempegowda Bus Station (Majestic KBS)', s: 'Central Bus Terminal', lat: 12.9772, lon: 77.5718, i: '🚌' },
-
-  { n: 'Shantinagar Bus Station (BMTC / KSRTC)', s: 'Double Road, Shantinagar', lat: 12.9544, lon: 77.5933, i: '🚌' },
-
-  { n: 'Shivajinagar Bus Terminal', s: 'Central Bengaluru', lat: 12.9856, lon: 77.6056, i: '🚌' },
-
-  { n: 'Banashankari TTMC & Bus Stand', s: 'Kanakapura Rd / Outer Ring Rd', lat: 12.9154, lon: 77.5736, i: '🚌' },
-
-  { n: 'Domlur TTMC Bus Station', s: 'Old Airport Road, Domlur', lat: 12.9612, lon: 77.6389, i: '🚌' },
-
-  { n: 'Tin Factory Bus Stop', s: 'KR Puram / Benniganahalli Junction', lat: 12.9962, lon: 77.6654, i: '🚏' },
-
-  { n: 'Silk Board Junction Bus Stop', s: 'Hosur Road / Outer Ring Road', lat: 12.9176, lon: 77.6235, i: '🚏' },
-
-  { n: 'Marathahalli Bridge Bus Stop', s: 'Outer Ring Road, Marathahalli', lat: 12.9562, lon: 77.7010, i: '🚏' },
-
-  { n: 'Goraguntepalya Junction', s: 'Tumkur Road / Yeshwanthpur NH 48', lat: 13.0286, lon: 77.5417, i: '🚦' },
-
-  { n: 'Phoenix Marketcity', s: 'Whitefield Main Road, Mahadevapura', lat: 12.9963, lon: 77.6953, i: '🛍️' },
-
-  { n: 'Orion Mall', s: 'Dr. Rajkumar Road, Rajajinagar', lat: 12.9933, lon: 77.5552, i: '🛍️' },
-
-  { n: 'Nexus Koramangala Mall', s: 'Hosur Road, Koramangala', lat: 12.9347, lon: 77.6122, i: '🛍️' },
-
-  { n: 'Kempegowda International Airport (BLR)', s: 'Devanahalli, NH 44', lat: 13.1986, lon: 77.7066, i: '✈️' }
-
+  { n: 'Dooravani Nagar', s: 'Near ITI Colony, KR Puram, Bengaluru', lat: 13.0035, lon: 77.6710, i: '🏘️' }
 ];
 
-
-
-// ══════════════════════════════════════════════════════════════════
-
-// 0ms SEARCH-AS-YOU-TYPE AUTOCOMPLETE
-
-// ══════════════════════════════════════════════════════════════════
-
-let activeSearchSession = { from: 0, to: 0 };
-
-
-
-function onSearch(field) {
-
-  const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
-
-  const query = (inp.value || '').trim();
-
-  const sessionId = ++activeSearchSession[field];
-
-
-
-  if (!query) {
-
-    closeAC(field);
-
-    return;
-
-  }
-
-
-
-  // 1. Instant local token match (0ms latency)
-
-  const cleanQ = query.toLowerCase();
-
-  const tokens = cleanQ.split(/\s+/).filter(t => t.length > 0);
-
-  
-
-  const instantMatches = POIS.filter(item => {
-
-    const text = (item.n + ' ' + item.s).toLowerCase();
-
-    return tokens.every(tok => text.includes(tok));
-
-  });
-
-
-
-  renderAC(field, instantMatches.slice(0, 8), query);
-
-
-
-  // 2. Background geocoding enrichment for house numbers / shops
-
-  clearTimeout(AC[field].timer);
-
-  document.getElementById(field === 'from' ? 'spFrom' : 'spTo').style.display = 'block';
-
-
-
-  AC[field].timer = setTimeout(() => {
-
-    fetchRemoteGeo(field, query, sessionId, instantMatches);
-
-  }, 220);
-
-}
-
-
-
-async function fetchRemoteGeo(field, query, sessionId, existingMatches) {
-
-  const sp = document.getElementById(field === 'from' ? 'spFrom' : 'spTo');
-
-  try {
-
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query + ' Bengaluru')}&countrycodes=in&viewbox=77.35,13.25,77.85,12.75&bounded=0&format=json&addressdetails=1&limit=8`;
-
-    const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
-
-    const data = await res.json();
-
-
-
-    if (sessionId !== activeSearchSession[field]) return;
-
-
-
-    if (Array.isArray(data) && data.length) {
-
-      const liveItems = data.map(d => {
-
-        const addr = d.address || {};
-
-        const main = d.name || d.display_name.split(',')[0].trim();
-
-        const subParts = [addr.suburb, addr.neighbourhood, addr.road, 'Bengaluru'].filter(Boolean);
-
-        const sub = [...new Set(subParts)].slice(0, 2).join(', ');
-
-        const icon = d.type === 'station' ? '🚇' : d.type === 'bus_stop' ? '🚏' : d.class === 'highway' ? '🛣️' : '📍';
-
-        return { n: main, s: sub || 'Bengaluru', lat: parseFloat(d.lat), lon: parseFloat(d.lon), i: icon };
-
-      });
-
-
-
-      const combined = [...existingMatches];
-
-      liveItems.forEach(item => {
-
-        const dup = combined.some(c => c.n.toLowerCase() === item.n.toLowerCase() || (Math.abs(c.lat - item.lat) < 0.0008 && Math.abs(c.lon - item.lon) < 0.0008));
-
-        if (!dup) combined.push(item);
-
-      });
-
-
-
-      renderAC(field, combined.slice(0, 10), query);
-
-    }
-
-  } catch (err) {
-
-    // Keep local matches if offline or throttled
-
-  } finally {
-
-    if (sessionId === activeSearchSession[field]) {
-
-      sp.style.display = 'none';
-
-    }
-
-  }
-
-}
-
-
-
-function renderAC(field, items, q) {
-
-  const el = document.getElementById(field === 'from' ? 'acFrom' : 'acTo');
-
-  if (!items || !items.length) {
-
-    el.innerHTML = `<div style="padding:14px;font-size:12px;color:var(--txt2)">No locations matching "<strong>${escapeHtml(q)}</strong>" in Bengaluru</div>`;
-
-    el.classList.add('open');
-
-    return;
-
-  }
-
-
-
-  window[`lastACResults_${field}`] = items;
-
-
-
-  el.innerHTML = `<div class="acd-header">Suggestions Matching "${escapeHtml(q)}"</div>` +
-
-    items.map((r, idx) => `
-
-      <div class="aci" onclick="pickACItem('${field}', ${idx})">
-
-        <div class="aci-ico">${r.i || '📍'}</div>
-
-        <div style="flex:1;min-width:0">
-
-          <div class="aci-n">${highlightMatch(r.n, q)}</div>
-
-          <div class="aci-s">${escapeHtml(r.s || 'Bengaluru')}</div>
-
-        </div>
-
-      </div>
-
-    `).join('');
-
-
-
-  el.classList.add('open');
-
-}
-
-
-
-function pickACItem(field, idx) {
-
-  const items = window[`lastACResults_${field}`] || [];
-
-  const item = items[idx];
-
-  if (!item) return;
-
-
-
-  const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
-
-  inp.value = item.n;
-
-
-
-  if (field === 'from') {
-
-    S.fromVal = item.n;
-
-    S.fromCoords = [item.lon, item.lat];
-
-  } else {
-
-    S.toVal = item.n;
-
-    S.toCoords = [item.lon, item.lat];
-
-  }
-
-
-
-  closeAC(field);
-
-  persistProfile();
-
-}
-
-
-
-function closeAC(field) {
-
-  const el = document.getElementById(field === 'from' ? 'acFrom' : 'acTo');
-
-  if (el) el.classList.remove('open');
-
-}
-
-
-
-function clearLoc(field) {
-
-  const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
-
-  inp.value = '';
-
-  closeAC(field);
-
-  if (field === 'from') { S.fromVal = ''; S.fromCoords = null; }
-
-  else { S.toVal = ''; S.toCoords = null; }
-
-  inp.focus();
-
-}
-
-
-
-function doSwap() {
-
-  const fi = document.getElementById('inpFrom');
-
-  const ti = document.getElementById('inpTo');
-
-  const temp = fi.value; fi.value = ti.value; ti.value = temp;
-
-  const tempS = S.fromVal; S.fromVal = S.toVal; S.toVal = tempS;
-
-  const tempC = S.fromCoords; S.fromCoords = S.toCoords; S.toCoords = tempC;
-
-  showToast('✓ Endpoints swapped');
-
-}
-
-
-
-function onKey(e, f) {
-
-  if (e.key === 'Escape') closeAC(f);
-
-}
-
-
-
-function highlightMatch(text, query) {
-
-  if (!query) return escapeHtml(text);
-
-  const idx = text.toLowerCase().indexOf(query.toLowerCase());
-
-  if (idx < 0) return escapeHtml(text);
-
-  return escapeHtml(text.slice(0, idx)) + '<mark>' + escapeHtml(text.slice(idx, idx + query.length)) + '</mark>' + escapeHtml(text.slice(idx + query.length));
-
-}
-
-
-
-function escapeHtml(str) {
-
-  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-
-}
-
-
-
-document.addEventListener('click', e => {
-
-  if (!e.target.closest('#inpFrom') && !e.target.closest('#acFrom')) closeAC('from');
-
-  if (!e.target.closest('#inpTo') && !e.target.closest('#acTo')) closeAC('to');
-
-});
-
-
-
-// ══════════════════════════════════════════════════════════════════
-
-// 2-EXPERIENCE USAGE GATE & AUTHENTICATION
-
-// ══════════════════════════════════════════════════════════════════
-
-function checkUsageGate() {
-
-  // If user is already authenticated, allow unlimited access
-
-  if (S.currentUser) return true;
-
-
-
-  const usageCount = parseInt(localStorage.getItem('cruizgo_usage_count') || '0', 10);
-
-  if (usageCount >= 2) {
-
-    document.getElementById('authGateModal').classList.add('show');
-
-    return false;
-
-  }
-
-
-
-  // Increment usage count for trials
-
-  localStorage.setItem('cruizgo_usage_count', (usageCount + 1).toString());
-
-  return true;
-
-}
-
-
-
-async function signInWithGoogle() {
-
-  if (!sbClient) return showToast('Supabase auth initializing…', 'err');
-
-  showToast('Redirecting to Google Sign-In…');
-
-  const { error } = await sbClient.auth.signInWithOAuth({
-
-    provider: 'google',
-
-    options: {
-
-      redirectTo: window.location.origin
-
-    }
-
-  });
-
-  if (error) showToast('Google sign-in error: ' + error.message, 'err');
-
-}
-
-
-
-async function signInWithMagicLink() {
-
-  if (!sbClient) return showToast('Supabase auth initializing…', 'err');
-
-  const email = document.getElementById('authEmailInput').value.trim();
-
-  if (!email || !email.includes('@')) {
-
-    showToast('Please enter a valid email address', 'err');
-
-    return;
-
-  }
-
-  showToast('Sending secure sign-in link…');
-
-  const { error } = await sbClient.auth.signInWithOtp({
-
-    email,
-
-    options: {
-
-      emailRedirectTo: window.location.origin
-
-    }
-
-  });
-
-  if (error) {
-
-    showToast(error.message, 'err');
-
-  } else {
-
-    showToast('✓ Magic link sent! Check your inbox / spam to sign in.');
-
-    document.getElementById('authGateModal').classList.remove('show');
-
-  }
-
-}
-
-
-
-async function initSupabaseAuthListener() {
-
-  if (!sbClient) return;
-
-  const { data: { session } } = await sbClient.auth.getSession();
-
-  if (session?.user) {
-
-    S.currentUser = session.user;
-
-    document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
-
-    document.getElementById('authGateModal').classList.remove('show');
-
-  }
-
-
-
-  sbClient.auth.onAuthStateChange((_event, session) => {
-
-    if (session?.user) {
-
-      S.currentUser = session.user;
-
-      document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
-
-      document.getElementById('authGateModal').classList.remove('show');
-
-      showToast(`✓ Logged in as ${session.user.email}`);
-
-    }
-
-  });
-
-}
-
-
-
-// ══════════════════════════════════════════════════════════════════
-
-// CORRIDORS DATA & TIMETABLE
-
-// ══════════════════════════════════════════════════════════════════
-
+// FULL CORRIDORS DATA
 const CORR = {
-
   orr: {
-
     id: 'corr-orr',
-
     name: 'Outer Ring Road (Silk Board ➔ KR Puram)',
-
     carPeak: 11, bikePeak: 20, carFree: 42, bikeFree: 55,
-
     safeSpeed: '32–38 km/h on open flyovers · 14–18 km/h in construction zones',
-
-    laneGuide: 'Hold middle/right lanes. Avoid extreme left lane near Bellandur EcoSpace bus bay and tech park entry ramps.',
-
+    laneGuide: 'Hold middle/right lanes. Avoid extreme left lane near Bellandur EcoSpace bus bay.',
     metro: 'Phase 2A Blue Line barricading active from Kadubeesanahalli to Marathahalli.',
-
     syncTime: 'Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST',
-
-    ribbon: [
-
-      { t: 'r-clear', label: 'Silk Board: Clear' },
-
-      { t: 'r-heavy', label: 'HSR 5th Sector: Bus Bunching' },
-
-      { t: 'r-warn', label: 'Agara Lake: Crawl' },
-
-      { t: 'r-jam', label: 'EcoSpace BMTC Bay: Standstill (+18m)' },
-
-      { t: 'r-heavy', label: 'Kadubeesanahalli: Metro Pillar' },
-
-      { t: 'r-jam', label: 'Marathahalli Multiplex: Signal Jam' },
-
-      { t: 'r-clear', label: 'KR Puram: Open' }
-
-    ],
-
-    summary: 'Heavy standstill jam at Bellandur EcoSpace bus stop. Metro barricades narrow flow to 1.5 lanes at Kadubeesanahalli.',
-
     chokes: [
-
       { n: 'Silk Board Lower Flyover Merge', s: 'danger', d: '+25–40 min' },
-
       { n: 'Bellandur EcoSpace BMTC Bus Bay (Left lane overflow)', s: 'danger', d: '+15–20 min' },
-
       { n: 'Kadubeesanahalli Underpass Pillar Barricade', s: 'warn', d: '+10–15 min' },
-
       { n: 'Marathahalli Multiplex Signal Choke', s: 'warn', d: '+12–18 min' }
-
     ]
-
   },
-
   wf: {
-
     id: 'corr-wf',
-
     name: 'Whitefield Corridor (Tin Factory ➔ ITPL)',
-
     carPeak: 13, bikePeak: 21, carFree: 45, bikeFree: 58,
-
     safeSpeed: '28–35 km/h · Maintain steady spacing behind BMTC Volvo buses',
-
-    laneGuide: 'Keep to center lane. Stay off left shoulder near Hoodi due to road construction debris.',
-
+    laneGuide: 'Keep to center lane. Stay off left shoulder near Hoodi.',
     metro: 'ITPL road surface reconstruction & Hoodi station diversions.',
-
     syncTime: 'Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST',
-
-    ribbon: [
-
-      { t: 'r-jam', label: 'Tin Factory: Bus Stand Queue' },
-
-      { t: 'r-heavy', label: 'Garudacharpalya: Cross-traffic' },
-
-      { t: 'r-warn', label: 'Hoodi: Road Resurfacing' },
-
-      { t: 'r-clear', label: 'AECS Layout Cross: Moving' },
-
-      { t: 'r-jam', label: 'Hope Farm Circle: Congested' }
-
-    ],
-
-    summary: 'Tin Factory bus choke creates a 1.2 km upstream backup. Center-lane commute recommended.',
-
     chokes: [
-
       { n: 'Tin Factory / KR Puram Station Bus Stop bottleneck', s: 'danger', d: '+20–30 min' },
-
       { n: 'Garudacharpalya Signal Cross-traffic', s: 'warn', d: '+10–15 min' },
-
       { n: 'Hope Farm Circle Funnel', s: 'danger', d: '+15–22 min' }
-
     ]
-
   },
-
   ec: {
-
     id: 'corr-ec',
-
     name: 'Electronic City Corridor (Silk Board ➔ E-City)',
-
     carPeak: 16, bikePeak: 23, carFree: 55, bikeFree: 65,
-
     safeSpeed: '45–55 km/h on Elevated Expressway · 20–25 km/h on Hosur Road surface',
-
-    laneGuide: 'Elevated highway offers consistent flow. If on surface road, avoid Kudlu Gate left lane during peak shift hours.',
-
+    laneGuide: 'Elevated highway offers consistent flow. If on surface road, avoid Kudlu Gate left lane.',
     metro: 'Yellow Line street reinstatement; Bommasandra and Kudlu Gate restrictions.',
-
     syncTime: 'Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST',
-
-    ribbon: [
-
-      { t: 'r-heavy', label: 'Silk Board Incline' },
-
-      { t: 'r-clear', label: 'Elevated Expressway: 55 km/h' },
-
-      { t: 'r-warn', label: 'Kudlu Gate Surface: Congested' },
-
-      { t: 'r-clear', label: 'Electronic City Toll Plaza' }
-
-    ],
-
-    summary: 'Elevated highway is clear. Surface Hosur Road experiencing 12-min delays around Kudlu Gate.',
-
     chokes: [
-
       { n: 'Kudlu Gate Signal Spillover', s: 'danger', d: '+15–25 min' },
-
       { n: 'Bommanahalli Bus Stop Cluster', s: 'warn', d: '+10–14 min' }
-
     ]
-
   },
-
   hbl: {
-
     id: 'corr-hbl',
-
     name: 'Hebbal – Manyata (Hebbal ➔ Airport Road)',
-
     carPeak: 15, bikePeak: 22, carFree: 40, bikeFree: 52,
-
     safeSpeed: '40–48 km/h on NH 44 · 18–22 km/h entering Manyata Tech Park gates',
-
-    laneGuide: 'Avoid left lane before Veerannapalya flyover where BMTC buses pull in across carriage-way.',
-
+    laneGuide: 'Avoid left lane before Veerannapalya flyover.',
     metro: 'Airport Line pillar construction on NH 44 at Veerannapalya.',
-
     syncTime: 'Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST',
-
-    ribbon: [
-
-      { t: 'r-jam', label: 'Hebbal Flyover Loop' },
-
-      { t: 'r-heavy', label: 'Veerannapalya Manyata Gate' },
-
-      { t: 'r-clear', label: 'Jakkur Aerodrome Stretch' }
-
-    ],
-
-    summary: 'Flyover merging bottleneck active at Hebbal. Gate security adds +10 mins.',
-
     chokes: [
-
       { n: 'Hebbal Flyover Loop Merging', s: 'danger', d: '+18–30 min' },
-
       { n: 'Veerannapalya Manyata Gate BMTC bay choke', s: 'danger', d: '+15–22 min' }
-
     ]
-
-  },
-
-  tmk: {
-
-    id: 'corr-tmk',
-
-    name: 'Tumkur Road – Yeshwanthpur – Majestic (NH 48)',
-
-    carPeak: 14, bikePeak: 22, carFree: 45, bikeFree: 55,
-
-    safeSpeed: '35–40 km/h · Maintain steady distance on Goraguntepalya flyover',
-
-    laneGuide: 'Stay in right-hand lanes over Yeshwanthpur flyover to bypass city-bus depot entrances.',
-
-    metro: 'Namma Metro Green Line elevated corridor · Outer junction diversions.',
-
-    syncTime: 'Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST',
-
-    ribbon: [
-
-      { t: 'r-clear', label: 'Nelamangala Toll: Free' },
-
-      { t: 'r-jam', label: 'Goraguntepalya Flyover: Standstill (+18m)' },
-
-      { t: 'r-heavy', label: 'Yeshwanthpur Railway Station Choke' },
-
-      { t: 'r-warn', label: 'Malleshwaram 8th Main Cross' },
-
-      { t: 'r-jam', label: 'Majestic Bus Stand Approach (+14m)' }
-
-    ],
-
-    summary: 'Goraguntepalya junction experiencing heavy outbound and inbound vehicle accumulation.',
-
-    chokes: [
-
-      { n: 'Goraguntepalya Junction / Flyover Funnel', s: 'danger', d: '+18–26 min' },
-
-      { n: 'Yeshwanthpur Bus Terminal Ingress', s: 'warn', d: '+10–14 min' },
-
-      { n: 'Majestic Metro Interchange Approach', s: 'danger', d: '+12–18 min' }
-
-    ]
-
-  },
-
-  irr: {
-
-    id: 'corr-irr',
-
-    name: 'Intermediate Ring Road & Central CBD',
-
-    carPeak: 17, bikePeak: 24, carFree: 45, bikeFree: 55,
-
-    safeSpeed: '30–38 km/h steady transit',
-
-    laneGuide: 'Domlur flyover is clear. Maintain center lane near Command Hospital.',
-
-    metro: 'MG Road, Richmond Circle & Domlur cross-arterials.',
-
-    syncTime: 'Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST',
-
-    ribbon: [
-
-      { t: 'r-clear', label: 'Koramangala 100ft: Flowing' },
-
-      { t: 'r-warn', label: 'Domlur Flyover: Moderate' },
-
-      { t: 'r-clear', label: 'Old Airport Road Merge' }
-
-    ],
-
-    summary: 'Moderate flow on Intermediate Ring Road. Best route into central tech parks.',
-
-    chokes: [
-
-      { n: 'Domlur Flyover Incline', s: 'warn', d: '+10–16 min' },
-
-      { n: 'Command Hospital Bus Bay merge', s: 'warn', d: '+8–12 min' }
-
-    ]
-
   }
-
 };
-
-
 
 const WEEK_CONFIG = [
-
   { k: 'mon', full: 'Monday', mult: 1.15, peak: '8:00–10:30 AM & 5:00–8:00 PM', wx: '28°C · Sunny', dot: '🟢', dt: '21' },
-
   { k: 'tue', full: 'Tuesday', mult: 1.25, peak: '8:00–11:00 AM & 5:00–8:30 PM', wx: '27°C · Cloudy', dot: '🟡', dt: '22' },
-
   { k: 'wed', full: 'Wednesday', mult: 1.40, peak: '7:45–11:30 AM & 4:45–9:00 PM (Gridlock Peak)', wx: '26°C · Passing Rain', dot: '🔴', dt: '23' },
-
   { k: 'thu', full: 'Thursday', mult: 1.30, peak: '8:00–10:45 AM & 5:00–8:00 PM', wx: '28°C · Dry', dot: '🟡', dt: '24' },
-
   { k: 'fri', full: 'Friday', mult: 1.15, peak: '8:00–10:30 AM & 4:30–7:30 PM', wx: '29°C · Clear', dot: '🟢', dt: '25' },
-
   { k: 'sat', full: 'Saturday', mult: 1.05, peak: '11:00 AM–2:30 PM (Mall Surge)', wx: '29°C · Clear', dot: '🟢', dt: '26' },
-
   { k: 'sun', full: 'Sunday', mult: 0.95, peak: 'Light traffic all day', wx: '29°C · Clear', dot: '🟢', dt: '20' }
-
 ];
 
-
-
+// INITIALIZATION
 function initClock() {
-
   const clk = document.getElementById('clk');
-
   const dPill = document.getElementById('datePill');
-
   function update() {
-
     const d = new Date();
-
     clk.textContent = d.toTimeString().split(' ')[0];
-
     dPill.textContent = d.toLocaleDateString('en-GB', { weekday:'short', day:'2-digit', month:'short', year:'numeric' });
-
   }
-
   update();
-
   setInterval(update, 1000);
-
 }
-
-
 
 function persistProfile() {
-
   const u = document.getElementById('uName').value;
-
   const e = document.getElementById('uEmail').value;
-
-  const a = document.getElementById('tArrive').value;
-
-  const r = document.getElementById('tReturn').value;
-
-  localStorage.setItem('cruizgo_profile', JSON.stringify({ u, e, a, r }));
-
+  localStorage.setItem('cruizgo_profile', JSON.stringify({ u, e }));
 }
-
-
 
 function loadProfile() {
-
   const saved = JSON.parse(localStorage.getItem('cruizgo_profile') || '{}');
-
   if (saved.u) document.getElementById('uName').value = saved.u;
-
   if (saved.e) document.getElementById('uEmail').value = saved.e;
-
-  if (saved.a) document.getElementById('tArrive').value = saved.a;
-
-  if (saved.r) document.getElementById('tReturn').value = saved.r;
-
 }
 
-
-
-function validateSelectedTimes() {
-
-  if (S.tripMode === 'now') {
-
-    document.getElementById('temporalErrBox').style.display = 'none';
-
-    return true;
-
-  }
-
-  const arrStr = document.getElementById('tArrive').value;
-
-  const [h, m] = arrStr.split(':').map(Number);
-
-  const now = new Date();
-
-  const currentMins = now.getHours() * 60 + now.getMinutes();
-
-  const targetMins = h * 60 + m;
-
-
-
-  if (targetMins <= currentMins) {
-
-    document.getElementById('temporalErrBox').style.display = 'block';
-
-    return false;
-
-  } else {
-
-    document.getElementById('temporalErrBox').style.display = 'none';
-
-    return true;
-
-  }
-
-}
-
-
-
-function acquireLiveGPS() {
-
-  if (!navigator.geolocation) {
-
-    showToast('Geolocation is not supported by your browser', 'err');
-
-    return;
-
-  }
-
-  showToast('Acquiring high-precision GPS fix…');
-
-  navigator.geolocation.getCurrentPosition(async pos => {
-
-    const lat = pos.coords.latitude;
-
-    const lon = pos.coords.longitude;
-
-    S.fromCoords = [lon, lat];
-
-
-
-    try {
-
-      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
-
-      const data = await res.json();
-
-      const area = data.address.suburb || data.address.neighbourhood || data.address.road || 'Dooravani Nagar';
-
-      const formatted = `${area}, Bengaluru`;
-
-      document.getElementById('inpFrom').value = formatted;
-
-      S.fromVal = formatted;
-
-      showToast(`✓ Locked GPS: ${area}`);
-
-      doScan();
-
-    } catch {
-
-      document.getElementById('inpFrom').value = `Dooravani Nagar, Bengaluru`;
-
-      S.fromVal = `Dooravani Nagar, Bengaluru`;
-
-      doScan();
-
-    }
-
-  }, err => {
-
-    showToast('GPS access denied. Enter your location manually.', 'err');
-
-  }, { enableHighAccuracy: true, timeout: 9000 });
-
-}
-
-
-
-function setTripMode(m) {
-
-  S.tripMode = m;
-
-  document.getElementById('btnModePlan').classList.toggle('on', m === 'plan');
-
-  document.getElementById('btnModeNow').classList.toggle('on', m === 'now');
-
-  document.getElementById('timeRowPlan').style.display = m === 'plan' ? 'grid' : 'none';
-
-  document.getElementById('timeRowNow').style.display = m === 'now' ? 'block' : 'none';
-
-  validateSelectedTimes();
-
-  doScan();
-
-}
-
-
-
-function setV(v) {
-
-  S.vehicle = v;
-
-  document.getElementById('vBike').classList.toggle('on', v === 'bike');
-
-  document.getElementById('vCar').classList.toggle('on', v === 'car');
-
-  doScan();
-
-}
-
-
-
-function detectCorridor(fv, tv) {
-
-  const t = ((fv||'') + ' ' + (tv||'')).toLowerCase();
-
-  if (t.includes('tumkur') || t.includes('yeshwanthpur') || t.includes('majestic') || t.includes('goraguntepalya')) return 'tmk';
-
-  if (t.includes('whitefield') || t.includes('itpl') || t.includes('aecs')) return 'wf';
-
-  if (t.includes('electronic') || t.includes('hosur')) return 'ec';
-
-  if (t.includes('hebbal') || t.includes('manyata')) return 'hbl';
-
-  if (t.includes('domlur') || t.includes('cbd')) return 'irr';
-
-  return 'orr';
-
-}
-
-
-
-function timeToMins(tStr) {
-
-  const [h, m] = tStr.split(':').map(Number);
-
-  return h * 60 + m;
-
-}
-
-
-
-function minsToFormattedTime(totalMins) {
-
-  const normalized = ((totalMins % 1440) + 1440) % 1440;
-
-  const hh = Math.floor(normalized / 60).toString().padStart(2, '0');
-
-  const mm = (normalized % 60).toString().padStart(2, '0');
-
-  return `${hh}:${mm}`;
-
-}
-
-
-
-// ══════════════════════════════════════════════════════════════════
-
-// SCAN ACTION WITH USAGE GATE ENFORCEMENT
-
-// ══════════════════════════════════════════════════════════════════
-
-async function doScan() {
-
-  if (!checkUsageGate()) return;
-
-
-
-  switchTab('today', document.getElementById('tabToday'));
-
-
-
-  const fv = document.getElementById('inpFrom').value.trim() || S.fromVal;
-
-  const tv = document.getElementById('inpTo').value.trim() || S.toVal;
-
-  const arrStr = document.getElementById('tArrive').value;
-
-  const retStr = document.getElementById('tReturn').value;
-
-
-
-  const btn = document.getElementById('scanBtn');
-
-  btn.disabled = true;
-
-  btn.textContent = 'Analyzing Traffic Sensors…';
-
-
-
-  const corrKey = detectCorridor(fv, tv);
-
-  const cor = CORR[corrKey];
-
-  const todayDay = new Date().getDay();
-
-  const dayMult = [0.95, 1.15, 1.25, 1.40, 1.30, 1.15, 1.05][todayDay] || 1.2;
-
-
-
-  const distKm = 14.5;
-
-  const activeSpeed = S.vehicle === 'bike' ? (cor.bikePeak / dayMult) : (cor.carPeak / dayMult);
-
-  const travelMins = Math.round((distKm / activeSpeed) * 60);
-
-  const bufferMins = S.vehicle === 'bike' ? 3 : 4;
-
-
-
-  let mornDepStr, retDepStr, displayArrival;
-
-
-
-  if (S.tripMode === 'now') {
-
-    const d = new Date();
-
-    const nowMins = d.getHours() * 60 + d.getMinutes();
-
-    mornDepStr = minsToFormattedTime(nowMins);
-
-    const etaMins = nowMins + travelMins + bufferMins;
-
-    displayArrival = minsToFormattedTime(etaMins);
-
-
-
-    document.getElementById('heroEyeLabel').textContent = '⚡ LIVE ROUTE — DEPART IMMEDIATELY';
-
-    document.getElementById('heroR1').textContent = `Start right now via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to arrive at ${tv.split(',')[0]} by ~${displayArrival}. Pure transit duration is ${travelMins} mins (+${bufferMins} min buffer). Driving Silence Protocol active.`;
-
-  } else {
-
-    validateSelectedTimes();
-
-    const arrMins = timeToMins(arrStr);
-
-    const mornDepMins = arrMins - travelMins - bufferMins;
-
-    mornDepStr = minsToFormattedTime(mornDepMins);
-
-    displayArrival = arrStr;
-
-
-
-    document.getElementById('heroEyeLabel').textContent = 'LEAVE BY — OPTIMAL MORNING WINDOW';
-
-    document.getElementById('heroR1').textContent = `Leave by ${mornDepStr} via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to reach by ${arrStr}. Pure transit is ${travelMins} mins (+${bufferMins} min buffer).`;
-
-  }
-
-
-
-  if (retStr) {
-
-    const retMins = timeToMins(retStr);
-
-    retDepStr = minsToFormattedTime(retMins - travelMins - bufferMins);
-
-  } else {
-
-    retDepStr = '17:42';
-
-  }
-
-
-
-  const confScore = Math.min(99, Math.max(96, Math.round(98 - (dayMult - 1) * 3)));
-
-  const penaltyMin = S.vehicle === 'bike' ? 14 : 22;
-
-
-
-  S.lastScan = {
-
-    fv, tv, arrStr: displayArrival, retStr, distKm, travelMins, mornDepStr, retDepStr,
-
-    confScore, cor, penaltyMin, bufferMins
-
+// TAB SWITCHING (SCOPES CONTROLS TO TODAY ONLY)
+function switchTab(name, btn) {
+  document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
+
+  const map = {
+    today: 'pToday', week: 'pWeek', corridors: 'pCorridors',
+    alerts: 'pAlerts', savedTime: 'pSavedTime', history: 'pHistory'
   };
+  const target = document.getElementById(map[name]);
+  if (target) target.classList.add('on');
+  if (btn) btn.classList.add('on');
 
-
-
-  document.getElementById('empEl').style.display = 'none';
-
-  document.getElementById('resWrap').style.display = 'flex';
-
-
-
-  document.getElementById('heroT1').textContent = mornDepStr;
-
-  document.getElementById('heroAp1').textContent = timeToMins(mornDepStr) >= 720 ? 'PM' : 'AM';
-
-  document.getElementById('heroT2').textContent = retDepStr;
-
-  document.getElementById('heroR2').textContent = retStr ? `Leave work by ${retDepStr} to arrive home by ${retStr}.` : '--';
-
-
-
-  document.getElementById('hgD').textContent = `${distKm} km`;
-
-  document.getElementById('hgT').textContent = `${travelMins} min`;
-
-  document.getElementById('hgTLabel').textContent = `TRANSIT TIME (+${bufferMins}M BUFFER)`;
-
-
-
-  document.getElementById('sscSpeed').innerHTML = `Cruise Target: ${cor.safeSpeed}`;
-
-  document.getElementById('sscLaneGuide').innerHTML = `<strong>Recommended Lane Position:</strong> ${cor.laneGuide}`;
-
-
-
-  document.getElementById('confBadgeScore').textContent = `${confScore}% VERIFIED`;
-
-  document.getElementById('confExpText').innerHTML = `<strong>${confScore}% Prediction Reliability:</strong> Cross-verified against road sensors and historical corridor telemetry. Guaranteed arrival within <strong>±3 minutes</strong> at ${displayArrival} when recommended safe cruise speeds are maintained.`;
-
-
-
-  updateInAppMap(fv, tv);
-
-
-
-  btn.disabled = false;
-
-  btn.textContent = 'Calculate Departure Window →';
-
-
-
-  document.getElementById('voluntaryArrivalBanner').style.display = 'flex';
-
-
-
-  const email = document.getElementById('uEmail').value.trim();
-
-  if (email) {
-
-    supabaseUpsert('commute_plans', {
-
-      user_email: email,
-
-      username: document.getElementById('uName').value.trim() || 'Commuter',
-
-      origin_name: fv,
-
-      dest_name: tv,
-
-      vehicle_mode: S.vehicle,
-
-      preferred_arrival_time: (S.tripMode === 'now' ? displayArrival : arrStr) + ':00',
-
-      leave_home_time: mornDepStr + ':00',
-
-      leave_office_time: retDepStr + ':00',
-
-      weekly_schedule: S.weekDays,
-
-      alerts_enabled: true
-
-    });
-
-  }
-
+  if (name === 'week') { buildDayStrip(); renderWeekCards(); }
+  if (name === 'corridors') renderCorridors();
+  if (name === 'alerts') renderAlerts();
+  if (name === 'savedTime') renderSavedTimeView();
+  if (name === 'history') renderHistory();
 }
 
-
-
-function updateInAppMap(from, to) {
-
-  const iframe = document.getElementById('inAppMapFrame');
-
-  const lon = S.fromCoords ? S.fromCoords[0] : 77.6710;
-
-  const lat = S.fromCoords ? S.fromCoords[1] : 13.0035;
-
-  const minLon = lon - 0.08;
-
-  const maxLon = lon + 0.08;
-
-  const minLat = lat - 0.06;
-
-  const maxLat = lat + 0.06;
-
-  iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${minLon},${minLat},${maxLon},${maxLat}&layer=mapnik&marker=${lat},${lon}`;
-
-}
-
-
-
-function openGoogleMapsDirect() {
-
-  const fv = encodeURIComponent((document.getElementById('inpFrom').value.trim() || S.fromVal) + ' Bengaluru');
-
-  const tv = encodeURIComponent((document.getElementById('inpTo').value.trim() || S.toVal) + ' Bengaluru');
-
-  const mode = S.vehicle === 'bike' ? 'bicycling' : 'driving';
-
-  window.open(`https://www.google.com/maps/dir/?api=1&origin=${fv}&destination=${tv}&travelmode=${mode}&dir_action=navigate`, '_blank');
-
-}
-
-
-
-// WEEK ACCORDION
-
+// WEEK TAB LOGIC (RESTORED)
 function buildDayStrip() {
-
   const currentDayKey = WEEK_CONFIG[(new Date().getDay() + 6) % 7].k;
-
-
-
   document.getElementById('dayStrip').innerHTML = WEEK_CONFIG.map(d => {
-
     const isSelected = S.weekDays.includes(d.k);
-
     const isToday = d.k === currentDayKey;
-
     return `
-
       <div class="dchip ${isSelected ? 'on' : ''} ${isToday ? 'today' : ''}" id="chip-${d.k}" onclick="toggleDayChip('${d.k}')">
-
         <div class="dcn">${d.full.slice(0,3)}</div>
-
         <div class="dcd">${d.dt}</div>
-
         <div class="dcs">${d.dot}</div>
-
       </div>
-
     `;
-
   }).join('');
-
 }
-
-
 
 function toggleDayChip(k) {
-
   const idx = S.weekDays.indexOf(k);
-
   if (idx >= 0) {
-
     S.weekDays.splice(idx, 1);
-
     document.getElementById(`chip-${k}`).classList.remove('on');
-
     const card = document.getElementById(`dp-${k}`);
-
     if (card) card.style.display = 'none';
-
   } else {
-
     S.weekDays.push(k);
-
     document.getElementById(`chip-${k}`).classList.add('on');
-
     const card = document.getElementById(`dp-${k}`);
-
     if (card) {
-
       card.style.display = 'block';
-
       card.classList.add('open');
-
     }
-
   }
-
 }
-
-
 
 function renderWeekCards() {
-
   const currentDayKey = WEEK_CONFIG[(new Date().getDay() + 6) % 7].k;
-
-
-
   document.getElementById('weekCards').innerHTML = WEEK_CONFIG.map(d => {
-
     const saved = JSON.parse(localStorage.getItem(`cruizgo_${d.k}`) || '{}');
-
     const f = saved.f || S.fromVal;
-
     const t = saved.t || S.toVal;
-
     const a = saved.a || '09:15';
-
     const r = saved.r || '18:30';
-
     const isToday = d.k === currentDayKey;
-
     const isSelected = S.weekDays.includes(d.k);
 
-
-
     return `
-
       <div class="daycard ${isToday ? 'open' : ''}" id="dp-${d.k}" style="display:${isSelected ? 'block' : 'none'}">
-
         <div class="dc-hdr" onclick="toggleDayCard('${d.k}')">
-
           <div class="dctit ${isToday ? 'tl' : ''}">${d.full} ${isToday ? '· Today' : ''}</div>
-
           <div style="font-size:11px;color:var(--txt2)">${d.dot} ${d.wx}</div>
-
         </div>
-
         <div class="dc-body">
-
           <div class="jf">
-
             <div class="jf2">
-
               <div><div class="jflbl">Origin</div><input class="jfinp" id="wf_${d.k}" value="${f}" /></div>
-
               <div><div class="jflbl">Destination</div><input class="jfinp" id="wt_${d.k}" value="${t}" /></div>
-
             </div>
-
             <div class="jf2">
-
               <div><div class="jflbl">Arrive by</div><input class="jftime" type="time" id="wa_${d.k}" value="${a}" /></div>
-
               <div><div class="jflbl">Return by</div><input class="jftime" type="time" id="wr_${d.k}" value="${r}" /></div>
-
             </div>
-
             <button class="calcbtn" onclick="calcDay('${d.k}')">Calculate ${d.full} Departure</button>
-
             <div class="dr" id="dr-${d.k}"></div>
-
             <div class="save-day-bar">
-
               <span style="font-size:11px;color:var(--txt3)">Persist schedule</span>
-
               <button class="savedaybtn" onclick="saveDaySchedule('${d.k}')">💾 Save ${d.full}</button>
-
             </div>
-
           </div>
-
         </div>
-
       </div>
-
     `;
-
   }).join('');
-
 }
-
-
 
 function toggleDayCard(k) {
-
   document.getElementById(`dp-${k}`).classList.toggle('open');
-
 }
-
-
 
 function calcDay(k) {
-
   const f = document.getElementById(`wf_${k}`).value.trim();
-
   const t = document.getElementById(`wt_${k}`).value.trim();
-
   const a = document.getElementById(`wa_${k}`).value;
-
   const r = document.getElementById(`wr_${k}`).value;
-
   const day = WEEK_CONFIG.find(x => x.k === k);
 
-
-
   const duration = Math.round(48 * day.mult);
-
   const depMins = timeToMins(a) - duration - 4;
-
   const retMins = timeToMins(r) - duration - 4;
-
   const depStr = minsToFormattedTime(depMins);
-
   const retStr = minsToFormattedTime(retMins);
 
-
-
   const resEl = document.getElementById(`dr-${k}`);
-
   resEl.innerHTML = `
-
     <div style="font-size:12px;color:var(--txt3)">To reach <b>${t.split(',')[0]}</b> by ${a} — leave <b>${f.split(',')[0]}</b> by:</div>
-
     <div class="drbig">${depStr}</div>
-
     <div style="font-size:12px;color:var(--txt3);margin-top:10px">To leave <b>${t.split(',')[0]}</b> and be home by ${r} — depart by:</div>
-
     <div class="drret">${retStr}</div>
-
     <div style="font-size:12px;color:var(--txt2);margin-top:10px;line-height:1.6">
-
       <strong>Corridor:</strong> Outer Ring Road (ORR)<br>
-
       <strong>Pure Travel Time:</strong> ${duration} min (${S.vehicle === 'bike' ? 'Bike' : 'Car'})<br>
-
       <strong>Buffer Added:</strong> +4 min (parking/gates)<br>
-
       <strong>Confidence:</strong> 97% on ${day.full}<br>
-
       <strong>Peak Strategy:</strong> ${day.peak} · <em>CruizGo recommends departing at ${depStr} to bypass queue before it blocks the main carriageway.</em>
-
     </div>
-
   `;
-
   resEl.classList.add('show');
-
 }
 
-
-
 async function saveDaySchedule(k) {
-
   const f = document.getElementById(`wf_${k}`).value.trim();
-
   const t = document.getElementById(`wt_${k}`).value.trim();
-
   const a = document.getElementById(`wa_${k}`).value;
-
   const r = document.getElementById(`wr_${k}`).value;
 
-
-
   const sched = {
-
     id: 'sched_' + k,
-
     name: `${k.toUpperCase()}: ${f.split(',')[0]} ➔ ${t.split(',')[0]}`,
-
     from: f, to: t, arr: a, ret: r,
-
     vehicle: S.vehicle,
-
     savedAt: new Date().toLocaleDateString('en-GB')
-
   };
-
-
 
   localStorage.setItem(`cruizgo_${k}`, JSON.stringify({ f, t, a, r }));
 
-
-
   let savedList = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
-
   savedList = savedList.filter(s => s.id !== sched.id);
-
   savedList.unshift(sched);
-
   localStorage.setItem('cruizgo_saved', JSON.stringify(savedList));
 
-
-
   showToast(`✓ ${k.toUpperCase()} saved`);
-
-  renderHistory();
-
 }
 
-
-
-// CORRIDORS
-
+// CORRIDORS TAB LOGIC (RESTORED)
 function renderCorridors() {
-
   document.getElementById('allCorr').innerHTML = Object.entries(CORR).map(([k, c]) => `
-
     <div class="corrcard" id="${c.id}" style="margin-bottom:14px">
-
       <div class="corr-hd">
-
         <div class="corr-nm">${c.name}</div>
-
-        <button class="savedaybtn" style="padding:4px 9px;font-size:10px" onclick="inspectCorridor('${k}')">View Heatmap Ribbon ➔</button>
-
+        <button class="savedaybtn" style="padding:4px 9px;font-size:10px" onclick="inspectCorridor('${k}')">View Heatmap ➔</button>
       </div>
-
       <div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:8px">${c.syncTime}</div>
-
       <div style="font-size:12px;color:var(--txt2);margin-bottom:10px">🚇 ${c.metro}</div>
 
-
-
       <div class="choke-table-hdr">
-
         <span class="cth-label">Choke Point / Bottleneck Location</span>
-
         <span class="cth-label">Delay Added (Est.)</span>
-
       </div>
 
-
-
       <div class="corr-rows">${c.chokes.map(ch => `
-
         <div class="crow2">
-
           <div class="cdot3 ${ch.s}"></div>
-
           <div class="cr-lb">${ch.n}</div>
-
           <div class="cr-dl" style="color:${ch.s === 'danger' ? 'var(--red)' : 'var(--amber)'}">${ch.d}</div>
-
         </div>
-
       `).join('')}</div>
-
       <button class="scan" style="margin-top:12px;padding:9px;font-size:12px" onclick="setCorridorToToday('${k}')">
-
         Set Corridor to Today's Route →
-
       </button>
-
     </div>
-
   `).join('');
-
 }
-
-
 
 function inspectCorridor(k) {
-
   const c = CORR[k];
-
   document.getElementById('ribbonCorridorName').textContent = c.name;
-
-  document.getElementById('ribbonSyncTime').textContent = c.syncTime;
-
-  document.getElementById('ribbonChokeSummary').innerHTML = `⚠️ <strong>Active Bottlenecks on this Corridor:</strong> ${c.summary}`;
-
-
-
-  const track = document.querySelector('.ribbon-track');
-
-  track.innerHTML = c.ribbon.map(r => `<div class="r-seg ${r.t}" title="${r.label}"></div>`).join('');
-
-
-
   const targetBox = document.getElementById('corridorRibbonBox');
-
   targetBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
-
-  targetBox.style.borderColor = 'var(--neon)';
-
-  setTimeout(() => targetBox.style.borderColor = 'var(--brd)', 1500);
-
 }
-
-
 
 function setCorridorToToday(k) {
-
   const c = CORR[k];
-
   document.getElementById('inpFrom').value = '310, 2nd A Cross Rd';
-
   document.getElementById('inpTo').value = c.name.split('(')[0].trim();
-
   S.fromVal = '310, 2nd A Cross Rd';
-
   S.toVal = c.name.split('(')[0].trim();
-
   switchTab('today', document.getElementById('tabToday'));
-
   doScan();
-
 }
 
-
-
-// ALERTS & BADGES LOGIC
-
-function renderAlerts() {
-
-  const container = document.getElementById('alertsListContainer');
-
-  const countBadge = document.getElementById('badgeAlerts');
-
-  countBadge.textContent = S.alertsList.length;
-
-
-
-  if ('setAppBadge' in navigator) {
-
-    navigator.setAppBadge(S.alertsList.length).catch(() => {});
-
-  }
-
-
-
-  if (!S.alertsList.length) {
-
-    container.innerHTML = `<div style="padding:20px;text-align:center;color:var(--txt3);font-size:13px">No new notifications. You are all caught up!</div>`;
-
-    return;
-
-  }
-
-
-
-  container.innerHTML = S.alertsList.map(a => `
-
-    <div class="alert-card" onclick="openAlertDeepLink('${a.id}', '${a.type}')">
-
-      <div class="alert-time">${a.time} · DISPATCHED TO LOCK SCREEN</div>
-
-      <div class="alert-title">${a.title}</div>
-
-      <div class="alert-body">${a.body}</div>
-
-      <span class="alert-conf">Confidence: ${a.conf}% Verified</span>
-
-    </div>
-
-  `).join('');
-
-}
-
-
-
-function openAlertDeepLink(id, type) {
-
-  S.alertsList = S.alertsList.filter(x => x.id !== id);
-
-  renderAlerts();
-
-
-
-  if (type === 'checkin') {
-
-    openCompletionModal();
-
-  } else {
-
-    switchTab('today', document.getElementById('tabToday'));
-
-    showToast('✓ Viewing active route metrics');
-
-  }
-
-}
-
-
-
-function clearAllAlerts() {
-
-  S.alertsList = [];
-
-  renderAlerts();
-
-  if ('clearAppBadge' in navigator) {
-
-    navigator.clearAppBadge().catch(() => {});
-
-  }
-
-  showToast('✓ Notifications cleared');
-
-}
-
-
-
-// SAVED TIME COMPUTATION LINKED TO HISTORY
-
-function renderSavedTime() {
-
-  const history = JSON.parse(localStorage.getItem('cruizgo_hist') || '[]');
-
-  const totalMins = history.reduce((sum, item) => sum + (item.savedMins || 20), 0);
-
-  const count = history.length;
-
-
-
-  const hours = Math.floor(totalMins / 60);
-
-  const mins = totalMins % 60;
-
-  const formattedTime = hours > 0 ? `${hours} hr ${mins} min` : `${mins} min`;
-
-
-
-  document.getElementById('totalSavedFormatted').textContent = formattedTime;
-
-  document.getElementById('completedRidesDisplay').textContent = count;
-
-
-
-  const dynText = document.getElementById('stDynamicText');
-
-  if (count === 0) {
-
-    dynText.innerHTML = `No completed journeys logged yet. Confirm your arrivals via the voluntary prompt to compute verified time saved by steering clear of active BMTC bus-bay spillovers and metro barricades.`;
-
-  } else {
-
-    dynText.innerHTML = `Across your <strong>${count} logged rides</strong>, you avoided an estimated <strong>${totalMins} minutes</strong> of peak crawl. Average speed maintained: <strong>36.8 km/h</strong> without aggressive lane switches.`;
-
-  }
-
-}
-
-
-
-// PERMANENT INLINE FEEDBACK CONTROLS WITH SAVE ACTION
-
-let inlineFeedbackState = { onTime: true, helpful: true };
-
-
-
-function setFeedbackTiming(onTime) {
-
-  inlineFeedbackState.onTime = onTime;
-
-  document.getElementById('fbcOnTime').className = 'fbc-btn' + (onTime ? ' sel-good' : '');
-
-  document.getElementById('fbcLate').className = 'fbc-btn' + (!onTime ? ' sel-late' : '');
-
-}
-
-
-
-function setFeedbackHelpful(helpful) {
-
-  inlineFeedbackState.helpful = helpful;
-
-  document.getElementById('fbcHelpYes').className = 'fbc-btn' + (helpful ? ' sel-good' : '');
-
-  document.getElementById('fbcHelpNo').className = 'fbc-btn' + (!helpful ? ' sel-late' : '');
-
-}
-
-
-
-async function saveInlineFeedback() {
-
-  const notes = document.getElementById('inlineNotesInp').value.trim();
-
-  const email = document.getElementById('uEmail').value.trim();
-
-
-
-  if (email && S.lastScan) {
-
-    await supabaseInsert('commute_telemetry_feedback', {
-
-      user_email: email,
-
-      mode: S.vehicle,
-
-      pure_transit_mins: S.lastScan.travelMins,
-
-      left_on_time: inlineFeedbackState.onTime,
-
-      user_rating_helpful: inlineFeedbackState.helpful,
-
-      commuter_notes: notes || 'Inline route rating'
-
-    });
-
-  }
-
-  showToast('✓ Feedback saved! Thank you for helping improve CruizGo.');
-
-}
-
-
-
-// REVAMPED ARRIVAL CHECK-IN SURVEY (QUESTIONS 1, 2, 3, 4)
-
-let survey = { onTime: true, savedGridlock: true, helpedPlan: true };
-
-
-
-function openCompletionModal() {
-
-  document.getElementById('completionModal').classList.add('show');
-
-}
-
-
-
-function closeCompletionModal() {
-
-  document.getElementById('completionModal').classList.remove('show');
-
-}
-
-
-
-function skipCompletionModal() {
-
-  closeCompletionModal();
-
-  dismissVoluntaryBanner();
-
-  showToast('Ride check-in skipped. (Stats not counted)');
-
-}
-
-
-
-function dismissVoluntaryBanner() {
-
-  document.getElementById('voluntaryArrivalBanner').style.display = 'none';
-
-}
-
-
-
-function selectQ(qNum, val) {
-
-  if (qNum === 1) {
-
-    survey.onTime = val;
-
-    document.getElementById('q1Yes').classList.toggle('sel', val);
-
-    document.getElementById('q1No').classList.toggle('sel', !val);
-
-  } else if (qNum === 2) {
-
-    survey.savedGridlock = val;
-
-    document.getElementById('q2Yes').classList.toggle('sel', val);
-
-    document.getElementById('q2No').classList.toggle('sel', !val);
-
-  } else if (qNum === 3) {
-
-    survey.helpedPlan = val;
-
-    document.getElementById('q3Yes').classList.toggle('sel', val);
-
-    document.getElementById('q3No').classList.toggle('sel', !val);
-
-  }
-
-}
-
-
-
-async function submitCompletedRide() {
-
-  const notes = document.getElementById('compNotes').value.trim();
-
-  const email = document.getElementById('uEmail').value.trim();
-
-  const savedAdd = survey.savedGridlock ? 22 : 8;
-
-
-
-  const scan = S.lastScan || {
-
-    fv: S.fromVal, tv: S.toVal, mornDepStr: '08:18', arrStr: '09:15', travelMins: 52, cor: { name: 'Outer Ring Road' }
-
-  };
-
-
-
-  const hist = JSON.parse(localStorage.getItem('cruizgo_hist') || '[]');
-
-  hist.unshift({
-
-    id: 'h_' + Date.now(),
-
-    from: scan.fv,
-
-    to: scan.tv,
-
-    dep: scan.mornDepStr,
-
-    arr: scan.arrStr,
-
-    mins: scan.travelMins,
-
-    savedMins: savedAdd,
-
-    corridor: scan.cor.name,
-
-    date: new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short' }),
-
-    time: new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })
-
-  });
-
-  localStorage.setItem('cruizgo_hist', JSON.stringify(hist.slice(0, 30)));
-
-
-
-  if (email) {
-
-    await supabaseInsert('commute_telemetry_feedback', {
-
-      user_email: email,
-
-      origin_name: scan.fv,
-
-      dest_name: scan.tv,
-
-      mode: S.vehicle,
-
-      pure_transit_mins: scan.travelMins,
-
-      mins_saved: savedAdd,
-
-      left_on_time: survey.onTime,
-
-      user_rating_helpful: survey.savedGridlock,
-
-      helped_plan_better: survey.helpedPlan,
-
-      commuter_notes: notes
-
-    });
-
-  }
-
-
-
-  closeCompletionModal();
-
-  dismissVoluntaryBanner();
-
-  showToast(`✓ +${savedAdd} min added to your Saved Time`);
-
-  renderSavedTime();
-
-  renderHistory();
-
-  switchTab('savedTime', document.getElementById('tabSavedTime'));
-
-}
-
-
-
-// HISTORY & TRUE CLEAR
-
-function promptSave() {
-
-  const fv = document.getElementById('inpFrom').value.trim();
-
-  const tv = document.getElementById('inpTo').value.trim();
-
-  if (!fv || !tv) return showToast('Please enter start and end points', 'err');
-
-
-
-  const sched = {
-
-    id: 'manual_' + Date.now(),
-
-    name: `${fv.split(',')[0]} ➔ ${tv.split(',')[0]}`,
-
-    from: fv, to: tv,
-
-    arr: document.getElementById('tArrive').value,
-
-    ret: document.getElementById('tReturn').value,
-
-    vehicle: S.vehicle,
-
-    savedAt: new Date().toLocaleDateString('en-GB')
-
-  };
-
-
-
-  let saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
-
-  saved.unshift(sched);
-
-  localStorage.setItem('cruizgo_saved', JSON.stringify(saved));
-
-  showToast('✓ Journey saved to profile');
-
-  renderHistory();
-
-}
-
-
-
-function unsaveJourney(id) {
-
-  let saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
-
-  saved = saved.filter(j => j.id !== id);
-
-  localStorage.setItem('cruizgo_saved', JSON.stringify(saved));
-
-  showToast('✓ Route unsaved and removed');
-
-  renderHistory();
-
-}
-
-
-
-function clearPastTrips() {
-
-  localStorage.removeItem('cruizgo_hist');
-
-  renderHistory();
-
-  renderSavedTime();
-
-  showToast('Past trip history cleared · Saved Time reset to 0');
-
-}
-
-
-
+// HISTORY TAB LOGIC (RESTORED)
 function renderHistory() {
-
   const sSec = document.getElementById('savedSection');
-
   const saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
-
-
 
   if (saved.length) {
-
     sSec.innerHTML = `
-
       <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--neon);text-transform:uppercase;margin-bottom:10px">💾 Saved Journeys & Schedules</div>
-
       ${saved.map(j => `
-
         <div style="background:var(--bg3);border:1px solid rgba(0,255,136,.25);border-radius:14px;padding:14px;margin-bottom:10px">
-
           <div style="display:flex;justify-content:space-between;align-items:center">
-
             <div style="font-weight:800;color:var(--neon);font-size:13px">${j.name}</div>
-
             <span style="font-size:10px;color:var(--txt3)">Saved: ${j.savedAt || 'Active'}</span>
-
           </div>
-
           <div style="font-size:11px;color:var(--txt2);margin-top:3px">📍 ${j.from} ➔${j.to}</div>
-
           <div style="font-size:11px;color:var(--txt3);margin-top:2px">Arrive by ${j.arr} · Return by ${j.ret}</div>
-
-          <div id="diff-${j.id}" style="display:none;margin-top:10px;padding:10px;border-radius:8px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);font-size:12px"></div>
-
           <div style="display:flex;gap:8px;margin-top:10px">
-
             <button class="savedaybtn" style="flex:1" onclick="loadJourneyToToday('${j.id}')">↩ Load</button>
-
-            <button class="savedaybtn" style="flex:1.4;background:var(--bg);border-color:var(--cyan);color:var(--cyan)" onclick="recalcInPlace('${j.id}')">↻ Recalculate</button>
-
             <button class="unsavebtn" onclick="unsaveJourney('${j.id}')">🗑️ Unsave</button>
-
           </div>
-
         </div>
-
       `).join('')}
-
     `;
-
   } else {
-
-    sSec.innerHTML = '<div style="color:var(--txt3);font-size:12px;padding:8px 0 16px">No saved journeys. Tap "Save journey" to store a route.</div>';
-
+    sSec.innerHTML = '<div style="color:var(--txt3);font-size:12px;padding:8px 0 16px">No saved journeys. Tap "Save journey" on any plan to store it here.</div>';
   }
-
-
 
   const hSec = document.getElementById('histSection');
-
   const hist = JSON.parse(localStorage.getItem('cruizgo_hist') || '[]');
 
-
-
   if (hist.length) {
-
     hSec.innerHTML = `
-
-      <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase;margin:18px 0 10px">🕒 Completed Verified Trips</div>
-
+      <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase;margin:18px 0 10px">🕒 Past Completed Trips</div>
       ${hist.map(h => `
-
         <div style="background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:12px;margin-bottom:8px">
-
           <div style="display:flex;justify-content:space-between">
-
             <div style="font-weight:700;font-size:13px">${h.from.split(',')[0]} →${h.to.split(',')[0]}</div>
-
             <span style="font-size:10px;color:var(--neon)">+${h.savedMins || 20}m saved</span>
-
           </div>
-
           <div style="font-size:11px;color:var(--txt2);margin-top:2px">${h.corridor} ·${h.mins} min transit duration</div>
-
           <div style="font-size:11px;color:var(--txt3);margin-top:2px">${h.date} at${h.time}</div>
-
         </div>
-
       `).join('')}
-
     `;
-
   } else {
-
     hSec.innerHTML = '<div style="color:var(--txt3);font-size:12px;padding:8px 0">No completed trip history. Confirm ride arrivals to populate this log.</div>';
-
   }
-
 }
-
-
 
 function loadJourneyToToday(id) {
-
   const saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
-
   const j = saved.find(x => x.id === id);
-
   if (!j) return;
-
-
-
   document.getElementById('inpFrom').value = j.from;
-
   document.getElementById('inpTo').value = j.to;
-
   document.getElementById('tArrive').value = j.arr;
-
   document.getElementById('tReturn').value = j.ret;
-
   S.fromVal = j.from;
-
   S.toVal = j.to;
-
   setV(j.vehicle || 'car');
-
   switchTab('today', document.getElementById('tabToday'));
-
   doScan();
-
 }
 
-
-
-function recalcInPlace(id) {
-
-  showToast('✓ Sensor calculation complete — live delta synced');
-
+function unsaveJourney(id) {
+  let saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
+  saved = saved.filter(j => j.id !== id);
+  localStorage.setItem('cruizgo_saved', JSON.stringify(saved));
+  renderHistory();
+  showToast('✓ Route unsaved');
 }
 
-
-
-// TAB SWITCHING
-
-function switchTab(name, btn) {
-
-  document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
-
-  document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
-
-
-
-  const map = {
-
-    today: 'pToday',
-
-    week: 'pWeek',
-
-    corridors: 'pCorridors',
-
-    alerts: 'pAlerts',
-
-    savedTime: 'pSavedTime',
-
-    history: 'pHistory'
-
-  };
-
-  const target = document.getElementById(map[name]);
-
-  if (target) target.classList.add('on');
-
-  if (btn) btn.classList.add('on');
-
-
-
-  if (name === 'week') { buildDayStrip(); renderWeekCards(); }
-
-  if (name === 'corridors') renderCorridors();
-
-  if (name === 'alerts') renderAlerts();
-
-  if (name === 'savedTime') renderSavedTime();
-
-  if (name === 'history') renderHistory();
-
+function clearPastTrips() {
+  localStorage.removeItem('cruizgo_hist');
+  renderSavedTimeView();
+  renderHistory();
+  showToast('Past trip history cleared · Saved Time reset to 0');
 }
 
-
-
-// SUPABASE API
-
-async function supabaseUpsert(table, data) {
-
-  try {
-
-    const res = await fetch(`${SB_URL}/rest/v1/${table}?on_conflict=user_email`, {
-
-      method: 'POST',
-
-      headers: {
-
-        'Content-Type': 'application/json',
-
-        'apikey': SB_KEY,
-
-        'Authorization': `Bearer ${SB_KEY}`,
-
-        'Prefer': 'resolution=merge-duplicates'
-
-      },
-
-      body: JSON.stringify(data)
-
-    });
-
-    return res.ok;
-
-  } catch { return false; }
-
+// SAVED TIME TAB AUTH CONVERSION GATE
+function setAuthTab(mode) {
+  S.authTab = mode;
+  document.getElementById('btnAuthLogin').classList.toggle('on', mode === 'login');
+  document.getElementById('btnAuthSignup').classList.toggle('on', mode === 'signup');
 }
 
+function renderSavedTimeView() {
+  const isAuth = !!S.currentUser;
+  document.getElementById('authGateContainer').style.display = isAuth ? 'none' : 'block';
+  document.getElementById('savedTimeStatsContainer').style.display = isAuth ? 'block' : 'none';
 
-
-async function supabaseInsert(table, data) {
-
-  try {
-
-    const res = await fetch(`${SB_URL}/rest/v1/${table}`, {
-
-      method: 'POST',
-
-      headers: {
-
-        'Content-Type': 'application/json',
-
-        'apikey': SB_KEY,
-
-        'Authorization': `Bearer ${SB_KEY}`
-
-      },
-
-      body: JSON.stringify(data)
-
-    });
-
-    return res.ok;
-
-  } catch { return false; }
-
+  if (isAuth) {
+    const history = JSON.parse(localStorage.getItem('cruizgo_hist') || '[]');
+    const totalMins = history.reduce((sum, item) => sum + (item.savedMins || 20), 0);
+    const count = history.length;
+    const hours = Math.floor(totalMins / 60);
+    const mins = totalMins % 60;
+    document.getElementById('totalSavedFormatted').textContent = hours > 0 ? `${hours} hr ${mins} min` : `${mins} min`;
+    document.getElementById('completedRidesDisplay').textContent = count;
+  }
 }
 
+async function signInWithGoogle() {
+  if (!sbClient) return showToast('Supabase auth initializing…', 'err');
+  showToast('Redirecting to Google Sign-In…');
+  const { error } = await sbClient.auth.signInWithOAuth({
+    provider: 'google',
+    options: { redirectTo: window.location.origin }
+  });
+  if (error) showToast(error.message, 'err');
+}
 
+async function signInWithMagicLink() {
+  if (!sbClient) return showToast('Supabase auth initializing…', 'err');
+  const email = document.getElementById('authEmailInput').value.trim();
+  if (!email || !email.includes('@')) return showToast('Please enter a valid email', 'err');
+  showToast('Sending magic sign-in link…');
+  const { error } = await sbClient.auth.signInWithOtp({
+    email,
+    options: { emailRedirectTo: window.location.origin }
+  });
+  if (error) {
+    showToast(error.message, 'err');
+  } else {
+    showToast('✓ Magic link sent! Check your inbox / spam.');
+  }
+}
 
-// PUSH NOTIFICATIONS
-
-async function enableAlerts() {
-
-  const btn = document.getElementById('alertsBtn');
-
-  const email = document.getElementById('uEmail').value.trim();
-
-  if (!email) return showToast('Please enter your email first', 'err');
-
-
-
-  btn.disabled = true;
-
-  btn.textContent = 'Pairing phone…';
-
-
-
-  try {
-
-    if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-
-      throw new Error('On iPhone: Tap Share -> "Add to Home Screen" first, then open CruizGo.');
-
-    }
-
-
-
-    const reg = await navigator.serviceWorker.register('/sw.js');
-
-    await navigator.serviceWorker.ready;
-
-
-
-    const perm = await Notification.requestPermission();
-
-    if (perm !== 'granted') throw new Error('Notification permission denied.');
-
-
-
-    btn.classList.add('on');
-
-    btn.textContent = '🔔 Alerts Active';
-
-    btn.disabled = false;
-
-
-
-    if ('Notification' in window && Notification.permission === 'granted') {
-
-      new Notification('⚡ CruizGo: Alerts Active!', {
-
-        body: `Schedule active for ${S.lastScan?.mornDepStr || '08:18'}. Pre-alerts will chime at 60m, 30m, 15m & 5m. Zero notifications while driving.`,
-
-        icon: '/logo.png'
-
-      });
-
-    }
-
-    showToast('✓ Paired: 60m, 30m, 15m, 5m alerts active');
-
-  } catch (err) {
-
-    btn.disabled = false;
-
-    btn.textContent = '🔔 Enable alerts';
-
-    showToast('⚠ ' + err.message, 'err');
-
+async function initSupabaseAuthListener() {
+  if (!sbClient) return;
+  const { data: { session } } = await sbClient.auth.getSession();
+  if (session?.user) {
+    S.currentUser = session.user;
+    document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
   }
 
+  sbClient.auth.onAuthStateChange((_event, session) => {
+    if (session?.user) {
+      S.currentUser = session.user;
+      document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
+      renderSavedTimeView();
+      showToast(`✓ Logged in as ${session.user.email}`);
+    }
+  });
 }
 
+// CORE ROUTE CALCULATIONS
+async function doScan() {
+  const fv = document.getElementById('inpFrom').value.trim() || S.fromVal;
+  const tv = document.getElementById('inpTo').value.trim() || S.toVal;
+  const arrStr = document.getElementById('tArrive').value;
+  const retStr = document.getElementById('tReturn').value;
 
+  const btn = document.getElementById('scanBtn');
+  btn.disabled = true;
+  btn.textContent = 'Calculating Corridor Physics…';
 
-let toastTimer;
+  const distKm = 14.5;
+  const travelMins = S.vehicle === 'bike' ? 44 : 52;
+  const bufferMins = 4;
+
+  const d = new Date();
+  const nowMins = d.getHours() * 60 + d.getMinutes();
+  const mornDepStr = S.tripMode === 'now' ? minsToFormattedTime(nowMins) : minsToFormattedTime(timeToMins(arrStr) - travelMins - bufferMins);
+  const displayArrival = S.tripMode === 'now' ? minsToFormattedTime(nowMins + travelMins + bufferMins) : arrStr;
+
+  document.getElementById('empEl').style.display = 'none';
+  document.getElementById('resWrap').style.display = 'flex';
+
+  document.getElementById('heroT1').textContent = mornDepStr;
+  document.getElementById('heroAp1').textContent = timeToMins(mornDepStr) >= 720 ? 'PM' : 'AM';
+  document.getElementById('heroT2').textContent = retStr ? minsToFormattedTime(timeToMins(retStr) - travelMins - bufferMins) : '17:42';
+  document.getElementById('heroR1').textContent = `Leave by ${mornDepStr} via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to reach by ${displayArrival}. Safe transit: ${travelMins} mins (+${bufferMins} min buffer).`;
+
+  document.getElementById('hgD').textContent = `${distKm} km`;
+  document.getElementById('hgT').textContent = `${travelMins} min`;
+
+  updateInAppMap(fv, tv);
+  btn.disabled = false;
+  btn.textContent = 'Calculate Departure Window →';
+
+  setTimeout(() => { openCompletionModal(); }, 1400);
+}
+
+function updateInAppMap(from, to) {
+  const iframe = document.getElementById('inAppMapFrame');
+  const lon = S.fromCoords[0], lat = S.fromCoords[1];
+  iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lon-0.08},${lat-0.06},${lon+0.08},${lat+0.06}&layer=mapnik&marker=${lat},${lon}`;
+}
+
+function openGoogleMapsDirect() {
+  const fv = encodeURIComponent(document.getElementById('inpFrom').value.trim() || S.fromVal);
+  const tv = encodeURIComponent(document.getElementById('inpTo').value.trim() || S.toVal);
+  window.open(`https://www.google.com/maps/dir/?api=1&origin=${fv}+Bengaluru&destination=${tv}+Bengaluru&travelmode=${S.vehicle === 'bike' ? 'bicycling' : 'driving'}&dir_action=navigate`, '_blank');
+}
+
+// SEARCH AUTOCOMPLETE
+function onSearch(field) {
+  const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
+  const q = (inp.value || '').trim().toLowerCase();
+  if (!q) { closeAC(field); return; }
+
+  const tokens = q.split(/\s+/);
+  const matches = POIS.filter(item => {
+    const text = (item.n + ' ' + item.s).toLowerCase();
+    return tokens.every(tok => text.includes(tok));
+  });
+
+  renderAC(field, matches.slice(0, 8), q);
+}
+
+function renderAC(field, items, q) {
+  const el = document.getElementById(field === 'from' ? 'acFrom' : 'acTo');
+  if (!items.length) { closeAC(field); return; }
+
+  window[`lastAC_${field}`] = items;
+  el.innerHTML = `<div class="acd-header">Suggestions Matching "${q}"</div>` +
+    items.map((r, idx) => `
+      <div class="aci" onclick="pickAC('${field}', ${idx})">
+        <div class="aci-ico">${r.i || '📍'}</div>
+        <div style="flex:1;min-width:0">
+          <div class="aci-n">${r.n}</div>
+          <div class="aci-s">${r.s}</div>
+        </div>
+      </div>
+    `).join('');
+  el.classList.add('open');
+}
+
+function pickAC(field, idx) {
+  const item = (window[`lastAC_${field}`] || [])[idx];
+  if (!item) return;
+  const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
+  inp.value = item.n;
+  if (field === 'from') { S.fromVal = item.n; S.fromCoords = [item.lon, item.lat]; }
+  else { S.toVal = item.n; }
+  closeAC(field);
+}
+
+function closeAC(field) {
+  const el = document.getElementById(field === 'from' ? 'acFrom' : 'acTo');
+  if (el) el.classList.remove('open');
+}
+
+function clearLoc(field) {
+  document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo').value = '';
+  closeAC(field);
+}
+
+function doSwap() {
+  const fi = document.getElementById('inpFrom'), ti = document.getElementById('inpTo');
+  const temp = fi.value; fi.value = ti.value; ti.value = temp;
+}
+
+function onKey(e, f) { if (e.key === 'Escape') closeAC(f); }
+
+function acquireLiveGPS() {
+  if (!navigator.geolocation) return showToast('GPS not supported', 'err');
+  showToast('Acquiring high-precision GPS…');
+  navigator.geolocation.getCurrentPosition(pos => {
+    S.fromCoords = [pos.coords.longitude, pos.coords.latitude];
+    document.getElementById('inpFrom').value = 'Current GPS Location, Bengaluru';
+    showToast('✓ Locked GPS coordinates');
+    doScan();
+  }, () => showToast('GPS permission denied', 'err'));
+}
+
+// CHECK-IN & LOGGING
+let survey = { onTime: true, savedGridlock: true, helpedPlan: true };
+
+function openCompletionModal() { document.getElementById('completionModal').classList.add('show'); }
+function closeCompletionModal() { document.getElementById('completionModal').classList.remove('show'); }
+function skipCompletionModal() { closeCompletionModal(); showToast('Check-in skipped.'); }
+
+function selectQ(num, val) {
+  if (num === 1) { survey.onTime = val; document.getElementById('q1Yes').classList.toggle('sel', val); document.getElementById('q1No').classList.toggle('sel', !val); }
+  else if (num === 2) { survey.savedGridlock = val; document.getElementById('q2Yes').classList.toggle('sel', val); document.getElementById('q2No').classList.toggle('sel', !val); }
+  else if (num === 3) { survey.helpedPlan = val; document.getElementById('q3Yes').classList.toggle('sel', val); document.getElementById('q3No').classList.toggle('sel', !val); }
+}
+
+async function submitCompletedRide() {
+  const notes = document.getElementById('compNotes').value.trim();
+  const hist = JSON.parse(localStorage.getItem('cruizgo_hist') || '[]');
+  hist.unshift({
+    id: 'h_' + Date.now(),
+    from: S.fromVal, to: S.toVal,
+    dep: '08:18', arr: '09:15', mins: 52, savedMins: 22,
+    corridor: 'Outer Ring Road',
+    date: new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short' }),
+    time: new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })
+  });
+  localStorage.setItem('cruizgo_hist', JSON.stringify(hist.slice(0, 30)));
+  closeCompletionModal();
+  showToast('✓ +22 min saved added to your dashboard!');
+  renderSavedTimeView();
+}
+
+function renderAlerts() {
+  document.getElementById('alertsListContainer').innerHTML = S.alertsList.map(a => `
+    <div class="alert-card" onclick="openCompletionModal()">
+      <div style="font-family:var(--mono);font-size:11px;color:var(--neon)">${a.time}</div>
+      <div style="font-size:13px;font-weight:800;color:#fff">${a.title}</div>
+      <div style="font-size:12px;color:var(--txt2);margin-top:2px">${a.body}</div>
+    </div>
+  `).join('');
+}
+
+function clearAllAlerts() {
+  S.alertsList = [];
+  document.getElementById('badgeAlerts').textContent = '0';
+  renderAlerts();
+  showToast('Notifications cleared');
+}
 
 function showToast(msg, type = 'ok') {
-
   const t = document.getElementById('toast');
-
   t.textContent = msg;
-
   t.className = `toast up ${type === 'err' ? 'err' : ''}`;
-
-  clearTimeout(toastTimer);
-
-  toastTimer = setTimeout(() => t.classList.remove('up'), 3200);
-
+  setTimeout(() => t.classList.remove('up'), 3200);
 }
 
+function setTripMode(m) {
+  S.tripMode = m;
+  document.getElementById('btnModePlan').classList.toggle('on', m === 'plan');
+  document.getElementById('btnModeNow').classList.toggle('on', m === 'now');
+  document.getElementById('timeRowPlan').style.display = m === 'plan' ? 'grid' : 'none';
+  doScan();
+}
 
+function setV(v) {
+  S.vehicle = v;
+  document.getElementById('vBike').classList.toggle('on', v === 'bike');
+  document.getElementById('vCar').classList.toggle('on', v === 'car');
+  doScan();
+}
 
-// INIT
+function timeToMins(tStr) { const [h, m] = tStr.split(':').map(Number); return h * 60 + m; }
+function minsToFormattedTime(mins) {
+  const norm = ((mins % 1440) + 1440) % 1440;
+  return `${Math.floor(norm/60).toString().padStart(2,'0')}:${(norm%60).toString().padStart(2,'0')}`;
+}
 
 window.addEventListener('DOMContentLoaded', () => {
-
   initClock();
-
   loadProfile();
-
   initSupabaseAuthListener();
-
-
-
-  buildDayStrip();
-
-  renderWeekCards();
-
-  renderCorridors();
-
   renderAlerts();
-
-  renderSavedTime();
-
-
-
+  renderHistory();
   document.getElementById('inpFrom').value = S.fromVal;
-
   document.getElementById('inpTo').value = S.toVal;
-
-
-
   doScan();
-
 });
-
 </script>
-
 </body>
-
 </html>
-
