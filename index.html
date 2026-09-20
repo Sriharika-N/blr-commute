@@ -33,13 +33,13 @@ html,body{
 }
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--sur2);border-radius:3px}
 
-/* FIXED HEADER WITH DYNAMIC NOTCH INSETS */
+/* FIXED HEADER */
 .top-stack{
   flex-shrink:0;z-index:900;background:rgba(4,8,16,.98);
   border-bottom:1px solid var(--brd);backdrop-filter:blur(25px)
 }
 .hdr{
-  height:60px;padding:0 16px;display:flex;align-items:center;
+  height:60px;padding:0 18px;display:flex;align-items:center;
   justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.04)
 }
 .brand{display:flex;align-items:center;gap:11px}
@@ -78,7 +78,7 @@ html,body{
 .gtab.on{color:var(--neon);border-bottom-color:var(--neon)}
 .badge-count{background:var(--red);color:#fff;font-size:9px;padding:1px 5px;border-radius:10px;margin-left:3px;font-family:var(--mono)}
 
-/* APP MAIN CONTAINER */
+/* APP LAYOUT */
 .app{flex:1;display:flex;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative}
 
 /* RIGHT & MAIN PANELS */
@@ -155,27 +155,7 @@ html,body{
 .scan:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(0,255,136,.35)}
 .altbtn{width:100%;padding:10px;margin-top:8px;background:none;border:1px solid var(--brd);border-radius:10px;color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 
-/* REVAMPED AESTHETIC EMPTY TERMINAL STATE */
-.emp-terminal{
-  display:flex;flex-direction:column;align-items:center;justify-content:center;
-  padding:36px 24px;border-radius:18px;background:linear-gradient(145deg,#071224,#0c1c33);
-  border:1px solid rgba(0,255,136,.22);box-shadow:0 20px 50px rgba(0,0,0,.6);text-align:center;gap:14px
-}
-.emp-radar-ring{
-  width:64px;height:64px;border-radius:50%;background:rgba(0,255,136,.06);
-  border:1.5px solid var(--neon);display:flex;align-items:center;justify-content:center;
-  font-size:28px;box-shadow:0 0 25px rgba(0,255,136,.25);animation:lp 2s infinite
-}
-.emp-title{font-size:19px;font-weight:900;letter-spacing:-.3px;color:#fff}
-.emp-desc{font-size:13px;color:var(--txt2);line-height:1.6;max-width:380px}
-.emp-quick-pills{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-top:4px}
-.quick-pill{
-  font-size:11px;font-weight:800;color:var(--cyan);background:rgba(0,212,255,.08);
-  border:1px solid rgba(0,212,255,.25);padding:6px 12px;border-radius:20px;cursor:pointer;transition:all .2s
-}
-.quick-pill:hover{background:var(--cyan);color:#040810;transform:translateY(-1px)}
-
-/* HERO OUTPUT BOARD */
+/* HERO OUTPUT */
 .hero{padding:20px;background:linear-gradient(145deg,#0a1525,#0f1e35);border:1px solid rgba(0,255,136,.18);border-radius:16px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon),#00d4ff,var(--neon))}
 .hero-eye{font-size:10px;font-weight:800;letter-spacing:2px;color:var(--neon);text-transform:uppercase;margin-bottom:6px}
@@ -200,13 +180,7 @@ html,body{
 .inapp-map-header{padding:8px 12px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
 .inapp-iframe{width:100%;height:200px;border:none;background:#050a14}
 
-/* CONFIDENCE BOX */
-.confidence-box{background:linear-gradient(145deg,#0a1525,#0d1a2d);border:1px solid rgba(0,255,136,.25);border-radius:16px;padding:16px}
-.cb-hdr{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--neon);text-transform:uppercase;margin-bottom:8px;display:flex;align-items:center;justify-content:space-between}
-.cb-body{font-size:12px;color:var(--txt2);line-height:1.6}
-.cb-body strong{color:#fff}
-
-/* CORRIDORS */
+/* CORRIDORS & RIBBON */
 .linear-ribbon-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px}
 .ribbon-track{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:10px 0 6px;gap:2px}
 .r-seg{flex:1;height:100%;cursor:pointer}
@@ -240,6 +214,22 @@ html,body{
 .wsb-date{font-family:var(--mono);color:var(--txt2)}
 .wsb-saved{color:var(--neon);font-weight:800;font-family:var(--mono)}
 
+/* IMPROVED EMPTY STATE CARD */
+.emp-card{
+  background:linear-gradient(145deg,#091626,#0d1e33);
+  border:1px solid rgba(0,255,136,.18);border-radius:16px;padding:26px 20px;
+  display:flex;flex-direction:column;align-items:center;text-align:center;gap:12px
+}
+.emp-badge{
+  display:inline-flex;align-items:center;gap:6px;font-size:10px;font-weight:800;
+  letter-spacing:1.5px;color:var(--neon);background:rgba(0,255,136,.08);
+  border:1px solid rgba(0,255,136,.25);padding:4px 10px;border-radius:20px;text-transform:uppercase
+}
+.emp-title{font-size:18px;font-weight:900;color:#fff}
+.emp-desc{font-size:12px;color:var(--txt2);line-height:1.6;max-width:340px}
+.emp-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;width:100%;margin-top:6px}
+.emp-chip{padding:9px 8px;background:rgba(4,8,16,.6);border:1px solid var(--brd);border-radius:8px;font-size:11px;font-weight:700;color:var(--txt2)}
+
 /* MODAL DIALOGS */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(4,8,16,.85);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:16px}
 .modal-overlay.show{display:flex}
@@ -258,6 +248,11 @@ html,body{
 .at-btn{padding:8px;border-radius:7px;border:none;background:none;color:var(--txt3);font-size:12px;font-weight:800;cursor:pointer}
 .at-btn.on{background:var(--surf);color:var(--neon)}
 .oauth-btn{width:100%;padding:12px;border-radius:10px;background:#fff;border:none;color:#111;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;margin-bottom:12px}
+
+.opt-in-row{
+  display:flex;align-items:flex-start;gap:8px;padding:10px;border-radius:8px;
+  background:rgba(0,212,255,.05);border:1px solid rgba(0,212,255,.2);margin-top:10px;font-size:11px;color:var(--txt);text-align:left
+}
 
 .toast{position:fixed;bottom:24px;right:24px;z-index:99999;padding:12px 18px;border-radius:10px;background:#111f33;border:1px solid var(--neon);font-size:12px;font-weight:700;color:var(--txt);box-shadow:0 16px 40px rgba(0,0,0,.8);transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.3,.64,1);max-width:320px}
 .toast.up{transform:translateY(0);opacity:1}
@@ -303,7 +298,6 @@ html,body{
     <div class="today-layout">
 
       <div class="today-controls">
-        <!-- COMMUTER DETAILS (SHOWN WHEN LOGGED IN) -->
         <div class="sec" id="commuterDetailsSec" style="display:none">
           <div class="slbl">Commuter Profile</div>
           <div class="urow">
@@ -353,11 +347,11 @@ html,body{
           <div class="time-row" id="timeRowPlan">
             <div>
               <div class="tlbl"><div class="treq"></div>Arrive by</div>
-              <input class="tinp" type="time" id="tArrive" value="17:30" onchange="validateSelectedTimes()" />
+              <input class="tinp" type="time" id="tArrive" value="18:30" onchange="validateSelectedTimes()" />
             </div>
             <div>
               <div class="tlbl"><div class="treq"></div>Return by</div>
-              <input class="tinp" type="time" id="tReturn" value="20:30" onchange="validateSelectedTimes()" />
+              <input class="tinp" type="time" id="tReturn" value="21:45" onchange="validateSelectedTimes()" />
             </div>
           </div>
 
@@ -388,17 +382,14 @@ html,body{
       </div>
 
       <div class="today-results">
-        <!-- REVAMPED AESTHETIC DEPARTURE TERMINAL -->
-        <div class="emp-terminal" id="empEl">
-          <div class="emp-radar-ring">⚡</div>
-          <div>
-            <div class="emp-title">CruizGo Departure Arbitrage Engine</div>
-            <div class="emp-desc">Cross-referencing live arterial crawl vectors across Bengaluru. Choose a preset or calculate your route:</div>
-          </div>
-          <div class="emp-quick-pills">
-            <div class="quick-pill" onclick="setQuickRoute('310, 2nd A Cross Rd', 'Ecospace Business Park, Bellandur')">🚀 ORR: Kasturi Nagar ➔ Bellandur</div>
-            <div class="quick-pill" onclick="setQuickRoute('Benniganahalli Metro Station', 'ITPL, Whitefield')">🏢 Whitefield: Tin Factory ➔ ITPL</div>
-            <div class="quick-pill" onclick="setQuickRoute('Dooravani Nagar', 'Manyata Tech Park, Hebbal')">🛣️ Hebbal: KR Puram ➔ Manyata</div>
+        <!-- POLISHED STATUS CARD INLINE WITH CYBERPUNK UI -->
+        <div class="emp-card" id="empEl">
+          <div class="emp-badge">⚡ CORRIDOR RADAR READY</div>
+          <div class="emp-title">Ready to Calculate</div>
+          <div class="emp-desc">Configure your start and destination points to calculate pure road travel duration and your exact departure window.</div>
+          <div class="emp-grid">
+            <div class="emp-chip">🛡️ Safe Cruise Speed</div>
+            <div class="emp-chip">🚦 Live Choke Avoidance</div>
           </div>
         </div>
 
@@ -436,23 +427,27 @@ html,body{
             </div>
           </div>
 
-          <!-- RESTORED CONFIDENCE BOX -->
-          <div class="confidence-box">
-            <div class="cb-hdr">
-              <span>🛡️ CRUIZGO ARBITRAGE CONFIDENCE INDEX</span>
-              <span style="font-family:var(--mono);color:var(--neon)" id="confBadgeScore">98% VERIFIED</span>
-            </div>
-            <div class="cb-body" id="confExpText">
-              <strong>98% Prediction Reliability:</strong> Validated against live corridor speeds. Guaranteed arrival within <strong>±3 minutes</strong> when recommended safe cruise speeds are maintained.
-            </div>
-          </div>
-
           <div class="inapp-map-box">
             <div class="inapp-map-header">
               <span style="font-size:11px;font-weight:800;color:var(--neon)">📍 Live Corridor Route Preview</span>
               <button class="scan" style="margin-top:0;padding:6px 12px;font-size:11px;width:auto" onclick="openGoogleMapsDirect()">Navigate in Maps ↗</button>
             </div>
             <iframe class="inapp-iframe" id="inAppMapFrame" src="about:blank"></iframe>
+          </div>
+
+          <div class="feedback-card">
+            <div class="fbc-title">Commute Feedback & Timing Accuracy</div>
+            <div class="fbc-sub">Tell us how your commute went so CruizGo can calibrate corridor weights:</div>
+            <div class="fbc-grid">
+              <button class="fbc-btn" id="fbcOnTime" onclick="setFeedbackTiming(true)">✓ Departed On Time</button>
+              <button class="fbc-btn" id="fbcLate" onclick="setFeedbackTiming(false)">⚠ Departed 15m Late</button>
+            </div>
+            <div class="fbc-grid">
+              <button class="fbc-btn" id="fbcHelpYes" onclick="setFeedbackHelpful(true)">👍 Helpful Prediction</button>
+              <button class="fbc-btn" id="fbcHelpNo" onclick="setFeedbackHelpful(false)">👎 Inaccurate Routing</button>
+            </div>
+            <input class="fbc-notes" id="inlineNotesInp" placeholder="Add specific road blockages, diversions or ideas..." />
+            <button class="scan" style="margin-top:0;padding:10px;font-size:12px" onclick="saveInlineFeedback()">💾 Save Feedback</button>
           </div>
         </div>
       </div>
@@ -474,7 +469,7 @@ html,body{
       <div style="font-size:16px;font-weight:900">Bengaluru Corridor Heatmaps & Belts</div>
       <div style="font-size:10px;color:var(--cyan);font-family:var(--mono)" id="corridorRefreshCountdown">Refreshes in 15:00</div>
     </div>
-    <div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:12px" id="corridorLiveSyncPill">Synced: Sun, 20 Sep 2026 at 03:55:00 PM IST</div>
+    <div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:12px" id="corridorLiveSyncPill">Synced: Sun, 20 Sep 2026 at 04:03:00 PM IST</div>
 
     <div class="linear-ribbon-card" id="corridorRibbonBox">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
@@ -593,7 +588,7 @@ html,body{
   </div>
 </div>
 
-<!-- AUTHENTICATION MODAL -->
+<!-- AUTHENTICATION & PASSWORD RESET MODAL -->
 <div class="modal-overlay" id="authModal">
   <div class="modal-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
@@ -633,6 +628,12 @@ html,body{
         </div>
       </div>
 
+      <!-- EXPLICIT SAVED-TIME TRACKING OPTION -->
+      <div class="opt-in-row" id="authSavedTimeOption">
+        <input type="checkbox" id="chkTrackSavedTime" checked style="margin-top:2px;cursor:pointer" />
+        <label for="chkTrackSavedTime" style="cursor:pointer">Track my verified saved minutes and send weekly commute alerts (uncheck to skip)</label>
+      </div>
+
       <button class="scan" id="authActionBtn" style="margin-top:12px;padding:12px" onclick="executeAuthAction()">Sign In</button>
 
       <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:11px">
@@ -647,12 +648,13 @@ html,body{
 <div class="modal-overlay" id="completionModal">
   <div class="modal-card">
     <div class="modal-title">🏁 Commute Arrival Check-in</div>
-    <div class="modal-sub">Confirm your ride to update your verified <strong>Saved Time</strong> dashboard.</div>
+    <div class="modal-sub">Tell us how your commute went so you can track your verified saved hours.</div>
 
     <div class="modal-why">
       🛡️ <strong>Why check in?</strong> Every time you depart early, you avoid high-stress crawling traffic, protect your safety with recommended cruise speeds, and arrive relaxed for your day. Looking back, you'll see exact hours of your life reclaimed.
     </div>
 
+    <!-- Q1 -->
     <div class="q-block">
       <div class="q-lbl">1. Did you leave within your recommended window?</div>
       <div class="q-options">
@@ -661,6 +663,7 @@ html,body{
       </div>
     </div>
 
+    <!-- Q2 -->
     <div class="q-block">
       <div class="q-lbl">2. Did this timing help you avoid peak crawling traffic?</div>
       <div class="q-options">
@@ -669,6 +672,7 @@ html,body{
       </div>
     </div>
 
+    <!-- Q3 -->
     <div class="q-block">
       <div class="q-lbl">3. Is CruizGo helping you plan your day with less stress?</div>
       <div class="q-options">
@@ -677,9 +681,10 @@ html,body{
       </div>
     </div>
 
+    <!-- Q4 -->
     <div class="q-block">
       <div class="q-lbl">4. Any specific road blockages, diversions, or suggestions?</div>
-      <input class="uf" id="compNotes" placeholder="e.g. Bus breakdown near Marathahalli" style="width:100%" />
+      <input class="uf" id="compNotes" placeholder="e.g. Bus breakdown near Marathahalli, waterlogging" style="width:100%" />
     </div>
 
     <div style="display:flex;gap:8px;margin-top:16px">
@@ -692,9 +697,10 @@ html,body{
 <div class="toast" id="toast"></div>
 
 <script>
-// CONFIG & INITIAL STATE
+// CONFIG & APP STATE
 const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
+const VAPID  = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0';
 
 const sbClient = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
 
@@ -712,7 +718,7 @@ const S = {
   alertsList: [
     { id:'a1', time: '12:30 PM', title: 'Mid-Day Commute Check-in', body: 'How was your morning commute to Bellandur? Confirm your arrival to log verified Saved Time.', type: 'checkin' },
     { id:'a2', time: '07:30 AM', title: 'Good Morning, Commuter! 🌅', body: 'Plan your commute today. Outer Ring Road is experiencing moderate congestion near Silk Board.', type: 'morning' },
-    { id:'a3', time: '08:03 AM', title: '15 Min Departure Call: Bellandur Route', body: 'Traffic funneling near Kadubeesanahalli underpass. Leave now via middle lane to ensure 09:15 AM arrival.', type: 'traffic' }
+    { id:'a3', time: '08:03 AM', title: '15 Min Departure Call: Bellandur Route', body: 'Traffic funneling near Kadubeesanahalli underpass. Leave now via middle lane to ensure arrival.', type: 'traffic' }
   ]
 };
 
@@ -745,6 +751,7 @@ const CORR = {
     safeSpeed: '32–38 km/h on open flyovers · 14–18 km/h in construction zones',
     laneGuide: 'Hold middle/right lanes. Avoid extreme left lane near Bellandur EcoSpace bus bay.',
     metro: 'Phase 2A Blue Line barricading active from Kadubeesanahalli to Marathahalli.',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:03:00 PM IST',
     chokes: [
       { n: 'Silk Board Lower Flyover Merge', s: 'danger', d: '+25–40 min' },
       { n: 'Bellandur EcoSpace BMTC Bus Bay (Left lane overflow)', s: 'danger', d: '+15–20 min' },
@@ -759,6 +766,7 @@ const CORR = {
     safeSpeed: '28–35 km/h · Maintain steady spacing behind BMTC Volvo buses',
     laneGuide: 'Keep to center lane. Stay off left shoulder near Hoodi.',
     metro: 'ITPL road surface reconstruction & Hoodi station diversions.',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:03:00 PM IST',
     chokes: [
       { n: 'Tin Factory / KR Puram Station Bus Stop bottleneck', s: 'danger', d: '+20–30 min' },
       { n: 'Garudacharpalya Signal Cross-traffic', s: 'warn', d: '+10–15 min' },
@@ -772,6 +780,7 @@ const CORR = {
     safeSpeed: '45–55 km/h on Elevated Expressway · 20–25 km/h on Hosur Road surface',
     laneGuide: 'Elevated highway offers consistent flow. If on surface road, avoid Kudlu Gate left lane.',
     metro: 'Yellow Line street reinstatement; Bommasandra and Kudlu Gate restrictions.',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:03:00 PM IST',
     chokes: [
       { n: 'Kudlu Gate Signal Spillover', s: 'danger', d: '+15–25 min' },
       { n: 'Bommanahalli Bus Stop Cluster', s: 'warn', d: '+10–14 min' }
@@ -784,6 +793,7 @@ const CORR = {
     safeSpeed: '40–48 km/h on NH 44 · 18–22 km/h entering Manyata Tech Park gates',
     laneGuide: 'Avoid left lane before Veerannapalya flyover.',
     metro: 'Airport Line pillar construction on NH 44 at Veerannapalya.',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:03:00 PM IST',
     chokes: [
       { n: 'Hebbal Flyover Loop Merging', s: 'danger', d: '+18–30 min' },
       { n: 'Veerannapalya Manyata Gate BMTC bay choke', s: 'danger', d: '+15–22 min' }
@@ -833,26 +843,27 @@ function refreshCorridorTelemetry() {
   const pill = document.getElementById('corridorLiveSyncPill');
   if (pill) pill.textContent = `Synced: Sun, 20 Sep 2026 at ${timeStr} IST`;
   renderCorridors();
+  showToast('✓ Corridor road sensors refreshed (15m cycle)');
 }
 
 function persistProfile() {
-  const u = document.getElementById('uName')?.value || '';
-  const e = document.getElementById('uEmail')?.value || '';
-  const a = document.getElementById('tArrive')?.value || '17:30';
-  const r = document.getElementById('tReturn')?.value || '20:30';
+  const u = document.getElementById('uName').value;
+  const e = document.getElementById('uEmail').value;
+  const a = document.getElementById('tArrive').value;
+  const r = document.getElementById('tReturn').value;
   localStorage.setItem('cruizgo_profile', JSON.stringify({ u, e, a, r }));
 }
 
 function loadProfile() {
   const saved = JSON.parse(localStorage.getItem('cruizgo_profile') || '{}');
-  if (saved.u && document.getElementById('uName')) document.getElementById('uName').value = saved.u;
-  if (saved.e && document.getElementById('uEmail')) document.getElementById('uEmail').value = saved.e;
-  if (saved.a && document.getElementById('tArrive')) document.getElementById('tArrive').value = saved.a;
-  if (saved.r && document.getElementById('tReturn')) document.getElementById('tReturn').value = saved.r;
+  if (saved.u) document.getElementById('uName').value = saved.u;
+  if (saved.e) document.getElementById('uEmail').value = saved.e;
+  if (saved.a) document.getElementById('tArrive').value = saved.a;
+  if (saved.r) document.getElementById('tReturn').value = saved.r;
 }
 
 // ══════════════════════════════════════════════════════════════════
-// AUTHENTICATION & SETTINGS
+// AUTH & SETTINGS LOGIC
 // ══════════════════════════════════════════════════════════════════
 function openProfileOrAuth() {
   if (S.currentUser) {
@@ -863,7 +874,7 @@ function openProfileOrAuth() {
 }
 
 function openProfileModal() {
-  document.getElementById('accFullName').value = S.currentUser.user_metadata?.full_name || document.getElementById('uName')?.value || '';
+  document.getElementById('accFullName').value = S.currentUser.user_metadata?.full_name || document.getElementById('uName').value || '';
   document.getElementById('accEmail').value = S.currentUser.email || '';
   document.getElementById('profileModal').classList.add('show');
 }
@@ -967,6 +978,9 @@ async function executeAuthAction() {
       options: { data: { full_name: fullName } }
     });
     if (error) return showToast(error.message, 'err');
+    document.getElementById('uName').value = fullName;
+    document.getElementById('uEmail').value = email;
+    persistProfile();
     showToast('✓ Account created! You are logged in.');
     closeAuthModal();
   } else if (S.authView === 'forgot') {
@@ -982,13 +996,17 @@ async function executeAuthAction() {
     if (!newPassword || newPassword.length < 6) return showToast('Password must be at least 6 characters', 'err');
 
     showToast('Verifying code & updating password…');
-    const { error: otpErr } = await sbClient.auth.verifyOtp({ email, token, type: 'recovery' });
+    const { error: otpErr } = await sbClient.auth.verifyOtp({
+      email,
+      token,
+      type: 'recovery'
+    });
     if (otpErr) return showToast('Invalid OTP code: ' + otpErr.message, 'err');
 
     const { error: pwdErr } = await sbClient.auth.updateUser({ password: newPassword });
     if (pwdErr) return showToast('Password update error: ' + pwdErr.message, 'err');
 
-    showToast('✓ Password changed successfully!');
+    showToast('✓ Password changed successfully! You are now logged in.');
     closeAuthModal();
   }
 }
@@ -1008,8 +1026,12 @@ async function updateUserProfileName() {
   const fullName = document.getElementById('accFullName').value.trim();
   if (!fullName) return showToast('Name cannot be blank', 'err');
   showToast('Updating profile…');
-  const { error } = await sbClient.auth.updateUser({ data: { full_name: fullName } });
+  const { error } = await sbClient.auth.updateUser({
+    data: { full_name: fullName }
+  });
   if (error) return showToast(error.message, 'err');
+  document.getElementById('uName').value = fullName;
+  persistProfile();
   showToast('✓ Profile updated');
   updateUserHeaderBadge();
   closeProfileModal();
@@ -1026,6 +1048,8 @@ async function updateUserPassword() {
   const { error } = await sbClient.auth.updateUser({ password: p1 });
   if (error) return showToast(error.message, 'err');
   showToast('✓ Password changed successfully');
+  document.getElementById('accNewPassword').value = '';
+  document.getElementById('accConfirmPassword').value = '';
   closeProfileModal();
 }
 
@@ -1049,7 +1073,9 @@ async function signOutUser() {
   showToast('Signed out');
 }
 
-function splitEmail(e) { return (e || '').split('@')[0]; }
+function splitEmail(e) {
+  return (e || '').split('@')[0];
+}
 
 function updateUserHeaderBadge() {
   const dot = document.getElementById('userDot');
@@ -1073,27 +1099,22 @@ async function initSupabaseAuthListener() {
   const { data: { session } } = await sbClient.auth.getSession();
   if (session?.user) {
     S.currentUser = session.user;
+    document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
     updateUserHeaderBadge();
   }
 
   sbClient.auth.onAuthStateChange((_event, session) => {
     S.currentUser = session?.user || null;
+    if (session?.user) {
+      document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
+    }
     updateUserHeaderBadge();
     renderSavedTimeView();
   });
 }
 
-function handleAuthProtectedSave() {
-  if (!S.currentUser) {
-    showToast('Please sign in to save permanent routes', 'err');
-    openAuthModal('signup');
-    return;
-  }
-  promptSave();
-}
-
 // ══════════════════════════════════════════════════════════════════
-// VALIDATION & CALCULATION ENGINE
+// TEMPORAL LOGIC & AUTO-ADJUSTMENT
 // ══════════════════════════════════════════════════════════════════
 function validateSelectedTimes() {
   const errBox = document.getElementById('temporalErrBox');
@@ -1111,7 +1132,7 @@ function validateSelectedTimes() {
   const arrMins = arrH * 60 + arrM;
 
   if (arrMins <= currentMins) {
-    errBox.textContent = '⚠️ Target arrival time has passed. Select a future time or toggle "Leave Right Now".';
+    errBox.textContent = '⚠️ Target arrival time has already passed for today. Please select a future time or choose "Leave Right Now".';
     errBox.style.display = 'block';
     return false;
   }
@@ -1130,107 +1151,13 @@ function validateSelectedTimes() {
   return true;
 }
 
-function setQuickRoute(from, to) {
-  document.getElementById('inpFrom').value = from;
-  document.getElementById('inpTo').value = to;
-  S.fromVal = from;
-  S.toVal = to;
-  doScan();
-}
-
-async function doScan() {
-  switchTab('today', document.getElementById('tabToday'));
-
-  const fv = document.getElementById('inpFrom').value.trim() || S.fromVal;
-  const tv = document.getElementById('inpTo').value.trim() || S.toVal;
-  const arrStr = document.getElementById('tArrive').value;
-  const retStr = document.getElementById('tReturn').value;
-
-  if (!validateSelectedTimes()) return;
-
-  const btn = document.getElementById('scanBtn');
-  btn.disabled = true;
-  btn.textContent = 'Analyzing Traffic Sensors…';
-
-  const corrKey = detectCorridor(fv, tv);
-  const cor = CORR[corrKey] || CORR['orr'];
-  const todayDay = new Date().getDay();
-  const dayMult = [0.95, 1.15, 1.25, 1.40, 1.30, 1.15, 1.05][todayDay] || 1.2;
-
-  const distKm = 14.5;
-  const activeSpeed = S.vehicle === 'bike' ? (cor.bikePeak / dayMult) : (cor.carPeak / dayMult);
-  const travelMins = Math.round((distKm / activeSpeed) * 60);
-  const bufferMins = S.vehicle === 'bike' ? 3 : 4;
-
-  let mornDepStr, retDepStr, displayArrival;
-
-  if (S.tripMode === 'now') {
-    const d = new Date();
-    const nowMins = d.getHours() * 60 + d.getMinutes();
-    mornDepStr = minsToFormattedTime(nowMins);
-    const etaMins = nowMins + travelMins + bufferMins;
-    displayArrival = minsToFormattedTime(etaMins);
-
-    document.getElementById('heroEyeLabel').textContent = '⚡ LIVE ROUTE — DEPART IMMEDIATELY';
-    document.getElementById('heroR1').textContent = `Start right now via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to arrive at ${tv.split(',')[0]} by ~${displayArrival}. Pure transit duration is ${travelMins} mins (+${bufferMins} min buffer).`;
-  } else {
-    const arrMins = timeToMins(arrStr);
-    const mornDepMins = arrMins - travelMins - bufferMins;
-    mornDepStr = minsToFormattedTime(mornDepMins);
-    displayArrival = arrStr;
-
-    document.getElementById('heroEyeLabel').textContent = 'LEAVE BY — OPTIMAL MORNING WINDOW';
-    document.getElementById('heroR1').textContent = `Leave by ${mornDepStr} via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to reach by ${arrStr}. Pure transit is ${travelMins} mins (+${bufferMins} min buffer).`;
+function handleAuthProtectedSave() {
+  if (!S.currentUser) {
+    showToast('Please sign in to save permanent routes and schedules', 'err');
+    openAuthModal('signup');
+    return;
   }
-
-  if (retStr) {
-    const retMins = timeToMins(retStr);
-    retDepStr = minsToFormattedTime(retMins - travelMins - bufferMins);
-  } else {
-    retDepStr = '20:30';
-  }
-
-  S.lastScan = {
-    fv, tv, arrStr: displayArrival, retStr, distKm, travelMins, mornDepStr, retDepStr, cor, bufferMins
-  };
-
-  document.getElementById('empEl').style.display = 'none';
-  document.getElementById('resWrap').style.display = 'flex';
-
-  document.getElementById('heroT1').textContent = mornDepStr;
-  document.getElementById('heroAp1').textContent = timeToMins(mornDepStr) >= 720 ? 'PM' : 'AM';
-  document.getElementById('heroT2').textContent = retDepStr;
-  document.getElementById('heroR2').textContent = retStr ? `Leave work by ${retDepStr} to arrive home by ${retStr}.` : '--';
-
-  document.getElementById('hgD').textContent = `${distKm} km`;
-  document.getElementById('hgT').textContent = `${travelMins} min`;
-  document.getElementById('hgTLabel').textContent = `TRANSIT TIME (+${bufferMins}M BUFFER)`;
-
-  document.getElementById('sscSpeed').innerHTML = `Cruise Target: ${cor.safeSpeed}`;
-  document.getElementById('sscLaneGuide').innerHTML = `<strong>Recommended Lane Position:</strong> ${cor.laneGuide}`;
-
-  const confBadge = document.getElementById('confBadgeScore');
-  if (confBadge) confBadge.textContent = '98% VERIFIED';
-
-  updateInAppMap(fv, tv);
-
-  btn.disabled = false;
-  btn.textContent = 'Calculate Departure Window →';
-
-  setTimeout(() => { openCompletionModal(); }, 1400);
-}
-
-function updateInAppMap(from, to) {
-  const iframe = document.getElementById('inAppMapFrame');
-  const lon = S.fromCoords ? S.fromCoords[0] : 77.6710;
-  const lat = S.fromCoords ? S.fromCoords[1] : 13.0035;
-  iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${lon-0.08},${lat-0.06},${lon+0.08},${lat+0.06}&layer=mapnik&marker=${lat},${lon}`;
-}
-
-function openGoogleMapsDirect() {
-  const fv = encodeURIComponent(document.getElementById('inpFrom').value.trim() || S.fromVal);
-  const tv = encodeURIComponent(document.getElementById('inpTo').value.trim() || S.toVal);
-  window.open(`https://www.google.com/maps/dir/?api=1&origin=${fv}+Bengaluru&destination=${tv}+Bengaluru&travelmode=${S.vehicle === 'bike' ? 'bicycling' : 'driving'}&dir_action=navigate`, '_blank');
+  promptSave();
 }
 
 // 0ms SEARCH-AS-YOU-TYPE AUTOCOMPLETE
@@ -1388,10 +1315,10 @@ document.addEventListener('click', e => {
 
 function acquireLiveGPS() {
   if (!navigator.geolocation) {
-    showToast('Geolocation not supported', 'err');
+    showToast('Geolocation is not supported by your browser', 'err');
     return;
   }
-  showToast('Acquiring high-precision GPS…');
+  showToast('Acquiring high-precision GPS fix…');
   navigator.geolocation.getCurrentPosition(async pos => {
     const lat = pos.coords.latitude;
     const lon = pos.coords.longitude;
@@ -1411,8 +1338,8 @@ function acquireLiveGPS() {
       S.fromVal = `Dooravani Nagar, Bengaluru`;
       doScan();
     }
-  }, () => {
-    showToast('GPS permission denied', 'err');
+  }, err => {
+    showToast('GPS access denied. Enter your location manually.', 'err');
   }, { enableHighAccuracy: true, timeout: 9000 });
 }
 
@@ -1452,7 +1379,106 @@ function minsToFormattedTime(totalMins) {
   return `${hh}:${mm}`;
 }
 
-// RESTORED WEEK TAB
+// ══════════════════════════════════════════════════════════════════
+// SCAN & CALCULATION ENGINE
+// ══════════════════════════════════════════════════════════════════
+async function doScan() {
+  switchTab('today', document.getElementById('tabToday'));
+
+  const fv = document.getElementById('inpFrom').value.trim() || S.fromVal;
+  const tv = document.getElementById('inpTo').value.trim() || S.toVal;
+  const arrStr = document.getElementById('tArrive').value;
+  const retStr = document.getElementById('tReturn').value;
+
+  const btn = document.getElementById('scanBtn');
+  btn.disabled = true;
+  btn.textContent = 'Analyzing Traffic Sensors…';
+
+  const corrKey = detectCorridor(fv, tv);
+  const cor = CORR[corrKey];
+  const todayDay = new Date().getDay();
+  const dayMult = [0.95, 1.15, 1.25, 1.40, 1.30, 1.15, 1.05][todayDay] || 1.2;
+
+  const distKm = 14.5;
+  const activeSpeed = S.vehicle === 'bike' ? (cor.bikePeak / dayMult) : (cor.carPeak / dayMult);
+  const travelMins = Math.round((distKm / activeSpeed) * 60);
+  const bufferMins = S.vehicle === 'bike' ? 3 : 4;
+
+  let mornDepStr, retDepStr, displayArrival;
+
+  if (S.tripMode === 'now') {
+    const d = new Date();
+    const nowMins = d.getHours() * 60 + d.getMinutes();
+    mornDepStr = minsToFormattedTime(nowMins);
+    const etaMins = nowMins + travelMins + bufferMins;
+    displayArrival = minsToFormattedTime(etaMins);
+
+    document.getElementById('heroEyeLabel').textContent = '⚡ LIVE ROUTE — DEPART IMMEDIATELY';
+    document.getElementById('heroR1').textContent = `Start right now via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to arrive at ${tv.split(',')[0]} by ~${displayArrival}. Pure transit duration is ${travelMins} mins (+${bufferMins} min buffer).`;
+  } else {
+    const arrMins = timeToMins(arrStr);
+    const mornDepMins = arrMins - travelMins - bufferMins;
+    mornDepStr = minsToFormattedTime(mornDepMins);
+    displayArrival = arrStr;
+
+    document.getElementById('heroEyeLabel').textContent = 'LEAVE BY — OPTIMAL MORNING WINDOW';
+    document.getElementById('heroR1').textContent = `Leave by ${mornDepStr} via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to reach by ${arrStr}. Pure transit is ${travelMins} mins (+${bufferMins} min buffer).`;
+  }
+
+  if (retStr) {
+    const retMins = timeToMins(retStr);
+    retDepStr = minsToFormattedTime(retMins - travelMins - bufferMins);
+  } else {
+    retDepStr = '17:42';
+  }
+
+  S.lastScan = {
+    fv, tv, arrStr: displayArrival, retStr, distKm, travelMins, mornDepStr, retDepStr,
+    cor, bufferMins
+  };
+
+  document.getElementById('empEl').style.display = 'none';
+  document.getElementById('resWrap').style.display = 'flex';
+
+  document.getElementById('heroT1').textContent = mornDepStr;
+  document.getElementById('heroAp1').textContent = timeToMins(mornDepStr) >= 720 ? 'PM' : 'AM';
+  document.getElementById('heroT2').textContent = retDepStr;
+  document.getElementById('heroR2').textContent = retStr ? `Leave work by ${retDepStr} to arrive home by ${retStr}.` : '--';
+
+  document.getElementById('hgD').textContent = `${distKm} km`;
+  document.getElementById('hgT').textContent = `${travelMins} min`;
+  document.getElementById('hgTLabel').textContent = `TRANSIT TIME (+${bufferMins}M BUFFER)`;
+
+  document.getElementById('sscSpeed').innerHTML = `Cruise Target: ${cor.safeSpeed}`;
+  document.getElementById('sscLaneGuide').innerHTML = `<strong>Recommended Lane Position:</strong> ${cor.laneGuide}`;
+
+  updateInAppMap(fv, tv);
+
+  btn.disabled = false;
+  btn.textContent = 'Calculate Departure Window →';
+
+  // Note: Arrival check-in modal is NOT triggered here. It opens strictly from the Alerts tab.
+}
+
+function updateInAppMap(from, to) {
+  const iframe = document.getElementById('inAppMapFrame');
+  const lon = S.fromCoords ? S.fromCoords[0] : 77.6710;
+  const lat = S.fromCoords ? S.fromCoords[1] : 13.0035;
+  const minLon = lon - 0.08;
+  const maxLon = lon + 0.08;
+  const minLat = lat - 0.06;
+  const maxLat = lat + 0.06;
+  iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${minLon},${minLat},${maxLon},${maxLat}&layer=mapnik&marker=${lat},${lon}`;
+}
+
+function openGoogleMapsDirect() {
+  const fv = encodeURIComponent((document.getElementById('inpFrom').value.trim() || S.fromVal) + ' Bengaluru');
+  const tv = encodeURIComponent((document.getElementById('inpTo').value.trim() || S.toVal) + ' Bengaluru');
+  const mode = S.vehicle === 'bike' ? 'bicycling' : 'driving';
+  window.open(`https://www.google.com/maps/dir/?api=1&origin=${fv}&destination=${tv}&travelmode=${mode}&dir_action=navigate`, '_blank');
+}
+
+// WEEK ACCORDION
 function buildDayStrip() {
   const currentDayKey = WEEK_CONFIG[(new Date().getDay() + 6) % 7].k;
   document.getElementById('dayStrip').innerHTML = WEEK_CONFIG.map(d => {
@@ -1555,7 +1581,7 @@ function calcDay(k) {
 
 async function saveDaySchedule(k) {
   if (!S.currentUser) {
-    showToast('Please sign in to save schedules', 'err');
+    showToast('Please sign in to save weekly schedules', 'err');
     openAuthModal('signup');
     return;
   }
@@ -1582,7 +1608,7 @@ async function saveDaySchedule(k) {
   showToast(`✓ ${k.toUpperCase()} saved`);
 }
 
-// RESTORED CORRIDORS TAB
+// CORRIDORS
 function renderCorridors() {
   document.getElementById('allCorr').innerHTML = Object.entries(CORR).map(([k, c]) => `
     <div class="corrcard" id="${c.id}" style="margin-bottom:14px">
@@ -1629,7 +1655,7 @@ function setCorridorToToday(k) {
   doScan();
 }
 
-// RESTORED HISTORY TAB
+// HISTORY TAB
 function renderHistory() {
   const sSec = document.getElementById('savedSection');
   const saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
@@ -1661,7 +1687,7 @@ function renderHistory() {
 
   if (hist.length) {
     hSec.innerHTML = `
-      <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase;margin:18px 0 10px">🕒 Past Completed Trips</div>
+      <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase;margin:18px 0 10px">🕒 Completed Verified Trips</div>
       ${hist.map(h => `
         <div style="background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:12px;margin-bottom:8px">
           <div style="display:flex;justify-content:space-between">
@@ -1724,7 +1750,7 @@ function renderSavedTimeView() {
   }
 }
 
-// CHECK-IN & ARRIVAL LOGGING
+// CHECK-IN SURVEY (TRIGGERED ONLY FROM ALERTS TAB)
 let survey = { onTime: true, savedGridlock: true, helpedPlan: true };
 
 function openCompletionModal() { document.getElementById('completionModal').classList.add('show'); }
@@ -1739,7 +1765,7 @@ function selectQ(num, val) {
 
 async function submitCompletedRide() {
   if (!S.currentUser) {
-    showToast('Please sign in to log completed rides', 'err');
+    showToast('Please sign in to log completed rides and track saved time', 'err');
     openAuthModal('signup');
     return;
   }
@@ -1835,7 +1861,7 @@ async function saveInlineFeedback() {
 // ALERTS LOG
 function renderAlerts() {
   document.getElementById('alertsListContainer').innerHTML = S.alertsList.map(a => `
-    <div class="alert-card" onclick="openCompletionModal()">
+    <div class="alert-card" onclick="openAlertDeepLink('${a.id}', '${a.type}')">
       <div style="font-family:var(--mono);font-size:11px;color:var(--neon)">${a.time}</div>
       <div style="font-size:13px;font-weight:800;color:#fff">${a.title}</div>
       <div style="font-size:12px;color:var(--txt2);margin-top:2px">${a.body}</div>
@@ -1843,31 +1869,20 @@ function renderAlerts() {
   `).join('');
 }
 
+function openAlertDeepLink(id, type) {
+  if (type === 'checkin') {
+    openCompletionModal();
+  } else {
+    switchTab('today', document.getElementById('tabToday'));
+    showToast('✓ Viewing active route metrics');
+  }
+}
+
 function clearAllAlerts() {
   S.alertsList = [];
   document.getElementById('badgeAlerts').textContent = '0';
   renderAlerts();
   showToast('Notifications cleared');
-}
-
-// TAB SWITCHING
-function switchTab(name, btn) {
-  document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
-  document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
-
-  const map = {
-    today: 'pToday', week: 'pWeek', corridors: 'pCorridors',
-    alerts: 'pAlerts', savedTime: 'pSavedTime', history: 'pHistory'
-  };
-  const target = document.getElementById(map[name]);
-  if (target) target.classList.add('on');
-  if (btn) btn.classList.add('on');
-
-  if (name === 'week') { buildDayStrip(); renderWeekCards(); }
-  if (name === 'corridors') renderCorridors();
-  if (name === 'alerts') renderAlerts();
-  if (name === 'savedTime') renderSavedTimeView();
-  if (name === 'history') renderHistory();
 }
 
 // SUPABASE HELPERS
@@ -1905,7 +1920,7 @@ async function supabaseInsert(table, data) {
 // PUSH NOTIFICATIONS REGISTRATION
 async function enableAlerts() {
   const btn = document.getElementById('alertsBtn');
-  const email = S.currentUser?.email || document.getElementById('uEmail')?.value.trim();
+  const email = S.currentUser?.email || document.getElementById('uEmail').value.trim();
   if (!email) return showToast('Please sign in or enter your email first', 'err');
 
   btn.disabled = true;
@@ -1953,6 +1968,26 @@ function showToast(msg, type = 'ok') {
   setTimeout(() => t.classList.remove('up'), 3200);
 }
 
+// TAB SWITCHING (SCOPES CONTROLS TO TODAY ONLY)
+function switchTab(name, btn) {
+  document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
+
+  const map = {
+    today: 'pToday', week: 'pWeek', corridors: 'pCorridors',
+    alerts: 'pAlerts', savedTime: 'pSavedTime', history: 'pHistory'
+  };
+  const target = document.getElementById(map[name]);
+  if (target) target.classList.add('on');
+  if (btn) btn.classList.add('on');
+
+  if (name === 'week') { buildDayStrip(); renderWeekCards(); }
+  if (name === 'corridors') renderCorridors();
+  if (name === 'alerts') renderAlerts();
+  if (name === 'savedTime') renderSavedTimeView();
+  if (name === 'history') renderHistory();
+}
+
 // INITIALIZATION
 window.addEventListener('DOMContentLoaded', () => {
   initClock();
@@ -1961,18 +1996,11 @@ window.addEventListener('DOMContentLoaded', () => {
   initSupabaseAuthListener();
   renderAlerts();
   renderHistory();
-
   document.getElementById('inpFrom').value = S.fromVal;
   document.getElementById('inpTo').value = S.toVal;
 
-  // Set default initial arrival & return to valid future afternoon hours
-  const now = new Date();
-  const nextHour = (now.getHours() + 2) % 24;
-  const returnHour = (nextHour + 3) % 24;
-  document.getElementById('tArrive').value = `${nextHour.toString().padStart(2, '0')}:30`;
-  document.getElementById('tReturn').value = `${returnHour.toString().padStart(2, '0')}:30`;
-
-  doScan();
+  // Render initial tab cleanly without modal popups
+  switchTab('today', document.getElementById('tabToday'));
 });
 </script>
 </body>
