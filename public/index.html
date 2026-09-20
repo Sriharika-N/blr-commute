@@ -984,6 +984,7 @@ html,body{
 <script>
 const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
+const VAPID_PUBLIC_KEY_STR = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0'; // Replace with your actual generated VAPID public key
 
 const sbClient = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
 
@@ -999,7 +1000,7 @@ const S = {
   authView: 'login',
   corridorRefreshSeconds: 900,
   alertsList: [
-    { id:'a1', time: '12:30 PM', title: 'Mid-Day Commute Check-in', body: 'How was your morning commute to Bellandur? Confirm your arrival to log verified Saved Time.', type: 'checkin' },
+    { id:'a1', time: '12:30 PM', title: 'Mid-Day Commute Check-In', body: 'How was your morning commute to Bellandur? Confirm your arrival to log verified Saved Time.', type: 'checkin' },
     { id:'a2', time: '07:30 AM', title: 'Morning Commute Ready 🌅', body: 'Weekly commute planning tip: Schedule your meetings around predicted corridor free-flow windows.', type: 'morning' }
   ]
 };
@@ -2316,6 +2317,18 @@ function clearAllAlerts() {
   showToast('✓ All alerts cleared');
 }
 
+// URL BASE64 HELPER FOR PUSH SUBSCRIPTION
+function urlBase64ToUint8Array(base64String) {
+  const padding = '='.repeat((4 - base64String.length % 4) % 4);
+  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
+  const rawData = window.atob(base64);
+  const outputArray = new Uint8Array(rawData.length);
+  for (let i = 0; i < rawData.length; ++i) {
+    outputArray[i] = rawData.charCodeAt(i);
+  }
+  return outputArray;
+}
+
 // PUSH NOTIFICATIONS & SERVICE WORKER REGISTRATION
 async function registerServiceWorker() {
   if ('serviceWorker' in navigator) {
@@ -2335,23 +2348,54 @@ async function enableAlerts() {
     return;
   }
   
-  if ('Notification' in window) {
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    return showToast('Push notifications not supported on this device', 'err');
+  }
+
+  try {
     const permission = await Notification.requestPermission();
     if (permission !== 'granted') {
       return showToast('Notification permission denied in browser settings', 'err');
     }
-  }
 
-  const btn = document.getElementById('alertsBtn');
-  btn.disabled = true;
-  btn.textContent = 'Pairing phone…';
-  
-  setTimeout(() => {
+    const btn = document.getElementById('alertsBtn');
+    btn.disabled = true;
+    btn.textContent = 'Pairing device…';
+
+    const reg = await navigator.serviceWorker.ready;
+    let subscription = await reg.pushManager.getSubscription();
+    if (!subscription) {
+      subscription = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY_STR)
+      });
+    }
+
+    if (sbClient) {
+      const { error } = await sbClient
+        .from('commute_plans')
+        .upsert({
+          user_email: S.currentUser.email,
+          push_subscription: subscription.toJSON(),
+          alerts_enabled: true
+        }, { onConflict: 'user_email' });
+
+      if (error) throw error;
+    }
+
     btn.classList.add('on');
     btn.textContent = '🔔 Alerts Active';
     btn.disabled = false;
-    showToast('✓ Paired: Home screen push alerts active');
-  }, 1000);
+    showToast('✓ Successfully paired: Home screen push alerts active');
+  } catch (err) {
+    console.error('Push subscription failed:', err);
+    const btn = document.getElementById('alertsBtn');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '🔔 Enable alerts';
+    }
+    showToast('Subscription error: ' + err.message, 'err');
+  }
 }
 
 // TEST DATA MODAL
