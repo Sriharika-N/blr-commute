@@ -2342,58 +2342,40 @@ async function registerServiceWorker() {
 }
 
 async function enableAlerts() {
-  if (!S.currentUser) {
-    showToast('Please sign in to enable alerts', 'err');
-    openAuthModal('login');
-    return;
-  }
-
-  // Check if running as an installed PWA on iOS Home Screen or standard supported browser
-  const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
-  const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-
-  if (isIOS && !isStandalone) {
-    showToast('To receive push notifications on iOS, tap the Share button and select "Add to Home Screen" first!', 'err');
-    return;
-  }
-  
-  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-    return showToast('Push notifications are not supported on this browser version', 'err');
-  }
-
-  try {
-    // iOS strictly requires this prompt to be directly inside a user-tap gesture handler
-    const permission = await Notification.requestPermission();
-    if (permission !== 'granted') {
-      return showToast('Notification permission was denied. Enable it in your device settings.', 'err');
-    }
-
-    const btn = document.getElementById('alertsBtn');
-    btn.disabled = true;
-    btn.textContent = 'Pairing device…';
-
-    const reg = await navigator.serviceWorker.ready;
-    let subscription = await reg.pushManager.getSubscription();
-    
-    if (!subscription) {
-      subscription = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY_STR)
-      });
-    }
-
-    if (sbClient) {
-      const { error } = await sbClient
+  if (sbClient) {
+      // 1. Check if a profile already exists for this email
+      const { data: existingProfile } = await sbClient
         .from('commute_plans')
-        .upsert({
-          user_email: S.currentUser.email,
-          push_subscription: subscription.toJSON(),
-          alerts_enabled: true
-        }, { onConflict: 'user_email' });
+        .select('id')
+        .eq('user_email', S.currentUser.email)
+        .maybeSingle();
 
-      if (error) throw error;
+      let dbError = null;
+
+      if (existingProfile) {
+        // Update existing row
+        const { error } = await sbClient
+          .from('commute_plans')
+          .update({
+            push_subscription: subscription.toJSON(),
+            alerts_enabled: true
+          })
+          .eq('user_email', S.currentUser.email);
+        dbError = error;
+      } else {
+        // Insert new row
+        const { error } = await sbClient
+          .from('commute_plans')
+          .insert({
+            user_email: S.currentUser.email,
+            push_subscription: subscription.toJSON(),
+            alerts_enabled: true
+          });
+        dbError = error;
+      }
+
+      if (dbError) throw dbError;
     }
-
     btn.classList.add('on');
     btn.textContent = '🔔 Alerts Active';
     btn.disabled = false;
