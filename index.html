@@ -33,48 +33,48 @@ html,body{
 }
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--sur2);border-radius:3px}
 
-/* FIXED HEADER WITH ENLARGED TYPOGRAPHY */
+/* FIXED HEADER */
 .top-stack{
   flex-shrink:0;z-index:900;background:rgba(4,8,16,.98);
   border-bottom:1px solid var(--brd);backdrop-filter:blur(25px)
 }
 .hdr{
-  height:64px;padding:0 20px;display:flex;align-items:center;
+  height:60px;padding:0 18px;display:flex;align-items:center;
   justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.04)
 }
-.brand{display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:11px}
 .bico-img{
-  width:40px;height:40px;border-radius:10px;object-fit:cover;
-  border:1.5px solid var(--neon);box-shadow:0 0 16px rgba(0,255,136,.35);flex-shrink:0
+  width:36px;height:36px;border-radius:9px;object-fit:cover;
+  border:1.5px solid var(--neon);box-shadow:0 0 14px rgba(0,255,136,.35);flex-shrink:0
 }
 .bname{
-  font-size:21px;font-weight:900;letter-spacing:-.4px;
+  font-size:20px;font-weight:900;letter-spacing:-.4px;
   background:linear-gradient(90deg,#00ff88 0%,#00d4ff 50%,#ff4060 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   filter:drop-shadow(0 0 8px rgba(0,255,136,.3));line-height:1.1
 }
 .btag{font-size:11px;color:var(--txt2);font-weight:700;letter-spacing:.4px;margin-top:2px}
-.hdr-r{display:flex;align-items:center;gap:10px}
+.hdr-r{display:flex;align-items:center;gap:8px}
 
 .user-badge{
-  display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;
+  display:flex;align-items:center;gap:6px;padding:5px 12px;border-radius:20px;
   background:var(--surf);border:1px solid var(--brd);cursor:pointer;font-size:12px;font-weight:700;color:var(--txt);transition:all .2s
 }
 .user-badge:hover{border-color:var(--neon);color:var(--neon)}
 .user-dot{width:7px;height:7px;border-radius:50%;background:var(--txt3)}
 .user-dot.online{background:var(--neon);box-shadow:0 0 8px var(--neon)}
 
-.date-pill{font-size:11px;font-weight:700;color:var(--txt2);background:var(--bg3);border:1px solid var(--brd);padding:6px 10px;border-radius:8px;font-family:var(--mono)}
-.clk{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--txt);background:var(--bg3);border:1px solid var(--brd);padding:6px 10px;border-radius:7px}
+.date-pill{font-size:11px;font-weight:700;color:var(--txt2);background:var(--bg3);border:1px solid var(--brd);padding:5px 9px;border-radius:8px;font-family:var(--mono)}
+.clk{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--txt);background:var(--bg3);border:1px solid var(--brd);padding:5px 8px;border-radius:7px}
 
-/* ENLARGED BEVELED TABS */
+/* TABS WITH ENLARGED FONT & DEPTH */
 .global-tabs{
   display:flex;background:linear-gradient(180deg,#070e1c 0%,#050a14 100%);
-  padding:6px 12px 6px;gap:6px;border-bottom:1px solid var(--brd);overflow-x:auto
+  padding:6px 12px;gap:6px;border-bottom:1px solid var(--brd);overflow-x:auto
 }
 .gtab{
-  flex:1;min-width:90px;padding:12px 6px;text-align:center;
-  font-size:14px;font-weight:800;color:var(--txt3);cursor:pointer;
+  flex:1;min-width:88px;padding:11px 4px;text-align:center;
+  font-size:13px;font-weight:800;color:var(--txt3);cursor:pointer;
   border:1px solid var(--brd);background:rgba(15,26,46,.4);border-radius:10px;
   transition:all .22s cubic-bezier(.34,1.56,.64,1);letter-spacing:.3px;white-space:nowrap;
   box-shadow:0 2px 4px rgba(0,0,0,.4)
@@ -86,16 +86,15 @@ html,body{
   transform:translateY(-3px);
   box-shadow:0 6px 18px rgba(0,255,136,.18), inset 0 1px 1px rgba(255,255,255,.2)
 }
-.badge-count{background:var(--cyan);color:#040810;font-size:10px;font-weight:900;padding:2px 6px;border-radius:10px;margin-left:5px;font-family:var(--mono)}
+.badge-count{background:var(--cyan);color:#040810;font-size:10px;font-weight:900;padding:2px 6px;border-radius:10px;margin-left:4px;font-family:var(--mono)}
 
-/* APP VIEWPORT CONTAINER */
+/* APP CONTAINER */
 .app{flex:1;display:flex;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative}
 
-/* ALL TAB PANELS */
+/* RIGHT & MAIN PANELS */
 .rp{display:none;width:100%;flex-direction:column;padding:18px;gap:14px}
 .rp.on{display:flex}
 
-/* TODAY TAB LAYOUT */
 .today-layout{display:flex;width:100%;gap:18px}
 .today-controls{width:380px;flex-shrink:0}
 .today-results{flex:1;display:flex;flex-direction:column;gap:14px}
@@ -254,7 +253,7 @@ html,body{
 .map-node{cursor:pointer;transition:transform .2s}
 .map-node:hover{transform:scale(1.05)}
 
-.linear-ribbon-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:14px}
+.linear-ribbon-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;margin-bottom:14px}
 .ribbon-track{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:10px 0 6px;gap:2px}
 .r-seg{flex:1;height:100%;cursor:pointer}
 .r-clear{background:var(--neon)}.r-warn{background:var(--amber)}.r-heavy{background:var(--red)}.r-jam{background:var(--darkred)}
@@ -802,7 +801,7 @@ html,body{
     </div>
 
     <div style="display:flex;gap:8px;margin-top:10px">
-      <button class="altbtn" style="flex:1" onclick="triggerPasswordResetOTP()">🔑 Send Reset OTP</button>
+      <button class="altbtn" style="flex:1" onclick="triggerPasswordResetOTP()">🔑 Send Reset Link</button>
       <button class="altbtn" style="flex:1;border-color:var(--red);color:var(--red)" onclick="signOutUser()">Sign Out</button>
     </div>
   </div>
@@ -843,11 +842,12 @@ html,body{
           <input class="uf" id="authPassword" type="password" placeholder="Password (min 6 chars)" style="width:100%" />
         </div>
         <div id="otpFieldGroup" style="display:none">
-          <input class="uf" id="authOTP" placeholder="Enter 6-digit OTP code sent to email" style="width:100%;font-family:var(--mono);letter-spacing:2px;text-align:center" />
+          <input class="uf" id="authOTP" placeholder="Enter 6-digit OTP code from email link" style="width:100%;font-family:var(--mono);letter-spacing:2px;text-align:center" />
           <input class="uf" id="authNewPasswordReset" type="password" placeholder="Enter new password" style="width:100%;margin-top:6px" />
         </div>
       </div>
 
+      <!-- REFINED OPT-IN ROW -->
       <div class="opt-in-row" id="authSavedTimeOption">
         <input type="checkbox" id="chkTrackSavedTime" checked style="margin-top:2px;cursor:pointer" />
         <label for="chkTrackSavedTime" style="cursor:pointer">Track my verified saved minutes and send weekly commute alerts (uncheck to skip)</label>
@@ -912,6 +912,7 @@ html,body{
 <div class="toast" id="toast"></div>
 
 <script>
+// CONFIG & APP STATE
 const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
 const VAPID  = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0';
@@ -1051,6 +1052,7 @@ const WEEK_CONFIG = [
   { k: 'sun', full: 'Sunday', mult: 0.95, peak: 'Light traffic all day', wx: '29°C · Clear', dot: '🟢', dt: '20' }
 ];
 
+// CLOCK
 function initClock() {
   const clk = document.getElementById('clk');
   const dPill = document.getElementById('datePill');
@@ -1102,10 +1104,15 @@ function loadProfile() {
   if (saved.r) document.getElementById('tReturn').value = saved.r;
 }
 
-// AUTHENTICATION & SETTINGS
+// ══════════════════════════════════════════════════════════════════
+// AUTHENTICATION & SETTINGS LOGIC WITH SMART COLLISION SWITCH
+// ══════════════════════════════════════════════════════════════════
 function openProfileOrAuth() {
-  if (S.currentUser) openProfileModal();
-  else openAuthModal('login');
+  if (S.currentUser) {
+    openProfileModal();
+  } else {
+    openAuthModal('login');
+  }
 }
 
 function openProfileModal() {
@@ -1140,6 +1147,7 @@ function setAuthView(view) {
   const forgotLink = document.getElementById('forgotPwdLink');
   const backLink = document.getElementById('backToLoginLink');
   const tabsHeader = document.getElementById('authTabsHeader');
+  const optInRow = document.getElementById('authSavedTimeOption');
 
   if (view === 'login') {
     title.textContent = 'Sign In to CruizGo';
@@ -1153,6 +1161,7 @@ function setAuthView(view) {
     btn.textContent = 'Sign In';
     forgotLink.style.display = 'inline';
     backLink.style.display = 'none';
+    optInRow.style.display = 'none';
   } else if (view === 'signup') {
     title.textContent = 'Create CruizGo Account';
     tabsHeader.style.display = 'grid';
@@ -1165,16 +1174,18 @@ function setAuthView(view) {
     btn.textContent = 'Create Account';
     forgotLink.style.display = 'none';
     backLink.style.display = 'none';
+    optInRow.style.display = 'flex';
   } else if (view === 'forgot') {
-    title.textContent = 'Reset Password with OTP';
+    title.textContent = 'Reset Password with Link';
     tabsHeader.style.display = 'none';
     nameField.style.display = 'none';
     pwdGroup.style.display = 'none';
     otpGroup.style.display = 'none';
     oauthBox.style.display = 'none';
-    btn.textContent = 'Send Reset Code to Email';
+    btn.textContent = 'Send Reset Link to Email';
     forgotLink.style.display = 'none';
     backLink.style.display = 'inline';
+    optInRow.style.display = 'none';
   } else if (view === 'verify_otp') {
     title.textContent = 'Enter Verification Code';
     tabsHeader.style.display = 'none';
@@ -1185,6 +1196,7 @@ function setAuthView(view) {
     btn.textContent = 'Verify & Set New Password';
     forgotLink.style.display = 'none';
     backLink.style.display = 'inline';
+    optInRow.style.display = 'none';
   }
 }
 
@@ -1212,27 +1224,46 @@ async function executeAuthAction() {
       password,
       options: { data: { full_name: fullName } }
     });
-    if (error) return showToast(error.message, 'err');
+    
+    // SMART SWITCH ON EXISTING EMAIL COLLISION
+    if (error) {
+      if (error.message.toLowerCase().includes('already registered') || error.status === 400) {
+        showToast('Account already exists. Switching to Sign In…', 'err');
+        setAuthView('login');
+        document.getElementById('authEmail').value = email;
+        return;
+      }
+      return showToast(error.message, 'err');
+    }
+
     document.getElementById('uName').value = fullName;
     document.getElementById('uEmail').value = email;
     persistProfile();
     showToast('✓ Account created! You are logged in.');
     closeAuthModal();
   } else if (S.authView === 'forgot') {
-    showToast('Sending OTP reset code to your email…');
+    showToast('Checking email registration & sending reset link…');
     const { error } = await sbClient.auth.resetPasswordForEmail(email);
-    if (error) return showToast(error.message, 'err');
-    showToast('✓ Code sent! Check your inbox.');
+    if (error) {
+      if (error.message.toLowerCase().includes('not found') || error.status === 404) {
+        showToast('Email not registered. Please sign up first.', 'err');
+        setAuthView('signup');
+        document.getElementById('authEmail').value = email;
+        return;
+      }
+      return showToast(error.message, 'err');
+    }
+    showToast('✓ Reset link sent! Check your inbox.');
     setAuthView('verify_otp');
   } else if (S.authView === 'verify_otp') {
     const token = document.getElementById('authOTP').value.trim();
     const newPassword = document.getElementById('authNewPasswordReset').value;
-    if (!token) return showToast('Please enter the 6-digit OTP code', 'err');
+    if (!token) return showToast('Please enter the 6-digit verification code', 'err');
     if (!newPassword || newPassword.length < 6) return showToast('Password must be at least 6 characters', 'err');
 
     showToast('Verifying code & updating password…');
     const { error: otpErr } = await sbClient.auth.verifyOtp({ email, token, type: 'recovery' });
-    if (otpErr) return showToast('Invalid OTP code: ' + otpErr.message, 'err');
+    if (otpErr) return showToast('Invalid verification code: ' + otpErr.message, 'err');
 
     const { error: pwdErr } = await sbClient.auth.updateUser({ password: newPassword });
     if (pwdErr) return showToast('Password update error: ' + pwdErr.message, 'err');
@@ -1284,10 +1315,10 @@ async function updateUserPassword() {
 
 async function triggerPasswordResetOTP() {
   if (!S.currentUser?.email) return;
-  showToast('Sending OTP reset code to ' + S.currentUser.email + '…');
+  showToast('Sending reset link to ' + S.currentUser.email + '…');
   const { error } = await sbClient.auth.resetPasswordForEmail(S.currentUser.email);
   if (error) return showToast(error.message, 'err');
-  showToast('✓ Check your email for the reset code');
+  showToast('✓ Check your email for the reset link');
   closeProfileModal();
   openAuthModal('verify_otp');
 }
@@ -1345,278 +1376,12 @@ async function initSupabaseAuthListener() {
   });
 }
 
-// TEMPORAL LOGIC & AUTO-ADJUSTMENT
-function validateSelectedTimes() {
-  const errBox = document.getElementById('temporalErrBox');
-  if (S.tripMode === 'now') {
-    errBox.style.display = 'none';
-    return true;
-  }
-
-  const arrStr = document.getElementById('tArrive').value;
-  const retStr = document.getElementById('tReturn').value;
-
-  const [arrH, arrM] = arrStr.split(':').map(Number);
-  const now = new Date();
-  const currentMins = now.getHours() * 60 + now.getMinutes();
-  const arrMins = arrH * 60 + arrM;
-
-  if (arrMins <= currentMins) {
-    errBox.textContent = '⚠️ Target arrival time has already passed for today. Please select a future time or choose "Leave Right Now".';
-    errBox.style.display = 'block';
-    return false;
-  }
-
-  if (retStr) {
-    const [retH, retM] = retStr.split(':').map(Number);
-    const retMins = retH * 60 + retM;
-    if (retMins <= (arrMins + 15)) {
-      errBox.textContent = '⚠️ Overlap Error: Return time must be after arrival + travel duration. You cannot start your return journey before reaching your destination.';
-      errBox.style.display = 'block';
-      return false;
-    }
-  }
-
-  errBox.style.display = 'none';
-  return true;
-}
-
-function handleAuthProtectedSave() {
-  if (!S.currentUser) {
-    showToast('Please sign in to save permanent routes and schedules', 'err');
-    openAuthModal('signup');
-    return;
-  }
-  promptSave();
-}
-
-// 0ms SEARCH-AS-YOU-TYPE AUTOCOMPLETE
-let activeSearchSession = { from: 0, to: 0 };
-
-function onSearch(field) {
-  const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
-  const query = (inp.value || '').trim();
-  const sessionId = ++activeSearchSession[field];
-
-  if (!query) {
-    closeAC(field);
-    return;
-  }
-
-  const cleanQ = query.toLowerCase();
-  const tokens = cleanQ.split(/\s+/).filter(t => t.length > 0);
-  
-  const instantMatches = POIS.filter(item => {
-    const text = (item.n + ' ' + item.s).toLowerCase();
-    return tokens.every(tok => text.includes(tok));
-  });
-
-  renderAC(field, instantMatches.slice(0, 8), query);
-
-  clearTimeout(AC[field].timer);
-  document.getElementById(field === 'from' ? 'spFrom' : 'spTo').style.display = 'block';
-
-  AC[field].timer = setTimeout(() => {
-    fetchRemoteGeo(field, query, sessionId, instantMatches);
-  }, 220);
-}
-
-async function fetchRemoteGeo(field, query, sessionId, existingMatches) {
-  const sp = document.getElementById(field === 'from' ? 'spFrom' : 'spTo');
-  try {
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query + ' Bengaluru')}&countrycodes=in&viewbox=77.35,13.25,77.85,12.75&bounded=0&format=json&addressdetails=1&limit=8`;
-    const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
-    const data = await res.json();
-
-    if (sessionId !== activeSearchSession[field]) return;
-
-    if (Array.isArray(data) && data.length) {
-      const liveItems = data.map(d => {
-        const addr = d.address || {};
-        const main = d.name || d.display_name.split(',')[0].trim();
-        const subParts = [addr.suburb, addr.neighbourhood, addr.road, 'Bengaluru'].filter(Boolean);
-        const sub = [...new Set(subParts)].slice(0, 2).join(', ');
-        const icon = d.type === 'station' ? '🚇' : d.type === 'bus_stop' ? '🚏' : d.class === 'highway' ? '🛣️' : '📍';
-        return { n: main, s: sub || 'Bengaluru', lat: parseFloat(d.lat), lon: parseFloat(d.lon), i: icon };
-      });
-
-      const combined = [...existingMatches];
-      liveItems.forEach(item => {
-        const dup = combined.some(c => c.n.toLowerCase() === item.n.toLowerCase() || (Math.abs(c.lat - item.lat) < 0.0008 && Math.abs(c.lon - item.lon) < 0.0008));
-        if (!dup) combined.push(item);
-      });
-
-      renderAC(field, combined.slice(0, 10), query);
-    }
-  } catch (err) {
-  } finally {
-    if (sessionId === activeSearchSession[field]) {
-      sp.style.display = 'none';
-    }
-  }
-}
-
-function renderAC(field, items, q) {
-  const el = document.getElementById(field === 'from' ? 'acFrom' : 'acTo');
-  if (!items || !items.length) {
-    el.innerHTML = `<div style="padding:14px;font-size:12px;color:var(--txt2)">No locations matching "<strong>${escapeHtml(q)}</strong>" in Bengaluru</div>`;
-    el.classList.add('open');
-    return;
-  }
-
-  window[`lastACResults_${field}`] = items;
-
-  el.innerHTML = `<div class="acd-header">Suggestions Matching "${escapeHtml(q)}"</div>` +
-    items.map((r, idx) => `
-      <div class="aci" onclick="pickACItem('${field}', ${idx})">
-        <div class="aci-ico">${r.i || '📍'}</div>
-        <div style="flex:1;min-width:0">
-          <div class="aci-n">${highlightMatch(r.n, q)}</div>
-          <div class="aci-s">${escapeHtml(r.s || 'Bengaluru')}</div>
-        </div>
-      </div>
-    `).join('');
-
-  el.classList.add('open');
-}
-
-function pickACItem(field, idx) {
-  const items = window[`lastACResults_${field}`] || [];
-  const item = items[idx];
-  if (!item) return;
-
-  const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
-  inp.value = item.n;
-
-  if (field === 'from') {
-    S.fromVal = item.n;
-    S.fromCoords = [item.lon, item.lat];
-  } else {
-    S.toVal = item.n;
-    S.toCoords = [item.lon, item.lat];
-  }
-
-  closeAC(field);
-  persistProfile();
-}
-
-function closeAC(field) {
-  const el = document.getElementById(field === 'from' ? 'acFrom' : 'acTo');
-  if (el) el.classList.remove('open');
-}
-
-function clearLoc(field) {
-  const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
-  inp.value = '';
-  closeAC(field);
-  if (field === 'from') { S.fromVal = ''; S.fromCoords = null; }
-  else { S.toVal = ''; S.toCoords = null; }
-  inp.focus();
-}
-
-function doSwap() {
-  const fi = document.getElementById('inpFrom');
-  const ti = document.getElementById('inpTo');
-  const temp = fi.value; fi.value = ti.value; ti.value = temp;
-  const tempS = S.fromVal; S.fromVal = S.toVal; S.toVal = tempS;
-  const tempC = S.fromCoords; S.fromCoords = S.toCoords; S.toCoords = tempC;
-  showToast('✓ Endpoints swapped');
-}
-
-function onKey(e, f) {
-  if (e.key === 'Escape') closeAC(f);
-}
-
-function highlightMatch(text, query) {
-  if (!query) return escapeHtml(text);
-  const idx = text.toLowerCase().indexOf(query.toLowerCase());
-  if (idx < 0) return escapeHtml(text);
-  return escapeHtml(text.slice(0, idx)) + '<mark>' + escapeHtml(text.slice(idx, idx + query.length)) + '</mark>' + escapeHtml(text.slice(idx + query.length));
-}
-
-function escapeHtml(str) {
-  return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;');
-}
-
-document.addEventListener('click', e => {
-  if (!e.target.closest('#inpFrom') && !e.target.closest('#acFrom')) closeAC('from');
-  if (!e.target.closest('#inpTo') && !e.target.closest('#acTo')) closeAC('to');
-});
-
-function acquireLiveGPS() {
-  if (!navigator.geolocation) {
-    showToast('Geolocation is not supported by your browser', 'err');
-    return;
-  }
-  showToast('Acquiring high-precision GPS fix…');
-  navigator.geolocation.getCurrentPosition(async pos => {
-    const lat = pos.coords.latitude;
-    const lon = pos.coords.longitude;
-    S.fromCoords = [lon, lat];
-
-    try {
-      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
-      const data = await res.json();
-      const area = data.address.suburb || data.address.neighbourhood || data.address.road || 'Dooravani Nagar';
-      const formatted = `${area}, Bengaluru`;
-      document.getElementById('inpFrom').value = formatted;
-      S.fromVal = formatted;
-      showToast(`✓ Locked GPS: ${area}`);
-      doScan();
-    } catch {
-      document.getElementById('inpFrom').value = `Dooravani Nagar, Bengaluru`;
-      S.fromVal = `Dooravani Nagar, Bengaluru`;
-      doScan();
-    }
-  }, err => {
-    showToast('GPS access denied. Enter your location manually.', 'err');
-  }, { enableHighAccuracy: true, timeout: 9000 });
-}
-
-function setTripMode(m) {
-  S.tripMode = m;
-  document.getElementById('btnModePlan').classList.toggle('on', m === 'plan');
-  document.getElementById('btnModeNow').classList.toggle('on', m === 'now');
-  document.getElementById('timeRowPlan').style.display = m === 'plan' ? 'grid' : 'none';
-  validateSelectedTimes();
-  doScan();
-}
-
-function setV(v) {
-  S.vehicle = v;
-  document.getElementById('vBike').classList.toggle('on', v === 'bike');
-  document.getElementById('vCar').classList.toggle('on', v === 'car');
-  doScan();
-}
-
-function detectCorridor(fv, tv) {
-  const t = ((fv||'') + ' ' + (tv||'')).toLowerCase();
-  if (t.includes('tumkur') || t.includes('yeshwanthpur') || t.includes('majestic') || t.includes('goraguntepalya')) return 'tmk';
-  if (t.includes('whitefield') || t.includes('itpl') || t.includes('aecs')) return 'wf';
-  if (t.includes('electronic') || t.includes('hosur')) return 'ec';
-  if (t.includes('hebbal') || t.includes('manyata')) return 'hbl';
-  if (t.includes('domlur') || t.includes('cbd')) return 'irr';
-  return 'orr';
-}
-
-function timeToMins(tStr) {
-  const [h, m] = tStr.split(':').map(Number);
-  return h * 60 + m;
-}
-
-function minsToFormattedTime(totalMins) {
-  const normalized = ((totalMins % 1440) + 1440) % 1440;
-  const hh = Math.floor(normalized / 60).toString().padStart(2, '0');
-  const mm = (normalized % 60).toString().padStart(2, '0');
-  return `${hh}:${mm}`;
-}
-
 // ══════════════════════════════════════════════════════════════════
-// DISTANCE & TRANSIT CALCULATION (GOOGLE MAPS ACCURACY ENGINE)
+// DISTANCE & TRANSIT CALCULATION (GOOGLE MAPS PRECISION)
 // ══════════════════════════════════════════════════════════════════
 function calculateHaversineKm(coords1, coords2) {
   if (!coords1 || !coords2) return 14.5;
-  const R = 6371; // Earth radius in km
+  const R = 6371;
   const dLat = (coords2[1] - coords1[1]) * Math.PI / 180;
   const dLon = (coords2[0] - coords1[0]) * Math.PI / 180;
   const a = 
@@ -1624,9 +1389,7 @@ function calculateHaversineKm(coords1, coords2) {
     Math.cos(coords1[1] * Math.PI / 180) * Math.cos(coords2[1] * Math.PI / 180) * 
     Math.sin(dLon/2) * Math.sin(dLon/2);
   const c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a));
-  const straightDist = R * c;
-  // Road circuity factor for Bengaluru grid/arterials (~1.35x straight line)
-  return Math.max(2.0, parseFloat((straightDist * 1.35).toFixed(1)));
+  return Math.max(2.0, parseFloat((R * c * 1.35).toFixed(1)));
 }
 
 async function doScan() {
@@ -1648,7 +1411,6 @@ async function doScan() {
   const todayDay = new Date().getDay();
   const dayMult = [0.95, 1.15, 1.25, 1.40, 1.30, 1.15, 1.05][todayDay] || 1.2;
 
-  // Dynamic distance calculation based on coordinates if available
   let distKm = 14.5;
   if (S.fromCoords && S.toCoords) {
     distKm = calculateHaversineKm(S.fromCoords, S.toCoords);
@@ -1732,7 +1494,7 @@ function openGoogleMapsDirect() {
   window.open(`https://www.google.com/maps/dir/?api=1&origin=${fv}&destination=${tv}&travelmode=${mode}&dir_action=navigate`, '_blank');
 }
 
-// WEEK ACCORDION
+// RESTORED WEEK TAB SCRIPT
 function buildDayStrip() {
   const currentDayKey = WEEK_CONFIG[(new Date().getDay() + 6) % 7].k;
   document.getElementById('dayStrip').innerHTML = WEEK_CONFIG.map(d => {
@@ -1853,10 +1615,16 @@ async function saveDaySchedule(k) {
   };
 
   localStorage.setItem(`cruizgo_${k}`, JSON.stringify({ f, t, a, r }));
+
+  let savedList = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
+  savedList = savedList.filter(s => s.id !== sched.id);
+  savedList.unshift(sched);
+  localStorage.setItem('cruizgo_saved', JSON.stringify(savedList));
+
   showToast(`✓ ${k.toUpperCase()} saved`);
 }
 
-// CORRIDORS WITH SORT-TO-TOP FEATURE
+// RESTORED CORRIDORS SCRIPT WITH SORT-TO-TOP FEATURE
 function renderCorridors(highlightKey = null) {
   const container = document.getElementById('allCorr');
   const keys = Object.keys(CORR);
@@ -1915,7 +1683,7 @@ function setCorridorToToday(k) {
   doScan();
 }
 
-// HISTORY
+// HISTORY TAB
 function renderHistory() {
   const sSec = document.getElementById('savedSection');
   const saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
@@ -2059,9 +1827,46 @@ async function submitCompletedRide() {
   });
   localStorage.setItem('cruizgo_hist', JSON.stringify(hist.slice(0, 30)));
 
+  if (S.currentUser?.email) {
+    await supabaseInsert('commute_telemetry_feedback', {
+      user_email: S.currentUser.email,
+      origin_name: S.fromVal,
+      dest_name: S.toVal,
+      mode: S.vehicle,
+      pure_transit_mins: 52,
+      mins_saved: savedAdd,
+      left_on_time: survey.onTime,
+      user_rating_helpful: survey.savedGridlock,
+      helped_plan_better: survey.helpedPlan,
+      commuter_notes: notes
+    });
+  }
+
   closeCompletionModal();
   showToast(`✓ +${savedAdd} min added to your Saved Time`);
   renderSavedTimeView();
+}
+
+function promptSave() {
+  const fv = document.getElementById('inpFrom').value.trim();
+  const tv = document.getElementById('inpTo').value.trim();
+  if (!fv || !tv) return showToast('Please enter start and end points', 'err');
+
+  const sched = {
+    id: 'manual_' + Date.now(),
+    name: `${fv.split(',')[0]} ➔ ${tv.split(',')[0]}`,
+    from: fv, to: tv,
+    arr: document.getElementById('tArrive').value,
+    ret: document.getElementById('tReturn').value,
+    vehicle: S.vehicle,
+    savedAt: new Date().toLocaleDateString('en-GB')
+  };
+
+  let saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
+  saved.unshift(sched);
+  localStorage.setItem('cruizgo_saved', JSON.stringify(saved));
+  showToast('✓ Journey saved to profile');
+  renderHistory();
 }
 
 // INLINE FEEDBACK
@@ -2085,19 +1890,34 @@ async function saveInlineFeedback() {
     openAuthModal('signup');
     return;
   }
+  const notes = document.getElementById('inlineNotesInp').value.trim();
+  await supabaseInsert('commute_telemetry_feedback', {
+    user_email: S.currentUser.email,
+    mode: S.vehicle,
+    pure_transit_mins: 52,
+    left_on_time: inlineFeedbackState.onTime,
+    user_rating_helpful: inlineFeedbackState.helpful,
+    commuter_notes: notes || 'Inline route rating'
+  });
   showToast('✓ Feedback saved! Thank you.');
 }
 
 // ALERTS LOG
 function renderAlerts() {
-  document.getElementById('badgeAlerts').textContent = S.alertsList.length;
-  document.getElementById('alertsListContainer').innerHTML = S.alertsList.map(a => `
-    <div class="alert-card" onclick="openAlertDeepLink('${a.id}', '${a.type}')">
-      <div style="font-family:var(--mono);font-size:11px;color:var(--neon)">${a.time}</div>
-      <div style="font-size:13px;font-weight:800;color:#fff">${a.title}</div>
-      <div style="font-size:12px;color:var(--txt2);margin-top:2px">${a.body}</div>
-    </div>
-  `).join('');
+  const isAuth = !!S.currentUser;
+  document.getElementById('authGateAlerts').style.display = isAuth ? 'none' : 'block';
+  document.getElementById('alertsContentContainer').style.display = isAuth ? 'block' : 'none';
+
+  if (isAuth) {
+    document.getElementById('badgeAlerts').textContent = S.alertsList.length;
+    document.getElementById('alertsListContainer').innerHTML = S.alertsList.map(a => `
+      <div class="alert-card" onclick="openAlertDeepLink('${a.id}', '${a.type}')">
+        <div style="font-family:var(--mono);font-size:11px;color:var(--neon)">${a.time}</div>
+        <div style="font-size:13px;font-weight:800;color:#fff">${a.title}</div>
+        <div style="font-size:12px;color:var(--txt2);margin-top:2px">${a.body}</div>
+      </div>
+    `).join('');
+  }
 }
 
 function openAlertDeepLink(id, type) {
@@ -2113,6 +1933,38 @@ function clearAllAlerts() {
   S.alertsList = [];
   renderAlerts();
   showToast('Notifications cleared');
+}
+
+// SUPABASE HELPERS
+async function supabaseUpsert(table, data) {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/${table}?on_conflict=user_email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SB_KEY,
+        'Authorization': `Bearer ${SB_KEY}`,
+        'Prefer': 'resolution=merge-duplicates'
+      },
+      body: JSON.stringify(data)
+    });
+    return res.ok;
+  } catch { return false; }
+}
+
+async function supabaseInsert(table, data) {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/${table}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SB_KEY,
+        'Authorization': `Bearer ${SB_KEY}`
+      },
+      body: JSON.stringify(data)
+    });
+    return res.ok;
+  } catch { return false; }
 }
 
 // PUSH NOTIFICATIONS
@@ -2185,10 +2037,15 @@ function switchTab(name, btn) {
   if (name === 'corridors') renderCorridors();
   if (name === 'alerts') renderAlerts();
   if (name === 'savedTime') renderSavedTimeView();
-  if (name === 'history') renderHistory();
+  if (name === 'history') {
+    const isAuthHist = !!S.currentUser;
+    document.getElementById('authGateHistory').style.display = isAuthHist ? 'none' : 'block';
+    document.getElementById('historyContentContainer').style.display = isAuthHist ? 'block' : 'none';
+    if (isAuthHist) renderHistory();
+  }
 }
 
-// INIT
+// INITIALIZATION
 window.addEventListener('DOMContentLoaded', () => {
   initClock();
   initCorridorAutoRefresh();
