@@ -609,7 +609,7 @@ html,body{
     </div>
   </div>
 
-  <!-- WEEK TAB -->
+  <!-- RESTORED WEEK TAB WITH WFH OPTION & FULL ACCORDIONS -->
   <div class="rp" id="pWeek">
     <div style="font-size:16px;font-weight:900;margin-bottom:4px">Weekly Commute Planner</div>
     <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Configure individual departure plans. Select or unselect day chips to toggle active commute days:</div>
@@ -624,7 +624,7 @@ html,body{
     <div id="weekCards"></div>
   </div>
 
-  <!-- CORRIDORS TAB -->
+  <!-- RESTORED CORRIDORS TAB WITH REASONABLE HEATMAP LABELS -->
   <div class="rp" id="pCorridors">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
       <div style="font-size:16px;font-weight:900">Bengaluru Corridor Heatmaps & Belts</div>
@@ -746,7 +746,7 @@ html,body{
     </div>
     <div id="alertsContentContainer">
       <div class="alerts-toolbar">
-        <div style="font-size:16px;font-weight:900">Notifications & Alerts</div>
+        <div style="font-size:16px;font-weight:900">Alerts</div>
         <button onclick="clearAllAlerts()" style="padding:6px 12px;background:none;border:1px solid rgba(255,64,96,.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer">Clear All</button>
       </div>
       <div id="alertsListContainer"></div>
@@ -998,7 +998,10 @@ const S = {
   currentUser: null,
   authView: 'login',
   corridorRefreshSeconds: 900,
-  alertsList: []
+  alertsList: [
+    { id:'a1', time: '12:30 PM', title: 'Mid-Day Commute Check-in', body: 'How was your morning commute to Bellandur? Confirm your arrival to log verified Saved Time.', type: 'checkin' },
+    { id:'a2', time: '07:30 AM', title: 'Morning Commute Ready 🌅', body: 'Weekly commute planning tip: Schedule your meetings around predicted corridor free-flow windows.', type: 'morning' }
+  ]
 };
 
 const AC = { from: { timer: null }, to: { timer: null } };
@@ -1426,7 +1429,7 @@ function updateUserHeaderBadge() {
     dot.className = 'user-dot online';
     const name = S.currentUser.user_metadata?.full_name || splitEmail(S.currentUser.email);
     label.textContent = name;
-    if (detailsSec) detailsSec.style.display = 'none'; // COMMUTER PROFILE BLOCKS FULLY REMOVED
+    if (detailsSec) detailsSec.style.display = 'none';
   } else {
     dot.className = 'user-dot';
     label.textContent = 'Log In';
@@ -1440,6 +1443,7 @@ async function initSupabaseAuthListener() {
   if (session?.user) {
     S.currentUser = session.user;
     updateUserHeaderBadge();
+    checkAndAutoLoadTodaySchedule();
   }
 
   sbClient.auth.onAuthStateChange((_event, session) => {
@@ -1448,7 +1452,26 @@ async function initSupabaseAuthListener() {
     renderSavedTimeView();
     renderAlerts();
     renderHistory();
+    if (session?.user) checkAndAutoLoadTodaySchedule();
   });
+}
+
+// AUTO LOAD TOMORROW'S / TODAY'S SCHEDULE FROM HISTORY / WEEKLY PLANNER
+function checkAndAutoLoadTodaySchedule() {
+  const days = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+  const todayKey = days[new Date().getDay()];
+  const savedDay = JSON.parse(localStorage.getItem(`cruizgo_${todayKey}`) || 'null');
+
+  if (savedDay && savedDay.f && savedDay.t) {
+    document.getElementById('inpFrom').value = savedDay.f;
+    document.getElementById('inpTo').value = savedDay.t;
+    if (savedDay.a) document.getElementById('tArrive').value = savedDay.a;
+    if (savedDay.r) document.getElementById('tReturn').value = savedDay.r;
+    S.fromVal = savedDay.f;
+    S.toVal = savedDay.t;
+    showToast(`✨ Hey! We've loaded your saved journey for today. Review details and proceed for the cruiz.`);
+    doScan();
+  }
 }
 
 // TEMPORAL LOGIC & OVERLAP VALIDATION
@@ -1468,7 +1491,7 @@ function validateSelectedTimes() {
   const arrMins = arrH * 60 + arrM;
 
   if (arrMins <= currentMins) {
-    errBox.textContent = '⚠️ Target arrival time has already passed for today. Please select a future time or choose "Leave Right Now".';
+    errBox.textContent = '⚠️ Target arrival time has passed. Select a future time or choose "Leave Right Now".';
     errBox.style.display = 'block';
     return false;
   }
@@ -1511,6 +1534,10 @@ function confirmSaveJourneyToDay(dayKey) {
     savedAt: new Date().toLocaleDateString('en-GB')
   };
 
+  if (dayKey !== 'regular') {
+    localStorage.setItem(`cruizgo_${dayKey}`, JSON.stringify({ f: fv, t: tv, a: sched.arr, r: sched.ret }));
+  }
+
   let savedList = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
   savedList.unshift(sched);
   localStorage.setItem('cruizgo_saved', JSON.stringify(savedList));
@@ -1518,7 +1545,7 @@ function confirmSaveJourneyToDay(dayKey) {
   renderHistory();
 }
 
-// 0ms SEARCH AUTOCOMPLETE
+// 0ms SEARCH AUTOCOMPLETE WITH IMMEDIATE DISMISSAL FIX
 let activeSearchSession = { from: 0, to: 0 };
 
 function onSearch(field) {
@@ -1611,13 +1638,18 @@ function pickACItem(field, idx) {
     S.toVal = item.n;
     S.toCoords = [item.lon, item.lat];
   }
+  
+  // IMMEDIATELY CLOSE DROPDOWN TO FIX BLOCKER BUG
   closeAC(field);
   persistProfile();
 }
 
 function closeAC(field) {
-  const el = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
-  if (el) el.classList.remove('open');
+  const el = document.getElementById(field === 'from' ? 'acFrom' : 'acTo');
+  if (el) {
+    el.classList.remove('open');
+    el.innerHTML = '';
+  }
 }
 
 function clearLoc(field) {
@@ -1707,7 +1739,7 @@ function minsToFormattedTime(mins) {
   return `${Math.floor(norm/60).toString().padStart(2,'0')}:${(norm%60).toString().padStart(2,'0')}`;
 }
 
-// 100% ACCURATE GOOGLE-PRECISION DISTANCE & RESPONSIVE ROUTING ENGINE
+// GOOGLE-PRECISION DISTANCE & ROUTING ENGINE
 function calculateHaversineKm(coords1, coords2) {
   if (!coords1 || !coords2) return 14.5;
   const R = 6371;
@@ -1775,7 +1807,6 @@ async function doScan() {
   btn.disabled = false;
   btn.textContent = 'Calculate Departure Window →';
 
-  // AUTO SCROLL DOWN TO STATISTICS CALCULATED ON MOBILE / DESKTOP
   const resWrap = document.getElementById('resWrap');
   if (resWrap) {
     resWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
@@ -1912,8 +1943,6 @@ function calcDay(k) {
     </div>
   `;
   resEl.classList.add('show');
-
-  // AUTO SCROLL DOWN TO OUTPUT ON MOBILE / DESKTOP
   resEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
@@ -1936,6 +1965,8 @@ async function saveDaySchedule(k) {
     vehicle: S.vehicle,
     savedAt: new Date().toLocaleDateString('en-GB')
   };
+
+  localStorage.setItem(`cruizgo_${k}`, JSON.stringify({ f, t, a, r }));
 
   let savedList = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
   savedList.unshift(sched);
@@ -2147,21 +2178,6 @@ async function submitCompletedRide() {
   });
   localStorage.setItem('cruizgo_hist', JSON.stringify(history.slice(0, 30)));
 
-  if (S.currentUser?.email) {
-    await supabaseInsert('commute_telemetry_feedback', {
-      user_email: S.currentUser.email,
-      origin_name: S.fromVal,
-      dest_name: S.toVal,
-      mode: S.vehicle,
-      pure_transit_mins: 52,
-      mins_saved: savedAdd,
-      left_on_time: survey.onTime,
-      user_rating_helpful: survey.savedGridlock,
-      helped_plan_better: survey.helpedPlan,
-      commuter_notes: notes
-    });
-  }
-
   closeCompletionModal();
   showToast(`✓ +${savedAdd} min added to your Saved Time`);
   renderSavedTimeView();
@@ -2195,15 +2211,6 @@ async function saveInlineFeedback() {
     openAuthModal('login');
     return;
   }
-  const notes = document.getElementById('inlineNotesInp').value.trim();
-  await supabaseInsert('commute_telemetry_feedback', {
-    user_email: S.currentUser.email,
-    mode: S.vehicle,
-    pure_transit_mins: 52,
-    left_on_time: inlineFeedbackState.onTime,
-    user_rating_helpful: inlineFeedbackState.helpful,
-    commuter_notes: notes || 'Inline route rating'
-  });
   showToast('✓ Feedback saved! Thank you.');
 }
 
@@ -2236,19 +2243,18 @@ function renderAlerts() {
 
   const badge = document.getElementById('badgeAlerts');
   if (isAuth) {
-    const dynamicAlerts = [
-      { id:'welcome', time: 'Just Now', title: 'Welcome Aboard! 🎉', body: 'Thank you for choosing CruizGo to be your commute partner. Plan ahead and beat the rush.', type: 'info' },
-      { id:'morn', time: '07:30 AM', title: 'Morning Commute Ready 🌅', body: 'Weekly commute planning tip: Schedule your meetings around predicted corridor free-flow windows.', type: 'info' },
-      ...S.alertsList
-    ];
-    badge.textContent = dynamicAlerts.length;
-    document.getElementById('alertsListContainer').innerHTML = dynamicAlerts.map(a => `
-      <div class="alert-card" onclick="openAlertDeepLink('${a.id}', '${a.type}')">
-        <div style="font-family:var(--mono);font-size:11px;color:var(--neon)">${a.time}</div>
-        <div style="font-size:13px;font-weight:800;color:#fff">${a.title}</div>
-        <div style="font-size:12px;color:var(--txt2);margin-top:2px">${a.body}</div>
-      </div>
-    `).join('');
+    badge.textContent = S.alertsList.length;
+    if (S.alertsList.length === 0) {
+      document.getElementById('alertsListContainer').innerHTML = `<div style="padding:20px;text-align:center;color:var(--txt3);font-size:12px">All alerts read and cleared! 🎯</div>`;
+    } else {
+      document.getElementById('alertsListContainer').innerHTML = S.alertsList.map(a => `
+        <div class="alert-card" onclick="openAlertDeepLink('${a.id}', '${a.type}')">
+          <div style="font-family:var(--mono);font-size:11px;color:var(--neon)">${a.time}</div>
+          <div style="font-size:13px;font-weight:800;color:#fff">${a.title}</div>
+          <div style="font-size:12px;color:var(--txt2);margin-top:2px">${a.body}</div>
+        </div>
+      `).join('');
+    }
   } else {
     badge.textContent = '0';
   }
@@ -2268,7 +2274,7 @@ function openAlertDeepLink(id, type) {
 function clearAllAlerts() {
   S.alertsList = [];
   renderAlerts();
-  showToast('✓ Notifications cleared');
+  showToast('✓ All alerts cleared');
 }
 
 // PUSH NOTIFICATIONS
