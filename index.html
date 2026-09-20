@@ -33,16 +33,16 @@ html,body{
 }
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--sur2);border-radius:3px}
 
-/* FIXED HEADER RESPONSIVE FOR MOBILE */
+/* FIXED HEADER */
 .top-stack{
   flex-shrink:0;z-index:900;background:rgba(4,8,16,.98);
   border-bottom:1px solid var(--brd);backdrop-filter:blur(25px)
 }
 .hdr{
-  height:auto;min-height:64px;padding:10px 16px;display:flex;align-items:center;
+  height:66px;padding:0 18px;display:flex;align-items:center;
   justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.04);flex-wrap:wrap;gap:8px
 }
-.brand{display:flex;align-items:center;gap:10px}
+.brand{display:flex;align-items:center;gap:11px}
 .bico-img{
   width:38px;height:38px;border-radius:9px;object-fit:cover;
   border:1.5px solid var(--neon);box-shadow:0 0 14px rgba(0,255,136,.35);flex-shrink:0
@@ -181,7 +181,7 @@ html,body{
 .greeting-banner{
   display:flex;align-items:center;gap:14px;padding:16px 20px;
   background:linear-gradient(135deg,#091f33,#0f2b48);border:1.5px solid rgba(0,212,255,.3);
-  border-radius:16px;margin-bottom:4px;box-shadow:0 8px 30px rgba(0,0,0,.5)
+  border-radius:16px;margin-bottom:12px;box-shadow:0 8px 30px rgba(0,0,0,.5)
 }
 
 /* HERO OUTPUT */
@@ -225,7 +225,7 @@ html,body{
 .fbc-btn.sel-late{background:var(--ag);border-color:var(--amber);color:var(--amber)}
 .fbc-notes{width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-size:12px;outline:none;margin-bottom:10px}
 
-/* WEEK ACCORDION (FLEXIBLE 7-COL GRID FOR MOBILE) */
+/* WEEK ACCORDION */
 .dstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px}
 .dchip{
   aspect-ratio:1;border-radius:10px;background:var(--bg3);border:1px solid var(--brd);
@@ -265,10 +265,10 @@ html,body{
 .drbig{font-family:var(--mono);font-size:36px;color:var(--neon);line-height:1.1;font-weight:700}
 .drret{font-family:var(--mono);font-size:24px;color:var(--amber);margin-top:2px;font-weight:700}
 
-/* CORRIDORS & RADAR COMPASS (ENLARGED FONT & REASONABLE HEATMAP COLORS) */
+/* CORRIDORS & RADAR COMPASS */
 .map-canvas-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:14px}
 .compass-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px}
-.compass-dial{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;color:var(--cyan);font-family:var(--mono);background:var(--sur2);padding:4px 10px;border-radius:20px;border:1px solid rgba(0,212,255,.3)}
+.compass-dial{display:inline-flex;align-items:center;gap:6px;font-size:12px;font-weight:800;color:var(--cyan);font-family:var(--mono);background:var(--sur2);padding:5px 12px;border-radius:20px;border:1px solid rgba(0,212,255,.3)}
 .circ-svg{width:100%;height:320px;border-radius:12px;background:#050a14;border:1px solid rgba(255,255,255,.05)}
 .map-node{cursor:pointer;transition:transform .2s}
 .map-node:hover{transform:scale(1.05)}
@@ -276,13 +276,11 @@ html,body{
 .linear-ribbon-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;margin-bottom:14px}
 .ribbon-track{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:10px 0 8px;gap:3px}
 .r-seg{flex:1;height:100%;cursor:pointer;border-radius:3px}
-/* REASONABLE HEATMAP COLORS & LABELS */
 .r-clear{background:#00ff88}.r-clear-lbl{color:#00ff88}
 .r-warn{background:#ffd166}.r-warn-lbl{color:#ffd166}
 .r-heavy{background:#f77f00}.r-heavy-lbl{color:#f77f00}
 .r-jam{background:#d62828}.r-jam-lbl{color:#d62828}
-
-.ribbon-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-size:9.5px;font-weight:800;font-family:var(--mono);text-align:center;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.05)}
+.ribbon-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-size:10px;font-weight:800;font-family:var(--mono);text-align:center;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.05)}
 
 .choke-table-hdr{display:flex;justify-content:space-between;padding:0 4px 6px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:8px}
 .cth-label{font-size:9px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase}
@@ -435,8 +433,6 @@ html,body{
     <div class="today-layout">
 
       <div class="today-controls">
-        <!-- COMMUTER PROFILE INPUTS REMOVED -->
-
         <div class="sec">
           <div class="slbl">Journey Configuration</div>
           <div class="mode-toggle">
@@ -513,7 +509,7 @@ html,body{
       </div>
 
       <div class="today-results">
-        <!-- CHEERY TIME GREETING BANNER -->
+        <!-- GREETING & WEATHER PLACED PROMINENTLY BELOW HEADER -->
         <div class="greeting-banner" id="cheeryGreetingBanner">
           <span id="gbEmoji" style="font-size:30px">☕</span>
           <div>
@@ -522,7 +518,6 @@ html,body{
           </div>
         </div>
 
-        <!-- LIVE WEATHER WIDGET -->
         <div class="weather-widget" id="todayWeatherWidget">
           <div class="ww-ico" id="wwIco">🌤️</div>
           <div>
@@ -614,7 +609,7 @@ html,body{
     </div>
   </div>
 
-  <!-- RESTORED WEEK TAB WITH WFH OPTION & FULL ACCORDIONS -->
+  <!-- WEEK TAB -->
   <div class="rp" id="pWeek">
     <div style="font-size:16px;font-weight:900;margin-bottom:4px">Weekly Commute Planner</div>
     <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Configure individual departure plans. Select or unselect day chips to toggle active commute days:</div>
@@ -629,7 +624,7 @@ html,body{
     <div id="weekCards"></div>
   </div>
 
-  <!-- RESTORED CORRIDORS TAB WITH REASONABLE HEATMAP LABELS -->
+  <!-- CORRIDORS TAB -->
   <div class="rp" id="pCorridors">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
       <div style="font-size:16px;font-weight:900">Bengaluru Corridor Heatmaps & Belts</div>
@@ -645,11 +640,11 @@ html,body{
       </div>
     </div>
 
-    <!-- 3D RADAR COMPASS MAP -->
+    <!-- 3D RADAR COMPASS MAP WITH ENLARGED FONT -->
     <div class="map-canvas-card">
       <div class="compass-toolbar">
         <div class="compass-dial">🧭 COMPASS: N 0° · BENGALURU RADIAL</div>
-        <span style="font-size:10px;color:var(--txt3)">Tap any sector to inspect corridor</span>
+        <span style="font-size:11px;color:var(--txt2);text-align:right">Tap any sector to inspect corridor</span>
       </div>
 
       <svg class="circ-svg" viewBox="0 0 560 360">
@@ -663,10 +658,10 @@ html,body{
         <rect width="100%" height="100%" fill="#050a14"/>
         <circle cx="280" cy="180" r="145" fill="url(#radarGlow)"/>
 
-        <text x="280" y="24" fill="#00ff88" font-size="11" font-weight="900" text-anchor="middle" font-family="DM Mono">N (Hebbal / Airport NH 44)</text>
-        <text x="280" y="348" fill="#00d4ff" font-size="11" font-weight="900" text-anchor="middle" font-family="DM Mono">S (E-City / Hosur Rd)</text>
-        <text x="548" y="174" fill="#ffbf3f" font-size="11" font-weight="900" text-anchor="end" font-family="DM Mono">E (Whitefield Hub)</text>
-        <text x="12" y="174" fill="#ff4060" font-size="11" font-weight="900" text-anchor="start" font-family="DM Mono">W (Tumkur / Majestic)</text>
+        <text x="280" y="24" fill="#00ff88" font-size="12" font-weight="900" text-anchor="middle" font-family="DM Mono">N (Hebbal / Airport NH 44)</text>
+        <text x="280" y="348" fill="#00d4ff" font-size="12" font-weight="900" text-anchor="middle" font-family="DM Mono">S (E-City / Hosur Rd)</text>
+        <text x="548" y="174" fill="#ffbf3f" font-size="12" font-weight="900" text-anchor="end" font-family="DM Mono">E (Whitefield Hub)</text>
+        <text x="12" y="174" fill="#ff4060" font-size="12" font-weight="900" text-anchor="start" font-family="DM Mono">W (Tumkur / Majestic)</text>
 
         <circle cx="280" cy="180" r="120" fill="none" stroke="rgba(0,255,136,0.28)" stroke-width="3" stroke-dasharray="6,4"/>
         <circle cx="280" cy="180" r="70" fill="none" stroke="rgba(0,212,255,0.25)" stroke-width="2.5"/>
@@ -678,47 +673,46 @@ html,body{
 
         <g class="map-node" onclick="inspectCorridor('irr')">
           <circle cx="280" cy="180" r="22" fill="#0b1a2e" stroke="#00d4ff" stroke-width="2"/>
-          <text x="280" y="184" fill="#fff" font-size="9" font-weight="900" text-anchor="middle">CBD</text>
+          <text x="280" y="184" fill="#fff" font-size="10" font-weight="900" text-anchor="middle">CBD</text>
         </g>
 
         <g class="map-node" onclick="inspectCorridor('orr')">
-          <rect x="340" y="225" width="165" height="36" rx="8" fill="#0b1626" stroke="#00ff88" stroke-width="1.5"/>
-          <circle cx="354" cy="243" r="5" fill="#ff4060"/>
-          <text x="365" y="240" fill="#00ff88" font-size="10" font-weight="900">ORR Tech Belt</text>
-          <text x="365" y="253" fill="#8fa0b8" font-size="8">Ecospace · Silk Board · Kadub.</text>
+          <rect x="330" y="225" width="175" height="38" rx="8" fill="#0b1626" stroke="#00ff88" stroke-width="1.5"/>
+          <circle cx="344" cy="244" r="5" fill="#ff4060"/>
+          <text x="355" y="241" fill="#00ff88" font-size="11" font-weight="900">ORR Tech Belt</text>
+          <text x="355" y="254" fill="#8fa0b8" font-size="9">Ecospace · Silk Board</text>
         </g>
 
         <g class="map-node" onclick="inspectCorridor('wf')">
-          <rect x="365" y="115" width="150" height="36" rx="8" fill="#0b1626" stroke="#ffbf3f" stroke-width="1.5"/>
-          <circle cx="379" cy="133" r="5" fill="#ffbf3f"/>
-          <text x="390" y="130" fill="#ffbf3f" font-size="10" font-weight="900">Whitefield Hub</text>
-          <text x="390" y="143" fill="#8fa0b8" font-size="8">ITPL · Hope Farm · AECS</text>
+          <rect x="355" y="115" width="160" height="38" rx="8" fill="#0b1626" stroke="#ffbf3f" stroke-width="1.5"/>
+          <circle cx="369" cy="134" r="5" fill="#ffbf3f"/>
+          <text x="380" y="131" fill="#ffbf3f" font-size="11" font-weight="900">Whitefield Hub</text>
+          <text x="380" y="144" fill="#8fa0b8" font-size="9">ITPL · Hope Farm</text>
         </g>
 
         <g class="map-node" onclick="inspectCorridor('ec')">
-          <rect x="205" y="280" width="150" height="36" rx="8" fill="#0b1626" stroke="#00d4ff" stroke-width="1.5"/>
-          <circle cx="219" cy="298" r="5" fill="#00ff88"/>
-          <text x="230" y="295" fill="#00d4ff" font-size="10" font-weight="900">E-City Industrial</text>
-          <text x="230" y="308" fill="#8fa0b8" font-size="8">Phases 1 & 2 · Hosur Rd</text>
+          <rect x="195" y="280" width="160" height="38" rx="8" fill="#0b1626" stroke="#00d4ff" stroke-width="1.5"/>
+          <circle cx="209" cy="299" r="5" fill="#00ff88"/>
+          <text x="220" y="296" fill="#00d4ff" font-size="11" font-weight="900">E-City Industrial</text>
+          <text x="220" y="309" fill="#8fa0b8" font-size="9">Phases 1 & 2 · Hosur</text>
         </g>
 
         <g class="map-node" onclick="inspectCorridor('hbl')">
-          <rect x="205" y="45" width="150" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
-          <circle cx="219" cy="63" r="5" fill="#ff4060"/>
-          <text x="230" y="60" fill="#ff4060" font-size="10" font-weight="900">Hebbal / Manyata</text>
-          <text x="230" y="73" fill="#8fa0b8" font-size="8">Airport NH 44 · Thanisandra</text>
+          <rect x="195" y="45" width="160" height="38" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
+          <circle cx="209" cy="64" r="5" fill="#ff4060"/>
+          <text x="220" y="61" fill="#ff4060" font-size="11" font-weight="900">Hebbal / Manyata</text>
+          <text x="220" y="74" fill="#8fa0b8" font-size="9">Airport NH 44</text>
         </g>
 
         <g class="map-node" onclick="inspectCorridor('tmk')">
-          <rect x="40" y="105" width="170" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
-          <circle cx="54" cy="123" r="5" fill="#ff4060"/>
-          <text x="65" y="120" fill="#ff4060" font-size="10" font-weight="900">Tumkur Rd – Majestic</text>
-          <text x="65" y="133" fill="#8fa0b8" font-size="8">Goraguntepalya · Yeshwanthpur</text>
+          <rect x="35" y="105" width="175" height="38" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
+          <circle cx="49" cy="124" r="5" fill="#ff4060"/>
+          <text x="60" y="121" fill="#ff4060" font-size="11" font-weight="900">Tumkur Rd – Majestic</text>
+          <text x="60" y="134" fill="#8fa0b8" font-size="9">Goraguntepalya</text>
         </g>
       </svg>
     </div>
 
-    <!-- HEATMAP WITH REASONABLE COLORS & LABELS UNDER EACH COLOR -->
     <div class="linear-ribbon-card" id="corridorRibbonBox">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
         <div style="font-size:14px;font-weight:900;color:var(--neon)" id="ribbonCorridorName">Outer Ring Road (Silk Board ➔ KR Puram)</div>
@@ -1919,7 +1913,7 @@ function calcDay(k) {
   `;
   resEl.classList.add('show');
 
-  // AUTO SCROLL DOWN TO THE CALCULATED OUTPUT ON MOBILE / DESKTOP
+  // AUTO SCROLL DOWN TO OUTPUT ON MOBILE / DESKTOP
   resEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
@@ -2153,6 +2147,21 @@ async function submitCompletedRide() {
   });
   localStorage.setItem('cruizgo_hist', JSON.stringify(history.slice(0, 30)));
 
+  if (S.currentUser?.email) {
+    await supabaseInsert('commute_telemetry_feedback', {
+      user_email: S.currentUser.email,
+      origin_name: S.fromVal,
+      dest_name: S.toVal,
+      mode: S.vehicle,
+      pure_transit_mins: 52,
+      mins_saved: savedAdd,
+      left_on_time: survey.onTime,
+      user_rating_helpful: survey.savedGridlock,
+      helped_plan_better: survey.helpedPlan,
+      commuter_notes: notes
+    });
+  }
+
   closeCompletionModal();
   showToast(`✓ +${savedAdd} min added to your Saved Time`);
   renderSavedTimeView();
@@ -2186,6 +2195,15 @@ async function saveInlineFeedback() {
     openAuthModal('login');
     return;
   }
+  const notes = document.getElementById('inlineNotesInp').value.trim();
+  await supabaseInsert('commute_telemetry_feedback', {
+    user_email: S.currentUser.email,
+    mode: S.vehicle,
+    pure_transit_mins: 52,
+    left_on_time: inlineFeedbackState.onTime,
+    user_rating_helpful: inlineFeedbackState.helpful,
+    commuter_notes: notes || 'Inline route rating'
+  });
   showToast('✓ Feedback saved! Thank you.');
 }
 
@@ -2232,7 +2250,7 @@ function renderAlerts() {
       </div>
     `).join('');
   } else {
-    badge.textContent = '0'; // NO NUMBERS BESIDE ALERTS WHEN SIGNED OUT
+    badge.textContent = '0';
   }
 }
 
