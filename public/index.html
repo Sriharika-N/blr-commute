@@ -33,7 +33,7 @@ html,body{
 }
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--sur2);border-radius:3px}
 
-/* FIXED HEADER */
+/* FIXED HEADER WITH ENLARGED TYPOGRAPHY */
 .top-stack{
   flex-shrink:0;z-index:900;background:rgba(4,8,16,.98);
   border-bottom:1px solid var(--brd);backdrop-filter:blur(25px)
@@ -177,6 +177,13 @@ html,body{
 .ww-title{font-size:13px;font-weight:800;color:#fff}
 .ww-desc{font-size:11px;color:var(--cyan);margin-top:2px}
 
+/* GREETING BANNER */
+.greeting-banner{
+  display:flex;align-items:center;gap:14px;padding:16px 20px;
+  background:linear-gradient(135deg,#091f33,#0f2b48);border:1.5px solid rgba(0,212,255,.3);
+  border-radius:16px;margin-bottom:4px;box-shadow:0 8px 30px rgba(0,0,0,.5)
+}
+
 /* HERO OUTPUT */
 .hero{padding:20px;background:linear-gradient(145deg,#0a1525,#0f1e35);border:1px solid rgba(0,255,136,.18);border-radius:16px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon),#00d4ff,var(--neon))}
@@ -275,7 +282,8 @@ html,body{
 .cth-label{font-size:9px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase}
 .corrcard{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:14px;margin-bottom:12px}
 .corr-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.crow2{display:flex;align-items:center;gap:8px;margin-bottom:6px}
+.corr-rows{display:flex;flex-direction:column;gap:7px}
+.crow2{display:flex;align-items:center;gap:8px}
 .cdot3{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .cdot3.danger{background:var(--red)}.cdot3.warn{background:var(--amber)}.cdot3.go{background:var(--neon)}
 .cr-lb{font-size:12px;color:var(--txt2);flex:1}
@@ -389,13 +397,13 @@ html,body{
       <img src="/logo.png" alt="CruizGo Logo" class="bico-img" />
       <div>
         <div class="bname">CruizGo</div>
-        <div class="btag" id="dynamicTagline">Beat the rush. Plan ahead.</div>
+        <div class="btag">Beat the rush. Plan ahead.</div>
       </div>
     </div>
     <div class="hdr-r">
       <div class="user-badge" id="userBadge" onclick="openProfileOrAuth()">
         <div class="user-dot" id="userDot"></div>
-        <span id="userBadgeLabel">Sign In</span>
+        <span id="userBadgeLabel">Log In</span>
       </div>
       <div class="date-pill" id="datePill">Sun, 20 Sep 2026</div>
       <div class="live"><div class="ldot"></div>Live</div>
@@ -421,13 +429,7 @@ html,body{
     <div class="today-layout">
 
       <div class="today-controls">
-        <div class="sec" id="commuterDetailsSec" style="display:none">
-          <div class="slbl">Commuter Profile</div>
-          <div class="urow">
-            <input class="uf" id="uName" placeholder="Your name" oninput="persistProfile()" />
-            <input class="uf" id="uEmail" type="email" placeholder="Email" oninput="persistProfile()" />
-          </div>
-        </div>
+        <!-- COMMUTER PROFILE INPUTS REMOVED -->
 
         <div class="sec">
           <div class="slbl">Journey Configuration</div>
@@ -505,6 +507,15 @@ html,body{
       </div>
 
       <div class="today-results">
+        <!-- CHEERY TIME GREETING BANNER -->
+        <div class="greeting-banner" id="cheeryGreetingBanner">
+          <span id="gbEmoji" style="font-size:30px">☕</span>
+          <div>
+            <div id="gbTitle" style="font-size:17px;font-weight:900;color:#fff">Good morning, Commuter!</div>
+            <div id="gbSub" style="font-size:12.5px;color:var(--cyan)">Ready to conquer your day with calm planning and zero traffic stress.</div>
+          </div>
+        </div>
+
         <!-- LIVE WEATHER WIDGET -->
         <div class="weather-widget" id="todayWeatherWidget">
           <div class="ww-ico" id="wwIco">🌤️</div>
@@ -600,7 +611,7 @@ html,body{
   <!-- WEEK TAB -->
   <div class="rp" id="pWeek">
     <div style="font-size:16px;font-weight:900;margin-bottom:4px">Weekly Commute Planner</div>
-    <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Configure individual departure plans. Click chips to toggle commute days:</div>
+    <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Configure individual departure plans. Select or unselect day chips to toggle active commute days:</div>
     <div class="weather-widget" id="weekWeatherWidget">
       <div class="ww-ico">🌤️</div>
       <div>
@@ -618,7 +629,7 @@ html,body{
       <div style="font-size:16px;font-weight:900">Bengaluru Corridor Heatmaps & Belts</div>
       <div style="font-size:10px;color:var(--cyan);font-family:var(--mono)" id="corridorRefreshCountdown">Refreshes in 15:00</div>
     </div>
-    <div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:12px" id="corridorLiveSyncPill">Synced: Sun, 20 Sep 2026 at 06:01:00 PM IST</div>
+    <div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:12px" id="corridorLiveSyncPill">Synced: Sun, 20 Sep 2026 at 06:18:00 PM IST</div>
 
     <div class="weather-widget" id="corrWeatherWidget">
       <div class="ww-ico">☀️</div>
@@ -708,11 +719,11 @@ html,body{
       </div>
       <div class="ribbon-track">
         <div class="r-seg r-clear" title="Silk Board Flyover: Clear"></div>
-        <div class="r-seg r-heavy" title="HSR Sector 5: Bus Stop Bunching"></div>
+        <div class="r-seg r-heavy" title="HSR Layout Sector 5: Bus Stop & Auto Bunching"></div>
         <div class="r-seg r-warn" title="Agara Lake Road: Slowdown"></div>
-        <div class="r-seg r-jam" title="Bellandur EcoSpace BMTC Bay: Standstill (+18m)"></div>
+        <div class="r-seg r-jam" title="Bellandur EcoSpace BMTC Bus Bay: Standstill (+18m)"></div>
         <div class="r-seg r-heavy" title="Kadubeesanahalli Pillar Construction"></div>
-        <div class="r-seg r-jam" title="Marathahalli Multiplex: Signal Jam"></div>
+        <div class="r-seg r-jam" title="Marathahalli Multiplex Signal: Standstill (+15m)"></div>
         <div class="r-seg r-clear" title="KR Puram: Open"></div>
       </div>
     </div>
@@ -720,12 +731,12 @@ html,body{
     <div id="allCorr"></div>
   </div>
 
-  <!-- ALERTS TAB (AUTH GATED) -->
+  <!-- ALERTS TAB -->
   <div class="rp" id="pAlerts">
     <div id="authGateAlerts" style="display:none">
       <div class="sec" style="text-align:center;padding:24px">
         <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">Sign In to View Alerts</div>
-        <div style="font-size:12px;color:var(--txt2);margin-bottom:16px">Pair your device and receive morning, mid-day check-in, and evening departure alerts.</div>
+        <div style="font-size:12px;color:var(--txt2);margin-bottom:16px">Pair your device and receive 60m, 30m, 15m, and 5m lock-screen departure notifications.</div>
         <button class="scan" style="max-width:280px;margin:0 auto" onclick="openAuthModal('login')">Sign In / Register →</button>
       </div>
     </div>
@@ -738,7 +749,7 @@ html,body{
     </div>
   </div>
 
-  <!-- SAVED TIME TAB (AUTH GATED) -->
+  <!-- SAVED TIME TAB -->
   <div class="rp" id="pSavedTime">
     <div id="authGateContainer" style="display:none">
       <div class="sec" style="text-align:center;padding:24px">
@@ -773,7 +784,7 @@ html,body{
     </div>
   </div>
 
-  <!-- HISTORY TAB (AUTH GATED) -->
+  <!-- HISTORY TAB -->
   <div class="rp" id="pHistory">
     <div id="authGateHistory" style="display:none">
       <div class="sec" style="text-align:center;padding:24px">
@@ -802,7 +813,7 @@ html,body{
   <div class="modal-card">
     <div class="modal-title">💾 Save Journey to Schedule</div>
     <div class="modal-sub">Choose which day of the week to assign this route, or save it as a Regular Cruiz route:</div>
-    <div id="saveJourneyDaysGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+    <div style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
       <button class="q-btn" onclick="confirmSaveJourneyToDay('mon')">Monday</button>
       <button class="q-btn" onclick="confirmSaveJourneyToDay('tue')">Tuesday</button>
       <button class="q-btn" onclick="confirmSaveJourneyToDay('wed')">Wednesday</button>
@@ -863,17 +874,17 @@ html,body{
   </div>
 </div>
 
-<!-- AUTHENTICATION & PASSWORD RESET MODAL -->
+<!-- AUTHENTICATION MODAL -->
 <div class="modal-overlay" id="authModal">
   <div class="modal-card">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:12px">
-      <div class="modal-title" id="authModalTitle">Sign In to CruizGo</div>
+      <div class="modal-title" id="authModalTitle">Log In to CruizGo</div>
       <button onclick="closeAuthModal()" style="background:none;border:none;color:var(--txt3);font-size:18px;cursor:pointer">✕</button>
     </div>
 
     <div class="auth-tabs" id="authTabsHeader">
-      <button class="at-btn on" id="atLogin" onclick="setAuthView('login')">Sign In</button>
-      <button class="at-btn" id="atSignup" onclick="setAuthView('signup')">Sign Up</button>
+      <button class="at-btn on" id="atLogin" onclick="setAuthView('login')">Log In (Existing)</button>
+      <button class="at-btn" id="atSignup" onclick="setAuthView('signup')">Sign Up (New)</button>
     </div>
 
     <div id="oauthContainer">
@@ -908,11 +919,11 @@ html,body{
         <label for="chkTrackSavedTime" style="cursor:pointer">Track my verified saved minutes and send weekly commute alerts (uncheck to skip)</label>
       </div>
 
-      <button class="scan" id="authActionBtn" style="margin-top:12px;padding:12px" onclick="executeAuthAction()">Sign In</button>
+      <button class="scan" id="authActionBtn" style="margin-top:12px;padding:12px" onclick="executeAuthAction()">Log In</button>
 
       <div style="display:flex;justify-content:space-between;margin-top:12px;font-size:11px">
         <span id="forgotPwdLink" style="color:var(--cyan);cursor:pointer" onclick="setAuthView('forgot')">Forgot Password?</span>
-        <span id="backToLoginLink" style="color:var(--neon);cursor:pointer;display:none" onclick="setAuthView('login')">← Back to Sign In</span>
+        <span id="backToLoginLink" style="color:var(--neon);cursor:pointer;display:none" onclick="setAuthView('login')">← Back to Log In</span>
       </div>
     </div>
   </div>
@@ -1014,7 +1025,7 @@ const CORR = {
     safeSpeed: '32–38 km/h on open flyovers · 14–18 km/h in construction zones',
     laneGuide: 'Hold middle/right lanes. Avoid extreme left lane near Bellandur EcoSpace bus bay.',
     metro: 'Phase 2A Blue Line barricading active from Kadubeesanahalli to Marathahalli.',
-    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:55:00 PM IST',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 06:18:00 PM IST',
     chokes: [
       { n: 'Silk Board Lower Flyover Merge', s: 'danger', d: '+25–40 min' },
       { n: 'Bellandur EcoSpace BMTC Bus Bay (Left lane overflow)', s: 'danger', d: '+15–20 min' },
@@ -1029,7 +1040,7 @@ const CORR = {
     safeSpeed: '28–35 km/h · Maintain steady spacing behind BMTC Volvo buses',
     laneGuide: 'Keep to center lane. Stay off left shoulder near Hoodi.',
     metro: 'ITPL road surface reconstruction & Hoodi station diversions.',
-    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:55:00 PM IST',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 06:18:00 PM IST',
     chokes: [
       { n: 'Tin Factory / KR Puram Station Bus Stop bottleneck', s: 'danger', d: '+20–30 min' },
       { n: 'Garudacharpalya Signal Cross-traffic', s: 'warn', d: '+10–15 min' },
@@ -1043,7 +1054,7 @@ const CORR = {
     safeSpeed: '45–55 km/h on Elevated Expressway · 20–25 km/h on Hosur Road surface',
     laneGuide: 'Elevated highway offers consistent flow. If on surface road, avoid Kudlu Gate left lane.',
     metro: 'Yellow Line street reinstatement; Bommasandra and Kudlu Gate restrictions.',
-    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:55:00 PM IST',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 06:18:00 PM IST',
     chokes: [
       { n: 'Kudlu Gate Signal Spillover', s: 'danger', d: '+15–25 min' },
       { n: 'Bommanahalli Bus Stop Cluster', s: 'warn', d: '+10–14 min' }
@@ -1056,7 +1067,7 @@ const CORR = {
     safeSpeed: '40–48 km/h on NH 44 · 18–22 km/h entering Manyata Tech Park gates',
     laneGuide: 'Avoid left lane before Veerannapalya flyover.',
     metro: 'Airport Line pillar construction on NH 44 at Veerannapalya.',
-    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:55:00 PM IST',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 06:18:00 PM IST',
     chokes: [
       { n: 'Hebbal Flyover Loop Merging', s: 'danger', d: '+18–30 min' },
       { n: 'Veerannapalya Manyata Gate BMTC bay choke', s: 'danger', d: '+15–22 min' }
@@ -1069,7 +1080,7 @@ const CORR = {
     safeSpeed: '35–40 km/h · Maintain steady distance on Goraguntepalya flyover',
     laneGuide: 'Stay in right-hand lanes over Yeshwanthpur flyover to bypass city-bus depot entrances.',
     metro: 'Namma Metro Green Line elevated corridor · Outer junction diversions.',
-    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:55:00 PM IST',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 06:18:00 PM IST',
     chokes: [
       { n: 'Goraguntepalya Junction / Flyover Funnel', s: 'danger', d: '+18–26 min' },
       { n: 'Yeshwanthpur Bus Terminal Ingress', s: 'warn', d: '+10–14 min' },
@@ -1083,7 +1094,7 @@ const CORR = {
     safeSpeed: '30–38 km/h steady transit',
     laneGuide: 'Domlur flyover is clear. Maintain center lane near Command Hospital.',
     metro: 'MG Road, Richmond Circle & Domlur cross-arterials.',
-    syncTime: 'Synced: Sun, 20 Sep 2026 at 04:55:00 PM IST',
+    syncTime: 'Synced: Sun, 20 Sep 2026 at 06:18:00 PM IST',
     chokes: [
       { n: 'Domlur Flyover Incline', s: 'warn', d: '+10–16 min' },
       { n: 'Command Hospital Bus Bay merge', s: 'warn', d: '+8–12 min' }
@@ -1101,29 +1112,42 @@ const WEEK_CONFIG = [
   { k: 'sun', full: 'Sunday', mult: 0.95, peak: 'Light traffic all day', wx: '29°C · Clear', dot: '🟢', dt: '20' }
 ];
 
-// CLOCK & TIME-BASED GREETINGS
+// CLOCK & GREETINGS
 function initClock() {
   const clk = document.getElementById('clk');
   const dPill = document.getElementById('datePill');
-  const tagline = document.getElementById('dynamicTagline');
-
   function update() {
     const d = new Date();
     const hr = d.getHours();
     clk.textContent = d.toTimeString().split(' ')[0];
     dPill.textContent = d.toLocaleDateString('en-GB', { weekday:'short', day:'2-digit', month:'short', year:'numeric' });
 
-    let greeting = 'Beat the rush. Plan ahead.';
-    if (hr >= 4 && hr < 12) greeting = 'Good morning! Ready to conquer your day with calm planning ☕';
-    else if (hr >= 12 && hr < 17) greeting = 'Good afternoon! Optimizing your mid-day commutes & meetings ⚡';
-    else if (hr >= 17 && hr < 22) greeting = 'Good evening! Seamless evening transit ahead 🌙';
-    else greeting = 'Night owl planning? CruizGo sensors are online 🌌';
+    let greeting = 'Ready to conquer your day with calm planning and zero traffic stress.';
+    let title = 'Hello, Commuter!';
+    let emoji = '☕';
 
-    if (tagline && S.currentUser) {
-      const name = S.currentUser.user_metadata?.full_name || splitEmail(S.currentUser.email);
-      tagline.textContent = `Welcome back, ${name}! ${greeting}`;
-    } else if (tagline) {
-      tagline.textContent = greeting;
+    if (hr >= 4 && hr < 12) {
+      emoji = '🌅'; title = 'Good morning!';
+      greeting = 'Ready to conquer your day with calm planning and morning coffee ☕';
+    } else if (hr >= 12 && hr < 17) {
+      emoji = '⚡'; title = 'Good afternoon!';
+      greeting = 'Optimizing your mid-day transit and meeting schedules.';
+    } else if (hr >= 17 && hr < 22) {
+      emoji = '🌙'; title = 'Good evening!';
+      greeting = 'Seamless evening commute windows mapped for you.';
+    } else {
+      emoji = '🌌'; title = 'Late night planning?';
+      greeting = 'CruizGo corridor sensors are online for tomorrow.';
+    }
+
+    const gbTitle = document.getElementById('gbTitle');
+    const gbSub = document.getElementById('gbSub');
+    const gbEmoji = document.getElementById('gbEmoji');
+    if (gbTitle && gbSub && gbEmoji) {
+      const name = S.currentUser ? (S.currentUser.user_metadata?.full_name || splitEmail(S.currentUser.email)) : '';
+      gbTitle.textContent = name ? `${title} ${name}!` : title;
+      gbSub.textContent = greeting;
+      gbEmoji.textContent = emoji;
     }
   }
   update();
@@ -1153,7 +1177,6 @@ function refreshCorridorTelemetry() {
   showToast('✓ Corridor road sensors refreshed (15m cycle)');
 }
 
-// LIVE WEATHER FETCHING
 async function fetchLiveWeatherCheck(lat, lon) {
   try {
     const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation,rain,weather_code`);
@@ -1180,7 +1203,6 @@ async function fetchLiveWeatherCheck(lat, lon) {
     document.getElementById('wwTitle').textContent = title;
     document.getElementById('wwDesc').textContent = desc;
 
-    // Sync across tabs
     const wWeek = document.querySelector('#weekWeatherWidget .ww-title');
     if (wWeek) wWeek.textContent = title;
     const wCorr = document.querySelector('#corrWeatherWidget .ww-title');
@@ -1191,8 +1213,8 @@ async function fetchLiveWeatherCheck(lat, lon) {
 }
 
 function persistProfile() {
-  const u = document.getElementById('uName').value;
-  const e = document.getElementById('uEmail').value;
+  const u = document.getElementById('uName')?.value || '';
+  const e = document.getElementById('uEmail')?.value || '';
   const a = document.getElementById('tArrive').value;
   const r = document.getElementById('tReturn').value;
   localStorage.setItem('cruizgo_profile', JSON.stringify({ u, e, a, r }));
@@ -1200,20 +1222,18 @@ function persistProfile() {
 
 function loadProfile() {
   const saved = JSON.parse(localStorage.getItem('cruizgo_profile') || '{}');
-  if (saved.u) document.getElementById('uName').value = saved.u;
-  if (saved.e) document.getElementById('uEmail').value = saved.e;
   if (saved.a) document.getElementById('tArrive').value = saved.a;
   if (saved.r) document.getElementById('tReturn').value = saved.r;
 }
 
-// AUTH & SETTINGS
+// AUTH & SETTINGS LOGIC WITH LOG IN / SIGN UP TERMS
 function openProfileOrAuth() {
   if (S.currentUser) openProfileModal();
   else openAuthModal('login');
 }
 
 function openProfileModal() {
-  document.getElementById('accFullName').value = S.currentUser.user_metadata?.full_name || document.getElementById('uName').value || '';
+  document.getElementById('accFullName').value = S.currentUser.user_metadata?.full_name || '';
   document.getElementById('accEmail').value = S.currentUser.email || '';
   document.getElementById('profileModal').classList.add('show');
 }
@@ -1238,18 +1258,18 @@ function setAuthView(view) {
   const optInRow = document.getElementById('authSavedTimeOption');
 
   if (view === 'login') {
-    title.textContent = 'Sign In to CruizGo';
+    title.textContent = 'Log In to CruizGo';
     tabsHeader.style.display = 'grid';
     atLogin.className = 'at-btn on'; atSignup.className = 'at-btn';
     nameField.style.display = 'none'; pwdGroup.style.display = 'block'; otpGroup.style.display = 'none';
-    oauthBox.style.display = 'block'; btn.textContent = 'Sign In';
+    oauthBox.style.display = 'block'; btn.textContent = 'Log In';
     forgotLink.style.display = 'inline'; backLink.style.display = 'none'; optInRow.style.display = 'none';
   } else if (view === 'signup') {
-    title.textContent = 'Create CruizGo Account';
+    title.textContent = 'Sign Up for CruizGo';
     tabsHeader.style.display = 'grid';
     atLogin.className = 'at-btn'; atSignup.className = 'at-btn on';
     nameField.style.display = 'block'; pwdGroup.style.display = 'block'; otpGroup.style.display = 'none';
-    oauthBox.style.display = 'block'; btn.textContent = 'Create Account';
+    oauthBox.style.display = 'block'; btn.textContent = 'Sign Up';
     forgotLink.style.display = 'none'; backLink.style.display = 'none'; optInRow.style.display = 'flex';
   } else if (view === 'forgot') {
     title.textContent = 'Reset Password with Link';
@@ -1273,7 +1293,7 @@ async function executeAuthAction() {
 
   if (S.authView === 'login') {
     if (!password) return showToast('Please enter your password', 'err');
-    showToast('Signing in…');
+    showToast('Logging in…');
     const { data, error } = await sbClient.auth.signInWithPassword({ email, password });
     if (error) return showToast(error.message, 'err');
     showToast(`✓ Welcome back, ${data.user.email}!`);
@@ -1282,15 +1302,14 @@ async function executeAuthAction() {
     const fullName = document.getElementById('authFullName').value.trim();
     if (!fullName) return showToast('Please enter your full name', 'err');
     if (!password || password.length < 6) return showToast('Password must be at least 6 characters', 'err');
-    showToast('Creating account…');
+    showToast('Signing up…');
     const { data, error } = await sbClient.auth.signUp({
       email, password, options: { data: { full_name: fullName } }
     });
     
-    // SMART SWITCH ON EXISTING EMAIL COLLISION
     if (error) {
       if (error.message.toLowerCase().includes('already registered') || error.status === 400) {
-        showToast('Account already exists. Switching to Sign In…', 'err');
+        showToast('Account already exists. Switching to Log In…', 'err');
         setAuthView('login');
         document.getElementById('authEmail').value = email;
         return;
@@ -1298,8 +1317,6 @@ async function executeAuthAction() {
       return showToast(error.message, 'err');
     }
 
-    document.getElementById('uName').value = fullName;
-    document.getElementById('uEmail').value = email;
     persistProfile();
     showToast('✓ Account created! You are logged in.');
     closeAuthModal();
@@ -1352,7 +1369,6 @@ async function updateUserProfileName() {
   showToast('Updating profile…');
   const { error } = await sbClient.auth.updateUser({ data: { full_name: fullName } });
   if (error) return showToast(error.message, 'err');
-  document.getElementById('uName').value = fullName;
   persistProfile();
   showToast('✓ Profile updated');
   updateUserHeaderBadge();
@@ -1408,10 +1424,10 @@ function updateUserHeaderBadge() {
     dot.className = 'user-dot online';
     const name = S.currentUser.user_metadata?.full_name || splitEmail(S.currentUser.email);
     label.textContent = name;
-    if (detailsSec) detailsSec.style.display = 'block';
+    if (detailsSec) detailsSec.style.display = 'none'; // REMOVED COMMUTER PROFILE INPUTS
   } else {
     dot.className = 'user-dot';
-    label.textContent = 'Sign In';
+    label.textContent = 'Log In';
     if (detailsSec) detailsSec.style.display = 'none';
   }
 }
@@ -1421,15 +1437,11 @@ async function initSupabaseAuthListener() {
   const { data: { session } } = await sbClient.auth.getSession();
   if (session?.user) {
     S.currentUser = session.user;
-    document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
     updateUserHeaderBadge();
   }
 
   sbClient.auth.onAuthStateChange((_event, session) => {
     S.currentUser = session?.user || null;
-    if (session?.user) {
-      document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
-    }
     updateUserHeaderBadge();
     renderSavedTimeView();
     renderAlerts();
@@ -1437,7 +1449,7 @@ async function initSupabaseAuthListener() {
   });
 }
 
-// TEMPORAL LOGIC & AUTO-ADJUSTMENT
+// TEMPORAL LOGIC & OVERLAP VALIDATION
 function validateSelectedTimes() {
   const errBox = document.getElementById('temporalErrBox');
   if (S.tripMode === 'now') {
@@ -1475,8 +1487,8 @@ function validateSelectedTimes() {
 
 function handleAuthProtectedSave() {
   if (!S.currentUser) {
-    showToast('Please sign in to save permanent routes and schedules', 'err');
-    openAuthModal('signup');
+    showToast('Please log in to save permanent routes and schedules', 'err');
+    openAuthModal('login');
     return;
   }
   document.getElementById('saveJourneyModal').classList.add('show');
@@ -1504,7 +1516,7 @@ function confirmSaveJourneyToDay(dayKey) {
   renderHistory();
 }
 
-// 0ms SEARCH-AS-YOU-TYPE AUTOCOMPLETE
+// 0ms SEARCH AUTOCOMPLETE
 let activeSearchSession = { from: 0, to: 0 };
 
 function onSearch(field) {
@@ -1691,6 +1703,16 @@ function timeToMins(tStr) { const [h, m] = tStr.split(':').map(Number); return h
 function minsToFormattedTime(mins) {
   const norm = ((mins % 1440) + 1440) % 1440;
   return `${Math.floor(norm/60).toString().padStart(2,'0')}:${(norm%60).toString().padStart(2,'0')}`;
+}
+
+// HAVERSINE DISTANCE & RESPONSIVE ROUTING ENGINE
+function calculateHaversineKm(coords1, coords2) {
+  if (!coords1 || !coords2) return 14.5;
+  const R = 6371;
+  const dLat = (coords2[1] - coords1[1]) * Math.PI / 180;
+  const dLon = (coords2[0] - coords1[0]) * Math.PI / 180;
+  const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(coords1[1]*Math.PI/180) * Math.cos(coords2[1]*Math.PI/180) * Math.sin(dLon/2) * Math.sin(dLon/2);
+  return Math.max(2.0, parseFloat((R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * 1.35).toFixed(1)));
 }
 
 async function doScan() {
@@ -1887,7 +1909,7 @@ function calcDay(k) {
 async function saveDaySchedule(k) {
   if (!S.currentUser) {
     showToast('Please sign in to save weekly schedules', 'err');
-    openAuthModal('signup');
+    openAuthModal('login');
     return;
   }
   const f = document.getElementById(`wf_${k}`).value.trim();
@@ -2174,9 +2196,8 @@ async function saveInlineFeedback() {
   showToast('✓ Feedback saved! Thank you.');
 }
 
-// ALERTS LOG WITH BACKGROUND 2.5-HOUR ENGAGEMENT INTERVAL
+// BACKGROUND ENGAGEMENT LOOPS (2.5 HOUR INTERVALS)
 function initBackgroundEngagementLoops() {
-  // Check-in & ride encouragement pulse every 2.5 hours between 6am and 10pm
   setInterval(() => {
     if (!S.currentUser) return;
     const now = new Date();
@@ -2193,9 +2214,10 @@ function initBackgroundEngagementLoops() {
       renderAlerts();
       showToast('🔔 CruizGo Check-In: How did your commute go?');
     }
-  }, 9000000); // 2.5 hours = 9,000,000 ms
+  }, 9000000); // 2.5 hours
 }
 
+// ALERTS LOG
 function renderAlerts() {
   const isAuth = !!S.currentUser;
   document.getElementById('authGateAlerts').style.display = isAuth ? 'none' : 'block';
@@ -2308,7 +2330,7 @@ function showToast(msg, type = 'ok') {
   setTimeout(() => t.classList.remove('up'), 3200);
 }
 
-// TAB SWITCHING WITH AUTH GATES AND SCROLL-TO-TOP FIX
+// TAB SWITCHING WITH SCROLL-TO-TOP FIX
 function switchTab(name, btn) {
   document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
@@ -2328,7 +2350,6 @@ function switchTab(name, btn) {
   const target = document.getElementById(map[name]);
   if (target) {
     target.classList.add('on');
-    // Scroll container to top cleanly
     const appContainer = document.querySelector('.app');
     if (appContainer) appContainer.scrollTop = 0;
     window.scrollTo({ top: 0, behavior: 'instant' });
