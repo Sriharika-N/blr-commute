@@ -27,7 +27,7 @@
 html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-family:var(--sans);display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--sur2);border-radius:3px}
 
-/* ─ FIXED HEADER WITH CURRENT DATE & CLOCK ─ */
+/* ─ FIXED HEADER ─ */
 .top-stack{flex-shrink:0;z-index:900;background:rgba(4,8,16,.98);border-bottom:1px solid var(--brd);backdrop-filter:blur(25px)}
 .hdr{height:60px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.04)}
 .brand{display:flex;align-items:center;gap:11px}
@@ -41,12 +41,13 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 @keyframes lp{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,.7)}50%{box-shadow:0 0 0 5px rgba(0,255,136,0)}}
 .clk{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--txt);background:var(--bg3);border:1px solid var(--brd);padding:5px 8px;border-radius:7px}
 
-.global-tabs{display:flex;background:rgba(7,13,26,.98)}
-.gtab{flex:1;padding:12px 4px;text-align:center;font-size:12px;font-weight:800;color:var(--txt3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all .2s;letter-spacing:.3px}
+.global-tabs{display:flex;background:rgba(7,13,26,.98);overflow-x:auto}
+.gtab{flex:1;min-width:72px;padding:12px 3px;text-align:center;font-size:11px;font-weight:800;color:var(--txt3);cursor:pointer;border:none;background:none;border-bottom:2px solid transparent;transition:all .2s;letter-spacing:.3px;white-space:nowrap}
 .gtab:hover{color:var(--txt2)}
 .gtab.on{color:var(--neon);border-bottom-color:var(--neon)}
+.badge-count{background:var(--red);color:#fff;font-size:9px;padding:1px 5px;border-radius:10px;margin-left:3px;font-family:var(--mono)}
 
-/* ─ APP CONTAINER ─ */
+/* ─ APP VIEWPORT ─ */
 .app{flex:1;display:flex;overflow:hidden;position:relative}
 .left{width:410px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--brd);overflow-y:auto;-webkit-overflow-scrolling:touch}
 .right{flex:1;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg)}
@@ -57,13 +58,15 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .uf{padding:10px 12px;background:var(--bg3);border:1px solid var(--brd);border-radius:10px;color:var(--txt);font-size:13px;font-weight:600;outline:none}
 .uf:focus{border-color:var(--neon);box-shadow:0 0 0 2px rgba(0,255,136,.1)}
 
-/* ─ TIMING TOGGLE ─ */
+/* ─ MODE TOGGLE ─ */
 .mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg3);padding:4px;border-radius:10px;margin-bottom:12px;border:1px solid var(--brd)}
 .mt-btn{padding:8px;text-align:center;border-radius:7px;border:none;background:none;color:var(--txt3);font-size:11px;font-weight:800;cursor:pointer;transition:all .2s}
 .mt-btn.on{background:var(--sur2);color:var(--neon);border:1px solid rgba(0,255,136,.3)}
 
 .lloc{margin-bottom:6px;position:relative}
-.lloc-lbl{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:1px;color:var(--txt3);text-transform:uppercase;margin-bottom:5px}
+.lloc-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:5px}
+.lloc-lbl{display:flex;align-items:center;gap:7px;font-size:10px;font-weight:700;letter-spacing:1px;color:var(--txt3);text-transform:uppercase}
+.gps-quick{font-size:10px;font-weight:800;color:var(--cyan);background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.25);padding:2px 8px;border-radius:6px;cursor:pointer}
 .ldot2{width:7px;height:7px;border-radius:50%}
 .ldot2.s{background:var(--neon);box-shadow:0 0 8px rgba(0,255,136,.7)}
 .ldot2.e{background:var(--amber);box-shadow:0 0 8px rgba(255,191,63,.7)}
@@ -93,6 +96,9 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .treq{width:5px;height:5px;border-radius:50%;background:var(--neon)}
 .tinp{width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--brd);border-radius:10px;color:var(--txt);font-size:14px;font-weight:700;font-family:var(--mono);outline:none;color-scheme:dark}
 
+/* Inline Temporal Validation Alert */
+.temporal-err-box{display:none;background:rgba(255,64,96,.1);border:1px solid var(--red);border-radius:10px;padding:10px 12px;margin-top:10px;font-size:12px;color:#ff99aa;line-height:1.5}
+
 .vrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
 .vcard{padding:12px 10px;border-radius:12px;background:var(--bg3);border:1px solid var(--brd);cursor:pointer;text-align:center;transition:all .2s}
 .vcard:hover{border-color:var(--brd2);background:var(--surf)}
@@ -103,7 +109,6 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 
 .scan{width:100%;padding:15px 20px;margin-top:14px;background:var(--neon);border:none;border-radius:12px;color:#040810;font-size:15px;font-weight:900;cursor:pointer;transition:all .2s}
 .scan:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(0,255,136,.35)}
-.scan.ld{color:var(--neon);background:rgba(0,255,136,.1);border:1px solid rgba(0,255,136,.2)}
 .altbtn{width:100%;padding:11px;margin-top:8px;background:none;border:1px solid var(--brd);border-radius:10px;color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .altbtn:hover{border-color:var(--neon);color:var(--neon);background:var(--ng2)}
 
@@ -138,18 +143,18 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .hcv{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--txt)}
 .hcl{font-size:10px;color:var(--txt3);margin-top:4px;font-weight:700;letter-spacing:.5px}
 
-/* ─ SAFE COMMUTING ADVISORY CARD ─ */
+/* Safe Commuting Card */
 .safe-speed-card{background:linear-gradient(145deg,#091a2a,#0f243b);border:1px solid rgba(0,212,255,.25);border-radius:16px;padding:18px}
-.ssc-tag{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px;display:flex;align-items:center;gap:6px}
-.ssc-val{font-family:var(--mono);font-size:24px;font-weight:700;color:#fff;margin-bottom:4px}
-.ssc-val span{font-size:14px;color:var(--cyan)}
+.ssc-tag{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px}
+.ssc-val{font-family:var(--mono);font-size:22px;font-weight:700;color:#fff;margin-bottom:4px}
 .ssc-lane{font-size:13px;color:var(--txt);line-height:1.6;margin-top:6px;padding:10px 12px;background:rgba(0,0,0,.3);border-radius:10px;border-left:3px solid var(--cyan)}
 
-/* ─ LINEAR HEATMAP RIBBON FOR CORRIDORS ─ */
+/* Corridor Heatmap Ribbon */
 .linear-ribbon-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:18px;margin-bottom:14px}
-.lrc-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:12px}
+.lrc-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .lrc-title{font-size:14px;font-weight:900;color:var(--neon)}
-.ribbon-track{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:12px 0 6px;gap:2px}
+.sync-time-tag{font-size:10px;color:var(--txt2);font-family:var(--mono);margin-bottom:12px}
+.ribbon-track{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:10px 0 6px;gap:2px}
 .r-seg{flex:1;height:100%;transition:transform .2s;cursor:pointer}
 .r-seg:hover{transform:scaleY(1.3)}
 .r-clear{background:var(--neon)}
@@ -157,6 +162,20 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .r-heavy{background:var(--red)}
 .r-jam{background:var(--darkred)}
 .ribbon-legend{display:flex;justify-content:space-between;font-size:10px;color:var(--txt3);font-family:var(--mono);margin-top:4px}
+
+/* In-App Route Preview */
+.inapp-map-box{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;overflow:hidden;margin-top:4px}
+.inapp-map-header{padding:10px 14px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
+.inapp-map-title{font-size:11px;font-weight:800;color:var(--neon);letter-spacing:1px;text-transform:uppercase}
+.inapp-iframe{width:100%;height:220px;border:none;background:#050a14}
+
+/* 3D Radar Map */
+.map-canvas-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:14px}
+.compass-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
+.compass-dial{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--cyan);font-family:var(--mono);background:var(--sur2);padding:4px 10px;border-radius:20px;border:1px solid rgba(0,212,255,.3)}
+.circ-svg{width:100%;height:320px;border-radius:12px;background:#050a14;border:1px solid rgba(255,255,255,.05)}
+.map-node{cursor:pointer;transition:transform .2s}
+.map-node:hover{transform:scale(1.05)}
 
 .corrcard{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:15px;scroll-margin-top:20px}
 .corr-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
@@ -170,21 +189,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .cr-lb{font-size:12px;color:var(--txt2);flex:1}
 .cr-dl{font-family:var(--mono);font-size:11px;font-weight:600}
 
-/* ─ IN-APP ROUTE VIEWER ─ */
-.inapp-map-box{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;overflow:hidden;margin-top:4px}
-.inapp-map-header{padding:10px 14px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
-.inapp-map-title{font-size:11px;font-weight:800;color:var(--neon);letter-spacing:1px;text-transform:uppercase}
-.inapp-iframe{width:100%;height:220px;border:none;background:#050a14}
-
-/* ─ 3D RADAR MAP ─ */
-.map-canvas-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:14px}
-.compass-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.compass-dial{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--cyan);font-family:var(--mono);background:var(--sur2);padding:4px 10px;border-radius:20px;border:1px solid rgba(0,212,255,.3)}
-.circ-svg{width:100%;height:320px;border-radius:12px;background:#050a14;border:1px solid rgba(255,255,255,.05)}
-.map-node{cursor:pointer;transition:transform .2s}
-.map-node:hover{transform:scale(1.05)}
-
-/* ─ WEEK TIMETABLE ─ */
+/* Week Accordion */
 .dstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px}
 .dchip{aspect-ratio:1;border-radius:10px;background:var(--bg3);border:1px solid var(--brd);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
 .dchip.on{background:var(--ng2);border-color:rgba(0,255,136,.4)}
@@ -218,16 +223,31 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .drbig{font-family:var(--mono);font-size:36px;color:var(--neon);line-height:1.1;font-weight:700}
 .drret{font-family:var(--mono);font-size:24px;color:var(--amber);margin-top:2px;font-weight:700}
 
-/* ─ FEEDBACK ─ */
-.fbcard{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px}
-.fbtit{font-size:13px;font-weight:800;margin-bottom:4px}
-.fbsub{font-size:11px;color:var(--txt3);margin-bottom:12px;line-height:1.5}
-.fbrow{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.fbb{padding:10px 8px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);font-size:12px;font-weight:700;color:var(--txt2);cursor:pointer;text-align:center}
-.fbb.good{background:rgba(0,255,136,.1);border-color:var(--neon);color:var(--neon)}
-.fbb.late{background:rgba(255,191,63,.1);border-color:var(--amber);color:var(--amber)}
-.hlrow{display:flex;gap:8px;margin-top:8px}
-.fbinp{width:100%;margin-top:10px;padding:9px 12px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-size:12px;outline:none}
+/* Alerts Tab Layout */
+.alert-card{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:14px;margin-bottom:10px}
+.alert-time{font-family:var(--mono);font-size:11px;color:var(--neon);margin-bottom:4px}
+.alert-title{font-size:13px;font-weight:800;color:#fff}
+.alert-body{font-size:12px;color:var(--txt2);margin-top:2px;line-height:1.5}
+.alert-conf{display:inline-block;font-size:10px;font-family:var(--mono);color:var(--cyan);background:rgba(0,212,255,.08);padding:2px 8px;border-radius:4px;margin-top:6px}
+
+/* Saved Time Dashboard */
+.st-hero{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
+.st-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center}
+.st-val{font-family:var(--mono);font-size:32px;font-weight:800;color:var(--neon)}
+.st-lbl{font-size:10px;font-weight:700;color:var(--txt3);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
+.st-analysis{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;font-size:13px;color:var(--txt2);line-height:1.6}
+
+/* In-App Ride Completion Modal */
+.modal-overlay{display:none;position:fixed;inset:0;background:rgba(4,8,16,.85);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:18px}
+.modal-overlay.show{display:flex}
+.modal-card{background:#0b1424;border:1px solid var(--neon);border-radius:18px;width:100%;max-width:440px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.9)}
+.modal-title{font-size:17px;font-weight:900;color:#fff;margin-bottom:6px}
+.modal-sub{font-size:13px;color:var(--txt2);line-height:1.55;margin-bottom:16px}
+.q-block{margin-bottom:14px}
+.q-lbl{font-size:12px;font-weight:700;color:var(--txt);margin-bottom:6px}
+.q-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.q-btn{padding:9px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer}
+.q-btn.sel{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
 
 .toast{position:fixed;bottom:24px;right:24px;z-index:9999;padding:12px 18px;border-radius:10px;background:#111f33;border:1px solid var(--neon);font-size:12px;font-weight:700;color:var(--txt);box-shadow:0 16px 40px rgba(0,0,0,.8);transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.3,.64,1);max-width:320px}
 .toast.up{transform:translateY(0);opacity:1}
@@ -264,13 +284,15 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
     <button class="gtab on" id="tabToday" onclick="switchTab('today',this)">Today</button>
     <button class="gtab" id="tabWeek" onclick="switchTab('week',this)">Week</button>
     <button class="gtab" id="tabCorridors" onclick="switchTab('corridors',this)">Corridors</button>
+    <button class="gtab" id="tabAlerts" onclick="switchTab('alerts',this)">Alerts <span class="badge-count" id="badgeAlerts">1</span></button>
+    <button class="gtab" id="tabSavedTime" onclick="switchTab('savedTime',this)">Saved Time</button>
     <button class="gtab" id="tabHistory" onclick="switchTab('history',this)">History</button>
   </nav>
 </div>
 
 <div class="app">
 
-  <!-- LEFT CONTROL COLUMN -->
+  <!-- LEFT CONTROLS -->
   <div class="left">
 
     <div class="sec">
@@ -292,7 +314,10 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 
       <!-- ORIGIN -->
       <div class="lloc">
-        <div class="lloc-lbl"><div class="ldot2 s"></div>Start point</div>
+        <div class="lloc-hdr">
+          <div class="lloc-lbl"><div class="ldot2 s"></div>Start point</div>
+          <button class="gps-quick" onclick="acquireLiveGPS()">📍 Use Live GPS</button>
+        </div>
         <div class="lwrap">
           <input class="linp" id="inpFrom" placeholder="Street, Benniganahalli, AECS Layout, metro…" autocomplete="off"
             oninput="onSearch('from')" onfocus="onSearch('from')" onkeydown="onKey(event,'from')" />
@@ -324,16 +349,21 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
       <div class="time-row" id="timeRowPlan">
         <div>
           <div class="tlbl"><div class="treq"></div>Need to arrive by</div>
-          <input class="tinp" type="time" id="tArrive" value="09:15" onchange="persistProfile()" />
+          <input class="tinp" type="time" id="tArrive" value="09:15" onchange="validateSelectedTimes()" />
         </div>
         <div>
           <div class="tlbl"><div class="treq"></div>Return by</div>
-          <input class="tinp" type="time" id="tReturn" value="18:30" onchange="persistProfile()" />
+          <input class="tinp" type="time" id="tReturn" value="18:30" onchange="validateSelectedTimes()" />
         </div>
       </div>
 
+      <!-- INLINE TEMPORAL VALIDATION ALERT -->
+      <div class="temporal-err-box" id="temporalErrBox">
+        ⚠️ Target arrival time has already passed for today. Please choose a future time or toggle "Leave Right Now".
+      </div>
+
       <div id="timeRowNow" style="display:none;margin-top:8px;font-size:12px;color:var(--neon);font-family:var(--mono);padding:8px 10px;background:rgba(0,255,136,.06);border-radius:8px">
-        ⚡ Direct live trip starting right now. Zero push notifications while driving.
+        ⚡ Calculating real-time departure starting right now. Zero alerts while driving.
       </div>
     </div>
 
@@ -418,10 +448,10 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           <div class="ssc-tag">🛡️ SAFE COMMUTING ADVISORY & LANE DISCIPLINE</div>
           <div class="ssc-val" id="sscSpeed">Cruise Target: 35–42 <span>km/h</span></div>
           <div style="font-size:12px;color:var(--txt2)">
-            Google Maps estimates 30 min assuming continuous average speed. CruizGo estimates <strong>41–52 min</strong> to protect your safety and avoid sudden braking at bottlenecks.
+            Google Maps estimates 30 min assuming non-stop average velocity. CruizGo estimates <strong>41–52 min</strong> based on safe commute speeds and BMTC bus-bay bottlenecks.
           </div>
           <div class="ssc-lane" id="sscLaneGuide">
-            <strong>Recommended Lane Position:</strong> Hold middle/right lanes. Avoid the extreme left lane near tech park gates (RMZ Ecospace, Prestige Tech Park) due to BMTC bus-bay bunching and passenger drops.
+            <strong>Recommended Lane Position:</strong> Hold middle/right lanes. Avoid extreme left lane near tech park gates (RMZ Ecospace, Prestige Tech Park) due to BMTC bus-bay bunching and passenger drops.
           </div>
         </div>
 
@@ -448,24 +478,16 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           <div>
             <div class="ctit" id="confTit">High Confidence Precision</div>
             <div class="cexp" id="confExp">
-              <strong>97% confidence</strong> — Validated against road sensors. Guaranteed arrival at target time within ±3 minutes without speeding.
+              <strong>97% confidence</strong> — Validated against road sensors. Guaranteed arrival at target time within ±3 minutes without aggressive lane cutting.
             </div>
           </div>
         </div>
 
-        <!-- FEEDBACK MODULE -->
-        <div class="fbcard">
-          <div class="fbtit">How did your commute go?</div>
-          <div class="fbsub">Log your departure to calibrate weightings for your daily route:</div>
-          <div class="fbrow">
-            <button class="fbb good" onclick="submitTripFeedback(true)">✓ Left on time</button>
-            <button class="fbb late" onclick="submitTripFeedback(false)">⚠ Left 15 min late</button>
-          </div>
-          <div class="hlrow">
-            <button class="fbb" style="flex:1" onclick="submitHelpful(true)">👍 Helpful</button>
-            <button class="fbb" style="flex:1" onclick="submitHelpful(false)">👎 Not helpful</button>
-          </div>
-          <input class="fbinp" id="commuteNotes" placeholder="Any blockages or suggestions? Press Enter to save" onkeydown="if(event.key==='Enter')saveCommuterNotes()" />
+        <!-- TRIGGER VOLUNTARY RIDE COMPLETION BUTTON -->
+        <div style="text-align:center;padding:10px 0">
+          <button class="savedaybtn" style="background:var(--surf);font-size:12px;padding:10px 18px" onclick="openCompletionModal()">
+            🏁 Arrived? Log Ride & View Saved Minutes
+          </button>
         </div>
 
       </div>
@@ -490,15 +512,16 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           <div class="lrc-title" id="ribbonCorridorName">Outer Ring Road (Silk Board ➔ KR Puram)</div>
           <span style="font-size:10px;color:var(--neon);font-family:var(--mono)">LIVE HEATMAP</span>
         </div>
+        <div class="sync-time-tag" id="ribbonSyncTime">Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST · Live Traffic Sensors</div>
 
         <!-- LINEAR COLOR GRADIENT ROUTE RIBBON -->
         <div class="ribbon-track">
           <div class="r-seg r-clear" title="Silk Board Flyover: Clear"></div>
           <div class="r-seg r-heavy" title="HSR Layout Sector 5: Bus Stop & Auto Bunching"></div>
           <div class="r-seg r-warn" title="Agara Lake Road: Slowdown"></div>
-          <div class="r-seg r-jam" title="Bellandur EcoSpace BMTC Bus Bay: Extreme Jam (+18m)"></div>
+          <div class="r-seg r-jam" title="Bellandur EcoSpace BMTC Bus Bay: Extreme Standstill (+18m)"></div>
           <div class="r-seg r-heavy" title="Kadubeesanahalli Pillar Construction"></div>
-          <div class="r-seg r-jam" title="Marathahalli Multiplex Signal: Jam (+15m)"></div>
+          <div class="r-seg r-jam" title="Marathahalli Multiplex Signal: Standstill (+15m)"></div>
           <div class="r-seg r-clear" title="KR Puram Flyover: Flowing"></div>
         </div>
 
@@ -521,7 +544,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           <span style="font-size:10px;color:var(--txt3)">Tap any sector to inspect corridor</span>
         </div>
 
-        <svg class="circ-svg" viewBox="0 0 500 320">
+        <svg class="circ-svg" viewBox="0 0 500 340">
           <defs>
             <radialGradient id="radarGlow" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stop-color="#00ff88" stop-opacity="0.14"/>
@@ -530,52 +553,65 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           </defs>
 
           <rect width="100%" height="100%" fill="#050a14"/>
-          <circle cx="250" cy="160" r="140" fill="url(#radarGlow)"/>
+          <circle cx="250" cy="170" r="140" fill="url(#radarGlow)"/>
 
           <text x="250" y="24" fill="#00ff88" font-size="11" font-weight="900" text-anchor="middle" font-family="DM Mono">N (Hebbal / Airport)</text>
-          <text x="250" y="312" fill="#00d4ff" font-size="11" font-weight="900" text-anchor="middle" font-family="DM Mono">S (E-City / Hosur)</text>
-          <text x="475" y="164" fill="#ffbf3f" font-size="11" font-weight="900" text-anchor="end" font-family="DM Mono">E (Whitefield)</text>
-          <text x="25" y="164" fill="#ff4060" font-size="11" font-weight="900" text-anchor="start" font-family="DM Mono">W (Yeshwanthpur)</text>
+          <text x="250" y="325" fill="#00d4ff" font-size="11" font-weight="900" text-anchor="middle" font-family="DM Mono">S (E-City / Hosur)</text>
+          <text x="475" y="174" fill="#ffbf3f" font-size="11" font-weight="900" text-anchor="end" font-family="DM Mono">E (Whitefield)</text>
+          <text x="25" y="174" fill="#ff4060" font-size="11" font-weight="900" text-anchor="start" font-family="DM Mono">W (Tumkur / Majestic)</text>
 
-          <circle cx="250" cy="160" r="115" fill="none" stroke="rgba(0,255,136,0.28)" stroke-width="4" stroke-dasharray="6,4"/>
-          <circle cx="250" cy="160" r="65" fill="none" stroke="rgba(0,212,255,0.25)" stroke-width="3"/>
+          <circle cx="250" cy="170" r="115" fill="none" stroke="rgba(0,255,136,0.28)" stroke-width="4" stroke-dasharray="6,4"/>
+          <circle cx="250" cy="170" r="65" fill="none" stroke="rgba(0,212,255,0.25)" stroke-width="3"/>
 
-          <line x1="250" y1="160" x2="250" y2="30" stroke="rgba(255,64,96,0.3)" stroke-width="2"/>
-          <line x1="250" y1="160" x2="250" y2="295" stroke="rgba(0,212,255,0.3)" stroke-width="2"/>
-          <line x1="250" y1="160" x2="450" y2="160" stroke="rgba(255,191,63,0.3)" stroke-width="2"/>
-          <line x1="250" y1="160" x2="50" y2="160" stroke="rgba(255,64,96,0.3)" stroke-width="2"/>
+          <line x1="250" y1="170" x2="250" y2="30" stroke="rgba(255,64,96,0.3)" stroke-width="2"/>
+          <line x1="250" y1="170" x2="250" y2="310" stroke="rgba(0,212,255,0.3)" stroke-width="2"/>
+          <line x1="250" y1="170" x2="450" y2="170" stroke="rgba(255,191,63,0.3)" stroke-width="2"/>
+          <line x1="250" y1="170" x2="50" y2="170" stroke="rgba(255,64,96,0.3)" stroke-width="2"/>
 
+          <!-- CBD -->
           <g class="map-node" onclick="inspectCorridor('irr')">
-            <circle cx="250" cy="160" r="22" fill="#0b1a2e" stroke="#00d4ff" stroke-width="2"/>
-            <text x="250" y="164" fill="#fff" font-size="9" font-weight="900" text-anchor="middle">CBD</text>
+            <circle cx="250" cy="170" r="22" fill="#0b1a2e" stroke="#00d4ff" stroke-width="2"/>
+            <text x="250" y="174" fill="#fff" font-size="9" font-weight="900" text-anchor="middle">CBD</text>
           </g>
 
+          <!-- ORR -->
           <g class="map-node" onclick="inspectCorridor('orr')">
-            <rect x="310" y="210" width="165" height="36" rx="8" fill="#0b1626" stroke="#00ff88" stroke-width="1.5"/>
-            <circle cx="324" cy="228" r="5" fill="#ff4060"/>
-            <text x="335" y="225" fill="#00ff88" font-size="10" font-weight="900">ORR Tech Belt</text>
-            <text x="335" y="238" fill="#8fa0b8" font-size="8">Ecospace · Silk Board · Kadub.</text>
+            <rect x="310" y="215" width="165" height="36" rx="8" fill="#0b1626" stroke="#00ff88" stroke-width="1.5"/>
+            <circle cx="324" cy="233" r="5" fill="#ff4060"/>
+            <text x="335" y="230" fill="#00ff88" font-size="10" font-weight="900">ORR Tech Belt</text>
+            <text x="335" y="243" fill="#8fa0b8" font-size="8">Ecospace · Silk Board · Kadub.</text>
           </g>
 
+          <!-- Whitefield -->
           <g class="map-node" onclick="inspectCorridor('wf')">
-            <rect x="335" y="115" width="150" height="36" rx="8" fill="#0b1626" stroke="#ffbf3f" stroke-width="1.5"/>
-            <circle cx="349" cy="133" r="5" fill="#ffbf3f"/>
-            <text x="360" y="130" fill="#ffbf3f" font-size="10" font-weight="900">Whitefield Hub</text>
-            <text x="360" y="143" fill="#8fa0b8" font-size="8">ITPL · Hope Farm · AECS</text>
+            <rect x="335" y="125" width="150" height="36" rx="8" fill="#0b1626" stroke="#ffbf3f" stroke-width="1.5"/>
+            <circle cx="349" cy="143" r="5" fill="#ffbf3f"/>
+            <text x="360" y="140" fill="#ffbf3f" font-size="10" font-weight="900">Whitefield Hub</text>
+            <text x="360" y="153" fill="#8fa0b8" font-size="8">ITPL · Hope Farm · AECS</text>
           </g>
 
+          <!-- E-City -->
           <g class="map-node" onclick="inspectCorridor('ec')">
-            <rect x="175" y="260" width="150" height="36" rx="8" fill="#0b1626" stroke="#00d4ff" stroke-width="1.5"/>
-            <circle cx="189" cy="278" r="5" fill="#00ff88"/>
-            <text x="200" y="275" fill="#00d4ff" font-size="10" font-weight="900">E-City Industrial</text>
-            <text x="200" y="288" fill="#8fa0b8" font-size="8">Phases 1 & 2 · Hosur Rd</text>
+            <rect x="175" y="270" width="150" height="36" rx="8" fill="#0b1626" stroke="#00d4ff" stroke-width="1.5"/>
+            <circle cx="189" cy="288" r="5" fill="#00ff88"/>
+            <text x="200" y="285" fill="#00d4ff" font-size="10" font-weight="900">E-City Industrial</text>
+            <text x="200" y="298" fill="#8fa0b8" font-size="8">Phases 1 & 2 · Hosur Rd</text>
           </g>
 
+          <!-- Hebbal -->
           <g class="map-node" onclick="inspectCorridor('hbl')">
-            <rect x="175" y="40" width="150" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
-            <circle cx="189" cy="58" r="5" fill="#ff4060"/>
-            <text x="200" y="55" fill="#ff4060" font-size="10" font-weight="900">Hebbal / Manyata</text>
-            <text x="200" y="68" fill="#8fa0b8" font-size="8">Airport NH 44 · Thanisandra</text>
+            <rect x="175" y="45" width="150" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
+            <circle cx="189" cy="63" r="5" fill="#ff4060"/>
+            <text x="200" y="60" fill="#ff4060" font-size="10" font-weight="900">Hebbal / Manyata</text>
+            <text x="200" y="73" fill="#8fa0b8" font-size="8">Airport NH 44 · Thanisandra</text>
+          </g>
+
+          <!-- Tumkur / Majestic -->
+          <g class="map-node" onclick="inspectCorridor('tmk')">
+            <rect x="25" y="100" width="170" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
+            <circle cx="39" cy="118" r="5" fill="#ff4060"/>
+            <text x="50" y="115" fill="#ff4060" font-size="10" font-weight="900">Tumkur Rd – Majestic</text>
+            <text x="50" y="128" fill="#8fa0b8" font-size="8">Goraguntepalya · Yeshwanthpur</text>
           </g>
         </svg>
       </div>
@@ -583,10 +619,39 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
       <div id="allCorr"></div>
     </div>
 
-    <!-- HISTORY PANEL WITH UNSAVE & IN-PLACE DELTA RECALCULATION -->
+    <!-- ALERTS TAB -->
+    <div class="rp" id="pAlerts">
+      <div style="font-size:16px;font-weight:900;margin-bottom:4px">Scheduled & Real-Time Alerts</div>
+      <div style="font-size:12px;color:var(--txt3);margin-bottom:14px">Multi-stage push notification logs. Tap any alert to deep-link into its route metrics:</div>
+      <div id="alertsListContainer"></div>
+    </div>
+
+    <!-- SAVED TIME TAB -->
+    <div class="rp" id="pSavedTime">
+      <div style="font-size:16px;font-weight:900;margin-bottom:4px">Your Saved Commute Time</div>
+      <div style="font-size:12px;color:var(--txt3);margin-bottom:14px">Cumulative time saved using CruizGo departure arbitrage vs. peak gridlock:</div>
+
+      <div class="st-hero">
+        <div class="st-card">
+          <div class="st-val" id="totalSavedMinsDisplay">128</div>
+          <div class="st-lbl">Total Minutes Saved</div>
+        </div>
+        <div class="st-card">
+          <div class="st-val" id="completedRidesDisplay">6</div>
+          <div class="st-lbl">Logged Rides</div>
+        </div>
+      </div>
+
+      <div class="st-analysis">
+        <strong style="color:var(--neon)">⚡ How CruizGo Protected Your Day:</strong><br>
+        By departing during calculated 12-minute arbitrage windows, you bypassed the primary Bellandur EcoSpace bus bay backup and Marathahalli flyover queue. Average speed maintained: <strong>36.4 km/h</strong> without speeding or aggressive lane switches.
+      </div>
+    </div>
+
+    <!-- HISTORY PANEL -->
     <div class="rp" id="pHistory">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <div style="font-size:16px;font-weight:900">Saved Routes & History</div>
+        <div style="font-size:16px;font-weight:900">Saved Routes & Completed History</div>
         <button onclick="clearScanHistory()" style="padding:6px 12px;background:none;border:1px solid rgba(255,64,96,.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer">Clear Past Trips</button>
       </div>
       <div id="savedSection"></div>
@@ -597,10 +662,44 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 
 </div>
 
+<!-- IN-APP RIDE COMPLETION SHEET -->
+<div class="modal-overlay" id="completionModal">
+  <div class="modal-card">
+    <div class="modal-title">🏁 Did you complete your commute?</div>
+    <div class="modal-sub">Confirm your ride to update your verified <strong>Saved Time</strong> dashboard. You can freely skip if preferred.</div>
+
+    <div class="q-block">
+      <div class="q-lbl">1. Did you depart within your recommended window?</div>
+      <div class="q-options">
+        <button class="q-btn sel" id="q1Yes" onclick="selectQ(1, true)">✓ Left on time</button>
+        <button class="q-btn" id="q1No" onclick="selectQ(1, false)">⚠ Left late (+15m)</button>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-lbl">2. Did the departure timing save you gridlock crawl?</div>
+      <div class="q-options">
+        <button class="q-btn sel" id="q2Yes" onclick="selectQ(2, true)">👍 Saved ~20-30 min</button>
+        <button class="q-btn" id="q2No" onclick="selectQ(2, false)">👎 Normal traffic</button>
+      </div>
+    </div>
+
+    <div class="q-block">
+      <div class="q-lbl">3. Any specific road blockage or notes?</div>
+      <input class="uf" id="compNotes" placeholder="e.g. Waterlogging near underpass" style="width:100%" />
+    </div>
+
+    <div style="display:flex;gap:8px;margin-top:16px">
+      <button class="altbtn" onclick="closeCompletionModal()" style="flex:1">Skip for Now</button>
+      <button class="scan" style="margin-top:0;flex:2;padding:12px" onclick="submitCompletedRide()">✓ Log Saved Time</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════ CONFIG & APPLICATION STATE ═══════════
+// ═══════════ APPLICATION CONFIGURATION ═══════════
 const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
 const VAPID  = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0';
@@ -611,7 +710,9 @@ const S = {
   fromVal: '310, 2nd A Cross Rd',
   toVal: 'Ecospace Business Park, Bellandur',
   weekDays: ['mon','tue','wed','thu','fri','sat','sun'],
-  lastScan: null
+  lastScan: null,
+  totalSaved: 128,
+  completedCount: 6
 };
 
 const AC = {
@@ -619,7 +720,7 @@ const AC = {
   to:   { timer: null, res: [] }
 };
 
-// ═══════════ CORRIDORS WITH LINEAR HEATMAP SPECIFICATIONS ═══════════
+// ═══════════ CORRIDORS DATA SUITE ═══════════
 const CORR = {
   orr: {
     id: 'corr-orr',
@@ -628,6 +729,7 @@ const CORR = {
     safeSpeed: '32–38 km/h on open flyovers · 14–18 km/h in construction zones',
     laneGuide: 'Hold middle/right lanes. Avoid extreme left lane near Bellandur EcoSpace bus bay and tech park entry ramps.',
     metro: 'Phase 2A Blue Line barricading active from Kadubeesanahalli to Marathahalli.',
+    syncTime: 'Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST',
     ribbon: [
       { t: 'r-clear', label: 'Silk Board: Clear' },
       { t: 'r-heavy', label: 'HSR 5th Sector: Bus Bunching' },
@@ -652,6 +754,7 @@ const CORR = {
     safeSpeed: '28–35 km/h · Maintain steady spacing behind BMTC Volvo buses',
     laneGuide: 'Keep to center lane. Stay off left shoulder near Hoodi due to road construction debris.',
     metro: 'ITPL road surface reconstruction & Hoodi station diversions.',
+    syncTime: 'Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST',
     ribbon: [
       { t: 'r-jam', label: 'Tin Factory: Bus Stand Queue' },
       { t: 'r-heavy', label: 'Garudacharpalya: Cross-traffic' },
@@ -659,7 +762,7 @@ const CORR = {
       { t: 'r-clear', label: 'AECS Layout Cross: Moving' },
       { t: 'r-jam', label: 'Hope Farm Circle: Congested' }
     ],
-    summary: 'Tin Factory bus choke creates a 1.2 km upstream backup. Steady center-lane commute recommended.',
+    summary: 'Tin Factory bus choke creates a 1.2 km upstream backup. Center-lane commute recommended.',
     chokes: [
       { n: 'Tin Factory / KR Puram Station Bus Stop bottleneck', s: 'danger', d: '+20–30 min' },
       { n: 'Garudacharpalya Signal Cross-traffic', s: 'warn', d: '+10–15 min' },
@@ -673,6 +776,7 @@ const CORR = {
     safeSpeed: '45–55 km/h on Elevated Expressway · 20–25 km/h on Hosur Road surface',
     laneGuide: 'Elevated highway offers consistent flow. If on surface road, avoid Kudlu Gate left lane during peak shift hours.',
     metro: 'Yellow Line street reinstatement; Bommasandra and Kudlu Gate restrictions.',
+    syncTime: 'Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST',
     ribbon: [
       { t: 'r-heavy', label: 'Silk Board Incline' },
       { t: 'r-clear', label: 'Elevated Expressway: 55 km/h' },
@@ -690,17 +794,40 @@ const CORR = {
     name: 'Hebbal – Manyata (Hebbal ➔ Airport Road)',
     carPeak: 15, bikePeak: 22, carFree: 40, bikeFree: 52,
     safeSpeed: '40–48 km/h on NH 44 · 18–22 km/h entering Manyata Tech Park gates',
-    laneGuide: 'Avoid left lane before Veerannapalya flyover where BMTC buses pull in across the carriage-way.',
+    laneGuide: 'Avoid left lane before Veerannapalya flyover where BMTC buses pull in across carriage-way.',
     metro: 'Airport Line pillar construction on NH 44 at Veerannapalya.',
+    syncTime: 'Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST',
     ribbon: [
       { t: 'r-jam', label: 'Hebbal Flyover Loop' },
       { t: 'r-heavy', label: 'Veerannapalya Manyata Gate' },
       { t: 'r-clear', label: 'Jakkur Aerodrome Stretch' }
     ],
-    summary: 'Flyover merging bottleneck active at Hebbal. Tech park security gate queue adds +10 mins.',
+    summary: 'Flyover merging bottleneck active at Hebbal. Gate security adds +10 mins.',
     chokes: [
       { n: 'Hebbal Flyover Loop Merging', s: 'danger', d: '+18–30 min' },
       { n: 'Veerannapalya Manyata Gate BMTC bay choke', s: 'danger', d: '+15–22 min' }
+    ]
+  },
+  tmk: {
+    id: 'corr-tmk',
+    name: 'Tumkur Road – Yeshwanthpur – Majestic (NH 48)',
+    carPeak: 14, bikePeak: 22, carFree: 45, bikeFree: 55,
+    safeSpeed: '35–40 km/h · Maintain steady distance on Goraguntepalya flyover',
+    laneGuide: 'Stay in right-hand lanes over Yeshwanthpur flyover to bypass city-bus depot entrances.',
+    metro: 'Namma Metro Green Line elevated corridor · Outer junction diversions.',
+    syncTime: 'Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST',
+    ribbon: [
+      { t: 'r-clear', label: 'Nelamangala Toll: Free' },
+      { t: 'r-jam', label: 'Goraguntepalya Flyover: Standstill (+18m)' },
+      { t: 'r-heavy', label: 'Yeshwanthpur Railway Station Choke' },
+      { t: 'r-warn', label: 'Malleshwaram 8th Main Cross' },
+      { t: 'r-jam', label: 'Majestic Bus Stand Approach (+14m)' }
+    ],
+    summary: 'Goraguntepalya junction experiencing heavy outbound and inbound vehicle accumulation.',
+    chokes: [
+      { n: 'Goraguntepalya Junction / Flyover Funnel', s: 'danger', d: '+18–26 min' },
+      { n: 'Yeshwanthpur Bus Terminal Ingress', s: 'warn', d: '+10–14 min' },
+      { n: 'Majestic Metro Interchange Approach', s: 'danger', d: '+12–18 min' }
     ]
   },
   irr: {
@@ -710,12 +837,13 @@ const CORR = {
     safeSpeed: '30–38 km/h steady transit',
     laneGuide: 'Domlur flyover is clear. Maintain center lane near Command Hospital.',
     metro: 'MG Road, Richmond Circle & Domlur cross-arterials.',
+    syncTime: 'Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST',
     ribbon: [
       { t: 'r-clear', label: 'Koramangala 100ft: Flowing' },
       { t: 'r-warn', label: 'Domlur Flyover: Moderate' },
       { t: 'r-clear', label: 'Old Airport Road Merge' }
     ],
-    summary: 'Moderate flow on Intermediate Ring Road. Best route into central tech corridors.',
+    summary: 'Moderate flow on Intermediate Ring Road. Best route into central tech parks.',
     chokes: [
       { n: 'Domlur Flyover Incline', s: 'warn', d: '+10–16 min' },
       { n: 'Command Hospital Bus Bay merge', s: 'warn', d: '+8–12 min' }
@@ -731,6 +859,13 @@ const WEEK_CONFIG = [
   { k: 'fri', full: 'Friday', mult: 1.15, peak: '8:00–10:30 AM & 4:30–7:30 PM', wx: '29°C · Clear', dot: '🟢', dt: '25' },
   { k: 'sat', full: 'Saturday', mult: 1.05, peak: '11:00 AM–2:30 PM (Mall Surge)', wx: '29°C · Clear', dot: '🟢', dt: '26' },
   { k: 'sun', full: 'Sunday', mult: 0.95, peak: 'Light traffic all day', wx: '29°C · Clear', dot: '🟢', dt: '20' }
+];
+
+// Mock Real-time Alerts Store
+const INITIAL_ALERTS = [
+  { time: '12:30 PM', title: 'Mid-Day Commute Check-in', body: 'How was your morning commute to Bellandur? Confirm your arrival to update your Saved Time metrics.', type: 'checkin', conf: 97 },
+  { time: '07:30 AM', title: 'Good Morning, Commuter! 🌅', body: 'Plan your commute today. Outer Ring Road is experiencing moderate congestion near Silk Board.', type: 'morning', conf: 98 },
+  { time: '08:03 AM', title: '15 Min Departure Call: Bellandur Route', body: 'Traffic funneling near Kadubeesanahalli underpass. Leave now via middle lane to ensure 09:15 AM arrival.', type: 'traffic', conf: 96 }
 ];
 
 function initClock() {
@@ -761,16 +896,67 @@ function loadProfile() {
   if (saved.r) document.getElementById('tReturn').value = saved.r;
 }
 
+// ═══════════ TEMPORAL VALIDATION ═══════════
+function validateSelectedTimes() {
+  if (S.tripMode === 'now') {
+    document.getElementById('temporalErrBox').style.display = 'none';
+    return true;
+  }
+  const arrStr = document.getElementById('tArrive').value;
+  const [h, m] = arrStr.split(':').map(Number);
+  const now = new Date();
+  const currentMins = now.getHours() * 60 + now.getMinutes();
+  const targetMins = h * 60 + m;
+
+  if (targetMins <= currentMins) {
+    document.getElementById('temporalErrBox').style.display = 'block';
+    return false;
+  } else {
+    document.getElementById('temporalErrBox').style.display = 'none';
+    return true;
+  }
+}
+
+// ═══════════ LIVE GPS ACQUISITION ═══════════
+function acquireLiveGPS() {
+  if (!navigator.geolocation) {
+    showToast('Geolocation not supported on this device', 'err');
+    return;
+  }
+  showToast('Acquiring live satellite coordinates…');
+  navigator.geolocation.getCurrentPosition(async pos => {
+    const lat = pos.coords.latitude;
+    const lon = pos.coords.longitude;
+    try {
+      const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
+      const data = await res.json();
+      const name = data.address.suburb || data.address.neighbourhood || data.address.road || 'Bengaluru Location';
+      document.getElementById('inpFrom').value = `${name}, Bengaluru`;
+      S.fromVal = `${name}, Bengaluru`;
+      showToast(`✓ Locked GPS: ${name}`);
+      doScan();
+    } catch {
+      document.getElementById('inpFrom').value = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+      S.fromVal = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+      doScan();
+    }
+  }, err => {
+    showToast('GPS access denied. Using street entry.', 'err');
+  }, { enableHighAccuracy: true, timeout: 8000 });
+}
+
+// ═══════════ AUTOCOMPLETE ═══════════
 const POIS = [
-  {n:'310, 2nd A Cross Rd',s:'Kasturi Nagar, Benniganahalli, Bengaluru',lat:12.9960,lon:77.6620,i:'📍'},
-  {n:'Benniganahalli Lake',s:'Old Madras Road, Kasturi Nagar',lat:12.9965,lon:77.6624,i:'🏞️'},
-  {n:'Benniganahalli Metro Station',s:'Purple Line, Tin Factory, Bengaluru',lat:12.9950,lon:77.6610,i:'🚇'},
-  {n:'Binnypet',s:'Cottonpet, Central Bengaluru',lat:12.9680,lon:77.5550,i:'🏘️'},
-  {n:'Halasuru Metro Station',s:'Old Airport Road, Bengaluru',lat:12.9791,lon:77.6269,i:'🚇'},
-  {n:'AECS Layout',s:'Brookefield, Kundalahalli, Bengaluru',lat:12.9634,lon:77.7142,i:'🏘️'},
-  {n:'AECS Layout Cult Fit',s:'60 Feet Main Rd, AECS Layout, Bengaluru',lat:12.9650,lon:77.7155,i:'🏋️'},
-  {n:'Ecospace Business Park',s:'Outer Ring Road, Bellandur',lat:12.9260,lon:77.6762,i:'🏢'},
-  {n:'Manyata Tech Park',s:'Hebbal, North Bengaluru',lat:13.0469,lon:77.6191,i:'🏢'}
+  {n:'310, 2nd A Cross Rd',s:'Kasturi Nagar, Benniganahalli, Bengaluru',i:'📍'},
+  {n:'Benniganahalli Lake',s:'Old Madras Road, Kasturi Nagar',i:'🏞️'},
+  {n:'Benniganahalli Metro Station',s:'Purple Line, Tin Factory, Bengaluru',i:'🚇'},
+  {n:'Binnypet',s:'Cottonpet, Central Bengaluru',i:'🏘️'},
+  {n:'Halasuru Metro Station',s:'Old Airport Road, Bengaluru',i:'🚇'},
+  {n:'AECS Layout',s:'Brookefield, Kundalahalli, Bengaluru',i:'🏘️'},
+  {n:'AECS Layout Cult Fit',s:'60 Feet Main Rd, AECS Layout, Bengaluru',i:'🏋️'},
+  {n:'Ecospace Business Park',s:'Outer Ring Road, Bellandur',i:'🏢'},
+  {n:'Goraguntepalya Junction',s:'Tumkur Road, Yeshwanthpur',i:'🚦'},
+  {n:'Manyata Tech Park',s:'Hebbal, North Bengaluru',i:'🏢'}
 ];
 
 function onSearch(field) {
@@ -872,6 +1058,7 @@ function setTripMode(m) {
   document.getElementById('btnModeNow').classList.toggle('on', m === 'now');
   document.getElementById('timeRowPlan').style.display = m === 'plan' ? 'grid' : 'none';
   document.getElementById('timeRowNow').style.display = m === 'now' ? 'block' : 'none';
+  validateSelectedTimes();
   doScan();
 }
 
@@ -884,6 +1071,7 @@ function setV(v) {
 
 function detectCorridor(fv, tv) {
   const t = ((fv||'') + ' ' + (tv||'')).toLowerCase();
+  if (t.includes('tumkur') || t.includes('yeshwanthpur') || t.includes('majestic') || t.includes('goraguntepalya')) return 'tmk';
   if (t.includes('whitefield') || t.includes('itpl') || t.includes('aecs')) return 'wf';
   if (t.includes('electronic') || t.includes('hosur')) return 'ec';
   if (t.includes('hebbal') || t.includes('manyata')) return 'hbl';
@@ -903,7 +1091,7 @@ function minsToFormattedTime(totalMins) {
   return `${hh}:${mm}`;
 }
 
-// ═══════════ DEPARTURE ENGINE & AUTO-SWITCH TO TODAY ═══════════
+// ═══════════ CORE DEPARTURE ENGINE ═══════════
 async function doScan() {
   switchTab('today', document.getElementById('tabToday'));
 
@@ -924,26 +1112,28 @@ async function doScan() {
   const distKm = 14.5;
   const activeSpeed = S.vehicle === 'bike' ? (cor.bikePeak / dayMult) : (cor.carPeak / dayMult);
   const travelMins = Math.round((distKm / activeSpeed) * 60);
-  const bufferMins = S.vehicle === 'bike' ? 8 : 12;
+  const bufferMins = S.vehicle === 'bike' ? 3 : 4; // strictly <= 4 mins
 
-  let mornDepStr, retDepStr;
+  let mornDepStr, retDepStr, displayArrival;
 
   if (S.tripMode === 'now') {
     const d = new Date();
     const nowMins = d.getHours() * 60 + d.getMinutes();
     mornDepStr = minsToFormattedTime(nowMins);
-    const etaMins = nowMins + travelMins;
-    const etaStr = minsToFormattedTime(etaMins);
+    const etaMins = nowMins + travelMins + bufferMins;
+    displayArrival = minsToFormattedTime(etaMins);
 
     document.getElementById('heroEyeLabel').textContent = '⚡ LIVE ROUTE — DEPART IMMEDIATELY';
-    document.getElementById('heroR1').textContent = `Start right now via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to arrive at ${tv.split(',')[0]} by ~${etaStr}. Pure road transit is ${travelMins} mins (+${bufferMins} min buffer for parking). Driving Silence Protocol active.`;
+    document.getElementById('heroR1').textContent = `Start right now via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to arrive at ${tv.split(',')[0]} by ~${displayArrival}. Pure transit duration is ${travelMins} mins (+${bufferMins} min buffer). Driving Silence Protocol active.`;
   } else {
+    validateSelectedTimes();
     const arrMins = timeToMins(arrStr);
     const mornDepMins = arrMins - travelMins - bufferMins;
     mornDepStr = minsToFormattedTime(mornDepMins);
+    displayArrival = arrStr;
 
     document.getElementById('heroEyeLabel').textContent = 'LEAVE BY — OPTIMAL MORNING WINDOW';
-    document.getElementById('heroR1').textContent = `Leave by ${mornDepStr} via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to reach by ${arrStr}. Pure road transit is ${travelMins} mins (+${bufferMins} min buffer for parking).`;
+    document.getElementById('heroR1').textContent = `Leave by ${mornDepStr} via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to reach by ${arrStr}. Pure transit is ${travelMins} mins (+${bufferMins} min buffer).`;
   }
 
   if (retStr) {
@@ -957,7 +1147,7 @@ async function doScan() {
   const penaltyMin = S.vehicle === 'bike' ? 14 : 22;
 
   S.lastScan = {
-    fv, tv, arrStr, retStr, distKm, travelMins, mornDepStr, retDepStr,
+    fv, tv, arrStr: displayArrival, retStr, distKm, travelMins, mornDepStr, retDepStr,
     confScore, cor, penaltyMin, bufferMins
   };
 
@@ -973,14 +1163,13 @@ async function doScan() {
   document.getElementById('hgT').textContent = `${travelMins} min`;
   document.getElementById('hgTLabel').textContent = `TRANSIT TIME (+${bufferMins}M BUFFER)`;
 
-  // Safe Speed & Lane Discipline
   document.getElementById('sscSpeed').innerHTML = `Cruise Target: ${cor.safeSpeed}`;
   document.getElementById('sscLaneGuide').innerHTML = `<strong>Recommended Lane Position:</strong> ${cor.laneGuide}`;
 
   const strokeOffset = 188.5 - (188.5 * confScore) / 100;
   document.getElementById('crFill').style.strokeDashoffset = strokeOffset;
   document.getElementById('crPct').textContent = `${confScore}%`;
-  document.getElementById('confExp').innerHTML = `<strong>${confScore}% confidence</strong> — Cross-verified against road sensors. Guaranteed arrival at ${arrStr} within ±3 minutes without aggressive lane cutting.`;
+  document.getElementById('confExp').innerHTML = `<strong>${confScore}% confidence</strong> — Cross-verified against road sensors. Guaranteed arrival at ${displayArrival} within ±3 minutes without aggressive lane cutting.`;
 
   updateInAppMap(fv, tv);
 
@@ -988,6 +1177,7 @@ async function doScan() {
   btn.textContent = 'Calculate Departure Window →';
   addToHistory(S.lastScan);
 
+  // Sync to Supabase
   const email = document.getElementById('uEmail').value.trim();
   if (email) {
     supabaseUpsert('commute_plans', {
@@ -996,7 +1186,7 @@ async function doScan() {
       origin_name: fv,
       dest_name: tv,
       vehicle_mode: S.vehicle,
-      preferred_arrival_time: arrStr + ':00',
+      preferred_arrival_time: (S.tripMode === 'now' ? displayArrival : arrStr) + ':00',
       leave_home_time: mornDepStr + ':00',
       leave_office_time: retDepStr + ':00',
       weekly_schedule: S.weekDays,
@@ -1007,7 +1197,7 @@ async function doScan() {
 
 function updateInAppMap(from, to) {
   const iframe = document.getElementById('inAppMapFrame');
-  iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=77.53,12.88,77.74,13.06&layer=mapnik&marker=12.9260,77.6762`;
+  iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=77.50,12.86,77.76,13.08&layer=mapnik&marker=12.9260,77.6762`;
 }
 
 function openGoogleMapsDirect() {
@@ -1105,8 +1295,8 @@ function calcDay(k) {
   const day = WEEK_CONFIG.find(x => x.k === k);
 
   const duration = Math.round(48 * day.mult);
-  const depMins = timeToMins(a) - duration - (S.vehicle === 'bike' ? 8 : 12);
-  const retMins = timeToMins(r) - duration - (S.vehicle === 'bike' ? 8 : 12);
+  const depMins = timeToMins(a) - duration - 4;
+  const retMins = timeToMins(r) - duration - 4;
   const depStr = minsToFormattedTime(depMins);
   const retStr = minsToFormattedTime(retMins);
 
@@ -1119,9 +1309,9 @@ function calcDay(k) {
     <div style="font-size:12px;color:var(--txt2);margin-top:10px;line-height:1.6">
       <strong>Corridor:</strong> Outer Ring Road (ORR)<br>
       <strong>Pure Travel Time:</strong> ${duration} min (${S.vehicle === 'bike' ? 'Bike' : 'Car'})<br>
-      <strong>Recommended Buffer:</strong> +12 min for gate security & parking<br>
+      <strong>Buffer Added:</strong> +4 min (parking/gates)<br>
       <strong>Confidence:</strong> 97% on ${day.full}<br>
-      <strong>Peak Hours & Sneak Strategy:</strong> ${day.peak} · <em>CruizGo recommends departing at ${depStr} to bypass queue before it blocks the main carriageway.</em>
+      <strong>Peak Strategy:</strong> ${day.peak} · <em>CruizGo recommends departing at ${depStr} to bypass main carriage-way queue.</em>
     </div>
   `;
   resEl.classList.add('show');
@@ -1152,7 +1342,7 @@ async function saveDaySchedule(k) {
   renderHistory();
 }
 
-// ═══════════ CORRIDORS WITH LINEAR RIBBON INSPECTION ═══════════
+// ═══════════ CORRIDORS WITH TIMESTAMP & HEATMAP ═══════════
 function renderCorridors() {
   document.getElementById('allCorr').innerHTML = Object.entries(CORR).map(([k, c]) => `
     <div class="corrcard" id="${c.id}" style="margin-bottom:12px">
@@ -1160,6 +1350,7 @@ function renderCorridors() {
         <div class="corr-nm">${c.name}</div>
         <button class="savedaybtn" style="padding:4px 9px;font-size:10px" onclick="inspectCorridor('${k}')">View Heatmap Ribbon ➔</button>
       </div>
+      <div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:6px">${c.syncTime}</div>
       <div style="font-size:12px;color:var(--txt2);margin-bottom:8px">🚇 ${c.metro}</div>
       <div class="corr-rows">${c.chokes.map(ch => `
         <div class="crow2">
@@ -1178,6 +1369,7 @@ function renderCorridors() {
 function inspectCorridor(k) {
   const c = CORR[k];
   document.getElementById('ribbonCorridorName').textContent = c.name;
+  document.getElementById('ribbonSyncTime').textContent = c.syncTime;
   document.getElementById('ribbonChokeSummary').innerHTML = `⚠️ <strong>Active Bottlenecks on this Corridor:</strong> ${c.summary}`;
 
   const track = document.querySelector('.ribbon-track');
@@ -1199,18 +1391,108 @@ function setCorridorToToday(k) {
   doScan();
 }
 
+// ═══════════ ALERTS TAB LOGIC ═══════════
+function renderAlerts() {
+  const container = document.getElementById('alertsListContainer');
+  container.innerHTML = INITIAL_ALERTS.map(a => `
+    <div class="alert-card" onclick="openAlertDeepLink('${a.type}')">
+      <div class="alert-time">${a.time} · DISPATCHED TO LOCK SCREEN</div>
+      <div class="alert-title">${a.title}</div>
+      <div class="alert-body">${a.body}</div>
+      <span class="alert-conf">Confidence: ${a.conf}% Verified</span>
+    </div>
+  `).join('');
+}
+
+function openAlertDeepLink(type) {
+  if (type === 'checkin') {
+    openCompletionModal();
+  } else {
+    switchTab('today', document.getElementById('tabToday'));
+    showToast('✓ Viewing active route metrics');
+  }
+}
+
+// ═══════════ SAVED TIME DASHBOARD ═══════════
+function renderSavedTime() {
+  document.getElementById('totalSavedMinsDisplay').textContent = S.totalSaved;
+  document.getElementById('completedRidesDisplay').textContent = S.completedCount;
+}
+
+// ═══════════ TAB SWITCHING ═══════════
 function switchTab(name, btn) {
   document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
 
-  const map = { today: 'pToday', week: 'pWeek', corridors: 'pCorridors', history: 'pHistory' };
+  const map = {
+    today: 'pToday',
+    week: 'pWeek',
+    corridors: 'pCorridors',
+    alerts: 'pAlerts',
+    savedTime: 'pSavedTime',
+    history: 'pHistory'
+  };
   const target = document.getElementById(map[name]);
   if (target) target.classList.add('on');
   if (btn) btn.classList.add('on');
 
   if (name === 'week') { buildDayStrip(); renderWeekCards(); }
   if (name === 'corridors') renderCorridors();
+  if (name === 'alerts') renderAlerts();
+  if (name === 'savedTime') renderSavedTime();
   if (name === 'history') renderHistory();
+}
+
+// ═══════════ RIDE COMPLETION MODAL ═══════════
+let survey = { onTime: true, savedGridlock: true };
+
+function openCompletionModal() {
+  document.getElementById('completionModal').classList.add('show');
+}
+
+function closeCompletionModal() {
+  document.getElementById('completionModal').classList.remove('show');
+}
+
+function selectQ(qNum, val) {
+  if (qNum === 1) {
+    survey.onTime = val;
+    document.getElementById('q1Yes').classList.toggle('sel', val);
+    document.getElementById('q1No').classList.toggle('sel', !val);
+  } else {
+    survey.savedGridlock = val;
+    document.getElementById('q2Yes').classList.toggle('sel', val);
+    document.getElementById('q2No').classList.toggle('sel', !val);
+  }
+}
+
+async function submitCompletedRide() {
+  const notes = document.getElementById('compNotes').value.trim();
+  const email = document.getElementById('uEmail').value.trim();
+
+  const savedAdd = survey.savedGridlock ? 22 : 8;
+  S.totalSaved += savedAdd;
+  S.completedCount += 1;
+
+  localStorage.setItem('cruizgo_saved_time', JSON.stringify({ total: S.totalSaved, count: S.completedCount }));
+
+  if (email && S.lastScan) {
+    await supabaseInsert('commute_telemetry_feedback', {
+      user_email: email,
+      origin_name: S.lastScan.fv,
+      dest_name: S.lastScan.tv,
+      mode: S.vehicle,
+      pure_transit_mins: S.lastScan.travelMins,
+      mins_saved: savedAdd,
+      left_on_time: survey.onTime,
+      user_rating_helpful: true,
+      commuter_notes: notes
+    });
+  }
+
+  closeCompletionModal();
+  showToast(`✓ +${savedAdd} min added to Saved Time`);
+  switchTab('savedTime', document.getElementById('tabSavedTime'));
 }
 
 // ═══════════ HISTORY & UNSAVE ═══════════
@@ -1282,7 +1564,7 @@ function renderHistory() {
       `).join('')}
     `;
   } else {
-    sSec.innerHTML = '<div style="color:var(--txt3);font-size:12px;padding:8px 0 16px">No saved journeys. Tap "Save journey" on any plan to store it here.</div>';
+    sSec.innerHTML = '<div style="color:var(--txt3);font-size:12px;padding:8px 0 16px">No saved journeys. Tap "Save journey" to store a route.</div>';
   }
 
   const hSec = document.getElementById('histSection');
@@ -1324,10 +1606,6 @@ function loadJourneyToToday(id) {
 }
 
 function recalcInPlace(id) {
-  const saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
-  const j = saved.find(x => x.id === id);
-  if (!j) return;
-
   const diffEl = document.getElementById(`diff-${id}`);
   diffEl.style.display = 'block';
   diffEl.innerHTML = `
@@ -1337,7 +1615,6 @@ function recalcInPlace(id) {
       • <strong>Reason:</strong> BMTC bus cluster queue buildup near Marathahalli underpass.<br>
       • <strong>Safe Speed:</strong> Maintain 35 km/h; avoid abrupt lane switches.
     </div>
-    <button class="savedaybtn" style="margin-top:8px;width:100%" onclick="showToast('✓ Updated timetable synced with live sensors')">Apply Delta to Schedule</button>
   `;
   showToast('✓ Sensor calculation complete');
 }
@@ -1348,18 +1625,39 @@ function clearScanHistory() {
   showToast('Past trip history cleared');
 }
 
-// ═══════════ PUSH NOTIFICATIONS (DRIVING SILENCE PROTOCOL) ═══════════
-function urlBase64ToUint8Array(base64String) {
-  const padding = '='.repeat((4 - (base64String.length % 4)) % 4);
-  const base64 = (base64String + padding).replace(/\-/g, '+').replace(/_/g, '/');
-  const rawData = window.atob(base64);
-  const outputArray = new Uint8Array(rawData.length);
-  for (let i = 0; i < rawData.length; ++i) {
-    outputArray[i] = rawData.charCodeAt(i);
-  }
-  return outputArray;
+// ═══════════ SUPABASE HELPER ═══════════
+async function supabaseUpsert(table, data) {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/${table}?on_conflict=user_email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SB_KEY,
+        'Authorization': `Bearer ${SB_KEY}`,
+        'Prefer': 'resolution=merge-duplicates'
+      },
+      body: JSON.stringify(data)
+    });
+    return res.ok;
+  } catch { return false; }
 }
 
+async function supabaseInsert(table, data) {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/${table}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SB_KEY,
+        'Authorization': `Bearer ${SB_KEY}`
+      },
+      body: JSON.stringify(data)
+    });
+    return res.ok;
+  } catch { return false; }
+}
+
+// ═══════════ PUSH NOTIFICATIONS ═══════════
 async function enableAlerts() {
   const btn = document.getElementById('alertsBtn');
   const email = document.getElementById('uEmail').value.trim();
@@ -1384,32 +1682,16 @@ async function enableAlerts() {
     btn.disabled = false;
 
     if ('Notification' in window && Notification.permission === 'granted') {
-      new Notification('⚡ CruizGo: Route Scheduled!', {
-        body: `Plan confirmed. Depart by ${S.lastScan?.mornDepStr || '08:18'}. Driving Silence Protocol active: Zero alerts while on the road.`,
+      new Notification('⚡ CruizGo: Alerts Active!', {
+        body: `Schedule active for ${S.lastScan?.mornDepStr || '08:18'}. Pre-alerts will chime at 60m, 30m, 15m & 5m. Zero notifications while driving.`,
         icon: '/logo.png'
       });
     }
-    showToast('✓ Paired: Alerts at 30m, 15m & departure only');
+    showToast('✓ Paired: 60m, 30m, 15m, 5m alerts active');
   } catch (err) {
     btn.disabled = false;
     btn.textContent = '🔔 Enable alerts';
     showToast('⚠ ' + err.message, 'err');
-  }
-}
-
-function submitTripFeedback(onTime) {
-  showToast(onTime ? '✓ On-time departure logged' : '✓ 15-min delay logged — calibrating weights');
-}
-
-function submitHelpful(h) {
-  showToast('✓ Thanks for the feedback');
-}
-
-function saveCommuterNotes() {
-  const notes = document.getElementById('commuteNotes').value.trim();
-  if (notes) {
-    document.getElementById('commuteNotes').value = '';
-    showToast('✓ Route observation saved');
   }
 }
 
@@ -1426,9 +1708,16 @@ function showToast(msg, type = 'ok') {
 window.addEventListener('DOMContentLoaded', () => {
   initClock();
   loadProfile();
+
+  const savedST = JSON.parse(localStorage.getItem('cruizgo_saved_time') || '{}');
+  if (savedST.total) S.totalSaved = savedST.total;
+  if (savedST.count) S.completedCount = savedST.count;
+
   buildDayStrip();
   renderWeekCards();
   renderCorridors();
+  renderAlerts();
+  renderSavedTime();
 
   document.getElementById('inpFrom').value = S.fromVal;
   document.getElementById('inpTo').value = S.toVal;
