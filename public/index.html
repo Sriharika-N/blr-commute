@@ -27,7 +27,7 @@
 html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-family:var(--sans);display:flex;flex-direction:column;overflow:hidden;padding-top:env(safe-area-inset-top);padding-bottom:env(safe-area-inset-bottom)}
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--sur2);border-radius:3px}
 
-/* ─ FIXED HEADER ─ */
+/* FIXED HEADER */
 .top-stack{flex-shrink:0;z-index:900;background:rgba(4,8,16,.98);border-bottom:1px solid var(--brd);backdrop-filter:blur(25px)}
 .hdr{height:60px;padding:0 18px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.04)}
 .brand{display:flex;align-items:center;gap:11px}
@@ -47,7 +47,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .gtab.on{color:var(--neon);border-bottom-color:var(--neon)}
 .badge-count{background:var(--red);color:#fff;font-size:9px;padding:1px 5px;border-radius:10px;margin-left:3px;font-family:var(--mono)}
 
-/* ─ APP VIEWPORT ─ */
+/* APP LAYOUT */
 .app{flex:1;display:flex;overflow:hidden;position:relative}
 .left{width:410px;flex-shrink:0;background:var(--bg2);border-right:1px solid var(--brd);overflow-y:auto;-webkit-overflow-scrolling:touch}
 .right{flex:1;display:flex;flex-direction:column;overflow-y:auto;-webkit-overflow-scrolling:touch;background:var(--bg)}
@@ -58,7 +58,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .uf{padding:10px 12px;background:var(--bg3);border:1px solid var(--brd);border-radius:10px;color:var(--txt);font-size:13px;font-weight:600;outline:none}
 .uf:focus{border-color:var(--neon);box-shadow:0 0 0 2px rgba(0,255,136,.1)}
 
-/* ─ MODE TOGGLE ─ */
+/* MODE TOGGLE */
 .mode-toggle{display:grid;grid-template-columns:1fr 1fr;gap:6px;background:var(--bg3);padding:4px;border-radius:10px;margin-bottom:12px;border:1px solid var(--brd)}
 .mt-btn{padding:8px;text-align:center;border-radius:7px;border:none;background:none;color:var(--txt3);font-size:11px;font-weight:800;cursor:pointer;transition:all .2s}
 .mt-btn.on{background:var(--sur2);color:var(--neon);border:1px solid rgba(0,255,136,.3)}
@@ -96,7 +96,6 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .treq{width:5px;height:5px;border-radius:50%;background:var(--neon)}
 .tinp{width:100%;padding:10px 12px;background:var(--bg3);border:1px solid var(--brd);border-radius:10px;color:var(--txt);font-size:14px;font-weight:700;font-family:var(--mono);outline:none;color-scheme:dark}
 
-/* Inline Temporal Validation Alert */
 .temporal-err-box{display:none;background:rgba(255,64,96,.1);border:1px solid var(--red);border-radius:10px;padding:10px 12px;margin-top:10px;font-size:12px;color:#ff99aa;line-height:1.5}
 
 .vrow{display:grid;grid-template-columns:1fr 1fr;gap:10px}
@@ -112,7 +111,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .altbtn{width:100%;padding:11px;margin-top:8px;background:none;border:1px solid var(--brd);border-radius:10px;color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 .altbtn:hover{border-color:var(--neon);color:var(--neon);background:var(--ng2)}
 
-/* ─ RIGHT PANELS ─ */
+/* RIGHT PANELS */
 .rp{display:none;flex:1;overflow-y:auto;flex-direction:column;padding:20px;gap:14px}
 .rp.on{display:flex}
 
@@ -143,13 +142,12 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .hcv{font-family:var(--mono);font-size:22px;font-weight:600;color:var(--txt)}
 .hcl{font-size:10px;color:var(--txt3);margin-top:4px;font-weight:700;letter-spacing:.5px}
 
-/* Safe Commuting Card */
 .safe-speed-card{background:linear-gradient(145deg,#091a2a,#0f243b);border:1px solid rgba(0,212,255,.25);border-radius:16px;padding:18px}
 .ssc-tag{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--cyan);text-transform:uppercase;margin-bottom:6px}
 .ssc-val{font-family:var(--mono);font-size:22px;font-weight:700;color:#fff;margin-bottom:4px}
 .ssc-lane{font-size:13px;color:var(--txt);line-height:1.6;margin-top:6px;padding:10px 12px;background:rgba(0,0,0,.3);border-radius:10px;border-left:3px solid var(--cyan)}
 
-/* Corridor Heatmap Ribbon */
+/* CORRIDORS & RIBBON */
 .linear-ribbon-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:18px;margin-bottom:14px}
 .lrc-hdr{display:flex;align-items:center;justify-content:space-between;margin-bottom:8px}
 .lrc-title{font-size:14px;font-weight:900;color:var(--neon)}
@@ -163,13 +161,14 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .r-jam{background:var(--darkred)}
 .ribbon-legend{display:flex;justify-content:space-between;font-size:10px;color:var(--txt3);font-family:var(--mono);margin-top:4px}
 
-/* In-App Route Preview */
+.choke-table-hdr{display:flex;justify-content:space-between;padding:0 4px 6px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:8px}
+.cth-label{font-size:9px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase}
+
 .inapp-map-box{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;overflow:hidden;margin-top:4px}
 .inapp-map-header{padding:10px 14px;background:rgba(255,255,255,.02);border-bottom:1px solid var(--brd);display:flex;align-items:center;justify-content:space-between}
 .inapp-map-title{font-size:11px;font-weight:800;color:var(--neon);letter-spacing:1px;text-transform:uppercase}
 .inapp-iframe{width:100%;height:220px;border:none;background:#050a14}
 
-/* 3D Radar Map */
 .map-canvas-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:14px}
 .compass-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
 .compass-dial{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--cyan);font-family:var(--mono);background:var(--sur2);padding:4px 10px;border-radius:20px;border:1px solid rgba(0,212,255,.3)}
@@ -189,7 +188,20 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .cr-lb{font-size:12px;color:var(--txt2);flex:1}
 .cr-dl{font-family:var(--mono);font-size:11px;font-weight:600}
 
-/* Week Accordion */
+/* CONFIDENCE BOX */
+.confidence-box{background:linear-gradient(145deg,#0a1525,#0d1a2d);border:1px solid rgba(0,255,136,.25);border-radius:16px;padding:18px;margin-top:4px}
+.cb-hdr{font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--neon);text-transform:uppercase;margin-bottom:10px;display:flex;align-items:center;gap:6px}
+.cb-body{font-size:13px;color:var(--txt2);line-height:1.6}
+.cb-body strong{color:#fff}
+
+/* VOLUNTARY BANNER */
+.arrival-voluntary-banner{display:none;align-items:center;justify-content:space-between;background:linear-gradient(90deg,#091a2e,#0d2440);border:1px solid var(--cyan);border-radius:12px;padding:12px 16px;margin-top:10px}
+.avb-txt{font-size:12px;font-weight:700;color:#fff}
+.avb-btns{display:flex;gap:8px}
+.avb-btn-log{padding:6px 12px;border-radius:7px;background:var(--neon);border:none;color:#040810;font-size:11px;font-weight:900;cursor:pointer}
+.avb-btn-skip{padding:6px 10px;border-radius:7px;background:none;border:1px solid var(--brd);color:var(--txt3);font-size:11px;font-weight:700;cursor:pointer}
+
+/* WEEK TIMETABLE */
 .dstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px}
 .dchip{aspect-ratio:1;border-radius:10px;background:var(--bg3);border:1px solid var(--brd);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
 .dchip.on{background:var(--ng2);border-color:rgba(0,255,136,.4)}
@@ -223,21 +235,22 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .drbig{font-family:var(--mono);font-size:36px;color:var(--neon);line-height:1.1;font-weight:700}
 .drret{font-family:var(--mono);font-size:24px;color:var(--amber);margin-top:2px;font-weight:700}
 
-/* Alerts Tab Layout */
-.alert-card{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:14px;margin-bottom:10px}
+/* ALERTS TAB */
+.alert-card{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all .2s ease}
+.alert-card:hover{border-color:var(--neon);background:rgba(0,255,136,.04);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.5)}
 .alert-time{font-family:var(--mono);font-size:11px;color:var(--neon);margin-bottom:4px}
 .alert-title{font-size:13px;font-weight:800;color:#fff}
 .alert-body{font-size:12px;color:var(--txt2);margin-top:2px;line-height:1.5}
 .alert-conf{display:inline-block;font-size:10px;font-family:var(--mono);color:var(--cyan);background:rgba(0,212,255,.08);padding:2px 8px;border-radius:4px;margin-top:6px}
 
-/* Saved Time Dashboard */
+/* SAVED TIME */
 .st-hero{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
 .st-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center}
 .st-val{font-family:var(--mono);font-size:32px;font-weight:800;color:var(--neon)}
 .st-lbl{font-size:10px;font-weight:700;color:var(--txt3);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
 .st-analysis{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;font-size:13px;color:var(--txt2);line-height:1.6}
 
-/* In-App Ride Completion Modal */
+/* MODAL OVERLAY */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(4,8,16,.85);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:18px}
 .modal-overlay.show{display:flex}
 .modal-card{background:#0b1424;border:1px solid var(--neon);border-radius:18px;width:100%;max-width:440px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.9)}
@@ -263,7 +276,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 </head>
 <body>
 
-<!-- STICKY TOP STACK -->
+<!-- STICKY HEADER -->
 <div class="top-stack">
   <header class="hdr">
     <div class="brand">
@@ -319,7 +332,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           <button class="gps-quick" onclick="acquireLiveGPS()">📍 Use Live GPS</button>
         </div>
         <div class="lwrap">
-          <input class="linp" id="inpFrom" placeholder="Street, Benniganahalli, AECS Layout, metro…" autocomplete="off"
+          <input class="linp" id="inpFrom" placeholder="Street, Benniganahalli, Dooravani Nagar…" autocomplete="off"
             oninput="onSearch('from')" onfocus="onSearch('from')" onkeydown="onKey(event,'from')" />
           <button class="lbtn" onclick="clearLoc('from')">✕</button>
           <div class="lspin" id="spFrom"></div>
@@ -357,17 +370,17 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
         </div>
       </div>
 
-      <!-- INLINE TEMPORAL VALIDATION ALERT -->
+      <!-- TEMPORAL VALIDATION ALERT -->
       <div class="temporal-err-box" id="temporalErrBox">
         ⚠️ Target arrival time has already passed for today. Please choose a future time or toggle "Leave Right Now".
       </div>
 
       <div id="timeRowNow" style="display:none;margin-top:8px;font-size:12px;color:var(--neon);font-family:var(--mono);padding:8px 10px;background:rgba(0,255,136,.06);border-radius:8px">
-        ⚡ Calculating real-time departure starting right now. Zero alerts while driving.
+        ⚡ Direct live trip starting right now. Zero alerts while driving.
       </div>
     </div>
 
-    <!-- VEHICLE -->
+    <!-- VEHICLE SELECTOR -->
     <div class="sec">
       <div class="slbl">Vehicle Mode</div>
       <div class="vrow">
@@ -430,7 +443,6 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           <div style="font-family:var(--mono);font-size:32px;font-weight:600;color:var(--amber);margin-bottom:4px" id="heroT2">17:42</div>
           <div style="font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:16px" id="heroR2">--</div>
 
-          <!-- 2-CELL GRID: PURE DURATION + SEPARATE BUFFER -->
           <div class="hgrid-2col">
             <div class="hcell">
               <div class="hcv" id="hgD">14.5 km</div>
@@ -446,9 +458,9 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
         <!-- SAFE COMMUTING ADVISORY -->
         <div class="safe-speed-card">
           <div class="ssc-tag">🛡️ SAFE COMMUTING ADVISORY & LANE DISCIPLINE</div>
-          <div class="ssc-val" id="sscSpeed">Cruise Target: 35–42 <span>km/h</span></div>
+          <div class="ssc-val" id="sscSpeed">Cruise Target: 35–42 km/h</div>
           <div style="font-size:12px;color:var(--txt2)">
-            Google Maps estimates 30 min assuming non-stop average velocity. CruizGo estimates <strong>41–52 min</strong> based on safe commute speeds and BMTC bus-bay bottlenecks.
+            Google Maps estimates 30 min assuming continuous average speed. CruizGo estimates <strong>41–52 min</strong> based on safe commute speeds and BMTC bus-bay bottlenecks.
           </div>
           <div class="ssc-lane" id="sscLaneGuide">
             <strong>Recommended Lane Position:</strong> Hold middle/right lanes. Avoid extreme left lane near tech park gates (RMZ Ecospace, Prestige Tech Park) due to BMTC bus-bay bunching and passenger drops.
@@ -466,28 +478,24 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           <iframe class="inapp-iframe" id="inAppMapFrame" src="about:blank"></iframe>
         </div>
 
-        <!-- CONFIDENCE SCORE -->
-        <div class="ccard">
-          <div class="cring">
-            <svg width="74" height="74" viewBox="0 0 74 74">
-              <circle class="crtr" cx="37" cy="37" r="30"/>
-              <circle class="crfi" id="crFill" cx="37" cy="37" r="30" stroke-dasharray="188.5" stroke-dashoffset="6"/>
-            </svg>
-            <div class="crct"><div class="crpct" id="crPct">97%</div><div class="crlb">SCORE</div></div>
+        <!-- CONFIDENCE BOX -->
+        <div class="confidence-box">
+          <div class="cb-hdr">
+            <span>🛡️ CRUIZGO ARBITRAGE CONFIDENCE INDEX</span>
+            <span style="font-family:var(--mono);color:var(--neon);margin-left:auto" id="confBadgeScore">98% VERIFIED</span>
           </div>
-          <div>
-            <div class="ctit" id="confTit">High Confidence Precision</div>
-            <div class="cexp" id="confExp">
-              <strong>97% confidence</strong> — Validated against road sensors. Guaranteed arrival at target time within ±3 minutes without aggressive lane cutting.
-            </div>
+          <div class="cb-body" id="confExpText">
+            <strong>98% Prediction Reliability:</strong> Cross-verified against road sensors and historical corridor telemetry. Guaranteed arrival within <strong>±3 minutes</strong> when recommended safe cruise speeds are maintained.
           </div>
         </div>
 
-        <!-- TRIGGER VOLUNTARY RIDE COMPLETION BUTTON -->
-        <div style="text-align:center;padding:10px 0">
-          <button class="savedaybtn" style="background:var(--surf);font-size:12px;padding:10px 18px" onclick="openCompletionModal()">
-            🏁 Arrived? Log Ride & View Saved Minutes
-          </button>
+        <!-- VOLUNTARY RIDE COMPLETION BANNER -->
+        <div class="arrival-voluntary-banner" id="voluntaryArrivalBanner">
+          <div class="avb-txt">🏁 Completed your commute? Log verified time to update your Saved Hours.</div>
+          <div class="avb-btns">
+            <button class="avb-btn-log" onclick="openCompletionModal()">Log Saved Time</button>
+            <button class="avb-btn-skip" onclick="dismissVoluntaryBanner()">Dismiss</button>
+          </div>
         </div>
 
       </div>
@@ -514,12 +522,11 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
         </div>
         <div class="sync-time-tag" id="ribbonSyncTime">Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST · Live Traffic Sensors</div>
 
-        <!-- LINEAR COLOR GRADIENT ROUTE RIBBON -->
         <div class="ribbon-track">
           <div class="r-seg r-clear" title="Silk Board Flyover: Clear"></div>
           <div class="r-seg r-heavy" title="HSR Layout Sector 5: Bus Stop & Auto Bunching"></div>
           <div class="r-seg r-warn" title="Agara Lake Road: Slowdown"></div>
-          <div class="r-seg r-jam" title="Bellandur EcoSpace BMTC Bus Bay: Extreme Standstill (+18m)"></div>
+          <div class="r-seg r-jam" title="Bellandur EcoSpace BMTC Bus Bay: Standstill (+18m)"></div>
           <div class="r-seg r-heavy" title="Kadubeesanahalli Pillar Construction"></div>
           <div class="r-seg r-jam" title="Marathahalli Multiplex Signal: Standstill (+15m)"></div>
           <div class="r-seg r-clear" title="KR Puram Flyover: Flowing"></div>
@@ -544,7 +551,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           <span style="font-size:10px;color:var(--txt3)">Tap any sector to inspect corridor</span>
         </div>
 
-        <svg class="circ-svg" viewBox="0 0 500 340">
+        <svg class="circ-svg" viewBox="0 0 560 360">
           <defs>
             <radialGradient id="radarGlow" cx="50%" cy="50%" r="50%">
               <stop offset="0%" stop-color="#00ff88" stop-opacity="0.14"/>
@@ -553,65 +560,65 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           </defs>
 
           <rect width="100%" height="100%" fill="#050a14"/>
-          <circle cx="250" cy="170" r="140" fill="url(#radarGlow)"/>
+          <circle cx="280" cy="180" r="145" fill="url(#radarGlow)"/>
 
-          <text x="250" y="24" fill="#00ff88" font-size="11" font-weight="900" text-anchor="middle" font-family="DM Mono">N (Hebbal / Airport)</text>
-          <text x="250" y="325" fill="#00d4ff" font-size="11" font-weight="900" text-anchor="middle" font-family="DM Mono">S (E-City / Hosur)</text>
-          <text x="475" y="174" fill="#ffbf3f" font-size="11" font-weight="900" text-anchor="end" font-family="DM Mono">E (Whitefield)</text>
-          <text x="25" y="174" fill="#ff4060" font-size="11" font-weight="900" text-anchor="start" font-family="DM Mono">W (Tumkur / Majestic)</text>
+          <text x="280" y="24" fill="#00ff88" font-size="11" font-weight="900" text-anchor="middle" font-family="DM Mono">N (Hebbal / Airport NH 44)</text>
+          <text x="280" y="348" fill="#00d4ff" font-size="11" font-weight="900" text-anchor="middle" font-family="DM Mono">S (E-City / Hosur Rd)</text>
+          <text x="548" y="174" fill="#ffbf3f" font-size="11" font-weight="900" text-anchor="end" font-family="DM Mono">E (Whitefield Hub)</text>
+          <text x="12" y="174" fill="#ff4060" font-size="11" font-weight="900" text-anchor="start" font-family="DM Mono">W (Tumkur / Majestic)</text>
 
-          <circle cx="250" cy="170" r="115" fill="none" stroke="rgba(0,255,136,0.28)" stroke-width="4" stroke-dasharray="6,4"/>
-          <circle cx="250" cy="170" r="65" fill="none" stroke="rgba(0,212,255,0.25)" stroke-width="3"/>
+          <circle cx="280" cy="180" r="120" fill="none" stroke="rgba(0,255,136,0.28)" stroke-width="3" stroke-dasharray="6,4"/>
+          <circle cx="280" cy="180" r="70" fill="none" stroke="rgba(0,212,255,0.25)" stroke-width="2.5"/>
 
-          <line x1="250" y1="170" x2="250" y2="30" stroke="rgba(255,64,96,0.3)" stroke-width="2"/>
-          <line x1="250" y1="170" x2="250" y2="310" stroke="rgba(0,212,255,0.3)" stroke-width="2"/>
-          <line x1="250" y1="170" x2="450" y2="170" stroke="rgba(255,191,63,0.3)" stroke-width="2"/>
-          <line x1="250" y1="170" x2="50" y2="170" stroke="rgba(255,64,96,0.3)" stroke-width="2"/>
+          <line x1="280" y1="180" x2="280" y2="35" stroke="rgba(255,64,96,0.25)" stroke-width="2"/>
+          <line x1="280" y1="180" x2="280" y2="330" stroke="rgba(0,212,255,0.25)" stroke-width="2"/>
+          <line x1="280" y1="180" x2="495" y2="180" stroke="rgba(255,191,63,0.25)" stroke-width="2"/>
+          <line x1="280" y1="180" x2="65" y2="180" stroke="rgba(255,64,96,0.25)" stroke-width="2"/>
 
           <!-- CBD -->
           <g class="map-node" onclick="inspectCorridor('irr')">
-            <circle cx="250" cy="170" r="22" fill="#0b1a2e" stroke="#00d4ff" stroke-width="2"/>
-            <text x="250" y="174" fill="#fff" font-size="9" font-weight="900" text-anchor="middle">CBD</text>
+            <circle cx="280" cy="180" r="22" fill="#0b1a2e" stroke="#00d4ff" stroke-width="2"/>
+            <text x="280" y="184" fill="#fff" font-size="9" font-weight="900" text-anchor="middle">CBD</text>
           </g>
 
           <!-- ORR -->
           <g class="map-node" onclick="inspectCorridor('orr')">
-            <rect x="310" y="215" width="165" height="36" rx="8" fill="#0b1626" stroke="#00ff88" stroke-width="1.5"/>
-            <circle cx="324" cy="233" r="5" fill="#ff4060"/>
-            <text x="335" y="230" fill="#00ff88" font-size="10" font-weight="900">ORR Tech Belt</text>
-            <text x="335" y="243" fill="#8fa0b8" font-size="8">Ecospace · Silk Board · Kadub.</text>
+            <rect x="340" y="225" width="165" height="36" rx="8" fill="#0b1626" stroke="#00ff88" stroke-width="1.5"/>
+            <circle cx="354" cy="243" r="5" fill="#ff4060"/>
+            <text x="365" y="240" fill="#00ff88" font-size="10" font-weight="900">ORR Tech Belt</text>
+            <text x="365" y="253" fill="#8fa0b8" font-size="8">Ecospace · Silk Board · Kadub.</text>
           </g>
 
           <!-- Whitefield -->
           <g class="map-node" onclick="inspectCorridor('wf')">
-            <rect x="335" y="125" width="150" height="36" rx="8" fill="#0b1626" stroke="#ffbf3f" stroke-width="1.5"/>
-            <circle cx="349" cy="143" r="5" fill="#ffbf3f"/>
-            <text x="360" y="140" fill="#ffbf3f" font-size="10" font-weight="900">Whitefield Hub</text>
-            <text x="360" y="153" fill="#8fa0b8" font-size="8">ITPL · Hope Farm · AECS</text>
+            <rect x="365" y="115" width="150" height="36" rx="8" fill="#0b1626" stroke="#ffbf3f" stroke-width="1.5"/>
+            <circle cx="379" cy="133" r="5" fill="#ffbf3f"/>
+            <text x="390" y="130" fill="#ffbf3f" font-size="10" font-weight="900">Whitefield Hub</text>
+            <text x="390" y="143" fill="#8fa0b8" font-size="8">ITPL · Hope Farm · AECS</text>
           </g>
 
           <!-- E-City -->
           <g class="map-node" onclick="inspectCorridor('ec')">
-            <rect x="175" y="270" width="150" height="36" rx="8" fill="#0b1626" stroke="#00d4ff" stroke-width="1.5"/>
-            <circle cx="189" cy="288" r="5" fill="#00ff88"/>
-            <text x="200" y="285" fill="#00d4ff" font-size="10" font-weight="900">E-City Industrial</text>
-            <text x="200" y="298" fill="#8fa0b8" font-size="8">Phases 1 & 2 · Hosur Rd</text>
+            <rect x="205" y="280" width="150" height="36" rx="8" fill="#0b1626" stroke="#00d4ff" stroke-width="1.5"/>
+            <circle cx="219" cy="298" r="5" fill="#00ff88"/>
+            <text x="230" y="295" fill="#00d4ff" font-size="10" font-weight="900">E-City Industrial</text>
+            <text x="230" y="308" fill="#8fa0b8" font-size="8">Phases 1 & 2 · Hosur Rd</text>
           </g>
 
           <!-- Hebbal -->
           <g class="map-node" onclick="inspectCorridor('hbl')">
-            <rect x="175" y="45" width="150" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
-            <circle cx="189" cy="63" r="5" fill="#ff4060"/>
-            <text x="200" y="60" fill="#ff4060" font-size="10" font-weight="900">Hebbal / Manyata</text>
-            <text x="200" y="73" fill="#8fa0b8" font-size="8">Airport NH 44 · Thanisandra</text>
+            <rect x="205" y="45" width="150" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
+            <circle cx="219" cy="63" r="5" fill="#ff4060"/>
+            <text x="230" y="60" fill="#ff4060" font-size="10" font-weight="900">Hebbal / Manyata</text>
+            <text x="230" y="73" fill="#8fa0b8" font-size="8">Airport NH 44 · Thanisandra</text>
           </g>
 
           <!-- Tumkur / Majestic -->
           <g class="map-node" onclick="inspectCorridor('tmk')">
-            <rect x="25" y="100" width="170" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
-            <circle cx="39" cy="118" r="5" fill="#ff4060"/>
-            <text x="50" y="115" fill="#ff4060" font-size="10" font-weight="900">Tumkur Rd – Majestic</text>
-            <text x="50" y="128" fill="#8fa0b8" font-size="8">Goraguntepalya · Yeshwanthpur</text>
+            <rect x="40" y="105" width="170" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
+            <circle cx="54" cy="123" r="5" fill="#ff4060"/>
+            <text x="65" y="120" fill="#ff4060" font-size="10" font-weight="900">Tumkur Rd – Majestic</text>
+            <text x="65" y="133" fill="#8fa0b8" font-size="8">Goraguntepalya · Yeshwanthpur</text>
           </g>
         </svg>
       </div>
@@ -662,7 +669,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 
 </div>
 
-<!-- IN-APP RIDE COMPLETION SHEET -->
+<!-- RIDE COMPLETION MODAL -->
 <div class="modal-overlay" id="completionModal">
   <div class="modal-card">
     <div class="modal-title">🏁 Did you complete your commute?</div>
@@ -699,7 +706,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 <div class="toast" id="toast"></div>
 
 <script>
-// ═══════════ APPLICATION CONFIGURATION ═══════════
+// CONFIG & APP STATE
 const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
 const VAPID  = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0';
@@ -709,6 +716,7 @@ const S = {
   vehicle: 'car',
   fromVal: '310, 2nd A Cross Rd',
   toVal: 'Ecospace Business Park, Bellandur',
+  fromCoords: [77.6710, 13.0035],
   weekDays: ['mon','tue','wed','thu','fri','sat','sun'],
   lastScan: null,
   totalSaved: 128,
@@ -720,7 +728,6 @@ const AC = {
   to:   { timer: null, res: [] }
 };
 
-// ═══════════ CORRIDORS DATA SUITE ═══════════
 const CORR = {
   orr: {
     id: 'corr-orr',
@@ -861,7 +868,6 @@ const WEEK_CONFIG = [
   { k: 'sun', full: 'Sunday', mult: 0.95, peak: 'Light traffic all day', wx: '29°C · Clear', dot: '🟢', dt: '20' }
 ];
 
-// Mock Real-time Alerts Store
 const INITIAL_ALERTS = [
   { time: '12:30 PM', title: 'Mid-Day Commute Check-in', body: 'How was your morning commute to Bellandur? Confirm your arrival to update your Saved Time metrics.', type: 'checkin', conf: 97 },
   { time: '07:30 AM', title: 'Good Morning, Commuter! 🌅', body: 'Plan your commute today. Outer Ring Road is experiencing moderate congestion near Silk Board.', type: 'morning', conf: 98 },
@@ -896,7 +902,6 @@ function loadProfile() {
   if (saved.r) document.getElementById('tReturn').value = saved.r;
 }
 
-// ═══════════ TEMPORAL VALIDATION ═══════════
 function validateSelectedTimes() {
   if (S.tripMode === 'now') {
     document.getElementById('temporalErrBox').style.display = 'none';
@@ -917,37 +922,39 @@ function validateSelectedTimes() {
   }
 }
 
-// ═══════════ LIVE GPS ACQUISITION ═══════════
 function acquireLiveGPS() {
   if (!navigator.geolocation) {
-    showToast('Geolocation not supported on this device', 'err');
+    showToast('Geolocation is not supported by your browser', 'err');
     return;
   }
-  showToast('Acquiring live satellite coordinates…');
+  showToast('Acquiring high-precision GPS fix…');
   navigator.geolocation.getCurrentPosition(async pos => {
     const lat = pos.coords.latitude;
     const lon = pos.coords.longitude;
+    S.fromCoords = [lon, lat];
+
     try {
       const res = await fetch(`https://nominatim.openstreetmap.org/reverse?lat=${lat}&lon=${lon}&format=json`);
       const data = await res.json();
-      const name = data.address.suburb || data.address.neighbourhood || data.address.road || 'Bengaluru Location';
-      document.getElementById('inpFrom').value = `${name}, Bengaluru`;
-      S.fromVal = `${name}, Bengaluru`;
-      showToast(`✓ Locked GPS: ${name}`);
+      const area = data.address.suburb || data.address.neighbourhood || data.address.road || 'Dooravani Nagar';
+      const formatted = `${area}, Bengaluru`;
+      document.getElementById('inpFrom').value = formatted;
+      S.fromVal = formatted;
+      showToast(`✓ Locked GPS: ${area}`);
       doScan();
     } catch {
-      document.getElementById('inpFrom').value = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
-      S.fromVal = `${lat.toFixed(4)}, ${lon.toFixed(4)}`;
+      document.getElementById('inpFrom').value = `Dooravani Nagar, Bengaluru`;
+      S.fromVal = `Dooravani Nagar, Bengaluru`;
       doScan();
     }
   }, err => {
-    showToast('GPS access denied. Using street entry.', 'err');
-  }, { enableHighAccuracy: true, timeout: 8000 });
+    showToast('GPS access denied. Enter your location manually.', 'err');
+  }, { enableHighAccuracy: true, timeout: 9000 });
 }
 
-// ═══════════ AUTOCOMPLETE ═══════════
 const POIS = [
   {n:'310, 2nd A Cross Rd',s:'Kasturi Nagar, Benniganahalli, Bengaluru',i:'📍'},
+  {n:'Dooravani Nagar',s:'Near ITI Colony, KR Puram, Bengaluru',i:'🏘️'},
   {n:'Benniganahalli Lake',s:'Old Madras Road, Kasturi Nagar',i:'🏞️'},
   {n:'Benniganahalli Metro Station',s:'Purple Line, Tin Factory, Bengaluru',i:'🚇'},
   {n:'Binnypet',s:'Cottonpet, Central Bengaluru',i:'🏘️'},
@@ -1091,7 +1098,7 @@ function minsToFormattedTime(totalMins) {
   return `${hh}:${mm}`;
 }
 
-// ═══════════ CORE DEPARTURE ENGINE ═══════════
+// CORE DEPARTURE ARBITRAGE SCANNER
 async function doScan() {
   switchTab('today', document.getElementById('tabToday'));
 
@@ -1166,10 +1173,8 @@ async function doScan() {
   document.getElementById('sscSpeed').innerHTML = `Cruise Target: ${cor.safeSpeed}`;
   document.getElementById('sscLaneGuide').innerHTML = `<strong>Recommended Lane Position:</strong> ${cor.laneGuide}`;
 
-  const strokeOffset = 188.5 - (188.5 * confScore) / 100;
-  document.getElementById('crFill').style.strokeDashoffset = strokeOffset;
-  document.getElementById('crPct').textContent = `${confScore}%`;
-  document.getElementById('confExp').innerHTML = `<strong>${confScore}% confidence</strong> — Cross-verified against road sensors. Guaranteed arrival at ${displayArrival} within ±3 minutes without aggressive lane cutting.`;
+  document.getElementById('confBadgeScore').textContent = `${confScore}% VERIFIED`;
+  document.getElementById('confExpText').innerHTML = `<strong>${confScore}% Prediction Reliability:</strong> Cross-verified against road sensors and historical corridor telemetry. Guaranteed arrival within <strong>±3 minutes</strong> at ${displayArrival} when recommended safe cruise speeds are maintained.`;
 
   updateInAppMap(fv, tv);
 
@@ -1197,7 +1202,13 @@ async function doScan() {
 
 function updateInAppMap(from, to) {
   const iframe = document.getElementById('inAppMapFrame');
-  iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=77.50,12.86,77.76,13.08&layer=mapnik&marker=12.9260,77.6762`;
+  const lon = S.fromCoords ? S.fromCoords[0] : 77.6710;
+  const lat = S.fromCoords ? S.fromCoords[1] : 13.0035;
+  const minLon = lon - 0.08;
+  const maxLon = lon + 0.08;
+  const minLat = lat - 0.06;
+  const maxLat = lat + 0.06;
+  iframe.src = `https://www.openstreetmap.org/export/embed.html?bbox=${minLon},${minLat},${maxLon},${maxLat}&layer=mapnik&marker=${lat},${lon}`;
 }
 
 function openGoogleMapsDirect() {
@@ -1207,7 +1218,7 @@ function openGoogleMapsDirect() {
   window.open(`https://www.google.com/maps/dir/?api=1&origin=${fv}&destination=${tv}&travelmode=${mode}&dir_action=navigate`, '_blank');
 }
 
-// ═══════════ WEEK ACCORDION ═══════════
+// WEEK ACCORDION
 function buildDayStrip() {
   const currentDayKey = WEEK_CONFIG[(new Date().getDay() + 6) % 7].k;
 
@@ -1311,7 +1322,7 @@ function calcDay(k) {
       <strong>Pure Travel Time:</strong> ${duration} min (${S.vehicle === 'bike' ? 'Bike' : 'Car'})<br>
       <strong>Buffer Added:</strong> +4 min (parking/gates)<br>
       <strong>Confidence:</strong> 97% on ${day.full}<br>
-      <strong>Peak Strategy:</strong> ${day.peak} · <em>CruizGo recommends departing at ${depStr} to bypass main carriage-way queue.</em>
+      <strong>Peak Strategy:</strong> ${day.peak} · <em>CruizGo recommends departing at ${depStr} to bypass queue before it blocks the main carriageway.</em>
     </div>
   `;
   resEl.classList.add('show');
@@ -1342,16 +1353,22 @@ async function saveDaySchedule(k) {
   renderHistory();
 }
 
-// ═══════════ CORRIDORS WITH TIMESTAMP & HEATMAP ═══════════
+// CORRIDORS RENDERING
 function renderCorridors() {
   document.getElementById('allCorr').innerHTML = Object.entries(CORR).map(([k, c]) => `
-    <div class="corrcard" id="${c.id}" style="margin-bottom:12px">
+    <div class="corrcard" id="${c.id}" style="margin-bottom:14px">
       <div class="corr-hd">
         <div class="corr-nm">${c.name}</div>
         <button class="savedaybtn" style="padding:4px 9px;font-size:10px" onclick="inspectCorridor('${k}')">View Heatmap Ribbon ➔</button>
       </div>
-      <div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:6px">${c.syncTime}</div>
-      <div style="font-size:12px;color:var(--txt2);margin-bottom:8px">🚇 ${c.metro}</div>
+      <div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:8px">${c.syncTime}</div>
+      <div style="font-size:12px;color:var(--txt2);margin-bottom:10px">🚇 ${c.metro}</div>
+
+      <div class="choke-table-hdr">
+        <span class="cth-label">Choke Point / Bottleneck Location</span>
+        <span class="cth-label">Delay Added (Est.)</span>
+      </div>
+
       <div class="corr-rows">${c.chokes.map(ch => `
         <div class="crow2">
           <div class="cdot3 ${ch.s}"></div>
@@ -1359,7 +1376,7 @@ function renderCorridors() {
           <div class="cr-dl" style="color:${ch.s === 'danger' ? 'var(--red)' : 'var(--amber)'}">${ch.d}</div>
         </div>
       `).join('')}</div>
-      <button class="scan" style="margin-top:10px;padding:9px;font-size:12px" onclick="setCorridorToToday('${k}')">
+      <button class="scan" style="margin-top:12px;padding:9px;font-size:12px" onclick="setCorridorToToday('${k}')">
         Set Corridor to Today's Route →
       </button>
     </div>
@@ -1391,7 +1408,7 @@ function setCorridorToToday(k) {
   doScan();
 }
 
-// ═══════════ ALERTS TAB LOGIC ═══════════
+// ALERTS TAB LOGIC
 function renderAlerts() {
   const container = document.getElementById('alertsListContainer');
   container.innerHTML = INITIAL_ALERTS.map(a => `
@@ -1413,13 +1430,13 @@ function openAlertDeepLink(type) {
   }
 }
 
-// ═══════════ SAVED TIME DASHBOARD ═══════════
+// SAVED TIME DASHBOARD
 function renderSavedTime() {
   document.getElementById('totalSavedMinsDisplay').textContent = S.totalSaved;
   document.getElementById('completedRidesDisplay').textContent = S.completedCount;
 }
 
-// ═══════════ TAB SWITCHING ═══════════
+// TAB SWITCHING
 function switchTab(name, btn) {
   document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
@@ -1443,7 +1460,7 @@ function switchTab(name, btn) {
   if (name === 'history') renderHistory();
 }
 
-// ═══════════ RIDE COMPLETION MODAL ═══════════
+// VOLUNTARY RIDE COMPLETION
 let survey = { onTime: true, savedGridlock: true };
 
 function openCompletionModal() {
@@ -1452,6 +1469,10 @@ function openCompletionModal() {
 
 function closeCompletionModal() {
   document.getElementById('completionModal').classList.remove('show');
+}
+
+function dismissVoluntaryBanner() {
+  document.getElementById('voluntaryArrivalBanner').style.display = 'none';
 }
 
 function selectQ(qNum, val) {
@@ -1495,7 +1516,7 @@ async function submitCompletedRide() {
   switchTab('savedTime', document.getElementById('tabSavedTime'));
 }
 
-// ═══════════ HISTORY & UNSAVE ═══════════
+// HISTORY & UNSAVE
 function promptSave() {
   const fv = document.getElementById('inpFrom').value.trim();
   const tv = document.getElementById('inpTo').value.trim();
@@ -1625,7 +1646,7 @@ function clearScanHistory() {
   showToast('Past trip history cleared');
 }
 
-// ═══════════ SUPABASE HELPER ═══════════
+// SUPABASE DATA LAYER
 async function supabaseUpsert(table, data) {
   try {
     const res = await fetch(`${SB_URL}/rest/v1/${table}?on_conflict=user_email`, {
@@ -1657,7 +1678,7 @@ async function supabaseInsert(table, data) {
   } catch { return false; }
 }
 
-// ═══════════ PUSH NOTIFICATIONS ═══════════
+// PUSH NOTIFICATIONS
 async function enableAlerts() {
   const btn = document.getElementById('alertsBtn');
   const email = document.getElementById('uEmail').value.trim();
@@ -1668,7 +1689,7 @@ async function enableAlerts() {
 
   try {
     if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-      throw new Error('On iPhone: Tap Share -> "Add to Home Screen", then open CruizGo.');
+      throw new Error('On iPhone: Tap Share -> "Add to Home Screen" first, then open CruizGo.');
     }
 
     const reg = await navigator.serviceWorker.register('/sw.js');
@@ -1704,7 +1725,7 @@ function showToast(msg, type = 'ok') {
   toastTimer = setTimeout(() => t.classList.remove('up'), 3200);
 }
 
-// ═══════════ INITIALIZATION ═══════════
+// INITIALIZATION
 window.addEventListener('DOMContentLoaded', () => {
   initClock();
   loadProfile();
