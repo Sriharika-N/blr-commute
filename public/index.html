@@ -12,6 +12,8 @@
 <link rel="apple-touch-icon" href="/logo.png">
 <title>CruizGo — Beat the rush. Plan ahead.</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
+<!-- Supabase Official JS SDK for Google & Magic Link Auth -->
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0;-webkit-tap-highlight-color:transparent}
 :root{
@@ -79,21 +81,10 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .lspin{position:absolute;right:12px;top:50%;width:15px;height:15px;border:2px solid var(--brd);border-top-color:var(--neon);border-radius:50%;animation:sp .6s linear infinite;display:none;margin-top:-7.5px}
 @keyframes sp{to{transform:rotate(360deg)}}
 
-/* SEARCH AUTOCOMPLETE DROPDOWN */
 .acd{
-  display:none;
-  position:absolute;
-  top:calc(100% + 5px);
-  left:0;
-  right:0;
-  z-index:99999;
-  background:#091322;
-  border:1.5px solid var(--neon);
-  border-radius:14px;
-  overflow:hidden;
-  max-height:300px;
-  overflow-y:auto;
-  box-shadow:0 24px 70px rgba(0,0,0,.95), 0 0 0 1px rgba(0,255,136,.2);
+  display:none;position:absolute;top:calc(100% + 5px);left:0;right:0;z-index:99999;
+  background:#091322;border:1.5px solid var(--neon);border-radius:14px;overflow:hidden;
+  max-height:300px;overflow-y:auto;box-shadow:0 24px 70px rgba(0,0,0,.95), 0 0 0 1px rgba(0,255,136,.2);
 }
 .acd.open{display:block}
 .acd-header{padding:7px 12px 5px;font-size:9px;font-weight:800;letter-spacing:1px;color:var(--neon);text-transform:uppercase;background:rgba(0,0,0,.4);border-bottom:1px solid rgba(255,255,255,.05)}
@@ -220,7 +211,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .avb-btn-log{padding:6px 12px;border-radius:7px;background:var(--neon);border:none;color:#040810;font-size:11px;font-weight:900;cursor:pointer}
 .avb-btn-skip{padding:6px 10px;border-radius:7px;background:none;border:1px solid var(--brd);color:var(--txt3);font-size:11px;font-weight:700;cursor:pointer}
 
-/* FEEDBACK CARD */
+/* PERMANENT INLINE FEEDBACK CARD WITH SAVE BUTTON */
 .feedback-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:18px;margin-top:4px}
 .fbc-title{font-size:14px;font-weight:800;color:#fff;margin-bottom:4px}
 .fbc-sub{font-size:12px;color:var(--txt2);margin-bottom:12px;line-height:1.5}
@@ -228,7 +219,9 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .fbc-btn{padding:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt);font-size:12px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
 .fbc-btn.sel-good{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
 .fbc-btn.sel-late{background:var(--ag);border-color:var(--amber);color:var(--amber)}
-.fbc-notes{width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-size:12px;outline:none}
+.fbc-notes{width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-size:12px;outline:none;margin-bottom:10px}
+.fbc-save-btn{width:100%;padding:11px;background:var(--surf);border:1.5px solid var(--neon);color:var(--neon);border-radius:8px;font-size:13px;font-weight:800;cursor:pointer;transition:all .2s}
+.fbc-save-btn:hover{background:var(--neon);color:#040810}
 
 /* WEEK TIMETABLE */
 .dstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px}
@@ -281,18 +274,28 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .st-lbl{font-size:10px;font-weight:700;color:var(--txt3);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
 .st-analysis{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;font-size:13px;color:var(--txt2);line-height:1.6}
 
-/* MODAL OVERLAY */
+/* MODAL OVERLAY (CHECK-IN) */
 .modal-overlay{display:none;position:fixed;inset:0;background:rgba(4,8,16,.85);backdrop-filter:blur(8px);z-index:2000;align-items:center;justify-content:center;padding:18px}
 .modal-overlay.show{display:flex}
-.modal-card{background:#0b1424;border:1px solid var(--neon);border-radius:18px;width:100%;max-width:440px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.9)}
+.modal-card{background:#0b1424;border:1.5px solid var(--neon);border-radius:18px;width:100%;max-width:440px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.9);max-height:92vh;overflow-y:auto}
 .modal-title{font-size:17px;font-weight:900;color:#fff;margin-bottom:6px}
 .modal-sub{font-size:13px;color:var(--txt2);line-height:1.55;margin-bottom:14px}
-.modal-why{padding:10px 12px;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.18);border-radius:10px;font-size:11px;color:var(--cyan);line-height:1.5;margin-bottom:14px}
+.modal-why{padding:12px 14px;background:rgba(0,212,255,.07);border:1px solid rgba(0,212,255,.25);border-radius:10px;font-size:12px;color:var(--txt);line-height:1.55;margin-bottom:16px}
 .q-block{margin-bottom:14px}
 .q-lbl{font-size:12px;font-weight:700;color:var(--txt);margin-bottom:6px}
 .q-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
-.q-btn{padding:9px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer}
+.q-btn{padding:9px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer;transition:all .15s}
 .q-btn.sel{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
+
+/* AUTH SIGN-IN MODAL (2-EXPERIENCE TRIAL GATE) */
+.auth-modal-card{background:#0a1220;border:1.5px solid var(--neon);border-radius:20px;width:100%;max-width:400px;padding:28px 24px;box-shadow:0 25px 80px rgba(0,0,0,.95);text-align:center}
+.auth-logo-row{display:flex;align-items:center;justify-content:center;gap:10px;margin-bottom:14px}
+.auth-title{font-size:19px;font-weight:900;color:#fff;margin-bottom:6px}
+.auth-sub{font-size:12px;color:var(--txt2);line-height:1.6;margin-bottom:20px}
+.oauth-btn{width:100%;padding:13px;border-radius:10px;background:#ffffff;border:none;color:#1a1a1a;font-size:13px;font-weight:800;display:flex;align-items:center;justify-content:center;gap:10px;cursor:pointer;margin-bottom:14px;box-shadow:0 4px 15px rgba(255,255,255,.1)}
+.auth-divider{display:flex;align-items:center;gap:10px;margin:16px 0;color:var(--txt3);font-size:11px;font-weight:700}
+.auth-divline{flex:1;height:1px;background:var(--brd)}
+.email-auth-box{display:flex;flex-direction:column;gap:10px}
 
 .toast{position:fixed;bottom:24px;right:24px;z-index:99999;padding:12px 18px;border-radius:10px;background:#111f33;border:1px solid var(--neon);font-size:12px;font-weight:700;color:var(--txt);box-shadow:0 16px 40px rgba(0,0,0,.8);transform:translateY(80px);opacity:0;transition:all .3s cubic-bezier(.34,1.3,.64,1);max-width:320px}
 .toast.up{transform:translateY(0);opacity:1}
@@ -529,7 +532,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           </div>
         </div>
 
-        <!-- PERMANENT COMMUTE FEEDBACK CARD -->
+        <!-- PERMANENT INLINE FEEDBACK CARD WITH EXPLICIT SAVE BUTTON -->
         <div class="feedback-card">
           <div class="fbc-title">Commute Feedback & Timing Accuracy</div>
           <div class="fbc-sub">Tell us how your commute went so CruizGo can calibrate corridor weights:</div>
@@ -541,7 +544,8 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
             <button class="fbc-btn" id="fbcHelpYes" onclick="setFeedbackHelpful(true)">👍 Helpful Prediction</button>
             <button class="fbc-btn" id="fbcHelpNo" onclick="setFeedbackHelpful(false)">👎 Inaccurate Routing</button>
           </div>
-          <input class="fbc-notes" id="inlineNotesInp" placeholder="Add specific road blockages or suggestions... (Press Enter)" onkeydown="if(event.key==='Enter')submitInlineNotes()" />
+          <input class="fbc-notes" id="inlineNotesInp" placeholder="Add specific road blockages, diversions or ideas..." />
+          <button class="fbc-save-btn" onclick="saveInlineFeedback()">💾 Save Feedback to Improve App</button>
         </div>
 
       </div>
@@ -696,7 +700,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 
       <div class="st-analysis">
         <strong style="color:var(--neon)">⚡ Dynamic Commute Savings Overview:</strong><br>
-        <span id="stDynamicText">No completed journeys logged yet. When you confirm your arrivals, this dashboard computes exact minutes saved by steering clear of active BMTC bus-bay spillovers and metro barricades.</span>
+        <span id="stDynamicText">No completed journeys logged yet. Confirm your arrivals via the voluntary prompt to compute verified time saved by steering clear of active BMTC bus-bay spillovers and metro barricades.</span>
       </div>
     </div>
 
@@ -714,40 +718,86 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 
 </div>
 
-<!-- RIDE COMPLETION MODAL -->
+<!-- REVAMPED EMOTIONAL ARRIVAL CHECK-IN MODAL -->
 <div class="modal-overlay" id="completionModal">
   <div class="modal-card">
     <div class="modal-title">🏁 Commute Arrival Check-in</div>
-    <div class="modal-sub">Confirm your ride to update your verified <strong>Saved Time</strong> dashboard.</div>
+    <div class="modal-sub">Tell us how your commute went so you can track your verified saved hours.</div>
 
     <div class="modal-why">
-      💡 <strong>Why check in?</strong> Your arrival logs train corridor machine-learning weights for your specific commute mode, updating your verified time saved.
+      🛡️ <strong>Why check in?</strong> Every time you depart early, you avoid high-stress crawling traffic, protect your safety with recommended cruise speeds, and arrive relaxed for your day. Looking back, you'll see exact hours of your life reclaimed.
     </div>
 
+    <!-- Q1 -->
     <div class="q-block">
-      <div class="q-lbl">1. Did you depart within your recommended window?</div>
+      <div class="q-lbl">1. Did you leave within your recommended window?</div>
       <div class="q-options">
         <button class="q-btn sel" id="q1Yes" onclick="selectQ(1, true)">✓ Left on time</button>
         <button class="q-btn" id="q1No" onclick="selectQ(1, false)">⚠ Left late (+15m)</button>
       </div>
     </div>
 
+    <!-- Q2 -->
     <div class="q-block">
-      <div class="q-lbl">2. Did departure timing save you gridlock crawl?</div>
+      <div class="q-lbl">2. Did this timing help you avoid peak crawling traffic?</div>
       <div class="q-options">
-        <button class="q-btn sel" id="q2Yes" onclick="selectQ(2, true)">👍 Saved ~20-30 min</button>
-        <button class="q-btn" id="q2No" onclick="selectQ(2, false)">👎 Normal traffic</button>
+        <button class="q-btn sel" id="q2Yes" onclick="selectQ(2, true)">👍 Yes, saved 20–30 min</button>
+        <button class="q-btn" id="q2No" onclick="selectQ(2, false)">👎 Faced usual traffic</button>
       </div>
     </div>
 
+    <!-- Q3 -->
     <div class="q-block">
-      <div class="q-lbl">3. Any specific road blockage or suggestions?</div>
-      <input class="uf" id="compNotes" placeholder="e.g. Waterlogging near underpass" style="width:100%" />
+      <div class="q-lbl">3. Is CruizGo helping you plan your day with less stress?</div>
+      <div class="q-options">
+        <button class="q-btn sel" id="q3Yes" onclick="selectQ(3, true)">⭐ Yes, much better</button>
+        <button class="q-btn" id="q3No" onclick="selectQ(3, false)">😐 About the same</button>
+      </div>
+    </div>
+
+    <!-- Q4 -->
+    <div class="q-block">
+      <div class="q-lbl">4. Any specific road blockages, diversions, or suggestions?</div>
+      <input class="uf" id="compNotes" placeholder="e.g. Bus breakdown near Marathahalli, waterlogging" style="width:100%" />
     </div>
 
     <div style="display:flex;gap:8px;margin-top:16px">
       <button class="altbtn" onclick="skipCompletionModal()" style="flex:1">Skip for Now</button>
       <button class="scan" style="margin-top:0;flex:2;padding:12px" onclick="submitCompletedRide()">✓ Log Saved Time</button>
+    </div>
+  </div>
+</div>
+
+<!-- SIGN-IN SHEET (APPEARS AFTER 2 FREE USES) -->
+<div class="modal-overlay" id="authGateModal">
+  <div class="auth-modal-card">
+    <div class="auth-logo-row">
+      <img src="/logo.png" alt="CruizGo Logo" style="width:40px;height:40px;border-radius:10px;border:1.5px solid var(--neon)" />
+      <span style="font-size:22px;font-weight:900;color:#fff">CruizGo</span>
+    </div>
+    <div class="auth-title">Save Your Routes & Schedules</div>
+    <div class="auth-sub">You have unlocked 2 free commute scans! Sign in to keep your verified saved time, custom schedules, and lock-screen alerts synced permanently.</div>
+
+    <!-- 1-TAP GOOGLE SIGN IN -->
+    <button class="oauth-btn" onclick="signInWithGoogle()">
+      <svg width="18" height="18" viewBox="0 0 24 24"><path fill="#4285F4" d="M22.56 12.25c0-.78-.07-1.53-.2-2.25H12v4.26h5.92c-.26 1.37-1.04 2.53-2.21 3.31v2.77h3.57c2.08-1.92 3.28-4.74 3.28-8.09z"/><path fill="#34A853" d="M12 23c2.97 0 5.46-.98 7.28-2.66l-3.57-2.77c-.98.66-2.23 1.06-3.71 1.06-2.86 0-5.29-1.93-6.16-4.53H2.18v2.84C3.99 20.53 7.7 23 12 23z"/><path fill="#FBBC05" d="M5.84 14.09c-.22-.66-.35-1.36-.35-2.09s.13-1.43.35-2.09V7.06H2.18C1.43 8.55 1 10.22 1 12s.43 3.45 1.18 4.94l2.85-2.22.81-.63z"/><path fill="#EA4335" d="M12 5.38c1.62 0 3.06.56 4.21 1.64l3.15-3.15C17.45 2.09 14.97 1 12 1 7.7 1 3.99 3.47 2.18 7.06l3.66 2.84c.87-2.6 3.3-4.52 6.16-4.52z"/></svg>
+      Continue with Google
+    </button>
+
+    <div class="auth-divider">
+      <div class="auth-divline"></div>
+      <span>OR WITH EMAIL</span>
+      <div class="auth-divline"></div>
+    </div>
+
+    <!-- UNIVERSAL MAGIC LINK (GMAIL, OUTLOOK, YAHOO, WORK EMAILS) -->
+    <div class="email-auth-box">
+      <input class="uf" id="authEmailInput" type="email" placeholder="name@company.com / gmail.com" style="text-align:center" />
+      <button class="scan" style="margin-top:0;padding:12px;font-size:13px" onclick="signInWithMagicLink()">Send Magic Sign-In Link →</button>
+    </div>
+
+    <div style="margin-top:16px;font-size:11px;color:var(--txt3)">
+      By continuing, you agree to safe commuting practices.
     </div>
   </div>
 </div>
@@ -760,6 +810,9 @@ const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
 const VAPID  = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0';
 
+// Initialize Supabase Auth SDK client
+const sbClient = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
+
 const S = {
   tripMode: 'plan',
   vehicle: 'car',
@@ -768,6 +821,7 @@ const S = {
   fromCoords: [77.6710, 13.0035],
   weekDays: ['mon','tue','wed','thu','fri','sat','sun'],
   lastScan: null,
+  currentUser: null,
   alertsList: [
     { id:'a1', time: '12:30 PM', title: 'Mid-Day Commute Check-in', body: 'How was your morning commute to Bellandur? Confirm your arrival to log verified Saved Time.', type: 'checkin', conf: 97 },
     { id:'a2', time: '07:30 AM', title: 'Good Morning, Commuter! 🌅', body: 'Plan your commute today. Outer Ring Road is experiencing moderate congestion near Silk Board.', type: 'morning', conf: 98 },
@@ -784,7 +838,7 @@ const AC = {
 // COMPREHENSIVE BENGALURU PRE-INDEX: STATIONS, TECH PARKS, HUBS
 // ══════════════════════════════════════════════════════════════════
 const POIS = [
-  // ── ALL PURPLE LINE METRO STATIONS ──
+  // ALL PURPLE LINE METRO STATIONS
   { n: 'Whitefield (Kadugodi) Metro Station', s: 'Purple Line · Kadugodi', lat: 12.9961, lon: 77.7607, i: '🚇' },
   { n: 'Hopefarm Channasandra Metro Station', s: 'Purple Line · Whitefield', lat: 12.9912, lon: 77.7513, i: '🚇' },
   { n: 'Kadugodi Tree Park Metro Station', s: 'Purple Line · Whitefield', lat: 12.9881, lon: 77.7423, i: '🚇' },
@@ -823,7 +877,7 @@ const POIS = [
   { n: 'Kengeri Metro Station', s: 'Purple Line · Kengeri Satellite Town', lat: 12.9090, lon: 77.4765, i: '🚇' },
   { n: 'Challaghatta Metro Station', s: 'Purple Line Terminal · Mysore Rd', lat: 12.9034, lon: 77.4645, i: '🚇' },
 
-  // ── ALL GREEN LINE METRO STATIONS ──
+  // ALL GREEN LINE METRO STATIONS
   { n: 'Madavara (BIEC) Metro Station', s: 'Green Line Terminal · Tumkur Rd', lat: 13.0645, lon: 77.4789, i: '🚇' },
   { n: 'Chikkabidarakallu Metro Station', s: 'Green Line · Jindal / Tumkur Rd', lat: 13.0566, lon: 77.4878, i: '🚇' },
   { n: 'Manjunathanagar Metro Station', s: 'Green Line · NH 48', lat: 13.0489, lon: 77.4956, i: '🚇' },
@@ -856,7 +910,7 @@ const POIS = [
   { n: 'Thalaghattapura Metro Station', s: 'Green Line · Kanakapura Rd', lat: 12.8598, lon: 77.5458, i: '🚇' },
   { n: 'Silk Institute Metro Station', s: 'Green Line Terminal · Nice Road Cross', lat: 12.8512, lon: 77.5389, i: '🚇' },
 
-  // ── ALL YELLOW LINE METRO STATIONS ──
+  // ALL YELLOW LINE METRO STATIONS
   { n: 'Central Silk Board Metro Station', s: 'Yellow Line Interchange · Hosur Rd / ORR', lat: 12.9176, lon: 77.6235, i: '🚇' },
   { n: 'BTM Layout Metro Station', s: 'Yellow Line · Outer Ring Road', lat: 12.9161, lon: 77.6102, i: '🚇' },
   { n: 'Jayadeva Hospital Metro Station', s: 'Yellow & Pink Interchange · Bannerghatta', lat: 12.9189, lon: 77.5989, i: '🚇' },
@@ -872,7 +926,7 @@ const POIS = [
   { n: 'Hebbagodi Metro Station', s: 'Yellow Line · Bommasandra Industrial', lat: 12.8211, lon: 77.6801, i: '🚇' },
   { n: 'Bommasandra Metro Station', s: 'Yellow Line Terminal · Jigani Link Rd', lat: 12.8123, lon: 77.6877, i: '🚇' },
 
-  // ── ALL TECH PARKS & MAJOR IT PARKS ──
+  // ALL TECH PARKS
   { n: 'Manyata Tech Park', s: 'Outer Ring Road, Hebbal / Nagavara', lat: 13.0469, lon: 77.6191, i: '🏢' },
   { n: 'RMZ Ecospace', s: 'Outer Ring Road, Bellandur', lat: 12.9279, lon: 77.6841, i: '🏢' },
   { n: 'Ecospace Business Park', s: 'Outer Ring Road, Bellandur', lat: 12.9260, lon: 77.6762, i: '🏢' },
@@ -898,7 +952,7 @@ const POIS = [
   { n: 'Helios Business Park', s: 'Kadubeesanahalli, Outer Ring Road', lat: 12.9378, lon: 77.6922, i: '🏢' },
   { n: 'Sattva Knowledge Court', s: 'Doddanekundi Industrial Area, Whitefield', lat: 12.9856, lon: 77.7088, i: '🏢' },
 
-  // ── RESIDENTIAL HUBS, BUS STANDS & LANDMARKS ──
+  // RESIDENTIAL HUBS, BUS STANDS & LANDMARKS
   { n: '310, 2nd A Cross Rd', s: 'Kasturi Nagar, Benniganahalli, Bengaluru', lat: 12.9960, lon: 77.6620, i: '📍' },
   { n: 'Dooravani Nagar', s: 'Near ITI Colony, KR Puram, Bengaluru', lat: 13.0035, lon: 77.6710, i: '🏘️' },
   { n: 'Benniganahalli Lake', s: 'Old Madras Road, Kasturi Nagar', lat: 12.9965, lon: 77.6624, i: '🏞️' },
@@ -921,7 +975,7 @@ const POIS = [
 ];
 
 // ══════════════════════════════════════════════════════════════════
-// INSTANT HYBRID SEARCH-AS-YOU-TYPE ENGINE
+// 0ms SEARCH-AS-YOU-TYPE AUTOCOMPLETE
 // ══════════════════════════════════════════════════════════════════
 let activeSearchSession = { from: 0, to: 0 };
 
@@ -935,7 +989,7 @@ function onSearch(field) {
     return;
   }
 
-  // STEP 1: Instant local substring match (0ms latency, works offline)
+  // 1. Instant local token match (0ms latency)
   const cleanQ = query.toLowerCase();
   const tokens = cleanQ.split(/\s+/).filter(t => t.length > 0);
   
@@ -944,10 +998,9 @@ function onSearch(field) {
     return tokens.every(tok => text.includes(tok));
   });
 
-  // Render pre-indexed results immediately
   renderAC(field, instantMatches.slice(0, 8), query);
 
-  // STEP 2: Background geocoding enrichment for precise street numbers / shops
+  // 2. Background geocoding enrichment for house numbers / shops
   clearTimeout(AC[field].timer);
   document.getElementById(field === 'from' ? 'spFrom' : 'spTo').style.display = 'block';
 
@@ -963,7 +1016,6 @@ async function fetchRemoteGeo(field, query, sessionId, existingMatches) {
     const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
     const data = await res.json();
 
-    // Avoid race conditions from old keystrokes
     if (sessionId !== activeSearchSession[field]) return;
 
     if (Array.isArray(data) && data.length) {
@@ -976,7 +1028,6 @@ async function fetchRemoteGeo(field, query, sessionId, existingMatches) {
         return { n: main, s: sub || 'Bengaluru', lat: parseFloat(d.lat), lon: parseFloat(d.lon), i: icon };
       });
 
-      // Merge and deduplicate
       const combined = [...existingMatches];
       liveItems.forEach(item => {
         const dup = combined.some(c => c.n.toLowerCase() === item.n.toLowerCase() || (Math.abs(c.lat - item.lat) < 0.0008 && Math.abs(c.lon - item.lon) < 0.0008));
@@ -986,7 +1037,7 @@ async function fetchRemoteGeo(field, query, sessionId, existingMatches) {
       renderAC(field, combined.slice(0, 10), query);
     }
   } catch (err) {
-    // Keep local matches displayed if network fails
+    // Keep local matches if offline or throttled
   } finally {
     if (sessionId === activeSearchSession[field]) {
       sp.style.display = 'none';
@@ -1080,6 +1131,77 @@ document.addEventListener('click', e => {
   if (!e.target.closest('#inpFrom') && !e.target.closest('#acFrom')) closeAC('from');
   if (!e.target.closest('#inpTo') && !e.target.closest('#acTo')) closeAC('to');
 });
+
+// ══════════════════════════════════════════════════════════════════
+// 2-EXPERIENCE USAGE GATE & AUTHENTICATION
+// ══════════════════════════════════════════════════════════════════
+function checkUsageGate() {
+  // If user is already authenticated, allow unlimited access
+  if (S.currentUser) return true;
+
+  const usageCount = parseInt(localStorage.getItem('cruizgo_usage_count') || '0', 10);
+  if (usageCount >= 2) {
+    document.getElementById('authGateModal').classList.add('show');
+    return false;
+  }
+
+  // Increment usage count for trials
+  localStorage.setItem('cruizgo_usage_count', (usageCount + 1).toString());
+  return true;
+}
+
+async function signInWithGoogle() {
+  if (!sbClient) return showToast('Supabase auth initializing…', 'err');
+  showToast('Redirecting to Google Sign-In…');
+  const { error } = await sbClient.auth.signInWithOAuth({
+    provider: 'google',
+    options: {
+      redirectTo: window.location.origin
+    }
+  });
+  if (error) showToast('Google sign-in error: ' + error.message, 'err');
+}
+
+async function signInWithMagicLink() {
+  if (!sbClient) return showToast('Supabase auth initializing…', 'err');
+  const email = document.getElementById('authEmailInput').value.trim();
+  if (!email || !email.includes('@')) {
+    showToast('Please enter a valid email address', 'err');
+    return;
+  }
+  showToast('Sending secure sign-in link…');
+  const { error } = await sbClient.auth.signInWithOtp({
+    email,
+    options: {
+      emailRedirectTo: window.location.origin
+    }
+  });
+  if (error) {
+    showToast(error.message, 'err');
+  } else {
+    showToast('✓ Magic link sent! Check your inbox / spam to sign in.');
+    document.getElementById('authGateModal').classList.remove('show');
+  }
+}
+
+async function initSupabaseAuthListener() {
+  if (!sbClient) return;
+  const { data: { session } } = await sbClient.auth.getSession();
+  if (session?.user) {
+    S.currentUser = session.user;
+    document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
+    document.getElementById('authGateModal').classList.remove('show');
+  }
+
+  sbClient.auth.onAuthStateChange((_event, session) => {
+    if (session?.user) {
+      S.currentUser = session.user;
+      document.getElementById('uEmail').value = session.user.email || document.getElementById('uEmail').value;
+      document.getElementById('authGateModal').classList.remove('show');
+      showToast(`✓ Logged in as ${session.user.email}`);
+    }
+  });
+}
 
 // ══════════════════════════════════════════════════════════════════
 // CORRIDORS DATA & TIMETABLE
@@ -1342,9 +1464,11 @@ function minsToFormattedTime(totalMins) {
 }
 
 // ══════════════════════════════════════════════════════════════════
-// DEPARTURE SCANNER WITH PRECISE TRANSIT CALCULATIONS
+// SCAN ACTION WITH USAGE GATE ENFORCEMENT
 // ══════════════════════════════════════════════════════════════════
 async function doScan() {
+  if (!checkUsageGate()) return;
+
   switchTab('today', document.getElementById('tabToday'));
 
   const fv = document.getElementById('inpFrom').value.trim() || S.fromVal;
@@ -1720,34 +1844,40 @@ function renderSavedTime() {
   }
 }
 
-// PERMANENT INLINE FEEDBACK
+// PERMANENT INLINE FEEDBACK CONTROLS WITH SAVE ACTION
+let inlineFeedbackState = { onTime: true, helpful: true };
+
 function setFeedbackTiming(onTime) {
+  inlineFeedbackState.onTime = onTime;
   document.getElementById('fbcOnTime').className = 'fbc-btn' + (onTime ? ' sel-good' : '');
   document.getElementById('fbcLate').className = 'fbc-btn' + (!onTime ? ' sel-late' : '');
-  showToast(onTime ? '✓ On-time departure logged' : '✓ 15m delay noted — weights calibrated');
 }
 
 function setFeedbackHelpful(helpful) {
+  inlineFeedbackState.helpful = helpful;
   document.getElementById('fbcHelpYes').className = 'fbc-btn' + (helpful ? ' sel-good' : '');
   document.getElementById('fbcHelpNo').className = 'fbc-btn' + (!helpful ? ' sel-late' : '');
-  showToast('✓ Rating recorded — thank you!');
 }
 
-function submitInlineNotes() {
+async function saveInlineFeedback() {
   const notes = document.getElementById('inlineNotesInp').value.trim();
   const email = document.getElementById('uEmail').value.trim();
-  if (notes && email) {
-    supabaseInsert('commute_telemetry_feedback', {
+
+  if (email && S.lastScan) {
+    await supabaseInsert('commute_telemetry_feedback', {
       user_email: email,
-      commuter_notes: notes
+      mode: S.vehicle,
+      pure_transit_mins: S.lastScan.travelMins,
+      left_on_time: inlineFeedbackState.onTime,
+      user_rating_helpful: inlineFeedbackState.helpful,
+      commuter_notes: notes || 'Inline route rating'
     });
-    document.getElementById('inlineNotesInp').value = '';
-    showToast('✓ Route observation saved to database');
   }
+  showToast('✓ Feedback saved! Thank you for helping improve CruizGo.');
 }
 
-// VOLUNTARY RIDE COMPLETION MODAL
-let survey = { onTime: true, savedGridlock: true };
+// REVAMPED ARRIVAL CHECK-IN SURVEY (QUESTIONS 1, 2, 3, 4)
+let survey = { onTime: true, savedGridlock: true, helpedPlan: true };
 
 function openCompletionModal() {
   document.getElementById('completionModal').classList.add('show');
@@ -1772,10 +1902,14 @@ function selectQ(qNum, val) {
     survey.onTime = val;
     document.getElementById('q1Yes').classList.toggle('sel', val);
     document.getElementById('q1No').classList.toggle('sel', !val);
-  } else {
+  } else if (qNum === 2) {
     survey.savedGridlock = val;
     document.getElementById('q2Yes').classList.toggle('sel', val);
     document.getElementById('q2No').classList.toggle('sel', !val);
+  } else if (qNum === 3) {
+    survey.helpedPlan = val;
+    document.getElementById('q3Yes').classList.toggle('sel', val);
+    document.getElementById('q3No').classList.toggle('sel', !val);
   }
 }
 
@@ -1812,7 +1946,8 @@ async function submitCompletedRide() {
       pure_transit_mins: scan.travelMins,
       mins_saved: savedAdd,
       left_on_time: survey.onTime,
-      user_rating_helpful: true,
+      user_rating_helpful: survey.savedGridlock,
+      helped_plan_better: survey.helpedPlan,
       commuter_notes: notes
     });
   }
@@ -2040,6 +2175,8 @@ function showToast(msg, type = 'ok') {
 window.addEventListener('DOMContentLoaded', () => {
   initClock();
   loadProfile();
+  initSupabaseAuthListener();
+
   buildDayStrip();
   renderWeekCards();
   renderCorridors();
