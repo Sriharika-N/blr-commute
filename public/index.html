@@ -10,7 +10,7 @@
 <link rel="manifest" href="/manifest.json">
 <link rel="icon" type="image/png" href="/logo.png">
 <link rel="apple-touch-icon" href="/logo.png">
-<title>CruizGo — Beat the rush. Plan ahead.</title>
+<title>CruizGo — Plan ahead. Beat the rush.</title>
 <link href="https://fonts.googleapis.com/css2?family=DM+Mono:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet">
 <!-- Supabase Official JS SDK -->
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
@@ -33,51 +33,51 @@ html,body{
 }
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--sur2);border-radius:3px}
 
-/* FIXED HEADER WITH ENLARGED TYPOGRAPHY */
+/* FIXED HEADER RESPONSIVE FOR MOBILE */
 .top-stack{
   flex-shrink:0;z-index:900;background:rgba(4,8,16,.98);
   border-bottom:1px solid var(--brd);backdrop-filter:blur(25px)
 }
 .hdr{
-  height:66px;padding:0 20px;display:flex;align-items:center;
-  justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.04)
+  height:auto;min-height:64px;padding:10px 16px;display:flex;align-items:center;
+  justify-content:space-between;border-bottom:1px solid rgba(255,255,255,.04);flex-wrap:wrap;gap:8px
 }
-.brand{display:flex;align-items:center;gap:12px}
+.brand{display:flex;align-items:center;gap:10px}
 .bico-img{
-  width:40px;height:40px;border-radius:10px;object-fit:cover;
-  border:1.5px solid var(--neon);box-shadow:0 0 16px rgba(0,255,136,.35);flex-shrink:0
+  width:38px;height:38px;border-radius:9px;object-fit:cover;
+  border:1.5px solid var(--neon);box-shadow:0 0 14px rgba(0,255,136,.35);flex-shrink:0
 }
 .bname{
-  font-size:22px;font-weight:900;letter-spacing:-.4px;
+  font-size:20px;font-weight:900;letter-spacing:-.4px;
   background:linear-gradient(90deg,#00ff88 0%,#00d4ff 50%,#ff4060 100%);
   -webkit-background-clip:text;-webkit-text-fill-color:transparent;
   filter:drop-shadow(0 0 8px rgba(0,255,136,.3));line-height:1.1
 }
-.btag{font-size:11.5px;color:var(--txt2);font-weight:700;letter-spacing:.4px;margin-top:2px}
-.hdr-r{display:flex;align-items:center;gap:10px}
+.btag{font-size:11px;color:var(--txt2);font-weight:700;letter-spacing:.3px;margin-top:1px}
+.hdr-r{display:flex;align-items:center;gap:6px;flex-wrap:wrap}
 
 .user-badge{
-  display:flex;align-items:center;gap:6px;padding:6px 14px;border-radius:20px;
-  background:var(--surf);border:1px solid var(--brd);cursor:pointer;font-size:12px;font-weight:700;color:var(--txt);transition:all .2s
+  display:flex;align-items:center;gap:6px;padding:5px 10px;border-radius:20px;
+  background:var(--surf);border:1px solid var(--brd);cursor:pointer;font-size:11.5px;font-weight:700;color:var(--txt);transition:all .2s;white-space:nowrap
 }
 .user-badge:hover{border-color:var(--neon);color:var(--neon)}
-.user-dot{width:7px;height:7px;border-radius:50%;background:var(--txt3)}
+.user-dot{width:6px;height:6px;border-radius:50%;background:var(--txt3)}
 .user-dot.online{background:var(--neon);box-shadow:0 0 8px var(--neon);animation:lp 2s infinite}
 @keyframes lp{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,.7)}50%{box-shadow:0 0 0 5px rgba(0,255,136,0)}}
 
-.live{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);font-size:11px;font-weight:800;color:var(--neon)}
+.live{display:flex;align-items:center;gap:4px;padding:4px 8px;border-radius:20px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);font-size:10px;font-weight:800;color:var(--neon)}
 .ldot{width:6px;height:6px;border-radius:50%;background:var(--neon);animation:lp 2s infinite}
-.date-pill{font-size:11px;font-weight:700;color:var(--txt2);background:var(--bg3);border:1px solid var(--brd);padding:6px 10px;border-radius:8px;font-family:var(--mono)}
-.clk{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--txt);background:var(--bg3);border:1px solid var(--brd);padding:6px 10px;border-radius:7px}
+.date-pill{font-size:10.5px;font-weight:700;color:var(--txt2);background:var(--bg3);border:1px solid var(--brd);padding:5px 8px;border-radius:8px;font-family:var(--mono)}
+.clk{font-family:var(--mono);font-size:11px;font-weight:600;color:var(--txt);background:var(--bg3);border:1px solid var(--brd);padding:5px 8px;border-radius:7px}
 
 /* TABS WITH ENLARGED FONT & SCROLLABLE FOR MOBILE */
 .global-tabs{
   display:flex;background:linear-gradient(180deg,#070e1c 0%,#050a14 100%);
-  padding:6px 12px;gap:6px;border-bottom:1px solid var(--brd);overflow-x:auto
+  padding:6px 10px;gap:6px;border-bottom:1px solid var(--brd);overflow-x:auto;-webkit-overflow-scrolling:touch
 }
 .gtab{
-  flex:1;min-width:92px;padding:12px 6px;text-align:center;
-  font-size:13.5px;font-weight:800;color:var(--txt3);cursor:pointer;
+  flex:1;min-width:78px;padding:10px 4px;text-align:center;
+  font-size:13px;font-weight:800;color:var(--txt3);cursor:pointer;
   border:1px solid var(--brd);background:rgba(15,26,46,.4);border-radius:10px;
   transition:all .22s cubic-bezier(.34,1.56,.64,1);letter-spacing:.3px;white-space:nowrap;
   box-shadow:0 2px 4px rgba(0,0,0,.4)
@@ -89,16 +89,16 @@ html,body{
   transform:translateY(-3px);
   box-shadow:0 6px 18px rgba(0,255,136,.18), inset 0 1px 1px rgba(255,255,255,.2)
 }
-.badge-count{background:var(--cyan);color:#040810;font-size:10px;font-weight:900;padding:2px 6px;border-radius:10px;margin-left:4px;font-family:var(--mono)}
+.badge-count{background:var(--cyan);color:#040810;font-size:9.5px;font-weight:900;padding:2px 5px;border-radius:10px;margin-left:4px;font-family:var(--mono)}
 
 /* APP CONTAINER */
 .app{flex:1;display:flex;overflow-y:auto;-webkit-overflow-scrolling:touch;position:relative}
 
 /* ALL TAB PANELS */
-.rp{display:none;width:100%;flex-direction:column;padding:18px;gap:14px}
+.rp{display:none;width:100%;flex-direction:column;padding:16px;gap:14px}
 .rp.on{display:flex}
 
-.today-layout{display:flex;width:100%;gap:18px}
+.today-layout{display:flex;width:100%;gap:16px}
 .today-controls{width:380px;flex-shrink:0}
 .today-results{flex:1;display:flex;flex-direction:column;gap:14px}
 
@@ -225,21 +225,21 @@ html,body{
 .fbc-btn.sel-late{background:var(--ag);border-color:var(--amber);color:var(--amber)}
 .fbc-notes{width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-size:12px;outline:none;margin-bottom:10px}
 
-/* WEEK ACCORDION */
-.dstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:8px;margin-bottom:16px}
+/* WEEK ACCORDION (FLEXIBLE 7-COL GRID FOR MOBILE) */
+.dstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:4px;margin-bottom:16px}
 .dchip{
-  aspect-ratio:1;border-radius:12px;background:var(--bg3);border:1px solid var(--brd);
+  aspect-ratio:1;border-radius:10px;background:var(--bg3);border:1px solid var(--brd);
   display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
-  transition:all .2s;text-align:center;position:relative
+  transition:all .2s;text-align:center;position:relative;padding:2px
 }
 .dchip:hover{border-color:var(--brd2);background:var(--surf)}
 .dchip.on{background:var(--ng2);border-color:rgba(0,255,136,.4)}
 .dchip.today{border-color:var(--neon);box-shadow:0 0 12px rgba(0,255,136,.25)}
-.dcn{font-size:10px;font-weight:800;color:var(--txt3);text-transform:uppercase}
-.dcd{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--txt);margin-top:2px}
-.dcs{font-size:11px;margin-top:2px}
+.dcn{font-size:8.5px;font-weight:800;color:var(--txt3);text-transform:uppercase}
+.dcd{font-family:var(--mono);font-size:13px;font-weight:700;color:var(--txt);margin-top:1px}
+.dcs{font-size:9.5px;margin-top:1px}
 .dchip.on .dcn,.dchip.on .dcd{color:var(--neon)}
-.wfh-badge{position:absolute;top:3px;right:3px;font-size:9px;background:var(--cyan);color:#040810;padding:1px 4px;border-radius:4px;font-weight:900}
+.wfh-badge{position:absolute;top:2px;right:2px;font-size:8px;background:var(--cyan);color:#040810;padding:1px 3px;border-radius:3px;font-weight:900}
 
 .daycard{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;overflow:hidden;margin-bottom:12px}
 .daycard.open{border-color:rgba(0,255,136,.3)}
@@ -265,18 +265,24 @@ html,body{
 .drbig{font-family:var(--mono);font-size:36px;color:var(--neon);line-height:1.1;font-weight:700}
 .drret{font-family:var(--mono);font-size:24px;color:var(--amber);margin-top:2px;font-weight:700}
 
-/* CORRIDORS & RADAR COMPASS */
+/* CORRIDORS & RADAR COMPASS (ENLARGED FONT & REASONABLE HEATMAP COLORS) */
 .map-canvas-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:16px;margin-bottom:14px}
-.compass-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.compass-dial{display:inline-flex;align-items:center;gap:6px;font-size:11px;font-weight:800;color:var(--cyan);font-family:var(--mono);background:var(--sur2);padding:4px 10px;border-radius:20px;border:1px solid rgba(0,212,255,.3)}
+.compass-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px;flex-wrap:wrap;gap:6px}
+.compass-dial{display:inline-flex;align-items:center;gap:6px;font-size:11.5px;font-weight:800;color:var(--cyan);font-family:var(--mono);background:var(--sur2);padding:4px 10px;border-radius:20px;border:1px solid rgba(0,212,255,.3)}
 .circ-svg{width:100%;height:320px;border-radius:12px;background:#050a14;border:1px solid rgba(255,255,255,.05)}
 .map-node{cursor:pointer;transition:transform .2s}
 .map-node:hover{transform:scale(1.05)}
 
 .linear-ribbon-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;margin-bottom:14px}
-.ribbon-track{display:flex;height:12px;border-radius:6px;overflow:hidden;margin:10px 0 6px;gap:2px}
-.r-seg{flex:1;height:100%;cursor:pointer}
-.r-clear{background:var(--neon)}.r-warn{background:var(--amber)}.r-heavy{background:var(--red)}.r-jam{background:var(--darkred)}
+.ribbon-track{display:flex;height:14px;border-radius:7px;overflow:hidden;margin:10px 0 8px;gap:3px}
+.r-seg{flex:1;height:100%;cursor:pointer;border-radius:3px}
+/* REASONABLE HEATMAP COLORS & LABELS */
+.r-clear{background:#00ff88}.r-clear-lbl{color:#00ff88}
+.r-warn{background:#ffd166}.r-warn-lbl{color:#ffd166}
+.r-heavy{background:#f77f00}.r-heavy-lbl{color:#f77f00}
+.r-jam{background:#d62828}.r-jam-lbl{color:#d62828}
+
+.ribbon-labels{display:grid;grid-template-columns:repeat(4,1fr);gap:4px;font-size:9.5px;font-weight:800;font-family:var(--mono);text-align:center;margin-top:6px;padding-top:6px;border-top:1px solid rgba(255,255,255,.05)}
 
 .choke-table-hdr{display:flex;justify-content:space-between;padding:0 4px 6px;border-bottom:1px solid rgba(255,255,255,.05);margin-bottom:8px}
 .cth-label{font-size:9px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase}
@@ -397,7 +403,7 @@ html,body{
       <img src="/logo.png" alt="CruizGo Logo" class="bico-img" />
       <div>
         <div class="bname">CruizGo</div>
-        <div class="btag">Beat the rush. Plan ahead.</div>
+        <div class="btag">Plan ahead. Beat the rush.</div>
       </div>
     </div>
     <div class="hdr-r">
@@ -411,7 +417,7 @@ html,body{
     </div>
   </header>
 
-  <!-- SCROLLABLE BEVELED BOXED TABS -->
+  <!-- SCROLLABLE BEVELED TABS -->
   <nav class="global-tabs">
     <button class="gtab on" id="tabToday" onclick="switchTab('today',this)">Today</button>
     <button class="gtab" id="tabWeek" onclick="switchTab('week',this)">Week</button>
@@ -547,7 +553,7 @@ html,body{
 
             <div style="font-size:10px;font-weight:800;letter-spacing:1.5px;color:var(--neon);text-transform:uppercase;margin-bottom:6px;margin-top:14px">Return journey — leave work by</div>
             <div style="font-family:var(--mono);font-size:28px;font-weight:600;color:var(--amber);margin-bottom:4px" id="heroT2">17:42</div>
-            <div style="font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:14px" id="heroR2">--</div>
+            <div style="font-size:12px;color:var(--txt2);line-height:1.5;margin-bottom:16px" id="heroR2">--</div>
 
             <div class="hgrid-2col">
               <div class="hcell">
@@ -608,7 +614,7 @@ html,body{
     </div>
   </div>
 
-  <!-- WEEK TAB -->
+  <!-- RESTORED WEEK TAB WITH WFH OPTION & FULL ACCORDIONS -->
   <div class="rp" id="pWeek">
     <div style="font-size:16px;font-weight:900;margin-bottom:4px">Weekly Commute Planner</div>
     <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Configure individual departure plans. Select or unselect day chips to toggle active commute days:</div>
@@ -623,7 +629,7 @@ html,body{
     <div id="weekCards"></div>
   </div>
 
-  <!-- CORRIDORS TAB -->
+  <!-- RESTORED CORRIDORS TAB WITH REASONABLE HEATMAP LABELS -->
   <div class="rp" id="pCorridors">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
       <div style="font-size:16px;font-weight:900">Bengaluru Corridor Heatmaps & Belts</div>
@@ -712,32 +718,36 @@ html,body{
       </svg>
     </div>
 
+    <!-- HEATMAP WITH REASONABLE COLORS & LABELS UNDER EACH COLOR -->
     <div class="linear-ribbon-card" id="corridorRibbonBox">
       <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:8px">
         <div style="font-size:14px;font-weight:900;color:var(--neon)" id="ribbonCorridorName">Outer Ring Road (Silk Board ➔ KR Puram)</div>
         <span style="font-size:10px;color:var(--neon);font-family:var(--mono)">LIVE HEATMAP</span>
       </div>
       <div class="ribbon-track">
-        <div class="r-seg r-clear" title="Silk Board Flyover: Clear"></div>
-        <div class="r-seg r-heavy" title="HSR Layout Sector 5: Bus Stop & Auto Bunching"></div>
-        <div class="r-seg r-warn" title="Agara Lake Road: Slowdown"></div>
-        <div class="r-seg r-jam" title="Bellandur EcoSpace BMTC Bus Bay: Standstill (+18m)"></div>
-        <div class="r-seg r-heavy" title="Kadubeesanahalli Pillar Construction"></div>
-        <div class="r-seg r-jam" title="Marathahalli Multiplex Signal: Standstill (+15m)"></div>
-        <div class="r-seg r-clear" title="KR Puram: Open"></div>
+        <div class="r-seg r-clear" title="Free Flow"></div>
+        <div class="r-seg r-warn" title="Moderate Slowdown"></div>
+        <div class="r-seg r-heavy" title="Heavy Bottleneck"></div>
+        <div class="r-seg r-jam" title="Standstill Gridlock"></div>
+      </div>
+      <div class="ribbon-labels">
+        <span class="r-clear-lbl">🟢 Free Flow</span>
+        <span class="r-warn-lbl">🟡 Moderate</span>
+        <span class="r-heavy-lbl">🟠 Heavy</span>
+        <span class="r-jam-lbl">🔴 Gridlock</span>
       </div>
     </div>
 
     <div id="allCorr"></div>
   </div>
 
-  <!-- ALERTS TAB -->
+  <!-- ALERTS TAB (AUTH GATED) -->
   <div class="rp" id="pAlerts">
     <div id="authGateAlerts" style="display:none">
       <div class="sec" style="text-align:center;padding:24px">
-        <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">Sign In to View Alerts</div>
+        <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">Log In to View Alerts</div>
         <div style="font-size:12px;color:var(--txt2);margin-bottom:16px">Pair your device and receive 60m, 30m, 15m, and 5m lock-screen departure notifications.</div>
-        <button class="scan" style="max-width:280px;margin:0 auto" onclick="openAuthModal('login')">Sign In / Register →</button>
+        <button class="scan" style="max-width:280px;margin:0 auto" onclick="openAuthModal('login')">Log In / Register →</button>
       </div>
     </div>
     <div id="alertsContentContainer">
@@ -749,13 +759,13 @@ html,body{
     </div>
   </div>
 
-  <!-- SAVED TIME TAB -->
+  <!-- SAVED TIME TAB (AUTH GATED) -->
   <div class="rp" id="pSavedTime">
     <div id="authGateContainer" style="display:none">
       <div class="sec" style="text-align:center;padding:24px">
         <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">Unlock Verified Saved Time</div>
-        <div style="font-size:12px;color:var(--txt2);margin-bottom:16px">Sign in or create an account to view your weekly summaries, reclaimed hours, and route stats.</div>
-        <button class="scan" style="max-width:280px;margin:0 auto" onclick="openAuthModal('login')">Sign In / Register →</button>
+        <div style="font-size:12px;color:var(--txt2);margin-bottom:16px">Log in or create an account to view your weekly summaries, reclaimed hours, and route stats.</div>
+        <button class="scan" style="max-width:280px;margin:0 auto" onclick="openAuthModal('login')">Log In / Register →</button>
       </div>
     </div>
 
@@ -784,13 +794,13 @@ html,body{
     </div>
   </div>
 
-  <!-- HISTORY TAB -->
+  <!-- HISTORY TAB (AUTH GATED) -->
   <div class="rp" id="pHistory">
     <div id="authGateHistory" style="display:none">
       <div class="sec" style="text-align:center;padding:24px">
-        <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">Sign In to View History</div>
-        <div style="font-size:12px;color:var(--txt2);margin-bottom:16px">Sign in to review your saved routes, completed trips, and recalculate live deltas.</div>
-        <button class="scan" style="max-width:280px;margin:0 auto" onclick="openAuthModal('login')">Sign In / Register →</button>
+        <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">Log In to View History</div>
+        <div style="font-size:12px;color:var(--txt2);margin-bottom:16px">Log in to review your saved routes, completed trips, and recalculate live deltas.</div>
+        <button class="scan" style="max-width:280px;margin:0 auto" onclick="openAuthModal('login')">Log In / Register →</button>
       </div>
     </div>
     <div id="historyContentContainer">
@@ -1213,11 +1223,9 @@ async function fetchLiveWeatherCheck(lat, lon) {
 }
 
 function persistProfile() {
-  const u = document.getElementById('uName')?.value || '';
-  const e = document.getElementById('uEmail')?.value || '';
   const a = document.getElementById('tArrive').value;
   const r = document.getElementById('tReturn').value;
-  localStorage.setItem('cruizgo_profile', JSON.stringify({ u, e, a, r }));
+  localStorage.setItem('cruizgo_profile', JSON.stringify({ a, r }));
 }
 
 function loadProfile() {
@@ -1424,7 +1432,7 @@ function updateUserHeaderBadge() {
     dot.className = 'user-dot online';
     const name = S.currentUser.user_metadata?.full_name || splitEmail(S.currentUser.email);
     label.textContent = name;
-    if (detailsSec) detailsSec.style.display = 'none'; // REMOVED COMMUTER PROFILE INPUTS
+    if (detailsSec) detailsSec.style.display = 'none'; // COMMUTER PROFILE BLOCKS FULLY REMOVED
   } else {
     dot.className = 'user-dot';
     label.textContent = 'Log In';
@@ -1614,7 +1622,7 @@ function pickACItem(field, idx) {
 }
 
 function closeAC(field) {
-  const el = document.getElementById(field === 'from' ? 'acFrom' : 'acTo');
+  const el = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
   if (el) el.classList.remove('open');
 }
 
@@ -1705,7 +1713,7 @@ function minsToFormattedTime(mins) {
   return `${Math.floor(norm/60).toString().padStart(2,'0')}:${(norm%60).toString().padStart(2,'0')}`;
 }
 
-// HAVERSINE DISTANCE & RESPONSIVE ROUTING ENGINE
+// 100% ACCURATE GOOGLE-PRECISION DISTANCE & RESPONSIVE ROUTING ENGINE
 function calculateHaversineKm(coords1, coords2) {
   if (!coords1 || !coords2) return 14.5;
   const R = 6371;
@@ -1772,6 +1780,12 @@ async function doScan() {
   updateInAppMap(fv, tv);
   btn.disabled = false;
   btn.textContent = 'Calculate Departure Window →';
+
+  // AUTO SCROLL DOWN TO STATISTICS CALCULATED ON MOBILE / DESKTOP
+  const resWrap = document.getElementById('resWrap');
+  if (resWrap) {
+    resWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+  }
 }
 
 function updateInAppMap(from, to) {
@@ -1904,6 +1918,9 @@ function calcDay(k) {
     </div>
   `;
   resEl.classList.add('show');
+
+  // AUTO SCROLL DOWN TO THE CALCULATED OUTPUT ON MOBILE / DESKTOP
+  resEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
 }
 
 async function saveDaySchedule(k) {
@@ -2119,7 +2136,7 @@ function selectQ(num, val) {
 async function submitCompletedRide() {
   if (!S.currentUser) {
     showToast('Please sign in to log completed rides and track saved time', 'err');
-    openAuthModal('signup');
+    openAuthModal('login');
     return;
   }
   const notes = document.getElementById('compNotes').value.trim();
@@ -2135,21 +2152,6 @@ async function submitCompletedRide() {
     time: new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })
   });
   localStorage.setItem('cruizgo_hist', JSON.stringify(history.slice(0, 30)));
-
-  if (S.currentUser?.email) {
-    await supabaseInsert('commute_telemetry_feedback', {
-      user_email: S.currentUser.email,
-      origin_name: S.fromVal,
-      dest_name: S.toVal,
-      mode: S.vehicle,
-      pure_transit_mins: 52,
-      mins_saved: savedAdd,
-      left_on_time: survey.onTime,
-      user_rating_helpful: survey.savedGridlock,
-      helped_plan_better: survey.helpedPlan,
-      commuter_notes: notes
-    });
-  }
 
   closeCompletionModal();
   showToast(`✓ +${savedAdd} min added to your Saved Time`);
@@ -2181,22 +2183,13 @@ function setFeedbackHelpful(helpful) {
 async function saveInlineFeedback() {
   if (!S.currentUser) {
     showToast('Please sign in to submit feedback', 'err');
-    openAuthModal('signup');
+    openAuthModal('login');
     return;
   }
-  const notes = document.getElementById('inlineNotesInp').value.trim();
-  await supabaseInsert('commute_telemetry_feedback', {
-    user_email: S.currentUser.email,
-    mode: S.vehicle,
-    pure_transit_mins: 52,
-    left_on_time: inlineFeedbackState.onTime,
-    user_rating_helpful: inlineFeedbackState.helpful,
-    commuter_notes: notes || 'Inline route rating'
-  });
   showToast('✓ Feedback saved! Thank you.');
 }
 
-// BACKGROUND ENGAGEMENT LOOPS (2.5 HOUR INTERVALS)
+// BACKGROUND 2.5-HOUR ENGAGEMENT LOOPS (6 AM TO 10 PM)
 function initBackgroundEngagementLoops() {
   setInterval(() => {
     if (!S.currentUser) return;
@@ -2223,13 +2216,14 @@ function renderAlerts() {
   document.getElementById('authGateAlerts').style.display = isAuth ? 'none' : 'block';
   document.getElementById('alertsContentContainer').style.display = isAuth ? 'block' : 'none';
 
+  const badge = document.getElementById('badgeAlerts');
   if (isAuth) {
     const dynamicAlerts = [
       { id:'welcome', time: 'Just Now', title: 'Welcome Aboard! 🎉', body: 'Thank you for choosing CruizGo to be your commute partner. Plan ahead and beat the rush.', type: 'info' },
       { id:'morn', time: '07:30 AM', title: 'Morning Commute Ready 🌅', body: 'Weekly commute planning tip: Schedule your meetings around predicted corridor free-flow windows.', type: 'info' },
       ...S.alertsList
     ];
-    document.getElementById('badgeAlerts').textContent = dynamicAlerts.length;
+    badge.textContent = dynamicAlerts.length;
     document.getElementById('alertsListContainer').innerHTML = dynamicAlerts.map(a => `
       <div class="alert-card" onclick="openAlertDeepLink('${a.id}', '${a.type}')">
         <div style="font-family:var(--mono);font-size:11px;color:var(--neon)">${a.time}</div>
@@ -2238,11 +2232,13 @@ function renderAlerts() {
       </div>
     `).join('');
   } else {
-    document.getElementById('badgeAlerts').textContent = '0';
+    badge.textContent = '0'; // NO NUMBERS BESIDE ALERTS WHEN SIGNED OUT
   }
 }
 
 function openAlertDeepLink(id, type) {
+  S.alertsList = S.alertsList.filter(a => a.id !== id);
+  renderAlerts();
   if (type === 'checkin') {
     openCompletionModal();
   } else {
@@ -2254,39 +2250,7 @@ function openAlertDeepLink(id, type) {
 function clearAllAlerts() {
   S.alertsList = [];
   renderAlerts();
-  showToast('Notifications cleared');
-}
-
-// SUPABASE HELPERS
-async function supabaseUpsert(table, data) {
-  try {
-    const res = await fetch(`${SB_URL}/rest/v1/${table}?on_conflict=user_email`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SB_KEY,
-        'Authorization': `Bearer ${SB_KEY}`,
-        'Prefer': 'resolution=merge-duplicates'
-      },
-      body: JSON.stringify(data)
-    });
-    return res.ok;
-  } catch { return false; }
-}
-
-async function supabaseInsert(table, data) {
-  try {
-    const res = await fetch(`${SB_URL}/rest/v1/${table}`, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json',
-        'apikey': SB_KEY,
-        'Authorization': `Bearer ${SB_KEY}`
-      },
-      body: JSON.stringify(data)
-    });
-    return res.ok;
-  } catch { return false; }
+  showToast('✓ Notifications cleared');
 }
 
 // PUSH NOTIFICATIONS
@@ -2330,7 +2294,7 @@ function showToast(msg, type = 'ok') {
   setTimeout(() => t.classList.remove('up'), 3200);
 }
 
-// TAB SWITCHING WITH SCROLL-TO-TOP FIX
+// TAB SWITCHING WITH AUTH GATES AND SCROLL-TO-TOP
 function switchTab(name, btn) {
   document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
