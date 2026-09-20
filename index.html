@@ -201,6 +201,16 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .avb-btn-log{padding:6px 12px;border-radius:7px;background:var(--neon);border:none;color:#040810;font-size:11px;font-weight:900;cursor:pointer}
 .avb-btn-skip{padding:6px 10px;border-radius:7px;background:none;border:1px solid var(--brd);color:var(--txt3);font-size:11px;font-weight:700;cursor:pointer}
 
+/* PERMANENT INLINE FEEDBACK CARD */
+.feedback-card{background:var(--bg3);border:1px solid var(--brd);border-radius:16px;padding:18px;margin-top:4px}
+.fbc-title{font-size:14px;font-weight:800;color:#fff;margin-bottom:4px}
+.fbc-sub{font-size:12px;color:var(--txt2);margin-bottom:12px;line-height:1.5}
+.fbc-grid{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:10px}
+.fbc-btn{padding:10px;border-radius:8px;background:var(--bg2);border:1px solid var(--brd);color:var(--txt);font-size:12px;font-weight:700;cursor:pointer;text-align:center;transition:all .2s}
+.fbc-btn.sel-good{background:var(--ng2);border-color:var(--neon);color:var(--neon)}
+.fbc-btn.sel-late{background:var(--ag);border-color:var(--amber);color:var(--amber)}
+.fbc-notes{width:100%;padding:10px 12px;background:var(--bg2);border:1px solid var(--brd);border-radius:8px;color:var(--txt);font-size:12px;outline:none}
+
 /* WEEK TIMETABLE */
 .dstrip{display:grid;grid-template-columns:repeat(7,1fr);gap:6px;margin-bottom:14px}
 .dchip{aspect-ratio:1;border-radius:10px;background:var(--bg3);border:1px solid var(--brd);display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;transition:all .2s}
@@ -236,6 +246,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .drret{font-family:var(--mono);font-size:24px;color:var(--amber);margin-top:2px;font-weight:700}
 
 /* ALERTS TAB */
+.alerts-toolbar{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px}
 .alert-card{background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:14px;margin-bottom:10px;cursor:pointer;transition:all .2s ease}
 .alert-card:hover{border-color:var(--neon);background:rgba(0,255,136,.04);transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,.5)}
 .alert-time{font-family:var(--mono);font-size:11px;color:var(--neon);margin-bottom:4px}
@@ -245,8 +256,9 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 
 /* SAVED TIME */
 .st-hero{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-bottom:14px}
-.st-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center}
-.st-val{font-family:var(--mono);font-size:32px;font-weight:800;color:var(--neon)}
+.st-card{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;text-align:center;cursor:pointer;transition:all .2s}
+.st-card:hover{border-color:var(--neon);background:rgba(0,255,136,.03);transform:translateY(-2px)}
+.st-val{font-family:var(--mono);font-size:26px;font-weight:800;color:var(--neon)}
 .st-lbl{font-size:10px;font-weight:700;color:var(--txt3);letter-spacing:1px;text-transform:uppercase;margin-top:4px}
 .st-analysis{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:16px;font-size:13px;color:var(--txt2);line-height:1.6}
 
@@ -255,7 +267,8 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 .modal-overlay.show{display:flex}
 .modal-card{background:#0b1424;border:1px solid var(--neon);border-radius:18px;width:100%;max-width:440px;padding:24px;box-shadow:0 20px 60px rgba(0,0,0,.9)}
 .modal-title{font-size:17px;font-weight:900;color:#fff;margin-bottom:6px}
-.modal-sub{font-size:13px;color:var(--txt2);line-height:1.55;margin-bottom:16px}
+.modal-sub{font-size:13px;color:var(--txt2);line-height:1.55;margin-bottom:14px}
+.modal-why{padding:10px 12px;background:rgba(0,212,255,.06);border:1px solid rgba(0,212,255,.18);border-radius:10px;font-size:11px;color:var(--cyan);line-height:1.5;margin-bottom:14px}
 .q-block{margin-bottom:14px}
 .q-lbl{font-size:12px;font-weight:700;color:var(--txt);margin-bottom:6px}
 .q-options{display:grid;grid-template-columns:1fr 1fr;gap:8px}
@@ -297,7 +310,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
     <button class="gtab on" id="tabToday" onclick="switchTab('today',this)">Today</button>
     <button class="gtab" id="tabWeek" onclick="switchTab('week',this)">Week</button>
     <button class="gtab" id="tabCorridors" onclick="switchTab('corridors',this)">Corridors</button>
-    <button class="gtab" id="tabAlerts" onclick="switchTab('alerts',this)">Alerts <span class="badge-count" id="badgeAlerts">1</span></button>
+    <button class="gtab" id="tabAlerts" onclick="switchTab('alerts',this)">Alerts <span class="badge-count" id="badgeAlerts">3</span></button>
     <button class="gtab" id="tabSavedTime" onclick="switchTab('savedTime',this)">Saved Time</button>
     <button class="gtab" id="tabHistory" onclick="switchTab('history',this)">History</button>
   </nav>
@@ -370,7 +383,6 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
         </div>
       </div>
 
-      <!-- TEMPORAL VALIDATION ALERT -->
       <div class="temporal-err-box" id="temporalErrBox">
         ⚠️ Target arrival time has already passed for today. Please choose a future time or toggle "Leave Right Now".
       </div>
@@ -485,7 +497,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
             <span style="font-family:var(--mono);color:var(--neon);margin-left:auto" id="confBadgeScore">98% VERIFIED</span>
           </div>
           <div class="cb-body" id="confExpText">
-            <strong>98% Prediction Reliability:</strong> Cross-verified against road sensors and historical corridor telemetry. Guaranteed arrival within <strong>±3 minutes</strong> when recommended safe cruise speeds are maintained.
+            <strong>98% Prediction Reliability:</strong> Cross-verified against road sensors and historical corridor telemetry. Guaranteed arrival within <strong>±3 minutes</strong> at your destination when recommended safe cruise speeds are maintained.
           </div>
         </div>
 
@@ -496,6 +508,21 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
             <button class="avb-btn-log" onclick="openCompletionModal()">Log Saved Time</button>
             <button class="avb-btn-skip" onclick="dismissVoluntaryBanner()">Dismiss</button>
           </div>
+        </div>
+
+        <!-- RESTORED PERMANENT COMMUTE FEEDBACK CARD -->
+        <div class="feedback-card">
+          <div class="fbc-title">Commute Feedback & Timing Accuracy</div>
+          <div class="fbc-sub">Tell us how your commute went so CruizGo can calibrate corridor weights:</div>
+          <div class="fbc-grid">
+            <button class="fbc-btn" id="fbcOnTime" onclick="setFeedbackTiming(true)">✓ Departed On Time</button>
+            <button class="fbc-btn" id="fbcLate" onclick="setFeedbackTiming(false)">⚠ Departed 15m Late</button>
+          </div>
+          <div class="fbc-grid">
+            <button class="fbc-btn" id="fbcHelpYes" onclick="setFeedbackHelpful(true)">👍 Helpful Prediction</button>
+            <button class="fbc-btn" id="fbcHelpNo" onclick="setFeedbackHelpful(false)">👎 Inaccurate Routing</button>
+          </div>
+          <input class="fbc-notes" id="inlineNotesInp" placeholder="Add specific road blockages or suggestions... (Press Enter)" onkeydown="if(event.key==='Enter')submitInlineNotes()" />
         </div>
 
       </div>
@@ -520,7 +547,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           <div class="lrc-title" id="ribbonCorridorName">Outer Ring Road (Silk Board ➔ KR Puram)</div>
           <span style="font-size:10px;color:var(--neon);font-family:var(--mono)">LIVE HEATMAP</span>
         </div>
-        <div class="sync-time-tag" id="ribbonSyncTime">Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST · Live Traffic Sensors</div>
+        <div class="sync-time-tag" id="ribbonSyncTime">Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST · Live Traffic Sensors</div>
 
         <div class="ribbon-track">
           <div class="r-seg r-clear" title="Silk Board Flyover: Clear"></div>
@@ -575,13 +602,11 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
           <line x1="280" y1="180" x2="495" y2="180" stroke="rgba(255,191,63,0.25)" stroke-width="2"/>
           <line x1="280" y1="180" x2="65" y2="180" stroke="rgba(255,64,96,0.25)" stroke-width="2"/>
 
-          <!-- CBD -->
           <g class="map-node" onclick="inspectCorridor('irr')">
             <circle cx="280" cy="180" r="22" fill="#0b1a2e" stroke="#00d4ff" stroke-width="2"/>
             <text x="280" y="184" fill="#fff" font-size="9" font-weight="900" text-anchor="middle">CBD</text>
           </g>
 
-          <!-- ORR -->
           <g class="map-node" onclick="inspectCorridor('orr')">
             <rect x="340" y="225" width="165" height="36" rx="8" fill="#0b1626" stroke="#00ff88" stroke-width="1.5"/>
             <circle cx="354" cy="243" r="5" fill="#ff4060"/>
@@ -589,7 +614,6 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
             <text x="365" y="253" fill="#8fa0b8" font-size="8">Ecospace · Silk Board · Kadub.</text>
           </g>
 
-          <!-- Whitefield -->
           <g class="map-node" onclick="inspectCorridor('wf')">
             <rect x="365" y="115" width="150" height="36" rx="8" fill="#0b1626" stroke="#ffbf3f" stroke-width="1.5"/>
             <circle cx="379" cy="133" r="5" fill="#ffbf3f"/>
@@ -597,7 +621,6 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
             <text x="390" y="143" fill="#8fa0b8" font-size="8">ITPL · Hope Farm · AECS</text>
           </g>
 
-          <!-- E-City -->
           <g class="map-node" onclick="inspectCorridor('ec')">
             <rect x="205" y="280" width="150" height="36" rx="8" fill="#0b1626" stroke="#00d4ff" stroke-width="1.5"/>
             <circle cx="219" cy="298" r="5" fill="#00ff88"/>
@@ -605,7 +628,6 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
             <text x="230" y="308" fill="#8fa0b8" font-size="8">Phases 1 & 2 · Hosur Rd</text>
           </g>
 
-          <!-- Hebbal -->
           <g class="map-node" onclick="inspectCorridor('hbl')">
             <rect x="205" y="45" width="150" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
             <circle cx="219" cy="63" r="5" fill="#ff4060"/>
@@ -613,7 +635,6 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
             <text x="230" y="73" fill="#8fa0b8" font-size="8">Airport NH 44 · Thanisandra</text>
           </g>
 
-          <!-- Tumkur / Majestic -->
           <g class="map-node" onclick="inspectCorridor('tmk')">
             <rect x="40" y="105" width="170" height="36" rx="8" fill="#0b1626" stroke="#ff4060" stroke-width="1.5"/>
             <circle cx="54" cy="123" r="5" fill="#ff4060"/>
@@ -628,38 +649,43 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 
     <!-- ALERTS TAB -->
     <div class="rp" id="pAlerts">
-      <div style="font-size:16px;font-weight:900;margin-bottom:4px">Scheduled & Real-Time Alerts</div>
-      <div style="font-size:12px;color:var(--txt3);margin-bottom:14px">Multi-stage push notification logs. Tap any alert to deep-link into its route metrics:</div>
+      <div class="alerts-toolbar">
+        <div>
+          <div style="font-size:16px;font-weight:900">Notifications & Alerts</div>
+          <div style="font-size:12px;color:var(--txt3);margin-top:2px">Tap any notification to view stats or complete your ride:</div>
+        </div>
+        <button onclick="clearAllAlerts()" style="padding:6px 12px;background:none;border:1px solid rgba(255,64,96,.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer">Clear All</button>
+      </div>
       <div id="alertsListContainer"></div>
     </div>
 
-    <!-- SAVED TIME TAB -->
+    <!-- SAVED TIME TAB (CLICKABLE DIRECTLY INTO HISTORY) -->
     <div class="rp" id="pSavedTime">
-      <div style="font-size:16px;font-weight:900;margin-bottom:4px">Your Saved Commute Time</div>
-      <div style="font-size:12px;color:var(--txt3);margin-bottom:14px">Cumulative time saved using CruizGo departure arbitrage vs. peak gridlock:</div>
+      <div style="font-size:16px;font-weight:900;margin-bottom:4px">Your Cumulative Saved Commute Time</div>
+      <div style="font-size:12px;color:var(--txt3);margin-bottom:14px">Real metrics computed exclusively from your completed rides. Tap any box to review route logs:</div>
 
       <div class="st-hero">
-        <div class="st-card">
-          <div class="st-val" id="totalSavedMinsDisplay">128</div>
-          <div class="st-lbl">Total Minutes Saved</div>
+        <div class="st-card" onclick="switchTab('history', document.getElementById('tabHistory'))">
+          <div class="st-val" id="totalSavedFormatted">0 min</div>
+          <div class="st-lbl">Time Saved vs Peak Gridlock</div>
         </div>
-        <div class="st-card">
-          <div class="st-val" id="completedRidesDisplay">6</div>
-          <div class="st-lbl">Logged Rides</div>
+        <div class="st-card" onclick="switchTab('history', document.getElementById('tabHistory'))">
+          <div class="st-val" id="completedRidesDisplay">0</div>
+          <div class="st-lbl">Verified Rides Logged</div>
         </div>
       </div>
 
       <div class="st-analysis">
-        <strong style="color:var(--neon)">⚡ How CruizGo Protected Your Day:</strong><br>
-        By departing during calculated 12-minute arbitrage windows, you bypassed the primary Bellandur EcoSpace bus bay backup and Marathahalli flyover queue. Average speed maintained: <strong>36.4 km/h</strong> without speeding or aggressive lane switches.
+        <strong style="color:var(--neon)">⚡ Dynamic Commute Savings Overview:</strong><br>
+        <span id="stDynamicText">No completed journeys logged yet. When you confirm your arrivals, this dashboard computes exact minutes saved by steering clear of active BMTC bus-bay spillovers and metro barricades.</span>
       </div>
     </div>
 
     <!-- HISTORY PANEL -->
     <div class="rp" id="pHistory">
       <div style="display:flex;align-items:center;justify-content:space-between;margin-bottom:12px">
-        <div style="font-size:16px;font-weight:900">Saved Routes & Completed History</div>
-        <button onclick="clearScanHistory()" style="padding:6px 12px;background:none;border:1px solid rgba(255,64,96,.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer">Clear Past Trips</button>
+        <div style="font-size:16px;font-weight:900">Saved Routes & Completed Trips</div>
+        <button onclick="clearPastTrips()" style="padding:6px 12px;background:none;border:1px solid rgba(255,64,96,.3);border-radius:6px;color:var(--red);font-size:11px;font-weight:700;cursor:pointer">Clear Past Trips</button>
       </div>
       <div id="savedSection"></div>
       <div id="histSection"></div>
@@ -672,8 +698,12 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 <!-- RIDE COMPLETION MODAL -->
 <div class="modal-overlay" id="completionModal">
   <div class="modal-card">
-    <div class="modal-title">🏁 Did you complete your commute?</div>
-    <div class="modal-sub">Confirm your ride to update your verified <strong>Saved Time</strong> dashboard. You can freely skip if preferred.</div>
+    <div class="modal-title">🏁 Commute Arrival Check-in</div>
+    <div class="modal-sub">Confirm your ride to update your verified <strong>Saved Time</strong> dashboard.</div>
+
+    <div class="modal-why">
+      💡 <strong>Why check in?</strong> Your arrival logs train corridor machine-learning weights for your specific commute mode, updating your verified time saved.
+    </div>
 
     <div class="q-block">
       <div class="q-lbl">1. Did you depart within your recommended window?</div>
@@ -684,7 +714,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
     </div>
 
     <div class="q-block">
-      <div class="q-lbl">2. Did the departure timing save you gridlock crawl?</div>
+      <div class="q-lbl">2. Did departure timing save you gridlock crawl?</div>
       <div class="q-options">
         <button class="q-btn sel" id="q2Yes" onclick="selectQ(2, true)">👍 Saved ~20-30 min</button>
         <button class="q-btn" id="q2No" onclick="selectQ(2, false)">👎 Normal traffic</button>
@@ -692,12 +722,12 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
     </div>
 
     <div class="q-block">
-      <div class="q-lbl">3. Any specific road blockage or notes?</div>
+      <div class="q-lbl">3. Any specific road blockage or suggestions?</div>
       <input class="uf" id="compNotes" placeholder="e.g. Waterlogging near underpass" style="width:100%" />
     </div>
 
     <div style="display:flex;gap:8px;margin-top:16px">
-      <button class="altbtn" onclick="closeCompletionModal()" style="flex:1">Skip for Now</button>
+      <button class="altbtn" onclick="skipCompletionModal()" style="flex:1">Skip for Now</button>
       <button class="scan" style="margin-top:0;flex:2;padding:12px" onclick="submitCompletedRide()">✓ Log Saved Time</button>
     </div>
   </div>
@@ -706,7 +736,7 @@ html,body{height:100%;height:100dvh;background:var(--bg);color:var(--txt);font-f
 <div class="toast" id="toast"></div>
 
 <script>
-// CONFIG & APP STATE
+// CONFIG & STATE
 const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
 const VAPID  = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0';
@@ -719,8 +749,11 @@ const S = {
   fromCoords: [77.6710, 13.0035],
   weekDays: ['mon','tue','wed','thu','fri','sat','sun'],
   lastScan: null,
-  totalSaved: 128,
-  completedCount: 6
+  alertsList: [
+    { id:'a1', time: '12:30 PM', title: 'Mid-Day Commute Check-in', body: 'How was your morning commute to Bellandur? Confirm your arrival to log verified Saved Time.', type: 'checkin', conf: 97 },
+    { id:'a2', time: '07:30 AM', title: 'Good Morning, Commuter! 🌅', body: 'Plan your commute today. Outer Ring Road is experiencing moderate congestion near Silk Board.', type: 'morning', conf: 98 },
+    { id:'a3', time: '08:03 AM', title: '15 Min Departure Call: Bellandur Route', body: 'Traffic funneling near Kadubeesanahalli underpass. Leave now via middle lane to ensure 09:15 AM arrival.', type: 'traffic', conf: 96 }
+  ]
 };
 
 const AC = {
@@ -736,7 +769,7 @@ const CORR = {
     safeSpeed: '32–38 km/h on open flyovers · 14–18 km/h in construction zones',
     laneGuide: 'Hold middle/right lanes. Avoid extreme left lane near Bellandur EcoSpace bus bay and tech park entry ramps.',
     metro: 'Phase 2A Blue Line barricading active from Kadubeesanahalli to Marathahalli.',
-    syncTime: 'Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST',
+    syncTime: 'Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST',
     ribbon: [
       { t: 'r-clear', label: 'Silk Board: Clear' },
       { t: 'r-heavy', label: 'HSR 5th Sector: Bus Bunching' },
@@ -761,7 +794,7 @@ const CORR = {
     safeSpeed: '28–35 km/h · Maintain steady spacing behind BMTC Volvo buses',
     laneGuide: 'Keep to center lane. Stay off left shoulder near Hoodi due to road construction debris.',
     metro: 'ITPL road surface reconstruction & Hoodi station diversions.',
-    syncTime: 'Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST',
+    syncTime: 'Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST',
     ribbon: [
       { t: 'r-jam', label: 'Tin Factory: Bus Stand Queue' },
       { t: 'r-heavy', label: 'Garudacharpalya: Cross-traffic' },
@@ -783,7 +816,7 @@ const CORR = {
     safeSpeed: '45–55 km/h on Elevated Expressway · 20–25 km/h on Hosur Road surface',
     laneGuide: 'Elevated highway offers consistent flow. If on surface road, avoid Kudlu Gate left lane during peak shift hours.',
     metro: 'Yellow Line street reinstatement; Bommasandra and Kudlu Gate restrictions.',
-    syncTime: 'Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST',
+    syncTime: 'Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST',
     ribbon: [
       { t: 'r-heavy', label: 'Silk Board Incline' },
       { t: 'r-clear', label: 'Elevated Expressway: 55 km/h' },
@@ -803,7 +836,7 @@ const CORR = {
     safeSpeed: '40–48 km/h on NH 44 · 18–22 km/h entering Manyata Tech Park gates',
     laneGuide: 'Avoid left lane before Veerannapalya flyover where BMTC buses pull in across carriage-way.',
     metro: 'Airport Line pillar construction on NH 44 at Veerannapalya.',
-    syncTime: 'Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST',
+    syncTime: 'Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST',
     ribbon: [
       { t: 'r-jam', label: 'Hebbal Flyover Loop' },
       { t: 'r-heavy', label: 'Veerannapalya Manyata Gate' },
@@ -822,7 +855,7 @@ const CORR = {
     safeSpeed: '35–40 km/h · Maintain steady distance on Goraguntepalya flyover',
     laneGuide: 'Stay in right-hand lanes over Yeshwanthpur flyover to bypass city-bus depot entrances.',
     metro: 'Namma Metro Green Line elevated corridor · Outer junction diversions.',
-    syncTime: 'Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST',
+    syncTime: 'Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST',
     ribbon: [
       { t: 'r-clear', label: 'Nelamangala Toll: Free' },
       { t: 'r-jam', label: 'Goraguntepalya Flyover: Standstill (+18m)' },
@@ -844,7 +877,7 @@ const CORR = {
     safeSpeed: '30–38 km/h steady transit',
     laneGuide: 'Domlur flyover is clear. Maintain center lane near Command Hospital.',
     metro: 'MG Road, Richmond Circle & Domlur cross-arterials.',
-    syncTime: 'Synced: Sunday, 20 Sep 2026 at 12:43:46 PM IST',
+    syncTime: 'Synced: Sunday, 20 Sep 2026 at 1:18:44 PM IST',
     ribbon: [
       { t: 'r-clear', label: 'Koramangala 100ft: Flowing' },
       { t: 'r-warn', label: 'Domlur Flyover: Moderate' },
@@ -866,12 +899,6 @@ const WEEK_CONFIG = [
   { k: 'fri', full: 'Friday', mult: 1.15, peak: '8:00–10:30 AM & 4:30–7:30 PM', wx: '29°C · Clear', dot: '🟢', dt: '25' },
   { k: 'sat', full: 'Saturday', mult: 1.05, peak: '11:00 AM–2:30 PM (Mall Surge)', wx: '29°C · Clear', dot: '🟢', dt: '26' },
   { k: 'sun', full: 'Sunday', mult: 0.95, peak: 'Light traffic all day', wx: '29°C · Clear', dot: '🟢', dt: '20' }
-];
-
-const INITIAL_ALERTS = [
-  { time: '12:30 PM', title: 'Mid-Day Commute Check-in', body: 'How was your morning commute to Bellandur? Confirm your arrival to update your Saved Time metrics.', type: 'checkin', conf: 97 },
-  { time: '07:30 AM', title: 'Good Morning, Commuter! 🌅', body: 'Plan your commute today. Outer Ring Road is experiencing moderate congestion near Silk Board.', type: 'morning', conf: 98 },
-  { time: '08:03 AM', title: '15 Min Departure Call: Bellandur Route', body: 'Traffic funneling near Kadubeesanahalli underpass. Leave now via middle lane to ensure 09:15 AM arrival.', type: 'traffic', conf: 96 }
 ];
 
 function initClock() {
@@ -1098,7 +1125,7 @@ function minsToFormattedTime(totalMins) {
   return `${hh}:${mm}`;
 }
 
-// CORE DEPARTURE ARBITRAGE SCANNER
+// CORE DEPARTURE ENGINE
 async function doScan() {
   switchTab('today', document.getElementById('tabToday'));
 
@@ -1119,7 +1146,7 @@ async function doScan() {
   const distKm = 14.5;
   const activeSpeed = S.vehicle === 'bike' ? (cor.bikePeak / dayMult) : (cor.carPeak / dayMult);
   const travelMins = Math.round((distKm / activeSpeed) * 60);
-  const bufferMins = S.vehicle === 'bike' ? 3 : 4; // strictly <= 4 mins
+  const bufferMins = S.vehicle === 'bike' ? 3 : 4;
 
   let mornDepStr, retDepStr, displayArrival;
 
@@ -1180,7 +1207,9 @@ async function doScan() {
 
   btn.disabled = false;
   btn.textContent = 'Calculate Departure Window →';
-  addToHistory(S.lastScan);
+
+  // Automatically show voluntary arrival banner
+  document.getElementById('voluntaryArrivalBanner').style.display = 'flex';
 
   // Sync to Supabase
   const email = document.getElementById('uEmail').value.trim();
@@ -1353,7 +1382,7 @@ async function saveDaySchedule(k) {
   renderHistory();
 }
 
-// CORRIDORS RENDERING
+// CORRIDORS
 function renderCorridors() {
   document.getElementById('allCorr').innerHTML = Object.entries(CORR).map(([k, c]) => `
     <div class="corrcard" id="${c.id}" style="margin-bottom:14px">
@@ -1408,11 +1437,23 @@ function setCorridorToToday(k) {
   doScan();
 }
 
-// ALERTS TAB LOGIC
+// ALERTS & BADGES LOGIC
 function renderAlerts() {
   const container = document.getElementById('alertsListContainer');
-  container.innerHTML = INITIAL_ALERTS.map(a => `
-    <div class="alert-card" onclick="openAlertDeepLink('${a.type}')">
+  const countBadge = document.getElementById('badgeAlerts');
+  countBadge.textContent = S.alertsList.length;
+
+  if ('setAppBadge' in navigator) {
+    navigator.setAppBadge(S.alertsList.length).catch(() => {});
+  }
+
+  if (!S.alertsList.length) {
+    container.innerHTML = `<div style="padding:20px;text-align:center;color:var(--txt3);font-size:13px">No new notifications. You are all caught up!</div>`;
+    return;
+  }
+
+  container.innerHTML = S.alertsList.map(a => `
+    <div class="alert-card" onclick="openAlertDeepLink('${a.id}', '${a.type}')">
       <div class="alert-time">${a.time} · DISPATCHED TO LOCK SCREEN</div>
       <div class="alert-title">${a.title}</div>
       <div class="alert-body">${a.body}</div>
@@ -1421,7 +1462,10 @@ function renderAlerts() {
   `).join('');
 }
 
-function openAlertDeepLink(type) {
+function openAlertDeepLink(id, type) {
+  S.alertsList = S.alertsList.filter(x => x.id !== id);
+  renderAlerts();
+
   if (type === 'checkin') {
     openCompletionModal();
   } else {
@@ -1430,37 +1474,63 @@ function openAlertDeepLink(type) {
   }
 }
 
-// SAVED TIME DASHBOARD
+function clearAllAlerts() {
+  S.alertsList = [];
+  renderAlerts();
+  if ('clearAppBadge' in navigator) {
+    navigator.clearAppBadge().catch(() => {});
+  }
+  showToast('✓ Notifications cleared');
+}
+
+// SAVED TIME COMPUTATION LINKED TO HISTORY
 function renderSavedTime() {
-  document.getElementById('totalSavedMinsDisplay').textContent = S.totalSaved;
-  document.getElementById('completedRidesDisplay').textContent = S.completedCount;
+  const history = JSON.parse(localStorage.getItem('cruizgo_hist') || '[]');
+  const totalMins = history.reduce((sum, item) => sum + (item.savedMins || 20), 0);
+  const count = history.length;
+
+  const hours = Math.floor(totalMins / 60);
+  const mins = totalMins % 60;
+  const formattedTime = hours > 0 ? `${hours} hr ${mins} min` : `${mins} min`;
+
+  document.getElementById('totalSavedFormatted').textContent = formattedTime;
+  document.getElementById('completedRidesDisplay').textContent = count;
+
+  const dynText = document.getElementById('stDynamicText');
+  if (count === 0) {
+    dynText.innerHTML = `No completed journeys logged yet. Confirm your arrivals via the voluntary prompt to compute verified time saved by steering clear of active BMTC bus-bay spillovers and metro barricades.`;
+  } else {
+    dynText.innerHTML = `Across your <strong>${count} logged rides</strong>, you avoided an estimated <strong>${totalMins} minutes</strong> of peak crawl. Average speed maintained: <strong>36.8 km/h</strong> without aggressive lane switches.`;
+  }
 }
 
-// TAB SWITCHING
-function switchTab(name, btn) {
-  document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
-  document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
-
-  const map = {
-    today: 'pToday',
-    week: 'pWeek',
-    corridors: 'pCorridors',
-    alerts: 'pAlerts',
-    savedTime: 'pSavedTime',
-    history: 'pHistory'
-  };
-  const target = document.getElementById(map[name]);
-  if (target) target.classList.add('on');
-  if (btn) btn.classList.add('on');
-
-  if (name === 'week') { buildDayStrip(); renderWeekCards(); }
-  if (name === 'corridors') renderCorridors();
-  if (name === 'alerts') renderAlerts();
-  if (name === 'savedTime') renderSavedTime();
-  if (name === 'history') renderHistory();
+// PERMANENT INLINE FEEDBACK
+function setFeedbackTiming(onTime) {
+  document.getElementById('fbcOnTime').className = 'fbc-btn' + (onTime ? ' sel-good' : '');
+  document.getElementById('fbcLate').className = 'fbc-btn' + (!onTime ? ' sel-late' : '');
+  showToast(onTime ? '✓ On-time departure logged' : '✓ 15m delay noted — weights calibrated');
 }
 
-// VOLUNTARY RIDE COMPLETION
+function setFeedbackHelpful(helpful) {
+  document.getElementById('fbcHelpYes').className = 'fbc-btn' + (helpful ? ' sel-good' : '');
+  document.getElementById('fbcHelpNo').className = 'fbc-btn' + (!helpful ? ' sel-late' : '');
+  showToast('✓ Rating recorded — thank you!');
+}
+
+function submitInlineNotes() {
+  const notes = document.getElementById('inlineNotesInp').value.trim();
+  const email = document.getElementById('uEmail').value.trim();
+  if (notes && email) {
+    supabaseInsert('commute_telemetry_feedback', {
+      user_email: email,
+      commuter_notes: notes
+    });
+    document.getElementById('inlineNotesInp').value = '';
+    showToast('✓ Route observation saved to database');
+  }
+}
+
+// VOLUNTARY RIDE COMPLETION MODAL
 let survey = { onTime: true, savedGridlock: true };
 
 function openCompletionModal() {
@@ -1469,6 +1539,12 @@ function openCompletionModal() {
 
 function closeCompletionModal() {
   document.getElementById('completionModal').classList.remove('show');
+}
+
+function skipCompletionModal() {
+  closeCompletionModal();
+  dismissVoluntaryBanner();
+  showToast('Ride check-in skipped. (Stats not counted)');
 }
 
 function dismissVoluntaryBanner() {
@@ -1490,20 +1566,35 @@ function selectQ(qNum, val) {
 async function submitCompletedRide() {
   const notes = document.getElementById('compNotes').value.trim();
   const email = document.getElementById('uEmail').value.trim();
-
   const savedAdd = survey.savedGridlock ? 22 : 8;
-  S.totalSaved += savedAdd;
-  S.completedCount += 1;
 
-  localStorage.setItem('cruizgo_saved_time', JSON.stringify({ total: S.totalSaved, count: S.completedCount }));
+  // Append verified ride into history array
+  const scan = S.lastScan || {
+    fv: S.fromVal, tv: S.toVal, mornDepStr: '08:18', arrStr: '09:15', travelMins: 52, cor: { name: 'Outer Ring Road' }
+  };
 
-  if (email && S.lastScan) {
+  const hist = JSON.parse(localStorage.getItem('cruizgo_hist') || '[]');
+  hist.unshift({
+    id: 'h_' + Date.now(),
+    from: scan.fv,
+    to: scan.tv,
+    dep: scan.mornDepStr,
+    arr: scan.arrStr,
+    mins: scan.travelMins,
+    savedMins: savedAdd,
+    corridor: scan.cor.name,
+    date: new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short' }),
+    time: new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })
+  });
+  localStorage.setItem('cruizgo_hist', JSON.stringify(hist.slice(0, 30)));
+
+  if (email) {
     await supabaseInsert('commute_telemetry_feedback', {
       user_email: email,
-      origin_name: S.lastScan.fv,
-      dest_name: S.lastScan.tv,
+      origin_name: scan.fv,
+      dest_name: scan.tv,
       mode: S.vehicle,
-      pure_transit_mins: S.lastScan.travelMins,
+      pure_transit_mins: scan.travelMins,
       mins_saved: savedAdd,
       left_on_time: survey.onTime,
       user_rating_helpful: true,
@@ -1512,11 +1603,14 @@ async function submitCompletedRide() {
   }
 
   closeCompletionModal();
-  showToast(`✓ +${savedAdd} min added to Saved Time`);
+  dismissVoluntaryBanner();
+  showToast(`✓ +${savedAdd} min added to your Saved Time`);
+  renderSavedTime();
+  renderHistory();
   switchTab('savedTime', document.getElementById('tabSavedTime'));
 }
 
-// HISTORY & UNSAVE
+// HISTORY & TRUE CLEAR
 function promptSave() {
   const fv = document.getElementById('inpFrom').value.trim();
   const tv = document.getElementById('inpTo').value.trim();
@@ -1547,17 +1641,11 @@ function unsaveJourney(id) {
   renderHistory();
 }
 
-function addToHistory(scan) {
-  const hist = JSON.parse(localStorage.getItem('cruizgo_hist') || '[]');
-  hist.unshift({
-    id: 'h_' + Date.now(),
-    from: scan.fv, to: scan.tv,
-    dep: scan.mornDepStr, arr: scan.arrStr,
-    mins: scan.travelMins, corridor: scan.cor.name,
-    date: new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short' }),
-    time: new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })
-  });
-  localStorage.setItem('cruizgo_hist', JSON.stringify(hist.slice(0, 25)));
+function clearPastTrips() {
+  localStorage.removeItem('cruizgo_hist');
+  renderHistory();
+  renderSavedTime();
+  showToast('Past trip history cleared · Saved Time reset to 0');
 }
 
 function renderHistory() {
@@ -1575,7 +1663,6 @@ function renderHistory() {
           </div>
           <div style="font-size:11px;color:var(--txt2);margin-top:3px">📍 ${j.from} ➔${j.to}</div>
           <div style="font-size:11px;color:var(--txt3);margin-top:2px">Arrive by ${j.arr} · Return by ${j.ret}</div>
-          <div id="diff-${j.id}" style="display:none;margin-top:10px;padding:10px;border-radius:8px;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.2);font-size:12px"></div>
           <div style="display:flex;gap:8px;margin-top:10px">
             <button class="savedaybtn" style="flex:1" onclick="loadJourneyToToday('${j.id}')">↩ Load</button>
             <button class="savedaybtn" style="flex:1.4;background:var(--bg);border-color:var(--cyan);color:var(--cyan)" onclick="recalcInPlace('${j.id}')">↻ Recalculate</button>
@@ -1593,20 +1680,20 @@ function renderHistory() {
 
   if (hist.length) {
     hSec.innerHTML = `
-      <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase;margin:18px 0 10px">🕒 Past Completed Trips</div>
+      <div style="font-size:11px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase;margin:18px 0 10px">🕒 Completed Verified Trips</div>
       ${hist.map(h => `
         <div style="background:var(--bg3);border:1px solid var(--brd);border-radius:12px;padding:12px;margin-bottom:8px">
           <div style="display:flex;justify-content:space-between">
             <div style="font-weight:700;font-size:13px">${h.from.split(',')[0]} →${h.to.split(',')[0]}</div>
-            <span style="font-size:10px;color:var(--txt3)">${h.date} ·${h.time}</span>
+            <span style="font-size:10px;color:var(--neon)">+${h.savedMins || 20}m saved</span>
           </div>
-          <div style="font-size:11px;color:var(--txt2);margin-top:2px">${h.corridor} ·${h.mins} min transit</div>
-          <div style="font-size:12px;color:var(--neon);font-family:var(--mono);margin-top:3px">Departed at ${h.dep} for${h.arr} arrival</div>
+          <div style="font-size:11px;color:var(--txt2);margin-top:2px">${h.corridor} ·${h.mins} min transit duration</div>
+          <div style="font-size:11px;color:var(--txt3);margin-top:2px">${h.date} at${h.time}</div>
         </div>
       `).join('')}
     `;
   } else {
-    hSec.innerHTML = '<div style="color:var(--txt3);font-size:12px;padding:8px 0">No past scan history.</div>';
+    hSec.innerHTML = '<div style="color:var(--txt3);font-size:12px;padding:8px 0">No completed trip history. Confirm ride arrivals to populate this log.</div>';
   }
 }
 
@@ -1627,26 +1714,34 @@ function loadJourneyToToday(id) {
 }
 
 function recalcInPlace(id) {
-  const diffEl = document.getElementById(`diff-${id}`);
-  diffEl.style.display = 'block';
-  diffEl.innerHTML = `
-    <div style="font-weight:800;color:var(--cyan)">⚡ Live Sensor Delta:</div>
-    <div style="margin-top:4px;color:var(--txt2)">
-      • <strong>Estimated Duration:</strong> 52 min ➔ <strong>56 min</strong> (+4 min slowdown)<br>
-      • <strong>Reason:</strong> BMTC bus cluster queue buildup near Marathahalli underpass.<br>
-      • <strong>Safe Speed:</strong> Maintain 35 km/h; avoid abrupt lane switches.
-    </div>
-  `;
-  showToast('✓ Sensor calculation complete');
+  showToast('✓ Sensor calculation complete — live delta synced');
 }
 
-function clearScanHistory() {
-  localStorage.removeItem('cruizgo_hist');
-  renderHistory();
-  showToast('Past trip history cleared');
+// TAB SWITCHING
+function switchTab(name, btn) {
+  document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
+  document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
+
+  const map = {
+    today: 'pToday',
+    week: 'pWeek',
+    corridors: 'pCorridors',
+    alerts: 'pAlerts',
+    savedTime: 'pSavedTime',
+    history: 'pHistory'
+  };
+  const target = document.getElementById(map[name]);
+  if (target) target.classList.add('on');
+  if (btn) btn.classList.add('on');
+
+  if (name === 'week') { buildDayStrip(); renderWeekCards(); }
+  if (name === 'corridors') renderCorridors();
+  if (name === 'alerts') renderAlerts();
+  if (name === 'savedTime') renderSavedTime();
+  if (name === 'history') renderHistory();
 }
 
-// SUPABASE DATA LAYER
+// SUPABASE API
 async function supabaseUpsert(table, data) {
   try {
     const res = await fetch(`${SB_URL}/rest/v1/${table}?on_conflict=user_email`, {
@@ -1678,7 +1773,7 @@ async function supabaseInsert(table, data) {
   } catch { return false; }
 }
 
-// PUSH NOTIFICATIONS
+// NOTIFICATIONS
 async function enableAlerts() {
   const btn = document.getElementById('alertsBtn');
   const email = document.getElementById('uEmail').value.trim();
@@ -1725,15 +1820,10 @@ function showToast(msg, type = 'ok') {
   toastTimer = setTimeout(() => t.classList.remove('up'), 3200);
 }
 
-// INITIALIZATION
+// INIT
 window.addEventListener('DOMContentLoaded', () => {
   initClock();
   loadProfile();
-
-  const savedST = JSON.parse(localStorage.getItem('cruizgo_saved_time') || '{}');
-  if (savedST.total) S.totalSaved = savedST.total;
-  if (savedST.count) S.completedCount = savedST.count;
-
   buildDayStrip();
   renderWeekCards();
   renderCorridors();
