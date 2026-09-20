@@ -33,7 +33,7 @@ html,body{
 }
 ::-webkit-scrollbar{width:3px}::-webkit-scrollbar-thumb{background:var(--sur2);border-radius:3px}
 
-/* FIXED HEADER WITH ENLARGED TYPOGRAPHY */
+/* FIXED HEADER */
 .top-stack{
   flex-shrink:0;z-index:900;background:rgba(4,8,16,.98);
   border-bottom:1px solid var(--brd);backdrop-filter:blur(25px)
@@ -62,12 +62,15 @@ html,body{
 }
 .user-badge:hover{border-color:var(--neon);color:var(--neon)}
 .user-dot{width:7px;height:7px;border-radius:50%;background:var(--txt3)}
-.user-dot.online{background:var(--neon);box-shadow:0 0 8px var(--neon)}
+.user-dot.online{background:var(--neon);box-shadow:0 0 8px var(--neon);animation:lp 2s infinite}
+@keyframes lp{0%,100%{box-shadow:0 0 0 0 rgba(0,255,136,.7)}50%{box-shadow:0 0 0 5px rgba(0,255,136,0)}}
 
+.live{display:flex;align-items:center;gap:5px;padding:4px 10px;border-radius:20px;background:rgba(0,255,136,.08);border:1px solid rgba(0,255,136,.25);font-size:11px;font-weight:800;color:var(--neon)}
+.ldot{width:6px;height:6px;border-radius:50%;background:var(--neon);animation:lp 2s infinite}
 .date-pill{font-size:11px;font-weight:700;color:var(--txt2);background:var(--bg3);border:1px solid var(--brd);padding:6px 10px;border-radius:8px;font-family:var(--mono)}
 .clk{font-family:var(--mono);font-size:12px;font-weight:600;color:var(--txt);background:var(--bg3);border:1px solid var(--brd);padding:6px 10px;border-radius:7px}
 
-/* ENLARGED BEVELED TABS */
+/* TABS WITH ENLARGED FONT & SCROLLABLE FOR MOBILE */
 .global-tabs{
   display:flex;background:linear-gradient(180deg,#070e1c 0%,#050a14 100%);
   padding:6px 12px;gap:6px;border-bottom:1px solid var(--brd);overflow-x:auto
@@ -95,7 +98,6 @@ html,body{
 .rp{display:none;width:100%;flex-direction:column;padding:18px;gap:14px}
 .rp.on{display:flex}
 
-/* TODAY TAB LAYOUT */
 .today-layout{display:flex;width:100%;gap:18px}
 .today-controls{width:380px;flex-shrink:0}
 .today-results{flex:1;display:flex;flex-direction:column;gap:14px}
@@ -166,6 +168,15 @@ html,body{
 .scan:hover{transform:translateY(-1px);box-shadow:0 8px 25px rgba(0,255,136,.35)}
 .altbtn{width:100%;padding:10px;margin-top:8px;background:none;border:1px solid var(--brd);border-radius:10px;color:var(--txt2);font-size:12px;font-weight:700;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:6px}
 
+/* LIVE WEATHER WIDGET */
+.weather-widget{
+  display:flex;align-items:center;gap:12px;padding:12px 16px;border-radius:14px;
+  background:linear-gradient(135deg,#091a2e,#0f223a);border:1px solid rgba(0,212,255,.2);margin-bottom:12px
+}
+.ww-ico{font-size:26px}
+.ww-title{font-size:13px;font-weight:800;color:#fff}
+.ww-desc{font-size:11px;color:var(--cyan);margin-top:2px}
+
 /* HERO OUTPUT */
 .hero{padding:20px;background:linear-gradient(145deg,#0a1525,#0f1e35);border:1px solid rgba(0,255,136,.18);border-radius:16px;position:relative;overflow:hidden}
 .hero::before{content:'';position:absolute;top:0;left:0;right:0;height:2px;background:linear-gradient(90deg,var(--neon),#00d4ff,var(--neon))}
@@ -212,7 +223,7 @@ html,body{
 .dchip{
   aspect-ratio:1;border-radius:12px;background:var(--bg3);border:1px solid var(--brd);
   display:flex;flex-direction:column;align-items:center;justify-content:center;cursor:pointer;
-  transition:all .2s;text-align:center
+  transition:all .2s;text-align:center;position:relative
 }
 .dchip:hover{border-color:var(--brd2);background:var(--surf)}
 .dchip.on{background:var(--ng2);border-color:rgba(0,255,136,.4)}
@@ -221,6 +232,7 @@ html,body{
 .dcd{font-family:var(--mono);font-size:16px;font-weight:700;color:var(--txt);margin-top:2px}
 .dcs{font-size:11px;margin-top:2px}
 .dchip.on .dcn,.dchip.on .dcd{color:var(--neon)}
+.wfh-badge{position:absolute;top:3px;right:3px;font-size:9px;background:var(--cyan);color:#040810;padding:1px 4px;border-radius:4px;font-weight:900}
 
 .daycard{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;overflow:hidden;margin-bottom:12px}
 .daycard.open{border-color:rgba(0,255,136,.3)}
@@ -263,8 +275,7 @@ html,body{
 .cth-label{font-size:9px;font-weight:800;letter-spacing:1px;color:var(--txt3);text-transform:uppercase}
 .corrcard{background:var(--bg3);border:1px solid var(--brd);border-radius:14px;padding:14px;margin-bottom:12px}
 .corr-hd{display:flex;align-items:center;justify-content:space-between;margin-bottom:10px}
-.corr-rows{display:flex;flex-direction:column;gap:7px}
-.crow2{display:flex;align-items:center;gap:8px}
+.crow2{display:flex;align-items:center;gap:8px;margin-bottom:6px}
 .cdot3{width:7px;height:7px;border-radius:50%;flex-shrink:0}
 .cdot3.danger{background:var(--red)}.cdot3.warn{background:var(--amber)}.cdot3.go{background:var(--neon)}
 .cr-lb{font-size:12px;color:var(--txt2);flex:1}
@@ -378,7 +389,7 @@ html,body{
       <img src="/logo.png" alt="CruizGo Logo" class="bico-img" />
       <div>
         <div class="bname">CruizGo</div>
-        <div class="btag">Beat the rush. Plan ahead.</div>
+        <div class="btag" id="dynamicTagline">Beat the rush. Plan ahead.</div>
       </div>
     </div>
     <div class="hdr-r">
@@ -392,7 +403,7 @@ html,body{
     </div>
   </header>
 
-  <!-- HIGHLIGHTED BEVELED BOXED TABS -->
+  <!-- SCROLLABLE BEVELED BOXED TABS -->
   <nav class="global-tabs">
     <button class="gtab on" id="tabToday" onclick="switchTab('today',this)">Today</button>
     <button class="gtab" id="tabWeek" onclick="switchTab('week',this)">Week</button>
@@ -405,7 +416,7 @@ html,body{
 
 <div class="app">
 
-  <!-- TODAY TAB: INPUT CONTROLS + ARBITRAGE RESULTS -->
+  <!-- TODAY TAB -->
   <div class="rp on" id="pToday">
     <div class="today-layout">
 
@@ -476,8 +487,8 @@ html,body{
           <div class="slbl">Mode of Travel</div>
           <div class="vrow">
             <div class="vcard" id="vBike" onclick="setV('bike')">
-              <span class="vico">🏍️</span>
-              <div class="vnm">Bike</div>
+              <span class="vico">🛵</span>
+              <div class="vnm">Scooter / Bike</div>
             </div>
             <div class="vcard on" id="vCar" onclick="setV('car')">
               <span class="vico">🏎️</span>
@@ -494,9 +505,17 @@ html,body{
       </div>
 
       <div class="today-results">
-        <!-- POLISHED STATUS CARD -->
+        <!-- LIVE WEATHER WIDGET -->
+        <div class="weather-widget" id="todayWeatherWidget">
+          <div class="ww-ico" id="wwIco">🌤️</div>
+          <div>
+            <div class="ww-title" id="wwTitle">Bengaluru Weather: 28°C · Partly Cloudy</div>
+            <div class="ww-desc" id="wwDesc">No rain predicted along GPS vector. Optimal road friction.</div>
+          </div>
+        </div>
+
         <div class="emp-card" id="empEl">
-          <div class="emp-badge">⚡ CORRIDOR RADAR ONLINE</div>
+          <div class="emp-badge">⚡ CRUIZGO RADAR ONLINE</div>
           <div class="emp-title">Ready to Calculate</div>
           <div class="emp-desc">Configure your origin and destination endpoints above to calibrate pure road transit time and generate your optimal departure arbitrage window.</div>
           <div class="emp-grid">
@@ -506,14 +525,6 @@ html,body{
         </div>
 
         <div id="resWrap" style="display:none;flex-direction:column;gap:14px">
-          <div class="wx" id="wxWeatherBanner" style="display:none;background:rgba(0,212,255,.08);border:1px solid rgba(0,212,255,.3)">
-            <div class="wx-i" id="wxWeatherIco">🌧️</div>
-            <div>
-              <div class="wx-d" id="wxWeatherTitle">Live Rain & Precipitation Alert</div>
-              <div class="wx-imp rain" id="wxWeatherDesc">Light showers detected along corridor. +8 min wet asphalt buffer added.</div>
-            </div>
-          </div>
-
           <div class="hero">
             <div class="hero-eye" id="heroEyeLabel">LEAVE BY — OPTIMAL MORNING WINDOW</div>
             <div class="spill go" id="sig1">Clear window</div>
@@ -555,7 +566,7 @@ html,body{
             <iframe class="inapp-iframe" id="inAppMapFrame" src="about:blank"></iframe>
           </div>
 
-          <!-- CONFIDENCE RATING BOX -->
+          <!-- CONFIDENCE BOX -->
           <div class="confidence-box">
             <div class="cb-hdr">
               <span>🛡️ CRUIZGO ARBITRAGE CONFIDENCE INDEX</span>
@@ -586,21 +597,36 @@ html,body{
     </div>
   </div>
 
-  <!-- RESTORED WEEK TAB WITH WFH OPTION & FULL ACCORDIONS -->
+  <!-- WEEK TAB -->
   <div class="rp" id="pWeek">
     <div style="font-size:16px;font-weight:900;margin-bottom:4px">Weekly Commute Planner</div>
-    <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Configure individual departure plans. Select or unselect day chips to toggle active commute days:</div>
+    <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Configure individual departure plans. Click chips to toggle commute days:</div>
+    <div class="weather-widget" id="weekWeatherWidget">
+      <div class="ww-ico">🌤️</div>
+      <div>
+        <div class="ww-title">Bengaluru Weekly Outlook: 27°C · Dry</div>
+        <div class="ww-desc">Favorable commuting conditions across all corridors.</div>
+      </div>
+    </div>
     <div class="dstrip" id="dayStrip"></div>
     <div id="weekCards"></div>
   </div>
 
-  <!-- RESTORED CORRIDORS TAB WITH SORT-TO-TOP & RADAR COMPASS -->
+  <!-- CORRIDORS TAB -->
   <div class="rp" id="pCorridors">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
       <div style="font-size:16px;font-weight:900">Bengaluru Corridor Heatmaps & Belts</div>
       <div style="font-size:10px;color:var(--cyan);font-family:var(--mono)" id="corridorRefreshCountdown">Refreshes in 15:00</div>
     </div>
-    <div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:12px" id="corridorLiveSyncPill">Synced: Sun, 20 Sep 2026 at 05:38:49 PM IST</div>
+    <div style="font-size:10px;color:var(--txt3);font-family:var(--mono);margin-bottom:12px" id="corridorLiveSyncPill">Synced: Sun, 20 Sep 2026 at 06:01:00 PM IST</div>
+
+    <div class="weather-widget" id="corrWeatherWidget">
+      <div class="ww-ico">☀️</div>
+      <div>
+        <div class="ww-title">Live Arterial Weather: 29°C · Clear</div>
+        <div class="ww-desc">All radial highways clear of standing water.</div>
+      </div>
+    </div>
 
     <!-- 3D RADAR COMPASS MAP -->
     <div class="map-canvas-card">
@@ -682,11 +708,11 @@ html,body{
       </div>
       <div class="ribbon-track">
         <div class="r-seg r-clear" title="Silk Board Flyover: Clear"></div>
-        <div class="r-seg r-heavy" title="HSR Layout Sector 5: Bus Stop & Auto Bunching"></div>
+        <div class="r-seg r-heavy" title="HSR Sector 5: Bus Stop Bunching"></div>
         <div class="r-seg r-warn" title="Agara Lake Road: Slowdown"></div>
-        <div class="r-seg r-jam" title="Bellandur EcoSpace BMTC Bus Bay: Standstill (+18m)"></div>
+        <div class="r-seg r-jam" title="Bellandur EcoSpace BMTC Bay: Standstill (+18m)"></div>
         <div class="r-seg r-heavy" title="Kadubeesanahalli Pillar Construction"></div>
-        <div class="r-seg r-jam" title="Marathahalli Multiplex Signal: Standstill (+15m)"></div>
+        <div class="r-seg r-jam" title="Marathahalli Multiplex: Signal Jam"></div>
         <div class="r-seg r-clear" title="KR Puram: Open"></div>
       </div>
     </div>
@@ -699,7 +725,7 @@ html,body{
     <div id="authGateAlerts" style="display:none">
       <div class="sec" style="text-align:center;padding:24px">
         <div style="font-size:18px;font-weight:900;color:#fff;margin-bottom:6px">Sign In to View Alerts</div>
-        <div style="font-size:12px;color:var(--txt2);margin-bottom:16px">Pair your device and receive 60m, 30m, 15m, and 5m lock-screen departure notifications.</div>
+        <div style="font-size:12px;color:var(--txt2);margin-bottom:16px">Pair your device and receive morning, mid-day check-in, and evening departure alerts.</div>
         <button class="scan" style="max-width:280px;margin:0 auto" onclick="openAuthModal('login')">Sign In / Register →</button>
       </div>
     </div>
@@ -769,6 +795,25 @@ html,body{
     </div>
   </div>
 
+</div>
+
+<!-- SAVE JOURNEY DAY SELECTOR MODAL -->
+<div class="modal-overlay" id="saveJourneyModal">
+  <div class="modal-card">
+    <div class="modal-title">💾 Save Journey to Schedule</div>
+    <div class="modal-sub">Choose which day of the week to assign this route, or save it as a Regular Cruiz route:</div>
+    <div id="saveJourneyDaysGrid" style="display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-bottom:16px">
+      <button class="q-btn" onclick="confirmSaveJourneyToDay('mon')">Monday</button>
+      <button class="q-btn" onclick="confirmSaveJourneyToDay('tue')">Tuesday</button>
+      <button class="q-btn" onclick="confirmSaveJourneyToDay('wed')">Wednesday</button>
+      <button class="q-btn" onclick="confirmSaveJourneyToDay('thu')">Thursday</button>
+      <button class="q-btn" onclick="confirmSaveJourneyToDay('fri')">Friday</button>
+      <button class="q-btn" onclick="confirmSaveJourneyToDay('sat')">Saturday</button>
+      <button class="q-btn" onclick="confirmSaveJourneyToDay('sun')">Sunday</button>
+      <button class="q-btn sel" onclick="confirmSaveJourneyToDay('regular')">⭐ Regular Cruiz</button>
+    </div>
+    <button class="altbtn" onclick="document.getElementById('saveJourneyModal').classList.remove('show')">Cancel</button>
+  </div>
 </div>
 
 <!-- IN-APP CUSTOM CLEAR TEST DATA MODAL -->
@@ -1056,13 +1101,30 @@ const WEEK_CONFIG = [
   { k: 'sun', full: 'Sunday', mult: 0.95, peak: 'Light traffic all day', wx: '29°C · Clear', dot: '🟢', dt: '20' }
 ];
 
+// CLOCK & TIME-BASED GREETINGS
 function initClock() {
   const clk = document.getElementById('clk');
   const dPill = document.getElementById('datePill');
+  const tagline = document.getElementById('dynamicTagline');
+
   function update() {
     const d = new Date();
+    const hr = d.getHours();
     clk.textContent = d.toTimeString().split(' ')[0];
     dPill.textContent = d.toLocaleDateString('en-GB', { weekday:'short', day:'2-digit', month:'short', year:'numeric' });
+
+    let greeting = 'Beat the rush. Plan ahead.';
+    if (hr >= 4 && hr < 12) greeting = 'Good morning! Ready to conquer your day with calm planning ☕';
+    else if (hr >= 12 && hr < 17) greeting = 'Good afternoon! Optimizing your mid-day commutes & meetings ⚡';
+    else if (hr >= 17 && hr < 22) greeting = 'Good evening! Seamless evening transit ahead 🌙';
+    else greeting = 'Night owl planning? CruizGo sensors are online 🌌';
+
+    if (tagline && S.currentUser) {
+      const name = S.currentUser.user_metadata?.full_name || splitEmail(S.currentUser.email);
+      tagline.textContent = `Welcome back, ${name}! ${greeting}`;
+    } else if (tagline) {
+      tagline.textContent = greeting;
+    }
   }
   update();
   setInterval(update, 1000);
@@ -1091,6 +1153,43 @@ function refreshCorridorTelemetry() {
   showToast('✓ Corridor road sensors refreshed (15m cycle)');
 }
 
+// LIVE WEATHER FETCHING
+async function fetchLiveWeatherCheck(lat, lon) {
+  try {
+    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=temperature_2m,precipitation,rain,weather_code`);
+    const data = await res.json();
+    const temp = data?.current?.temperature_2m || 28;
+    const precip = data?.current?.precipitation || 0;
+    const rain = data?.current?.rain || 0;
+
+    let ico = '☀️';
+    let title = `Bengaluru Weather: ${temp}°C · Clear Sky`;
+    let desc = 'Optimal road friction. Free corridor flow.';
+
+    if (precip > 0.2 || rain > 0) {
+      ico = '🌧️';
+      title = `Rain Alert: ${temp}°C · Showers Active`;
+      desc = `Precipitation at ${precip} mm/h. +8 min wet asphalt buffer added.`;
+    } else if (temp > 31) {
+      ico = '🌤️';
+      title = `Warm Outlook: ${temp}°C · Sunny`;
+      desc = 'High temperature. Keep tires properly inflated.';
+    }
+
+    document.getElementById('wwIco').textContent = ico;
+    document.getElementById('wwTitle').textContent = title;
+    document.getElementById('wwDesc').textContent = desc;
+
+    // Sync across tabs
+    const wWeek = document.querySelector('#weekWeatherWidget .ww-title');
+    if (wWeek) wWeek.textContent = title;
+    const wCorr = document.querySelector('#corrWeatherWidget .ww-title');
+    if (wCorr) wCorr.textContent = title;
+  } catch {
+    // Fallback silent
+  }
+}
+
 function persistProfile() {
   const u = document.getElementById('uName').value;
   const e = document.getElementById('uEmail').value;
@@ -1107,7 +1206,7 @@ function loadProfile() {
   if (saved.r) document.getElementById('tReturn').value = saved.r;
 }
 
-// AUTH & SETTINGS WITH SMART COLLISION & WFH SUPPORT
+// AUTH & SETTINGS
 function openProfileOrAuth() {
   if (S.currentUser) openProfileModal();
   else openAuthModal('login');
@@ -1188,6 +1287,7 @@ async function executeAuthAction() {
       email, password, options: { data: { full_name: fullName } }
     });
     
+    // SMART SWITCH ON EXISTING EMAIL COLLISION
     if (error) {
       if (error.message.toLowerCase().includes('already registered') || error.status === 400) {
         showToast('Account already exists. Switching to Sign In…', 'err');
@@ -1294,6 +1394,7 @@ async function signOutUser() {
   closeProfileModal();
   showToast('Signed out');
   renderSavedTimeView();
+  renderAlerts();
 }
 
 function splitEmail(e) { return (e || '').split('@')[0]; }
@@ -1336,25 +1437,7 @@ async function initSupabaseAuthListener() {
   });
 }
 
-// WEATHER CHECK & PRECIPITATION ALERTS
-async function fetchLiveWeatherCheck(lat, lon) {
-  try {
-    const res = await fetch(`https://api.open-meteo.com/v1/forecast?latitude=${lat}&longitude=${lon}&current=precipitation,rain,weather_code`);
-    const data = await res.json();
-    const precip = data?.current?.precipitation || 0;
-    const rainBanner = document.getElementById('wxWeatherBanner');
-    if (precip > 0.2) {
-      rainBanner.style.display = 'flex';
-      document.getElementById('wxWeatherDesc').textContent = `Rain detected (${precip} mm/h). +8 min wet asphalt buffer added to route.`;
-    } else {
-      rainBanner.style.display = 'none';
-    }
-  } catch {
-    // Fallback dry
-  }
-}
-
-// TEMPORAL LOGIC & OVERLAP VALIDATION
+// TEMPORAL LOGIC & AUTO-ADJUSTMENT
 function validateSelectedTimes() {
   const errBox = document.getElementById('temporalErrBox');
   if (S.tripMode === 'now') {
@@ -1396,10 +1479,32 @@ function handleAuthProtectedSave() {
     openAuthModal('signup');
     return;
   }
-  promptSave();
+  document.getElementById('saveJourneyModal').classList.add('show');
 }
 
-// 0ms SEARCH AUTOCOMPLETE
+function confirmSaveJourneyToDay(dayKey) {
+  document.getElementById('saveJourneyModal').classList.remove('show');
+  const fv = document.getElementById('inpFrom').value.trim();
+  const tv = document.getElementById('inpTo').value.trim();
+
+  const sched = {
+    id: 'sched_' + dayKey + '_' + Date.now(),
+    name: `${dayKey === 'regular' ? 'Regular Cruiz' : dayKey.toUpperCase()}: ${fv.split(',')[0]} ➔ ${tv.split(',')[0]}`,
+    from: fv, to: tv,
+    arr: document.getElementById('tArrive').value,
+    ret: document.getElementById('tReturn').value,
+    vehicle: S.vehicle,
+    savedAt: new Date().toLocaleDateString('en-GB')
+  };
+
+  let savedList = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
+  savedList.unshift(sched);
+  localStorage.setItem('cruizgo_saved', JSON.stringify(savedList));
+  showToast(`✓ Journey saved as ${sched.name}`);
+  renderHistory();
+}
+
+// 0ms SEARCH-AS-YOU-TYPE AUTOCOMPLETE
 let activeSearchSession = { from: 0, to: 0 };
 
 function onSearch(field) {
@@ -1588,16 +1693,6 @@ function minsToFormattedTime(mins) {
   return `${Math.floor(norm/60).toString().padStart(2,'0')}:${(norm%60).toString().padStart(2,'0')}`;
 }
 
-// HAVERSINE DISTANCE ENGINE
-function calculateHaversineKm(coords1, coords2) {
-  if (!coords1 || !coords2) return 14.5;
-  const R = 6371;
-  const dLat = (coords2[1] - coords1[1]) * Math.PI / 180;
-  const dLon = (coords2[0] - coords1[0]) * Math.PI / 180;
-  const a = Math.sin(dLat/2) * Math.sin(dLat/2) + Math.cos(coords1[1]*Math.PI/180) * Math.cos(coords2[1]*Math.PI/180) * Math.sin(dLon/2) * Math.sin(dLon/2);
-  return Math.max(2.0, parseFloat((R * 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1-a)) * 1.35).toFixed(1)));
-}
-
 async function doScan() {
   switchTab('today', document.getElementById('tabToday'));
   const fv = document.getElementById('inpFrom').value.trim() || S.fromVal;
@@ -1628,13 +1723,13 @@ async function doScan() {
     mornDepStr = minsToFormattedTime(nowMins);
     displayArrival = minsToFormattedTime(nowMins + travelMins + bufferMins);
     document.getElementById('heroEyeLabel').textContent = '⚡ LIVE ROUTE — DEPART IMMEDIATELY';
-    document.getElementById('heroR1').textContent = `Start right now via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to arrive at ${tv.split(',')[0]} by ~${displayArrival}. Pure transit duration is ${travelMins} mins (+${bufferMins} min buffer).`;
+    document.getElementById('heroR1').textContent = `Start right now via ${S.vehicle === 'bike' ? 'Scooter / Bike' : 'Car'} to arrive at ${tv.split(',')[0]} by ~${displayArrival}. Pure transit duration is ${travelMins} mins (+${bufferMins} min buffer).`;
   } else {
     const arrMins = timeToMins(arrStr);
     mornDepStr = minsToFormattedTime(arrMins - travelMins - bufferMins);
     displayArrival = arrStr;
     document.getElementById('heroEyeLabel').textContent = 'LEAVE BY — OPTIMAL MORNING WINDOW';
-    document.getElementById('heroR1').textContent = `Leave by ${mornDepStr} via ${S.vehicle === 'bike' ? 'Bike' : 'Car'} to reach by ${arrStr}. Pure transit is ${travelMins} mins (+${bufferMins} min buffer).`;
+    document.getElementById('heroR1').textContent = `Leave by ${mornDepStr} via ${S.vehicle === 'bike' ? 'Scooter / Bike' : 'Car'} to reach by ${arrStr}. Pure transit is ${travelMins} mins (+${bufferMins} min buffer).`;
   }
 
   retDepStr = retStr ? minsToFormattedTime(timeToMins(retStr) - travelMins - bufferMins) : '17:42';
@@ -1667,10 +1762,11 @@ function updateInAppMap(from, to) {
 function openGoogleMapsDirect() {
   const fv = encodeURIComponent((document.getElementById('inpFrom').value.trim() || S.fromVal) + ' Bengaluru');
   const tv = encodeURIComponent((document.getElementById('inpTo').value.trim() || S.toVal) + ' Bengaluru');
-  window.open(`https://www.google.com/maps/dir/?api=1&origin=${fv}&destination=${tv}&travelmode=${S.vehicle === 'bike' ? 'bicycling' : 'driving'}&dir_action=navigate`, '_blank');
+  const mode = S.vehicle === 'bike' ? 'bicycling' : 'driving';
+  window.open(`https://www.google.com/maps/dir/?api=1&origin=${fv}&destination=${tv}&travelmode=${mode}&dir_action=navigate`, '_blank');
 }
 
-// WEEK TAB LOGIC (RESTORED WITH WFH OPTION)
+// WEEK ACCORDION
 function buildDayStrip() {
   const currentDayKey = WEEK_CONFIG[(new Date().getDay() + 6) % 7].k;
   document.getElementById('dayStrip').innerHTML = WEEK_CONFIG.map(d => {
@@ -1679,6 +1775,7 @@ function buildDayStrip() {
     const wfh = localStorage.getItem(`wfh_${d.k}`) === 'true';
     return `
       <div class="dchip ${isSelected ? 'on' : ''} ${isToday ? 'today' : ''}" id="chip-${d.k}" onclick="toggleDayChip('${d.k}')">
+        ${wfh ? '<span class="wfh-badge">WFH</span>' : ''}
         <div class="dcn">${d.full.slice(0,3)}</div>
         <div class="dcd">${d.dt}</div>
         <div class="dcs">${wfh ? '🏠' : d.dot}</div>
@@ -1717,14 +1814,14 @@ function renderWeekCards() {
     return `
       <div class="daycard ${isToday ? 'open' : ''}" id="dp-${d.k}" style="display:${isSelected ? 'block' : 'none'}">
         <div class="dc-hdr" onclick="toggleDayCard('${d.k}')">
-          <div class="dctit">${d.full} ${isToday ? '· Today' : ''} ${isWfh ? '(🏠 WFH Active)' : ''}</div>
+          <div class="dctit">${d.full} (${d.dt} Sep 2026) ${isToday ? '· Today' : ''} ${isWfh ? '· 🏠 WFH Active' : ''}</div>
           <div style="font-size:11px;color:var(--txt2)">${d.dot} ${d.wx}</div>
         </div>
         <div class="dc-body">
           <div class="jf">
             <div style="display:flex;align-items:center;gap:8px;margin-bottom:6px">
               <input type="checkbox" id="wfh_${d.k}" ${isWfh ? 'checked' : ''} onchange="toggleWfh('${d.k}')" style="cursor:pointer" />
-              <label for="wfh_${d.k}" style="font-size:12px;color:var(--cyan);cursor:pointer">Set as Work From Home (WFH)</label>
+              <label for="wfh_${d.k}" style="font-size:12px;color:var(--cyan);cursor:pointer">Set as Work From Home (WFH) - No Commute</label>
             </div>
             <div class="jf2">
               <div><div class="jflbl">Origin</div><input class="jfinp" id="wf_${d.k}" value="${f}" /></div>
@@ -1751,6 +1848,7 @@ function toggleWfh(k) {
   const isWfh = document.getElementById(`wfh_${k}`).checked;
   localStorage.setItem(`wfh_${k}`, isWfh);
   buildDayStrip();
+  renderWeekCards();
   showToast(isWfh ? `✓ ${k.toUpperCase()} set as WFH` : `✓ ${k.toUpperCase()} commute enabled`);
 }
 
@@ -1766,12 +1864,22 @@ function calcDay(k) {
   const duration = Math.round(48 * day.mult);
   const depMins = timeToMins(a) - duration - 4;
   const retMins = timeToMins(r) - duration - 4;
+  const depStr = minsToFormattedTime(depMins);
+  const retStr = minsToFormattedTime(retMins);
+
   const resEl = document.getElementById(`dr-${k}`);
   resEl.innerHTML = `
     <div style="font-size:12px;color:var(--txt3)">To reach <b>${t.split(',')[0]}</b> by ${a} — leave <b>${f.split(',')[0]}</b> by:</div>
-    <div class="drbig">${minsToFormattedTime(depMins)}</div>
+    <div class="drbig">${depStr}</div>
     <div style="font-size:12px;color:var(--txt3);margin-top:10px">To leave <b>${t.split(',')[0]}</b> and be home by ${r} — depart by:</div>
-    <div class="drret">${minsToFormattedTime(retMins)}</div>
+    <div class="drret">${retStr}</div>
+    <div style="font-size:12px;color:var(--txt2);margin-top:10px;line-height:1.6">
+      <strong>Corridor:</strong> Outer Ring Road (ORR)<br>
+      <strong>Pure Travel Time:</strong> ${duration} min (${S.vehicle === 'bike' ? 'Scooter / Bike' : 'Car'})<br>
+      <strong>Buffer Added:</strong> +4 min (parking/gates)<br>
+      <strong>Confidence:</strong> 97% on ${day.full} (${day.dt} Sep 2026)<br>
+      <strong>Peak Strategy:</strong> ${day.peak}
+    </div>
   `;
   resEl.classList.add('show');
 }
@@ -1803,10 +1911,11 @@ async function saveDaySchedule(k) {
   renderHistory();
 }
 
-// CORRIDORS SCRIPT WITH SORT-TO-TOP FEATURE
+// CORRIDORS WITH SORT-TO-TOP FEATURE
 function renderCorridors(highlightKey = null) {
   const container = document.getElementById('allCorr');
   const keys = Object.keys(CORR);
+  
   if (highlightKey && CORR[highlightKey]) {
     keys.sort((a, b) => (a === highlightKey ? -1 : b === highlightKey ? 1 : 0));
   }
@@ -1847,7 +1956,8 @@ function inspectCorridor(k) {
   renderCorridors(k);
   const c = CORR[k];
   document.getElementById('ribbonCorridorName').textContent = c.name;
-  document.getElementById('corridorRibbonBox').scrollIntoView({ behavior: 'smooth', block: 'start' });
+  const targetBox = document.getElementById('corridorRibbonBox');
+  targetBox.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function setCorridorToToday(k) {
@@ -1860,7 +1970,7 @@ function setCorridorToToday(k) {
   doScan();
 }
 
-// HISTORY & SAVED TIME
+// HISTORY
 function renderHistory() {
   const sSec = document.getElementById('savedSection');
   const saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
@@ -1940,6 +2050,7 @@ function clearPastTrips() {
   showToast('Past trip history cleared · Saved Time reset to 0');
 }
 
+// SAVED TIME & AUTH GATES FOR TABS
 function renderSavedTimeView() {
   const isAuth = !!S.currentUser;
   document.getElementById('authGateContainer').style.display = isAuth ? 'none' : 'block';
@@ -1970,7 +2081,7 @@ function renderSavedTimeView() {
   }
 }
 
-// ALERTS & CHECK-IN MODAL
+// CHECK-IN SURVEY
 let survey = { onTime: true, savedGridlock: true, helpedPlan: true };
 
 function openCompletionModal() { document.getElementById('completionModal').classList.add('show'); }
@@ -1992,16 +2103,31 @@ async function submitCompletedRide() {
   const notes = document.getElementById('compNotes').value.trim();
   const savedAdd = survey.savedGridlock ? 22 : 8;
 
-  const hist = JSON.parse(localStorage.getItem('cruizgo_hist') || '[]');
-  hist.unshift({
+  const history = JSON.parse(localStorage.getItem('cruizgo_hist') || '[]');
+  history.unshift({
     id: 'h_' + Date.now(),
     from: S.fromVal, to: S.toVal,
     dep: '08:18', arr: '09:15', mins: 52, savedMins: savedAdd,
     corridor: 'Outer Ring Road',
-    date: new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short' }),
+    date: new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }),
     time: new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })
   });
-  localStorage.setItem('cruizgo_hist', JSON.stringify(hist.slice(0, 30)));
+  localStorage.setItem('cruizgo_hist', JSON.stringify(history.slice(0, 30)));
+
+  if (S.currentUser?.email) {
+    await supabaseInsert('commute_telemetry_feedback', {
+      user_email: S.currentUser.email,
+      origin_name: S.fromVal,
+      dest_name: S.toVal,
+      mode: S.vehicle,
+      pure_transit_mins: 52,
+      mins_saved: savedAdd,
+      left_on_time: survey.onTime,
+      user_rating_helpful: survey.savedGridlock,
+      helped_plan_better: survey.helpedPlan,
+      commuter_notes: notes
+    });
+  }
 
   closeCompletionModal();
   showToast(`✓ +${savedAdd} min added to your Saved Time`);
@@ -2012,22 +2138,7 @@ function promptSave() {
   const fv = document.getElementById('inpFrom').value.trim();
   const tv = document.getElementById('inpTo').value.trim();
   if (!fv || !tv) return showToast('Please enter start and end points', 'err');
-
-  const sched = {
-    id: 'manual_' + Date.now(),
-    name: `${fv.split(',')[0]} ➔ ${tv.split(',')[0]}`,
-    from: fv, to: tv,
-    arr: document.getElementById('tArrive').value,
-    ret: document.getElementById('tReturn').value,
-    vehicle: S.vehicle,
-    savedAt: new Date().toLocaleDateString('en-GB')
-  };
-
-  let saved = JSON.parse(localStorage.getItem('cruizgo_saved') || '[]');
-  saved.unshift(sched);
-  localStorage.setItem('cruizgo_saved', JSON.stringify(saved));
-  showToast('✓ Journey saved to profile');
-  renderHistory();
+  document.getElementById('saveJourneyModal').classList.add('show');
 }
 
 // INLINE FEEDBACK
@@ -2051,10 +2162,40 @@ async function saveInlineFeedback() {
     openAuthModal('signup');
     return;
   }
+  const notes = document.getElementById('inlineNotesInp').value.trim();
+  await supabaseInsert('commute_telemetry_feedback', {
+    user_email: S.currentUser.email,
+    mode: S.vehicle,
+    pure_transit_mins: 52,
+    left_on_time: inlineFeedbackState.onTime,
+    user_rating_helpful: inlineFeedbackState.helpful,
+    commuter_notes: notes || 'Inline route rating'
+  });
   showToast('✓ Feedback saved! Thank you.');
 }
 
-// ALERTS LOG WITH AUTH GATES & WELCOME GREETING
+// ALERTS LOG WITH BACKGROUND 2.5-HOUR ENGAGEMENT INTERVAL
+function initBackgroundEngagementLoops() {
+  // Check-in & ride encouragement pulse every 2.5 hours between 6am and 10pm
+  setInterval(() => {
+    if (!S.currentUser) return;
+    const now = new Date();
+    const hr = now.getHours();
+    if (hr >= 6 && hr <= 22) {
+      const alertId = 'eng_' + Date.now();
+      S.alertsList.unshift({
+        id: alertId,
+        time: now.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }),
+        title: '🏁 Commute Check-In Prompt',
+        body: 'Did you complete your scheduled commute drive? Tap here to log your timing and verify saved minutes.',
+        type: 'checkin'
+      });
+      renderAlerts();
+      showToast('🔔 CruizGo Check-In: How did your commute go?');
+    }
+  }, 9000000); // 2.5 hours = 9,000,000 ms
+}
+
 function renderAlerts() {
   const isAuth = !!S.currentUser;
   document.getElementById('authGateAlerts').style.display = isAuth ? 'none' : 'block';
@@ -2063,7 +2204,7 @@ function renderAlerts() {
   if (isAuth) {
     const dynamicAlerts = [
       { id:'welcome', time: 'Just Now', title: 'Welcome Aboard! 🎉', body: 'Thank you for choosing CruizGo to be your commute partner. Plan ahead and beat the rush.', type: 'info' },
-      { id:'morn', time: '07:30 AM', title: 'Morning Commute Ready 🌅', body: 'Encouraging reminder: Save your daily journey to lock in departure arbitrage windows.', type: 'info' },
+      { id:'morn', time: '07:30 AM', title: 'Morning Commute Ready 🌅', body: 'Weekly commute planning tip: Schedule your meetings around predicted corridor free-flow windows.', type: 'info' },
       ...S.alertsList
     ];
     document.getElementById('badgeAlerts').textContent = dynamicAlerts.length;
@@ -2074,6 +2215,8 @@ function renderAlerts() {
         <div style="font-size:12px;color:var(--txt2);margin-top:2px">${a.body}</div>
       </div>
     `).join('');
+  } else {
+    document.getElementById('badgeAlerts').textContent = '0';
   }
 }
 
@@ -2090,6 +2233,38 @@ function clearAllAlerts() {
   S.alertsList = [];
   renderAlerts();
   showToast('Notifications cleared');
+}
+
+// SUPABASE HELPERS
+async function supabaseUpsert(table, data) {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/${table}?on_conflict=user_email`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SB_KEY,
+        'Authorization': `Bearer ${SB_KEY}`,
+        'Prefer': 'resolution=merge-duplicates'
+      },
+      body: JSON.stringify(data)
+    });
+    return res.ok;
+  } catch { return false; }
+}
+
+async function supabaseInsert(table, data) {
+  try {
+    const res = await fetch(`${SB_URL}/rest/v1/${table}`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'apikey': SB_KEY,
+        'Authorization': `Bearer ${SB_KEY}`
+      },
+      body: JSON.stringify(data)
+    });
+    return res.ok;
+  } catch { return false; }
 }
 
 // PUSH NOTIFICATIONS
@@ -2133,7 +2308,7 @@ function showToast(msg, type = 'ok') {
   setTimeout(() => t.classList.remove('up'), 3200);
 }
 
-// TAB SWITCHING WITH AUTH GATES
+// TAB SWITCHING WITH AUTH GATES AND SCROLL-TO-TOP FIX
 function switchTab(name, btn) {
   document.querySelectorAll('.rp').forEach(p => p.classList.remove('on'));
   document.querySelectorAll('.gtab').forEach(b => b.classList.remove('on'));
@@ -2151,7 +2326,13 @@ function switchTab(name, btn) {
     alerts: 'pAlerts', savedTime: 'pSavedTime', history: 'pHistory'
   };
   const target = document.getElementById(map[name]);
-  if (target) target.classList.add('on');
+  if (target) {
+    target.classList.add('on');
+    // Scroll container to top cleanly
+    const appContainer = document.querySelector('.app');
+    if (appContainer) appContainer.scrollTop = 0;
+    window.scrollTo({ top: 0, behavior: 'instant' });
+  }
   if (btn) btn.classList.add('on');
 
   if (name === 'week') { buildDayStrip(); renderWeekCards(); }
@@ -2170,12 +2351,14 @@ function switchTab(name, btn) {
 window.addEventListener('DOMContentLoaded', () => {
   initClock();
   initCorridorAutoRefresh();
+  initBackgroundEngagementLoops();
   loadProfile();
   initSupabaseAuthListener();
   renderAlerts();
   renderHistory();
   document.getElementById('inpFrom').value = S.fromVal;
   document.getElementById('inpTo').value = S.toVal;
+  fetchLiveWeatherCheck(12.9716, 77.5946);
 
   switchTab('today', document.getElementById('tabToday'));
 });
