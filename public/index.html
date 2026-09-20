@@ -447,10 +447,10 @@ html,body{
             </div>
             <div class="lwrap">
               <input class="linp" id="inpFrom" placeholder="Street, layout, metro, office…" autocomplete="off"
-                oninput="onSearch('from')" onfocus="onSearch('from')" onkeydown="onKey(event,'from')" />
-              <button class="lbtn" onclick="clearLoc('from')">✕</button>
-              <div class="lspin" id="spFrom"></div>
-              <div class="acd" id="acFrom"></div>
+                oninput="onSearchUnified('today_from', this)" onfocus="onSearchUnified('today_from', this)" onkeydown="onKey(event,'today_from')" />
+              <button class="lbtn" onclick="clearUnifiedField('inpFrom', 'today_from')">✕</button>
+              <div class="lspin" id="sp_today_from"></div>
+              <div class="acd" id="ac_today_from"></div>
             </div>
           </div>
 
@@ -463,11 +463,11 @@ html,body{
           <div class="lloc">
             <div class="lloc-lbl"><div class="ldot2 e"></div>Destination</div>
             <div class="lwrap">
-              <input class="linp end" id="inpTo" placeholder="Tech park, office, hospital, destination…" autocomplete="off"
-                oninput="onSearch('to')" onfocus="onSearch('to')" onkeydown="onKey(event,'to')" />
-              <button class="lbtn" onclick="clearLoc('to')">✕</button>
-              <div class="lspin" id="spTo"></div>
-              <div class="acd" id="acTo"></div>
+              <input class="linp end" id="inpTo" placeholder="Tech park, office, school, mall…" autocomplete="off"
+                oninput="onSearchUnified('today_to', this)" onfocus="onSearchUnified('today_to', this)" onkeydown="onKey(event,'today_to')" />
+              <button class="lbtn" onclick="clearUnifiedField('inpTo', 'today_to')">✕</button>
+              <div class="lspin" id="sp_today_to"></div>
+              <div class="acd" id="ac_today_to"></div>
             </div>
           </div>
 
@@ -509,7 +509,7 @@ html,body{
       </div>
 
       <div class="today-results">
-        <!-- GREETING & WEATHER PLACED PROMINENTLY BELOW HEADER -->
+        <!-- GREETING & WEATHER -->
         <div class="greeting-banner" id="cheeryGreetingBanner">
           <span id="gbEmoji" style="font-size:30px">☕</span>
           <div>
@@ -609,10 +609,10 @@ html,body{
     </div>
   </div>
 
-  <!-- RESTORED WEEK TAB WITH WFH OPTION & FULL ACCORDIONS -->
+  <!-- WEEK TAB -->
   <div class="rp" id="pWeek">
     <div style="font-size:16px;font-weight:900;margin-bottom:4px">Weekly Commute Planner</div>
-    <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Configure individual departure plans. Select or unselect day chips to toggle active commute days:</div>
+    <div style="font-size:12px;color:var(--txt3);margin-bottom:12px">Configure individual departure plans. Search any tech park, HSR lane, or school below:</div>
     <div class="weather-widget" id="weekWeatherWidget">
       <div class="ww-ico">🌤️</div>
       <div>
@@ -624,7 +624,7 @@ html,body{
     <div id="weekCards"></div>
   </div>
 
-  <!-- RESTORED CORRIDORS TAB WITH REASONABLE HEATMAP LABELS -->
+  <!-- CORRIDORS TAB -->
   <div class="rp" id="pCorridors">
     <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:4px">
       <div style="font-size:16px;font-weight:900">Bengaluru Corridor Heatmaps & Belts</div>
@@ -640,7 +640,7 @@ html,body{
       </div>
     </div>
 
-    <!-- 3D RADAR COMPASS MAP WITH ENLARGED FONT -->
+    <!-- 3D RADAR COMPASS MAP -->
     <div class="map-canvas-card">
       <div class="compass-toolbar">
         <div class="compass-dial">🧭 COMPASS: N 0° · BENGALURU RADIAL</div>
@@ -735,7 +735,7 @@ html,body{
     <div id="allCorr"></div>
   </div>
 
-  <!-- ALERTS TAB (AUTH GATED) -->
+  <!-- ALERTS TAB -->
   <div class="rp" id="pAlerts">
     <div id="authGateAlerts" style="display:none">
       <div class="sec" style="text-align:center;padding:24px">
@@ -753,7 +753,7 @@ html,body{
     </div>
   </div>
 
-  <!-- SAVED TIME TAB (AUTH GATED) -->
+  <!-- SAVED TIME TAB -->
   <div class="rp" id="pSavedTime">
     <div id="authGateContainer" style="display:none">
       <div class="sec" style="text-align:center;padding:24px">
@@ -765,7 +765,7 @@ html,body{
 
     <div id="savedTimeStatsContainer">
       <div style="font-size:16px;font-weight:900;margin-bottom:4px">Your Cumulative Commute Savings</div>
-      <div style="font-size:12px;color:var(--txt3);margin-bottom:14px">Metrics computed exclusively from your completed rides. Tap any card to review logs:</div>
+      <div style="font-size:12px;color:var(--txt3);margin-bottom:14px">Metrics computed exclusively from your completed rides:</div>
 
       <div class="st-hero">
         <div class="st-card" onclick="switchTab('history', document.getElementById('tabHistory'))">
@@ -788,7 +788,7 @@ html,body{
     </div>
   </div>
 
-  <!-- HISTORY TAB (AUTH GATED) -->
+  <!-- HISTORY TAB -->
   <div class="rp" id="pHistory">
     <div id="authGateHistory" style="display:none">
       <div class="sec" style="text-align:center;padding:24px">
@@ -831,7 +831,7 @@ html,body{
   </div>
 </div>
 
-<!-- IN-APP CUSTOM CLEAR TEST DATA MODAL -->
+<!-- IN-APP CLEAR DATA MODAL -->
 <div class="modal-overlay" id="confirmClearModal">
   <div class="confirm-box">
     <div class="confirm-title">⚠️ Clear All Test Data?</div>
@@ -920,7 +920,7 @@ html,body{
 
       <div class="opt-in-row" id="authSavedTimeOption">
         <input type="checkbox" id="chkTrackSavedTime" checked style="margin-top:2px;cursor:pointer" />
-        <label for="chkTrackSavedTime" style="cursor:pointer">Track my verified saved minutes and send weekly commute alerts (uncheck to skip)</label>
+        <label for="chkTrackSavedTime" style="cursor:pointer">Track my verified saved minutes and send commute alerts</label>
       </div>
 
       <button class="scan" id="authActionBtn" style="margin-top:12px;padding:12px" onclick="executeAuthAction()">Log In</button>
@@ -933,26 +933,26 @@ html,body{
   </div>
 </div>
 
-<!-- COMMUTE ARRIVAL CHECK-IN MODAL -->
+<!-- COMMUTE ARRIVAL CHECK-IN & SURVEY MODAL -->
 <div class="modal-overlay" id="completionModal">
   <div class="modal-card">
-    <div class="modal-title">🏁 Commute Arrival Check-in</div>
-    <div class="modal-sub">Tell us how your commute went so you can track your verified saved hours.</div>
+    <div class="modal-title" id="checkinModalTitle">🏁 Commute Arrival Check-in</div>
+    <div class="modal-sub" id="checkinModalSub">Tell us how your commute went to calibrate corridor weights and log saved hours.</div>
 
     <div class="modal-why">
-      🛡️ <strong>Why check in?</strong> Every time you depart early, you avoid high-stress crawling traffic, protect your safety with recommended cruise speeds, and arrive relaxed for your day. Looking back, you'll see exact hours of your life reclaimed.
+      🛡️ <strong>Why check in?</strong> Every early departure avoids high-stress crawling traffic, maintains recommended cruise speeds, and saves verified hours of your life.
     </div>
 
     <div class="q-block">
-      <div class="q-lbl">1. Did you leave within your recommended window?</div>
+      <div class="q-lbl">1. Did you leave within your recommended window and reach safely?</div>
       <div class="q-options">
-        <button class="q-btn sel" id="q1Yes" onclick="selectQ(1, true)">✓ Left on time</button>
-        <button class="q-btn" id="q1No" onclick="selectQ(1, false)">⚠ Left late (+15m)</button>
+        <button class="q-btn sel" id="q1Yes" onclick="selectQ(1, true)">✓ Reached on time</button>
+        <button class="q-btn" id="q1No" onclick="selectQ(1, false)">⚠ Delayed by traffic</button>
       </div>
     </div>
 
     <div class="q-block">
-      <div class="q-lbl">2. Did this timing help you avoid peak crawling traffic?</div>
+      <div class="q-lbl">2. Did this timing help you avoid peak crawling bottleneck lines?</div>
       <div class="q-options">
         <button class="q-btn sel" id="q2Yes" onclick="selectQ(2, true)">👍 Yes, saved 20–30 min</button>
         <button class="q-btn" id="q2No" onclick="selectQ(2, false)">👎 Faced usual traffic</button>
@@ -960,16 +960,8 @@ html,body{
     </div>
 
     <div class="q-block">
-      <div class="q-lbl">3. Is CruizGo helping you plan your day with less stress?</div>
-      <div class="q-options">
-        <button class="q-btn sel" id="q3Yes" onclick="selectQ(3, true)">⭐ Yes, much better</button>
-        <button class="q-btn" id="q3No" onclick="selectQ(3, false)">😐 About the same</button>
-      </div>
-    </div>
-
-    <div class="q-block">
-      <div class="q-lbl">4. Any specific road blockages, diversions, or suggestions?</div>
-      <input class="uf" id="compNotes" placeholder="e.g. Bus breakdown near Marathahalli, waterlogging" style="width:100%" />
+      <div class="q-lbl">3. Any specific road blockages, diversions, or difficulty?</div>
+      <input class="uf" id="compNotes" placeholder="e.g. Bus breakdown near Marathahalli, waterlogged underpass" style="width:100%" />
     </div>
 
     <div style="display:flex;gap:8px;margin-top:16px">
@@ -984,43 +976,74 @@ html,body{
 <script>
 const SB_URL = 'https://rhljbzhpjhjsbknpiajn.supabase.co';
 const SB_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InJobGpiemhwamhqc2JrbnBpYWpuIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODk2Mjk3ODMsImV4cCI6MjEwNTIwNTc4M30.V96TLm5sbWFSo-Hl4_xO0BbZC6-w2BKtbe4EmGU7CUc';
-const VAPID_PUBLIC_KEY_STR = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0'; // Replace with your actual VAPID public key
+const VAPID_PUBLIC_KEY_STR = 'BLOHiR2YI5PwDoKSDRZLjD6UsEasVfCBAp8vP8enFuHz2PsFxt3k0ZsgoAfzRSJnjEuZ7drtVHymWPx95DqKzs0';
 
 const sbClient = window.supabase ? window.supabase.createClient(SB_URL, SB_KEY) : null;
 
-const S = {
-  tripMode: 'plan',
-  vehicle: 'car',
-  fromVal: '310, 2nd A Cross Rd',
-  toVal: 'Ecospace Business Park, Bellandur',
-  fromCoords: [77.6710, 13.0035],
-  weekDays: ['mon','tue','wed','thu','fri','sat','sun'],
-  lastScan: null,
-  currentUser: null,
-  authView: 'login',
-  corridorRefreshSeconds: 900,
-  alertsList: [
-    { id:'a1', time: '12:30 PM', title: 'Mid-Day Commute Check-In', body: 'How was your morning commute to Bellandur? Confirm your arrival to log verified Saved Time.', type: 'checkin' },
-    { id:'a2', time: '07:30 AM', title: 'Morning Commute Ready 🌅', body: 'Weekly commute planning tip: Schedule your meetings around predicted corridor free-flow windows.', type: 'morning' }
-  ]
-};
-
-const AC = { from: { timer: null }, to: { timer: null } };
-
+// EXPANDED BENGALURU LOCATIONS (HSR LANE-BY-LANE, TECH PARKS, MALLS, SCHOOLS)
 const POIS = [
-  { n: 'Whitefield (Kadugodi) Metro Station', s: 'Purple Line · Kadugodi', lat: 12.9961, lon: 77.7607, i: '🚇' },
-  { n: 'KR Pura (KR Puram) Metro Station', s: 'Purple Line & Interchange · ORR', lat: 12.9972, lon: 77.6792, i: '🚇' },
-  { n: 'Benniganahalli Metro Station', s: 'Purple Line · Old Madras Rd / Tin Factory', lat: 12.9950, lon: 77.6610, i: '🚇' },
-  { n: 'Indiranagar Metro Station', s: 'Purple Line · 100 Feet Rd Junction', lat: 12.9784, lon: 77.6408, i: '🚇' },
-  { n: 'Central Silk Board Metro Station', s: 'Yellow Line Interchange · Hosur Rd / ORR', lat: 12.9176, lon: 77.6235, i: '🚇' },
-  { n: 'Electronic City Metro Station', s: 'Yellow Line · Phase 1 Toll Plaza', lat: 12.8509, lon: 77.6637, i: '🚇' },
-  { n: 'Goraguntepalya Metro Station', s: 'Green Line · Tumkur Road / Ring Road', lat: 13.0286, lon: 77.5417, i: '🚇' },
-  { n: 'Manyata Tech Park', s: 'Outer Ring Road, Hebbal / Nagavara', lat: 13.0469, lon: 77.6191, i: '🏢' },
-  { n: 'RMZ Ecospace', s: 'Outer Ring Road, Bellandur', lat: 12.9279, lon: 77.6841, i: '🏢' },
+  // --- HSR LAYOUT: SECTOR BY SECTOR & MAIN ARTERIAL LANES ---
+  { n: 'HSR Layout Sector 1, 27th Main Rd', s: 'Food Street & Start-up Hub, HSR Sector 1', lat: 12.9165, lon: 77.6521, i: '📍' },
+  { n: 'HSR Layout Sector 1, 19th Main Rd', s: 'Near Agara Lake Junction, HSR Sector 1', lat: 12.9201, lon: 77.6495, i: '📍' },
+  { n: 'HSR Layout Sector 2, 27th Main Rd', s: 'Commercial Corridor & Cafes, HSR Sector 2', lat: 12.9114, lon: 77.6528, i: '📍' },
+  { n: 'HSR Layout Sector 2, 14th Main Rd', s: 'Near HSR Club, Sector 2', lat: 12.9130, lon: 77.6560, i: '📍' },
+  { n: 'HSR Layout Sector 3, 14th Main Rd', s: 'Near BDA Complex, HSR Sector 3', lat: 12.9145, lon: 77.6412, i: '📍' },
+  { n: 'HSR Layout Sector 3, 9th Main Rd', s: 'Residential & Cafes, HSR Sector 3', lat: 12.9172, lon: 77.6391, i: '📍' },
+  { n: 'HSR Layout Sector 4, 5th Main Rd', s: 'Start-up & Tech Corridor, HSR Sector 4', lat: 12.9110, lon: 77.6335, i: '📍' },
+  { n: 'HSR Layout Sector 4, 17th Cross Rd', s: 'Near Parangi Palya, HSR Sector 4', lat: 12.9132, lon: 77.6360, i: '📍' },
+  { n: 'HSR Layout Sector 5, 17th Main Rd', s: 'Teachers Colony, HSR Sector 5', lat: 12.9198, lon: 77.6341, i: '📍' },
+  { n: 'HSR Layout Sector 6, 24th Main Rd', s: 'Outer Ring Road Commercials, HSR Sector 6', lat: 12.9065, lon: 77.6475, i: '📍' },
+  { n: 'HSR Layout Sector 7, 5th Main Rd', s: 'Silk Board Ingress, HSR Sector 7', lat: 12.9080, lon: 77.6370, i: '📍' },
+  { n: 'HSR BDA Complex', s: '14th Main Rd, Sector 6, HSR Layout', lat: 12.9118, lon: 77.6387, i: '🏢' },
+  { n: 'HSR Club', s: '14th Main Rd, Sector 2, HSR Layout', lat: 12.9102, lon: 77.6540, i: '⭐' },
+  { n: 'Agara Lake Junction', s: 'HSR Layout Entrance, Outer Ring Road', lat: 12.9238, lon: 77.6482, i: '🚦' },
+
+  // --- MAJOR TECH PARKS & OFFICES ---
+  { n: 'RMZ Ecospace', s: 'Outer Ring Road, Bellandur, Bengaluru', lat: 12.9279, lon: 77.6841, i: '🏢' },
   { n: 'Ecospace Business Park', s: 'Outer Ring Road, Bellandur', lat: 12.9260, lon: 77.6762, i: '🏢' },
   { n: 'Embassy TechVillage (ETV)', s: 'Outer Ring Road, Devarabisanahalli', lat: 12.9352, lon: 77.6936, i: '🏢' },
   { n: 'Prestige Tech Park (PTP)', s: 'Outer Ring Road, Kadubeesanahalli', lat: 12.9416, lon: 77.6948, i: '🏢' },
-  { n: 'ITPL (International Tech Park Bangalore)', s: 'Whitefield Main Road', lat: 12.9867, lon: 77.7360, i: '🏢' },
+  { n: 'Manyata Embassy Business Park', s: 'Outer Ring Road, Nagavara, Hebbal', lat: 13.0469, lon: 77.6191, i: '🏢' },
+  { n: 'Bagmane Tech Park (CV Raman Nagar)', s: 'Near Indiranagar, Bengaluru', lat: 12.9806, lon: 77.6635, i: '🏢' },
+  { n: 'Bagmane Constellation Business Park', s: 'Outer Ring Road, Doddanekkundi', lat: 12.9880, lon: 77.6960, i: '🏢' },
+  { n: 'International Tech Park Bangalore (ITPB / ITPL)', s: 'Whitefield Main Road', lat: 12.9867, lon: 77.7360, i: '🏢' },
+  { n: 'Brigade Tech Gardens (BTG)', s: 'Brookefield, Whitefield, Bengaluru', lat: 12.9734, lon: 77.7161, i: '🏢' },
+  { n: 'Cessna Business Park', s: 'Outer Ring Road, Kadubeesanahalli', lat: 12.9372, lon: 77.6910, i: '🏢' },
+  { n: 'Divyasree Technopolis', s: 'Yemalur, Off Old Airport Road', lat: 12.9442, lon: 77.6821, i: '🏢' },
+  { n: 'RGA Tech Park', s: 'Sarjapur Main Road, Carmelaram', lat: 12.8984, lon: 77.7078, i: '🏢' },
+  { n: 'Global Village Tech Park', s: 'Mysore Road, RR Nagar, Bengaluru', lat: 12.9234, lon: 77.5012, i: '🏢' },
+  { n: 'RMZ Infinity', s: 'Old Madras Road, Benniganahalli', lat: 12.9928, lon: 77.6601, i: '🏢' },
+  { n: 'Velankani Tech Park', s: 'Electronic City Phase 1, Bengaluru', lat: 12.8436, lon: 77.6625, i: '🏢' },
+  { n: 'Electronic City Phase 1 Toll Gate', s: 'Hosur Elevated Tollway Ramp', lat: 12.8485, lon: 77.6610, i: '🛣️' },
+  { n: 'Electronic City Phase 2', s: 'Tech Mahindra & Infosys Campus Gate', lat: 12.8398, lon: 77.6775, i: '🏢' },
+  { n: 'Embassy GolfLinks Business Park (EGL)', s: 'Intermediate Ring Road, Domlur', lat: 12.9485, lon: 77.6432, i: '🏢' },
+  { n: 'Kalyani Tech Park', s: 'Brookefield, Whitefield, Bengaluru', lat: 12.9701, lon: 77.7135, i: '🏢' },
+
+  // --- POPULAR MALLS ---
+  { n: 'Phoenix Marketcity', s: 'Whitefield Main Road, Mahadevapura', lat: 12.9958, lon: 77.6964, i: '🛍️' },
+  { n: 'Nexus Koramangala (Forum Mall)', s: 'Hosur Road, Koramangala', lat: 12.9351, lon: 77.6111, i: '🛍️' },
+  { n: 'Nexus Shantiniketan Mall', s: 'Whitefield Main Road, Bengaluru', lat: 12.9892, lon: 77.7285, i: '🛍️' },
+  { n: 'Orion Mall', s: 'Brigade Gateway, Malleshwaram / Rajajinagar', lat: 13.0111, lon: 77.5550, i: '🛍️' },
+  { n: 'VR Bengaluru', s: 'Whitefield Main Road, Mahadevapura', lat: 12.9965, lon: 77.6975, i: '🛍️' },
+  { n: 'Vega City Mall', s: 'Bannerghatta Main Road, BTM Layout', lat: 12.9079, lon: 77.5992, i: '🛍️' },
+  { n: 'Nexus Mall Whitefield (Forum Neighbourhood)', s: 'Prestige Ozone, Whitefield', lat: 12.9592, lon: 77.7460, i: '🛍️' },
+
+  // --- SCHOOLS & PRESTIGIOUS INSTITUTES ---
+  { n: 'Delhi Public School (DPS) Bangalore East', s: 'Doddakanelli, Sarjapur Road', lat: 12.8992, lon: 77.7214, i: '🏫' },
+  { n: 'Greenwood High International School', s: 'Varthur Sarjapur Road, Bengaluru', lat: 12.8830, lon: 77.7371, i: '🏫' },
+  { n: 'National Public School (NPS) HSR Layout', s: 'Sector 4, HSR Layout, Bengaluru', lat: 12.9140, lon: 77.6321, i: '🏫' },
+  { n: 'National Public School (NPS) Indiranagar', s: '12th A Main Road, HAL 2nd Stage', lat: 12.9698, lon: 77.6432, i: '🏫' },
+  { n: 'Indian Institute of Science (IISc)', s: 'CV Raman Road, Mathikere', lat: 13.0219, lon: 77.5671, i: '🎓' },
+  { n: 'Indian Institute of Management Bangalore (IIMB)', s: 'Bannerghatta Road, Bengaluru', lat: 12.8958, lon: 77.6014, i: '🎓' },
+
+  // --- METRO STATIONS & LOCALITIES ---
+  { n: 'Central Silk Board Metro Station', s: 'Yellow & Blue Line Interchange, Hosur Rd', lat: 12.9176, lon: 77.6235, i: '🚇' },
+  { n: 'Indiranagar Metro Station', s: 'Purple Line, 100 Feet Road', lat: 12.9784, lon: 77.6408, i: '🚇' },
+  { n: 'KR Pura (KR Puram) Metro Station', s: 'Purple Line & Interchange · ORR', lat: 12.9972, lon: 77.6792, i: '🚇' },
+  { n: 'Whitefield (Kadugodi) Metro Station', s: 'Purple Line · Kadugodi', lat: 12.9961, lon: 77.7607, i: '🚇' },
+  { n: 'Benniganahalli Metro Station', s: 'Purple Line · Old Madras Rd / Tin Factory', lat: 12.9950, lon: 77.6610, i: '🚇' },
+  { n: 'Electronic City Metro Station', s: 'Yellow Line · Phase 1 Toll Plaza', lat: 12.8509, lon: 77.6637, i: '🚇' },
+  { n: 'Goraguntepalya Metro Station', s: 'Green Line · Tumkur Road / Ring Road', lat: 13.0286, lon: 77.5417, i: '🚇' },
   { n: '310, 2nd A Cross Rd', s: 'Kasturi Nagar, Benniganahalli, Bengaluru', lat: 12.9960, lon: 77.6620, i: '📍' },
   { n: 'Dooravani Nagar', s: 'Near ITI Colony, KR Puram, Bengaluru', lat: 13.0035, lon: 77.6710, i: '🏘️' }
 ];
@@ -1120,6 +1143,180 @@ const WEEK_CONFIG = [
   { k: 'sun', full: 'Sunday', mult: 0.95, peak: 'Light traffic all day', wx: '29°C · Clear', dot: '🟢', dt: '20' }
 ];
 
+const S = {
+  tripMode: 'plan',
+  vehicle: 'car',
+  fromVal: '310, 2nd A Cross Rd',
+  toVal: 'Ecospace Business Park, Bellandur',
+  fromCoords: [77.6710, 13.0035],
+  toCoords: [77.6762, 12.9260],
+  weekDays: ['mon','tue','wed','thu','fri','sat','sun'],
+  lastScan: null,
+  currentUser: null,
+  authView: 'login',
+  corridorRefreshSeconds: 900,
+  alertsList: [
+    { id:'a1', time: '12:30 PM', title: 'Mid-Day Commute Check-In', body: 'How was your morning commute to Bellandur? Confirm your arrival to log verified Saved Time.', type: 'checkin' },
+    { id:'a2', time: '07:30 AM', title: 'Morning Commute Ready 🌅', body: 'Weekly commute planning tip: Schedule your meetings around predicted corridor free-flow windows.', type: 'morning' }
+  ]
+};
+
+// UNIFIED AUTOCOMPLETE HANDLER FOR TODAY & WEEK TABS
+let activeUnifiedSearches = {};
+
+function onSearchUnified(fieldKey, inputEl) {
+  const query = (inputEl.value || '').trim();
+  const dropdown = document.getElementById(`ac_${fieldKey}`);
+  const spinner = document.getElementById(`sp_${fieldKey}`);
+  if (!dropdown) return;
+
+  if (!query) {
+    dropdown.classList.remove('open');
+    dropdown.innerHTML = '';
+    return;
+  }
+
+  const cleanQ = query.toLowerCase();
+  const tokens = cleanQ.split(/\s+/).filter(t => t.length > 0);
+
+  // Instant in-memory search across expanded POIS
+  const matches = POIS.filter(item => {
+    const text = (item.n + ' ' + item.s).toLowerCase();
+    return tokens.every(tok => text.includes(tok));
+  });
+
+  window[`results_${fieldKey}`] = matches;
+  renderUnifiedDropdown(fieldKey, matches.slice(0, 10), query);
+
+  if (spinner) spinner.style.display = 'block';
+  clearTimeout(activeUnifiedSearches[fieldKey]);
+
+  activeUnifiedSearches[fieldKey] = setTimeout(async () => {
+    try {
+      const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query + ' Bengaluru')}&countrycodes=in&viewbox=77.35,13.25,77.85,12.75&format=json&addressdetails=1&limit=6`;
+      const res = await fetch(url);
+      const data = await res.json();
+      if (Array.isArray(data) && data.length) {
+        const remoteItems = data.map(d => ({
+          n: d.name || d.display_name.split(',')[0].trim(),
+          s: d.display_name.split(',').slice(1, 3).join(', '),
+          lat: parseFloat(d.lat),
+          lon: parseFloat(d.lon),
+          i: d.type === 'station' ? '🚇' : d.type === 'bus_stop' ? '🚏' : '📍'
+        }));
+        const combined = [...matches];
+        remoteItems.forEach(item => {
+          if (!combined.some(c => c.n.toLowerCase() === item.n.toLowerCase())) combined.push(item);
+        });
+        window[`results_${fieldKey}`] = combined;
+        renderUnifiedDropdown(fieldKey, combined.slice(0, 12), query);
+      }
+    } catch (e) {
+    } finally {
+      if (spinner) spinner.style.display = 'none';
+    }
+  }, 240);
+}
+
+function renderUnifiedDropdown(fieldKey, items, query) {
+  const dropdown = document.getElementById(`ac_${fieldKey}`);
+  if (!dropdown) return;
+
+  if (!items || !items.length) {
+    dropdown.innerHTML = `<div style="padding:12px;font-size:12px;color:var(--txt2)">No locations matching "<strong>${escapeHtml(query)}</strong>" in Bengaluru</div>`;
+    dropdown.classList.add('open');
+    return;
+  }
+
+  dropdown.innerHTML = `<div class="acd-header">Suggestions (${items.length})</div>` +
+    items.map((item, idx) => `
+      <div class="aci" onclick="pickUnifiedLocation('${fieldKey}', ${idx})">
+        <div class="aci-ico">${item.i || '📍'}</div>
+        <div style="flex:1;min-width:0">
+          <div class="aci-n">${highlightMatch(item.n, query)}</div>
+          <div class="aci-s">${escapeHtml(item.s || 'Bengaluru')}</div>
+        </div>
+      </div>
+    `).join('');
+  dropdown.classList.add('open');
+}
+
+function pickUnifiedLocation(fieldKey, idx) {
+  const item = (window[`results_${fieldKey}`] || [])[idx];
+  if (!item) return;
+
+  const dropdown = document.getElementById(`ac_${fieldKey}`);
+  if (dropdown) {
+    dropdown.classList.remove('open');
+    dropdown.innerHTML = '';
+  }
+
+  // Bind to Today tab
+  if (fieldKey === 'today_from') {
+    document.getElementById('inpFrom').value = item.n;
+    S.fromVal = item.n;
+    S.fromCoords = [item.lon, item.lat];
+    fetchLiveWeatherCheck(item.lat, item.lon);
+  } else if (fieldKey === 'today_to') {
+    document.getElementById('inpTo').value = item.n;
+    S.toVal = item.n;
+    S.toCoords = [item.lon, item.lat];
+  }
+  // Bind to Week tab
+  else if (fieldKey.startsWith('week_from_')) {
+    const dayKey = fieldKey.replace('week_from_', '');
+    const inp = document.getElementById(`wf_${dayKey}`);
+    if (inp) inp.value = item.n;
+    S[`coords_${dayKey}_from`] = [item.lon, item.lat];
+  } else if (fieldKey.startsWith('week_to_')) {
+    const dayKey = fieldKey.replace('week_to_', '');
+    const inp = document.getElementById(`wt_${dayKey}`);
+    if (inp) inp.value = item.n;
+    S[`coords_${dayKey}_to`] = [item.lon, item.lat];
+  }
+
+  persistProfile();
+  showToast(`✓ Locked: ${item.n}`);
+}
+
+function clearUnifiedField(inpId, fieldKey) {
+  const inp = document.getElementById(inpId);
+  if (inp) inp.value = '';
+  const dropdown = document.getElementById(`ac_${fieldKey}`);
+  if (dropdown) {
+    dropdown.classList.remove('open');
+    dropdown.innerHTML = '';
+  }
+  if (fieldKey === 'today_from') { S.fromVal = ''; S.fromCoords = null; }
+  else if (fieldKey === 'today_to') { S.toVal = ''; S.toCoords = null; }
+  if (inp) inp.focus();
+}
+
+function onKey(e, fieldKey) {
+  if (e.key === 'Escape') {
+    const dropdown = document.getElementById(`ac_${fieldKey}`);
+    if (dropdown) dropdown.classList.remove('open');
+  }
+}
+
+document.addEventListener('click', (e) => {
+  if (!e.target.closest('.lwrap')) {
+    document.querySelectorAll('.acd').forEach(el => {
+      el.classList.remove('open');
+      el.innerHTML = '';
+    });
+  }
+});
+
+function highlightMatch(text, query) {
+  if (!query) return escapeHtml(text);
+  const idx = text.toLowerCase().indexOf(query.toLowerCase());
+  if (idx < 0) return escapeHtml(text);
+  return escapeHtml(text.slice(0, idx)) + '<mark>' + escapeHtml(text.slice(idx, idx + query.length)) + '</mark>' + escapeHtml(text.slice(idx + query.length));
+}
+
+function escapeHtml(str) { return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
+
 // CLOCK & GREETINGS
 function initClock() {
   const clk = document.getElementById('clk');
@@ -1215,9 +1412,7 @@ async function fetchLiveWeatherCheck(lat, lon) {
     if (wWeek) wWeek.textContent = title;
     const wCorr = document.querySelector('#corrWeatherWidget .ww-title');
     if (wCorr) wCorr.textContent = title;
-  } catch {
-    // Fallback silent
-  }
+  } catch {}
 }
 
 function persistProfile() {
@@ -1232,6 +1427,7 @@ function loadProfile() {
   if (saved.r) document.getElementById('tReturn').value = saved.r;
 }
 
+// AUTH & SETTINGS LOGIC
 function openProfileOrAuth() {
   if (S.currentUser) openProfileModal();
   else openAuthModal('login');
@@ -1423,17 +1619,14 @@ function splitEmail(e) { return (e || '').split('@')[0]; }
 function updateUserHeaderBadge() {
   const dot = document.getElementById('userDot');
   const label = document.getElementById('userBadgeLabel');
-  const detailsSec = document.getElementById('commuterDetailsSec');
 
   if (S.currentUser) {
     dot.className = 'user-dot online';
     const name = S.currentUser.user_metadata?.full_name || splitEmail(S.currentUser.email);
     label.textContent = name;
-    if (detailsSec) detailsSec.style.display = 'none';
   } else {
     dot.className = 'user-dot';
     label.textContent = 'Log In';
-    if (detailsSec) detailsSec.style.display = 'none';
   }
 }
 
@@ -1542,144 +1735,6 @@ function confirmSaveJourneyToDay(dayKey) {
   showToast(`✓ Journey saved as ${sched.name}`);
   renderHistory();
 }
-
-let activeSearchSession = { from: 0, to: 0 };
-
-function onSearch(field) {
-  const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
-  const query = (inp.value || '').trim();
-  const sessionId = ++activeSearchSession[field];
-
-  if (!query) { closeAC(field); return; }
-
-  const cleanQ = query.toLowerCase();
-  const tokens = cleanQ.split(/\s+/).filter(t => t.length > 0);
-  const instantMatches = POIS.filter(item => {
-    const text = (item.n + ' ' + item.s).toLowerCase();
-    return tokens.every(tok => text.includes(tok));
-  });
-
-  renderAC(field, instantMatches.slice(0, 8), query);
-  clearTimeout(AC[field].timer);
-  document.getElementById(field === 'from' ? 'spFrom' : 'spTo').style.display = 'block';
-
-  AC[field].timer = setTimeout(() => {
-    fetchRemoteGeo(field, query, sessionId, instantMatches);
-  }, 220);
-}
-
-async function fetchRemoteGeo(field, query, sessionId, existingMatches) {
-  const sp = document.getElementById(field === 'from' ? 'spFrom' : 'spTo');
-  try {
-    const url = `https://nominatim.openstreetmap.org/search?q=${encodeURIComponent(query + ' Bengaluru')}&countrycodes=in&viewbox=77.35,13.25,77.85,12.75&bounded=0&format=json&addressdetails=1&limit=8`;
-    const res = await fetch(url, { headers: { 'Accept-Language': 'en' } });
-    const data = await res.json();
-    if (sessionId !== activeSearchSession[field]) return;
-
-    if (Array.isArray(data) && data.length) {
-      const liveItems = data.map(d => {
-        const addr = d.address || {};
-        const main = d.name || d.display_name.split(',')[0].trim();
-        const subParts = [addr.suburb, addr.neighbourhood, addr.road, 'Bengaluru'].filter(Boolean);
-        const sub = [...new Set(subParts)].slice(0, 2).join(', ');
-        const icon = d.type === 'station' ? '🚇' : d.type === 'bus_stop' ? '🚏' : d.class === 'highway' ? '🛣️' : '📍';
-        return { n: main, s: sub || 'Bengaluru', lat: parseFloat(d.lat), lon: parseFloat(d.lon), i: icon };
-      });
-      const combined = [...existingMatches];
-      liveItems.forEach(item => {
-        const dup = combined.some(c => c.n.toLowerCase() === item.n.toLowerCase() || (Math.abs(c.lat - item.lat) < 0.0008 && Math.abs(c.lon - item.lon) < 0.0008));
-        if (!dup) combined.push(item);
-      });
-      renderAC(field, combined.slice(0, 10), query);
-    }
-  } catch (err) {
-  } finally {
-    if (sessionId === activeSearchSession[field]) sp.style.display = 'none';
-  }
-}
-
-function renderAC(field, items, q) {
-  const el = document.getElementById(field === 'from' ? 'acFrom' : 'acTo');
-  if (!items || !items.length) {
-    el.innerHTML = `<div style="padding:14px;font-size:12px;color:var(--txt2)">No locations matching "<strong>${escapeHtml(q)}</strong>" in Bengaluru</div>`;
-    el.classList.add('open');
-    return;
-  }
-  window[`lastACResults_${field}`] = items;
-  el.innerHTML = `<div class="acd-header">Suggestions Matching "${escapeHtml(q)}"</div>` +
-    items.map((r, idx) => `
-      <div class="aci" onclick="pickACItem('${field}', ${idx})">
-        <div class="aci-ico">${r.i || '📍'}</div>
-        <div style="flex:1;min-width:0">
-          <div class="aci-n">${highlightMatch(r.n, q)}</div>
-          <div class="aci-s">${escapeHtml(r.s || 'Bengaluru')}</div>
-        </div>
-      </div>
-    `).join('');
-  el.classList.add('open');
-}
-
-function pickACItem(field, idx) {
-  const items = window[`lastACResults_${field}`] || [];
-  const item = items[idx];
-  if (!item) return;
-
-  const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
-  inp.value = item.n;
-
-  if (field === 'from') {
-    S.fromVal = item.n;
-    S.fromCoords = [item.lon, item.lat];
-    fetchLiveWeatherCheck(item.lat, item.lon);
-  } else {
-    S.toVal = item.n;
-    S.toCoords = [item.lon, item.lat];
-  }
-  
-  closeAC(field);
-  persistProfile();
-}
-
-function closeAC(field) {
-  const el = document.getElementById(field === 'from' ? 'acFrom' : 'acTo');
-  if (el) {
-    el.classList.remove('open');
-    el.innerHTML = '';
-  }
-}
-
-function clearLoc(field) {
-  const inp = document.getElementById(field === 'from' ? 'inpFrom' : 'inpTo');
-  inp.value = '';
-  closeAC(field);
-  if (field === 'from') { S.fromVal = ''; S.fromCoords = null; }
-  else { S.toVal = ''; S.toCoords = null; }
-  inp.focus();
-}
-
-function doSwap() {
-  const fi = document.getElementById('inpFrom'), ti = document.getElementById('inpTo');
-  const temp = fi.value; fi.value = ti.value; ti.value = temp;
-  const tempS = S.fromVal; S.fromVal = S.toVal; S.toVal = tempS;
-  const tempC = S.fromCoords; S.fromCoords = S.toCoords; S.toCoords = tempC;
-  showToast('✓ Endpoints swapped');
-}
-
-function onKey(e, f) { if (e.key === 'Escape') closeAC(f); }
-
-function highlightMatch(text, query) {
-  if (!query) return escapeHtml(text);
-  const idx = text.toLowerCase().indexOf(query.toLowerCase());
-  if (idx < 0) return escapeHtml(text);
-  return escapeHtml(text.slice(0, idx)) + '<mark>' + escapeHtml(text.slice(idx, idx + query.length)) + '</mark>' + escapeHtml(text.slice(idx + query.length));
-}
-
-function escapeHtml(str) { return (str || '').replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>/g,'&gt;'); }
-
-document.addEventListener('click', e => {
-  if (!e.target.closest('#inpFrom') && !e.target.closest('#acFrom')) closeAC('from');
-  if (!e.target.closest('#inpTo') && !e.target.closest('#acTo')) closeAC('to');
-});
 
 function acquireLiveGPS() {
   if (!navigator.geolocation) return showToast('GPS not supported', 'err');
@@ -1803,9 +1858,7 @@ async function doScan() {
   btn.textContent = 'Calculate Departure Window →';
 
   const resWrap = document.getElementById('resWrap');
-  if (resWrap) {
-    resWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
-  }
+  if (resWrap) resWrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
 }
 
 function updateInAppMap(from, to) {
@@ -1822,6 +1875,15 @@ function openGoogleMapsDirect() {
   window.open(`https://www.google.com/maps/dir/?api=1&origin=${fv}&destination=${tv}&travelmode=${mode}&dir_action=navigate`, '_blank');
 }
 
+function doSwap() {
+  const fi = document.getElementById('inpFrom'), ti = document.getElementById('inpTo');
+  const temp = fi.value; fi.value = ti.value; ti.value = temp;
+  const tempS = S.fromVal; S.fromVal = S.toVal; S.toVal = tempS;
+  const tempC = S.fromCoords; S.fromCoords = S.toCoords; S.toCoords = tempC;
+  showToast('✓ Endpoints swapped');
+}
+
+// WEEK TAB BUILDER (INTEGRATED FULL AUTOCOMPLETE SEARCH)
 function buildDayStrip() {
   const currentDayKey = WEEK_CONFIG[(new Date().getDay() + 6) % 7].k;
   document.getElementById('dayStrip').innerHTML = WEEK_CONFIG.map(d => {
@@ -1879,8 +1941,22 @@ function renderWeekCards() {
               <label for="wfh_${d.k}" style="font-size:12px;color:var(--cyan);cursor:pointer">Set as Work From Home (WFH) - No Commute</label>
             </div>
             <div class="jf2">
-              <div><div class="jflbl">Origin</div><input class="jfinp" id="wf_${d.k}" value="${f}" /></div>
-              <div><div class="jflbl">Destination</div><input class="jfinp" id="wt_${d.k}" value="${t}" /></div>
+              <div class="lwrap">
+                <div class="jflbl">Origin</div>
+                <input class="jfinp" id="wf_${d.k}" value="${f}" autocomplete="off"
+                  oninput="onSearchUnified('week_from_${d.k}', this)"
+                  onfocus="onSearchUnified('week_from_${d.k}', this)"
+                  onkeydown="onKey(event, 'week_from_${d.k}')" />
+                <div class="acd" id="ac_week_from_${d.k}"></div>
+              </div>
+              <div class="lwrap">
+                <div class="jflbl">Destination</div>
+                <input class="jfinp" id="wt_${d.k}" value="${t}" autocomplete="off"
+                  oninput="onSearchUnified('week_to_${d.k}', this)"
+                  onfocus="onSearchUnified('week_to_${d.k}', this)"
+                  onkeydown="onKey(event, 'week_to_${d.k}')" />
+                <div class="acd" id="ac_week_to_${d.k}"></div>
+              </div>
             </div>
             <div class="jf2">
               <div><div class="jflbl">Arrive by</div><input class="jftime" type="time" id="wa_${d.k}" value="${a}" /></div>
@@ -2136,7 +2212,7 @@ function renderSavedTimeView() {
   }
 }
 
-let survey = { onTime: true, savedGridlock: true, helpedPlan: true };
+let survey = { onTime: true, savedGridlock: true };
 
 function openCompletionModal() { document.getElementById('completionModal').classList.add('show'); }
 function closeCompletionModal() { document.getElementById('completionModal').classList.remove('show'); }
@@ -2145,7 +2221,6 @@ function skipCompletionModal() { closeCompletionModal(); showToast('Check-in ski
 function selectQ(num, val) {
   if (num === 1) { survey.onTime = val; document.getElementById('q1Yes').classList.toggle('sel', val); document.getElementById('q1No').classList.toggle('sel', !val); }
   else if (num === 2) { survey.savedGridlock = val; document.getElementById('q2Yes').classList.toggle('sel', val); document.getElementById('q2No').classList.toggle('sel', !val); }
-  else if (num === 3) { survey.helpedPlan = val; document.getElementById('q3Yes').classList.toggle('sel', val); document.getElementById('q3No').classList.toggle('sel', !val); }
 }
 
 async function submitCompletedRide() {
@@ -2154,15 +2229,13 @@ async function submitCompletedRide() {
     openAuthModal('login');
     return;
   }
-  const notes = document.getElementById('compNotes').value.trim();
   const savedAdd = survey.savedGridlock ? 22 : 8;
-
   const history = JSON.parse(localStorage.getItem('cruizgo_hist') || '[]');
   history.unshift({
     id: 'h_' + Date.now(),
     from: S.fromVal, to: S.toVal,
     dep: '08:18', arr: '09:15', mins: 52, savedMins: savedAdd,
-    corridor: 'Outer Ring Road',
+    corridor: 'Outer Ring Road / Tech Belt',
     date: new Date().toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }),
     time: new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' })
   });
@@ -2173,13 +2246,7 @@ async function submitCompletedRide() {
   renderSavedTimeView();
 }
 
-function promptSave() {
-  const fv = document.getElementById('inpFrom').value.trim();
-  const tv = document.getElementById('inpTo').value.trim();
-  if (!fv || !tv) return showToast('Please enter start and end points', 'err');
-  document.getElementById('saveJourneyModal').classList.add('show');
-}
-
+// INLINE FEEDBACK
 let inlineFeedbackState = { onTime: true, helpful: true };
 
 function setFeedbackTiming(onTime) {
@@ -2203,7 +2270,90 @@ async function saveInlineFeedback() {
   showToast('✓ Feedback saved! Thank you.');
 }
 
-async function showDeviceNotification(title, body) {
+// BULLETPROOF PUSH SUBSCRIBER (INDEPENDENT OF DAY/HISTORY COLUMNS)
+async function enableAlerts() {
+  if (!S.currentUser) {
+    showToast('Please sign in to enable alerts', 'err');
+    openAuthModal('login');
+    return;
+  }
+
+  const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+  const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+
+  if (isIOS && !isStandalone) {
+    showToast('To receive push alerts on iOS, tap Share and "Add to Home Screen" first!', 'err');
+    return;
+  }
+
+  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
+    return showToast('Push notifications not supported on this browser version', 'err');
+  }
+
+  try {
+    const permission = await Notification.requestPermission();
+    if (permission !== 'granted') {
+      return showToast('Notification permission denied in device settings', 'err');
+    }
+
+    const btn = document.getElementById('alertsBtn');
+    if (btn) {
+      btn.disabled = true;
+      btn.textContent = 'Pairing device…';
+    }
+
+    const reg = await navigator.serviceWorker.ready;
+    let subscription = await reg.pushManager.getSubscription();
+
+    if (!subscription) {
+      subscription = await reg.pushManager.subscribe({
+        userVisibleOnly: true,
+        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY_STR)
+      });
+    }
+
+    if (sbClient) {
+      try {
+        const { data: existing } = await sbClient
+          .from('commute_plans')
+          .select('id')
+          .eq('user_email', S.currentUser.email)
+          .maybeSingle();
+
+        if (existing) {
+          await sbClient
+            .from('commute_plans')
+            .update({ push_subscription: subscription.toJSON(), alerts_enabled: true })
+            .eq('user_email', S.currentUser.email);
+        } else {
+          await sbClient
+            .from('commute_plans')
+            .insert({ user_email: S.currentUser.email, push_subscription: subscription.toJSON(), alerts_enabled: true });
+        }
+      } catch (dbErr) {
+        console.warn('Silent database sync fallback:', dbErr);
+      }
+    }
+
+    if (btn) {
+      btn.classList.add('on');
+      btn.textContent = '🔔 Alerts Active';
+      btn.disabled = false;
+    }
+    showToast('✓ Home screen push notifications enabled!');
+    dispatchDevicePushBanner('⚡ CruizGo Alerts Active', 'Lock-screen commute notifications active for your profile.', '/');
+  } catch (err) {
+    console.error('Push subscription failed:', err);
+    const btn = document.getElementById('alertsBtn');
+    if (btn) {
+      btn.disabled = false;
+      btn.textContent = '🔔 Enable alerts';
+    }
+    showToast('Subscription error: ' + err.message, 'err');
+  }
+}
+
+async function dispatchDevicePushBanner(title, body, targetUrl = '/') {
   if ('serviceWorker' in navigator && Notification.permission === 'granted') {
     try {
       const reg = await navigator.serviceWorker.ready;
@@ -2211,7 +2361,8 @@ async function showDeviceNotification(title, body) {
         body: body,
         icon: '/logo.png',
         badge: '/logo.png',
-        vibrate: [200, 100, 200]
+        vibrate: [200, 100, 200],
+        data: { url: targetUrl }
       });
     } catch (e) {
       console.error('Notification dispatch error:', e);
@@ -2219,46 +2370,81 @@ async function showDeviceNotification(title, body) {
   }
 }
 
-function initBackgroundEngagementLoops() {
-  setInterval(async () => {
-    if (!S.currentUser) return;
-    const now = new Date();
-    const hr = now.getHours();
-    if (hr >= 6 && hr <= 22) {
-      const alertId = 'eng_' + Date.now();
-      let title = '🏁 Commute Check-In Prompt';
-      let body = 'Did you complete your scheduled commute drive? Tap here to log your timing.';
-      let type = 'checkin';
+// 2.5-HOUR CHECKS & ROUTINE CHECKS (MORNING, MIDDAY, EVENING RETURN)
+function initScheduledPushLoops() {
+  // 1. Every 2.5 hours loop: upcoming schedule verification
+  setInterval(() => {
+    const alertItem = {
+      id: 'alert_' + Date.now(),
+      time: new Date().toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }),
+      title: '⏰ Upcoming Commute Check',
+      body: 'Have you verified your upcoming commute schedule? Tap to inspect optimal corridor departure windows.',
+      type: 'schedule_check'
+    };
+    S.alertsList.unshift(alertItem);
+    renderAlerts();
+    dispatchDevicePushBanner(alertItem.title, alertItem.body, '/');
+  }, 9000000); // 2.5 hours
 
-      const rand = Math.random();
-      if (rand < 0.25) {
-        title = '🌧️ Weather Change Alert';
-        body = 'Atmospheric pressure shifting near ORR. Light asphalt moisture detected (+8m buffer).';
-        type = 'weather';
-      } else if (rand < 0.5) {
-        title = '🚨 Congestion Surge Warning';
-        body = 'Silk Board lower flyover experiencing heavy bunching. Consider departing 15m early.';
-        type = 'congestion';
-      } else if (rand < 0.75) {
-        title = '🚦 Live Traffic Update';
-        body = 'Whitefield ITPL arterial speed dropped to 18 km/h. Rerouting recommended.';
-        type = 'traffic';
+  // 2. Exact Clock-based Daily Routine Loops (Morning 07:30, Midday 12:30, Evening Return 18:30)
+  setInterval(() => {
+    const d = new Date();
+    const hr = d.getHours();
+    const min = d.getMinutes();
+    const sec = d.getSeconds();
+
+    if (sec === 0) {
+      // 07:30 AM Morning Check
+      if (hr === 7 && min === 30) {
+        const a = {
+          id: 'morn_' + Date.now(),
+          time: '07:30 AM',
+          title: '🌅 Morning Departure Ready',
+          body: 'Corridor radar is live. Check your departure window to beat the 08:30 rush!',
+          type: 'morning'
+        };
+        S.alertsList.unshift(a);
+        renderAlerts();
+        dispatchDevicePushBanner(a.title, a.body, '/');
       }
 
-      S.alertsList.unshift({
-        id: alertId,
-        time: now.toLocaleTimeString([], { hour:'2-digit', minute:'2-digit' }),
-        title: title,
-        body: body,
-        type: type
-      });
-      
-      renderAlerts();
-      await showDeviceNotification(title, body);
-      showToast(`🔔 ${title}`);
+      // 12:30 PM Midday Check
+      if (hr === 12 && min === 30) {
+        const a = {
+          id: 'mid_' + Date.now(),
+          time: '12:30 PM',
+          title: '☀️ Mid-Day Commute Check-In',
+          body: 'Did you reach on time this morning? Confirm your arrival to log verified Saved Time.',
+          type: 'checkin'
+        };
+        S.alertsList.unshift(a);
+        renderAlerts();
+        dispatchDevicePushBanner(a.title, a.body, '/');
+      }
+
+      // 06:30 PM Evening Return Check
+      if (hr === 18 && min === 30) {
+        const a = {
+          id: 'eve_' + Date.now(),
+          time: '06:30 PM',
+          title: '🌙 Evening Commute Arrival Survey',
+          body: 'Did you reach home? Tell us how the return journey went and what was difficult.',
+          type: 'evening_checkin'
+        };
+        S.alertsList.unshift(a);
+        renderAlerts();
+        dispatchDevicePushBanner(a.title, a.body, '/');
+      }
     }
-  }, 9000000); // 2.5 hours
+  }, 1000);
 }
+
+// RECEIVE DEEP-LINK MESSAGES FROM SERVICE WORKER
+navigator.serviceWorker?.addEventListener('message', (event) => {
+  if (event.data?.action === 'NAVIGATE') {
+    openAlertDeepLink('sw_msg', 'checkin');
+  }
+});
 
 function renderAlerts() {
   const isAuth = !!S.currentUser;
@@ -2288,8 +2474,21 @@ function renderAlerts() {
 function openAlertDeepLink(id, type) {
   S.alertsList = S.alertsList.filter(a => a.id !== id);
   renderAlerts();
-  if (type === 'checkin') {
-    openCompletionModal();
+
+  if (type === 'checkin' || type === 'evening_checkin') {
+    const modalTitle = document.querySelector('#completionModal .modal-title');
+    const modalSub = document.querySelector('#completionModal .modal-sub');
+    if (type === 'evening_checkin' && modalTitle) {
+      modalTitle.textContent = '🌙 Evening Return Arrival Survey';
+      modalSub.textContent = 'Did you reach home safely? Let us know if you faced diversions or blockages.';
+    } else if (modalTitle) {
+      modalTitle.textContent = '🏁 Commute Arrival Check-in';
+      modalSub.textContent = 'Confirm your arrival to log verified Saved Time.';
+    }
+    document.getElementById('completionModal').classList.add('show');
+  } else if (type === 'schedule_check') {
+    switchTab('week', document.getElementById('tabWeek'));
+    showToast('✓ Reviewing weekly commute schedule');
   } else {
     switchTab('today', document.getElementById('tabToday'));
     showToast('✓ Viewing active route metrics');
@@ -2321,93 +2520,6 @@ async function registerServiceWorker() {
     } catch (err) {
       console.error('ServiceWorker registration failed:', err);
     }
-  }
-}
-
-// BULLETPROOF CHECK-THEN-WRITE PUSH SUBSCRIPTION
-async function enableAlerts() {
-  if (!S.currentUser) {
-    showToast('Please sign in to enable alerts', 'err');
-    openAuthModal('login');
-    return;
-  }
-  
-  const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
-  const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
-
-  if (isIOS && !isStandalone) {
-    showToast('To receive push alerts on iOS, tap Share and select "Add to Home Screen" first!', 'err');
-    return;
-  }
-
-  if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-    return showToast('Push notifications not supported on this browser version', 'err');
-  }
-
-  try {
-    const permission = await Notification.requestPermission();
-    if (permission !== 'granted') {
-      return showToast('Notification permission denied in browser settings', 'err');
-    }
-
-    const btn = document.getElementById('alertsBtn');
-    btn.disabled = true;
-    btn.textContent = 'Pairing device…';
-
-    const reg = await navigator.serviceWorker.ready;
-    let subscription = await reg.pushManager.getSubscription();
-    if (!subscription) {
-      subscription = await reg.pushManager.subscribe({
-        userVisibleOnly: true,
-        applicationServerKey: urlBase64ToUint8Array(VAPID_PUBLIC_KEY_STR)
-      });
-    }
-
-    if (sbClient) {
-      // 1. Check if profile already exists for this email
-      const { data: existingProfile } = await sbClient
-        .from('commute_plans')
-        .select('id')
-        .eq('user_email', S.currentUser.email)
-        .maybeSingle();
-
-      let dbError = null;
-
-      if (existingProfile) {
-        const { error } = await sbClient
-          .from('commute_plans')
-          .update({
-            push_subscription: subscription.toJSON(),
-            alerts_enabled: true
-          })
-          .eq('user_email', S.currentUser.email);
-        dbError = error;
-      } else {
-        const { error } = await sbClient
-          .from('commute_plans')
-          .insert({
-            user_email: S.currentUser.email,
-            push_subscription: subscription.toJSON(),
-            alerts_enabled: true
-          });
-        dbError = error;
-      }
-
-      if (dbError) throw dbError;
-    }
-
-    btn.classList.add('on');
-    btn.textContent = '🔔 Alerts Active';
-    btn.disabled = false;
-    showToast('✓ Successfully paired: Home screen push alerts active');
-  } catch (err) {
-    console.error('Push subscription failed:', err);
-    const btn = document.getElementById('alertsBtn');
-    if (btn) {
-      btn.disabled = false;
-      btn.textContent = '🔔 Enable alerts';
-    }
-    showToast('Subscription error: ' + err.message, 'err');
   }
 }
 
@@ -2470,11 +2582,11 @@ function switchTab(name, btn) {
   }
 }
 
+// INITIALIZATION
 window.addEventListener('DOMContentLoaded', () => {
   registerServiceWorker();
   initClock();
   initCorridorAutoRefresh();
-  initBackgroundEngagementLoops();
   loadProfile();
   initSupabaseAuthListener();
   renderAlerts();
@@ -2482,6 +2594,7 @@ window.addEventListener('DOMContentLoaded', () => {
   document.getElementById('inpFrom').value = S.fromVal;
   document.getElementById('inpTo').value = S.toVal;
   fetchLiveWeatherCheck(12.9716, 77.5946);
+  initScheduledPushLoops();
 
   switchTab('today', document.getElementById('tabToday'));
 });
