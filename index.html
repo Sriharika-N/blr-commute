@@ -2347,15 +2347,25 @@ async function enableAlerts() {
     openAuthModal('login');
     return;
   }
+
+  // Check if running as an installed PWA on iOS Home Screen or standard supported browser
+  const isIOS = /iphone|ipad|ipod/.test(navigator.userAgent.toLowerCase());
+  const isStandalone = window.navigator.standalone === true || window.matchMedia('(display-mode: standalone)').matches;
+
+  if (isIOS && !isStandalone) {
+    showToast('To receive push notifications on iOS, tap the Share button and select "Add to Home Screen" first!', 'err');
+    return;
+  }
   
   if (!('serviceWorker' in navigator) || !('PushManager' in window)) {
-    return showToast('Push notifications not supported on this device', 'err');
+    return showToast('Push notifications are not supported on this browser version', 'err');
   }
 
   try {
+    // iOS strictly requires this prompt to be directly inside a user-tap gesture handler
     const permission = await Notification.requestPermission();
     if (permission !== 'granted') {
-      return showToast('Notification permission denied in browser settings', 'err');
+      return showToast('Notification permission was denied. Enable it in your device settings.', 'err');
     }
 
     const btn = document.getElementById('alertsBtn');
@@ -2364,6 +2374,7 @@ async function enableAlerts() {
 
     const reg = await navigator.serviceWorker.ready;
     let subscription = await reg.pushManager.getSubscription();
+    
     if (!subscription) {
       subscription = await reg.pushManager.subscribe({
         userVisibleOnly: true,
@@ -2386,7 +2397,7 @@ async function enableAlerts() {
     btn.classList.add('on');
     btn.textContent = '🔔 Alerts Active';
     btn.disabled = false;
-    showToast('✓ Successfully paired: Home screen push alerts active');
+    showToast('✓ Home screen push notifications enabled!');
   } catch (err) {
     console.error('Push subscription failed:', err);
     const btn = document.getElementById('alertsBtn');
